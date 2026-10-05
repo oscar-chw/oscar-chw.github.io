@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Harbour from "../components/harbour/Harbour.astro";
 import IndexList from "../components/IndexList.astro";
+import Icon from "../components/Icon.astro";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
 
@@ -42,8 +43,8 @@ const demos = [
       <p class="line">I build <span class="typed" data-type={JSON.stringify(building)}>{building[0]}</span><span class="caret" aria-hidden="true"></span></p>
       <p class="sub">Open to quant developer, quant research, trading, software engineering, full-stack and AI engineering roles.</p>
       <div class="cta">
-        <a class="btn glass" data-magnetic href="#work">See the work</a>
-        <a class="btn ghost" data-magnetic href={url("/cv/")}>Download CV</a>
+        <a class="btn glass" data-magnetic href="#work"><Icon name="arrow-down-right" />See the work</a>
+        <a class="btn ghost" data-magnetic href={url("/cv/Oscar_Choi_CV.pdf")} download><Icon name="download" />Download CV</a>
       </div>
     </div>
     <div class="band"><Harbour legend={false} /></div>
@@ -69,7 +70,7 @@ const demos = [
   <section class="board wrap" data-board aria-labelledby="board-h">
     <div class="bhead">
       <h2 id="board-h" class="mono">results board</h2>
-      <button type="button" class="btoggle mono" data-board-toggle aria-pressed="false" hidden>pause</button>
+      <button type="button" class="btoggle mono" data-board-toggle aria-pressed="false" aria-label="Pause the results board" hidden><Icon name="pause" size={13} class="i-pause" /><Icon name="play" size={13} class="i-play" /></button>
     </div>
     <div class="tabs" role="tablist" aria-label="Results" hidden>
       {story.map((p, i) => (
@@ -133,7 +134,7 @@ const demos = [
       {demos.map(([href, t, d], i) => (
         <li class="reveal" style={`--i:${i}`}>
           <a class="tile glass" data-tilt href={url(href)}>
-            <span class="num mono">0{i + 1}</span>
+            <span class="num mono">0{i + 1} <Icon name="arrow-up-right" size={16} class="go" /></span>
             <span class="tt">{t}</span>
             <span class="td">{d}</span>
           </a>
@@ -145,10 +146,10 @@ const demos = [
   <section class="wrap section contact" aria-labelledby="contact-h">
     <h2 id="contact-h" class="big">Let's talk.</h2>
     <div class="cta">
-      <a class="btn glass" data-magnetic href={`mailto:${SITE.email}`}>{SITE.email}</a>
-      <a class="btn ghost" data-magnetic href={SITE.linkedin}>LinkedIn</a>
-      <a class="btn ghost" data-magnetic href={SITE.github}>GitHub</a>
-      <a class="btn ghost" data-magnetic href={SITE.instagram}>Instagram</a>
+      <a class="btn glass" data-magnetic href={`mailto:${SITE.email}`}><Icon name="mail" />{SITE.email}</a>
+      <a class="btn ghost" data-magnetic href={SITE.linkedin}><Icon name="linkedin" />LinkedIn</a>
+      <a class="btn ghost" data-magnetic href={SITE.github}><Icon name="github" />GitHub</a>
+      <a class="btn ghost" data-magnetic href={SITE.instagram}><Icon name="instagram" />Instagram</a>
     </div>
   </section>
 </Base>
@@ -218,6 +219,11 @@ const demos = [
   .bhead h2 { font-size: 0.82rem; font-weight: 400; letter-spacing: 0; color: var(--accent); margin: 0; }
   .btoggle { background: none; border: 1px solid var(--line-2); color: var(--muted); border-radius: 999px; padding: 3px 12px; font-size: 0.75rem; cursor: pointer; }
   .btoggle:hover { color: var(--ink); border-color: var(--accent); }
+  .btoggle { display: inline-grid; place-items: center; width: 32px; height: 26px; padding: 0; }
+  .btoggle[aria-pressed="true"] :global(.i-pause), .btoggle[aria-pressed="false"] :global(.i-play) { display: none; }
+  .num { display: flex; justify-content: space-between; align-items: center; }
+  .tile :global(.go) { transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .tile:hover :global(.go) { transform: translate(3px, -3px); }
   .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; }
   .tabs button { background: none; border: 1px solid var(--line-2); color: var(--muted); border-radius: 999px; padding: 6px 14px; font: 500 0.88rem var(--font-sans), sans-serif; cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; }
   .tabs button .mono { color: var(--accent); font-size: 0.72rem; margin-right: 4px; }

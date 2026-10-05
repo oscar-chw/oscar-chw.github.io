@@ -5,6 +5,7 @@
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { url } from "../../lib/url";
+import Icon from "../../components/Icon.astro";
 
 export async function getStaticPaths() {
   const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
@@ -56,7 +57,7 @@ const sections = headings.filter((h) => h.depth === 2);
         {d.links.length > 0 && (
           <section class="links" aria-labelledby="links-h">
             <h2 id="links-h">Links</h2>
-            <ul>{d.links.map((l) => <li><a href={l.href}><span>{l.label}</span><span class="mono host">{new URL(l.href).host}{new URL(l.href).pathname.replace(/\/$/, "")}</span></a></li>)}</ul>
+            <ul>{d.links.map((l) => <li><a href={l.href}><span class="ll"><Icon name={l.href.includes("github.com") ? "github" : "arrow-up-right"} size={16} />{l.label}</span><span class="mono host">{new URL(l.href).host}{new URL(l.href).pathname.replace(/\/$/, "")}</span></a></li>)}</ul>
           </section>
         )}
       </div>
@@ -64,7 +65,7 @@ const sections = headings.filter((h) => h.depth === 2);
 
     <a class="next wrap" href={url(`/projects/${next.id}/`)}>
       <span class="comment">next project</span>
-      <span class="nt" style={`view-transition-name: p-${next.id}`}>{next.data.title} <span aria-hidden="true">→</span></span>
+      <span class="nt" style={`view-transition-name: p-${next.id}`}>{next.data.title} <Icon name="arrow-right" size={48} class="na" /></span>
     </a>
   </article>
 </Base>
@@ -111,10 +112,12 @@ const sections = headings.filter((h) => h.depth === 2);
   .links a { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; padding: 14px 0; text-decoration: none; transition: padding 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .links a:hover { padding-left: 10px; }
   .host { color: var(--muted); font-size: 0.8rem; }
+  .ll { display: inline-flex; align-items: center; gap: 10px; }
 
   .next { display: flex; flex-direction: column; gap: 10px; margin-top: 120px; padding: 40px 0 0; border-top: 1px solid var(--line-2); color: var(--ink); text-decoration: none; }
   .nt { font-size: clamp(2rem, 1rem + 4vw, 4.4rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1; transition: color 0.2s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .next:hover .nt { color: var(--accent); transform: translateX(12px); }
+  .nt :global(.na) { width: 0.8em; height: 0.8em; vertical-align: -0.06em; }
 
   @media (max-width: 900px) {
     .side { position: static; grid-column: 1 / -1; margin-bottom: 40px; }

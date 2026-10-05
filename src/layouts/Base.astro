@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import { getCollection } from "astro:content";
+import Icon from "../components/Icon.astro";
 import "../styles/global.css";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
@@ -10,10 +11,10 @@ const { title, description = SITE.description, errorPage = false } = Astro.props
 const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · quant research infrastructure`;
 const canonical = new URL(Astro.url.pathname, SITE.site).href;
 const nav = [
-  ["Work", "/projects/"],
-  ["Demos", "/demos/"],
-  ["About", "/about/"],
-  ["CV", "/cv/"],
+  ["Work", "/projects/", "layers"],
+  ["Demos", "/demos/", "sparkles"],
+  ["About", "/about/", "user"],
+  ["CV", "/cv/", "file-text"],
 ] as const;
 const here = Astro.url.pathname;
 // command palette entries: every page, every project, every demo, plus a few actions
@@ -57,24 +58,33 @@ const commands: [string, string, string][] = [
     <script is:inline data-inline="theme">
       // Before first paint, so a light-theme reader never sees a dark flash.
       try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
+      // true liquid glass (backdrop refraction through an SVG filter) renders only in Chromium; others keep frosted glass
+      if (navigator.userAgentData) document.documentElement.classList.add("lg");
     </script>
     <slot name="head" />
   </head>
   <body>
     <a class="skip" href="#content">Skip to content</a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="liquid" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feImage href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22100%22%20height%3D%22100%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22x%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23000%22/%3E%3Cstop%20offset%3D%22.18%22%20stop-color%3D%22%23800000%22/%3E%3Cstop%20offset%3D%22.82%22%20stop-color%3D%22%23800000%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f00%22/%3E%3C/linearGradient%3E%3ClinearGradient%20id%3D%22y%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23000%22/%3E%3Cstop%20offset%3D%22.3%22%20stop-color%3D%22%23008000%22/%3E%3Cstop%20offset%3D%22.7%22%20stop-color%3D%22%23008000%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230f0%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22url%28%23x%29%22/%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22url%28%23y%29%22%20style%3D%22mix-blend-mode%3Ascreen%22/%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" preserveAspectRatio="none" result="map" />
+        <feDisplacementMap in="SourceGraphic" in2="map" scale="-34" xChannelSelector="R" yChannelSelector="G" result="bent" />
+        <feGaussianBlur in="bent" stdDeviation="0.6" />
+      </filter>
+    </svg>
     <header class="site-header">
       <div class="bar glass">
         <a class="brand" href={url("/")}><span>oscar@chw</span><span class="tilde" aria-hidden="true">:~$</span><span class="sr-only"> home</span></a>
         <nav aria-label="Primary">
           <ul>
-            {nav.map(([label, path]) => (
-              <li><a href={url(path)} aria-current={here.startsWith(url(path)) ? "page" : undefined}>{label}</a></li>
+            {nav.map(([label, path, icon]) => (
+              <li><a href={url(path)} aria-current={here.startsWith(url(path)) ? "page" : undefined}><Icon name={icon} size={16} /><span class="lbl">{label}</span></a></li>
             ))}
           </ul>
         </nav>
-        <button class="kbtn mono" type="button" data-palette-open aria-label="Open the command palette" title="Command palette (⌘K or /)">⌘K</button>
+        <button class="kbtn" type="button" data-palette-open aria-label="Search the site" title="Search (⌘K or /)"><Icon name="search" size={15} /><kbd class="mono">⌘K</kbd></button>
         <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
-          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+          <Icon name="moon" size={16} class="i-dark" /><Icon name="sun" size={16} class="i-light" />
         </button>
       </div>
     </header>
@@ -96,11 +106,11 @@ const commands: [string, string, string][] = [
     <footer class="site-footer wrap cols">
       <p class="comment">built with Astro · static · no tracking</p>
       <ul>
-        <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-        <li><a href={SITE.github}>GitHub</a></li>
-        <li><a href={SITE.linkedin}>LinkedIn</a></li>
-        <li><a href={SITE.instagram}>Instagram</a></li>
-        <li><a href={url("/card/")}>Contact card</a></li>
+        <li><a href={`mailto:${SITE.email}`}><Icon name="mail" size={15} />{SITE.email}</a></li>
+        <li><a href={SITE.github} aria-label="GitHub" title="GitHub"><Icon name="github" size={17} /></a></li>
+        <li><a href={SITE.linkedin} aria-label="LinkedIn" title="LinkedIn"><Icon name="linkedin" size={17} /></a></li>
+        <li><a href={SITE.instagram} aria-label="Instagram" title="Instagram"><Icon name="instagram" size={17} /></a></li>
+        <li><a href={url("/card/")}><Icon name="qr-code" size={15} />Contact card</a></li>
       </ul>
     </footer>
     <script is:inline data-inline="palette">
@@ -143,10 +153,13 @@ const commands: [string, string, string][] = [
   .brand { color: var(--ink); text-decoration: none; font: 500 0.92rem var(--font-mono), monospace; margin-right: auto; white-space: nowrap; }
   .tilde { color: var(--accent); }
   nav ul, .site-footer ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; flex-wrap: wrap; }
-  nav a { display: block; color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 6px 12px; border-radius: 999px; }
+  nav a { display: flex; align-items: center; gap: 7px; color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 6px 12px; border-radius: 999px; }
   nav a:hover { color: var(--ink); }
   nav a[aria-current="page"] { color: var(--ink); background: var(--glass-bg); box-shadow: inset 0 0 0 1px var(--glass-edge); }
-  .kbtn { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 999px; height: 34px; padding: 0 12px; font-size: 0.78rem; cursor: pointer; flex: none; }
+  .kbtn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 999px; height: 34px; padding: 0 11px; cursor: pointer; flex: none; }
+  .kbtn kbd { font-size: 0.72rem; }
+  :global(html[data-theme="light"]) .theme :global(.i-dark), :global(html:not([data-theme="light"])) .theme :global(.i-light) { display: none; }
+  .site-footer a { display: inline-flex; align-items: center; gap: 7px; }
   .kbtn:hover { color: var(--ink); border-color: var(--accent); }
   .palette { width: min(100% - 32px, 620px); margin: 14vh auto auto; padding: 0; border-radius: 22px; color: var(--ink); overflow: hidden; }
   .palette::backdrop { background: rgb(0 0 0 / 0.5); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
@@ -167,8 +180,10 @@ const commands: [string, string, string][] = [
   .site-footer a { color: var(--muted); font-size: 0.9rem; }
   @media (max-width: 640px) {
     .bar { gap: 6px; padding-left: 14px; }
-    .brand .tilde, .kbtn { display: none; }
-    nav a { padding: 6px 8px; font-size: 0.88rem; }
+    .brand .tilde, .kbtn kbd { display: none; }
+    .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    nav a { padding: 8px 9px; }
+    .bar { gap: 2px; }
     .site-footer p, .site-footer ul { grid-column: 1 / -1; justify-content: flex-start; }
   }
   @media print { .site-header, .site-footer, .skip { display: none; } }

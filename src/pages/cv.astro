@@ -2,16 +2,17 @@
 import Base from "../layouts/Base.astro";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
+import Icon from "../components/Icon.astro";
 ---
 <Base title="CV" description="Download Oscar Choi's CV (PDF).">
   <div class="wrap measure" style="padding-top:32px">
     <h1>CV</h1>
     <p>One page, general version. Role-specific versions for quant, software engineering and full-stack roles are available on request.</p>
-    <p class="dl"><a href={url("/cv/Oscar_Choi_CV.pdf")} download>Download the CV (PDF)</a></p>
+    <p class="dl"><a class="glass" href={url("/cv/Oscar_Choi_CV.pdf")} download><Icon name="download" />Download the CV (PDF)</a></p>
     <p>Contact: <a href={`mailto:${SITE.email}`}>{SITE.email}</a> · <a href={SITE.linkedin}>LinkedIn</a> · <a href={SITE.github}>GitHub</a></p>
   </div>
 </Base>
 <style>
-  .dl a { display: inline-block; border: 1px solid var(--accent); padding: 10px 18px; border-radius: 6px; text-decoration: none; font-weight: 600; }
+  .dl a { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; text-decoration: none; font-weight: 600; color: var(--ink); }
   .dl a:hover { background: var(--bg-2); }
 </style>

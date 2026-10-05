@@ -138,7 +138,7 @@ for (const board of document.querySelectorAll<HTMLElement>("[data-board]")) {
   clock.querySelector("i")!.addEventListener("animationend", () => { if (!held && !paused) show(k + 1); });
   toggle.addEventListener("click", () => {
     held = !held; board.classList.toggle("held", held);
-    toggle.setAttribute("aria-pressed", String(held)); toggle.textContent = held ? "play" : "pause";
+    toggle.setAttribute("aria-pressed", String(held)); toggle.setAttribute("aria-label", held ? "Play the results board" : "Pause the results board");
     if (!held) show(k);
   });
   show(0);

@@ -1,0 +1,26 @@
+---
+// Inline SVG icons rendered at build time (no runtime JS): Lucide line icons (ISC) for UI,
+// Simple Icons (CC0) for GitHub and Instagram, and a drawn LinkedIn mark (Simple Icons no longer ships it).
+import * as lucide from "lucide";
+import { siGithub, siInstagram } from "simple-icons";
+
+interface Props { name: string; size?: number; label?: string; class?: string }
+const { name, size = 18, label, class: cls } = Astro.props;
+type Node = [string, Record<string, string | number>];
+const brands: Record<string, string> = { github: siGithub.path, instagram: siInstagram.path };
+const toPascal = (s: string) => s.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
+const nodes = (lucide as unknown as Record<string, Node[]>)[toPascal(name)];
+if (!brands[name] && name !== "linkedin" && !nodes) throw new Error(`Icon: unknown icon "${name}"`);
+const a11y = label ? { role: "img" as const, "aria-label": label } : { "aria-hidden": "true" as const };
+---
+{brands[name] ? (
+  <svg class:list={["icon", cls]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...a11y}><path d={brands[name]} /></svg>
+) : name === "linkedin" ? (
+  <svg class:list={["icon", cls]} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...a11y}>
+    <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.76-2.05 4 0 4.75 2.63 4.75 6.06V21h-4v-5.02c0-1.2-.02-2.74-1.67-2.74-1.68 0-1.94 1.3-1.94 2.65V21h-4z" />
+  </svg>
+) : (
+  <svg class:list={["icon", cls]} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" {...a11y}>
+    {nodes.map(([tag, attrs]) => { const T = tag; return <T {...attrs} />; })}
+  </svg>
+)}
