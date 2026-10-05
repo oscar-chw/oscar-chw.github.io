@@ -2,8 +2,9 @@
 //   node scripts/link-check.mjs <dist> [--external] [--base /next]
 // Internal href/src must name a file in dist (after stripping the deploy base).
 // With --external, every distinct http(s) link is fetched; anything but 2xx/3xx
-// fails. LinkedIn answers bots with HTTP 999 whatever the URL, so for that host
-// alone 999 counts as "exists", and the exception is printed, not hidden.
+// fails. LinkedIn answers bots with HTTP 999 and Instagram rate-limits CI runners with 429,
+// whatever the URL, so for those hosts alone that code counts as "exists"; the exception is
+// printed, not hidden.
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative, dirname } from "node:path";
 
@@ -12,7 +13,7 @@ const bi = args.indexOf("--base");
 const BASE = bi >= 0 ? args[bi + 1].replace(/\/$/, "") : "";
 const DIST = args.find((a, i) => !a.startsWith("--") && !(bi >= 0 && i === bi + 1)) ?? "dist";
 const EXTERNAL = args.includes("--external");
-const BOT_WALLED = { "www.linkedin.com": 999, "linkedin.com": 999 };
+const BOT_WALLED = { "www.linkedin.com": 999, "linkedin.com": 999, "www.instagram.com": 429, "instagram.com": 429 };
 
 if (!existsSync(DIST)) { console.error(`link-check: ${DIST}/ missing`); process.exit(1); }
 const walk = (d) => readdirSync(d).flatMap((f) => { const p = join(d, f); return statSync(p).isDirectory() ? walk(p) : [p]; });
