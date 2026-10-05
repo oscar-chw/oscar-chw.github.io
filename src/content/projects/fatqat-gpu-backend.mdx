@@ -1,0 +1,47 @@
+---
+title: GPU Backend for FatQat
+summary: Added a CUDA (GPU) engine to FatQat, an open-source quantum-circuit simulator, keeping its interfaces and double precision. It runs 6× faster than a compiled multi-core CPU baseline at 24 qubits.
+order: 0
+featured: true
+group: Engineering and AI
+role: Author of the GPU backend; upstream simulator by spaceqat
+period: "2026"
+stack: [Python, CUDA, CuPy]
+metrics:
+  - { value: "6×", label: "faster than a compiled multi-core CPU baseline at 24 qubits" }
+  - { value: "≤ 8 ε", label: "from the CPU results (machine epsilons, double precision)" }
+links:
+  - { label: "Upstream: spaceqat/fatqat (Apache-2.0)", href: "https://github.com/spaceqat/fatqat" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+A state-vector quantum simulator keeps every amplitude of the quantum state in memory and updates all of them for every gate. The state doubles with each added qubit, so larger circuits are limited by how fast the machine can move memory. FatQat, an open-source simulator by spaceqat, runs on the CPU. I wanted a GPU engine that existing FatQat code could use without changes and without losing accuracy.
+
+## What I built
+
+- **A CUDA (GPU) engine for FatQat** that sits behind the simulator's existing interfaces, so a circuit runs unchanged on either engine.
+- **Double precision throughout**, matching the CPU engine rather than trading accuracy for speed.
+- **A parity check against the CPU results**, so the engine is measured against the reference it replaces, not only for speed.
+
+## Result
+
+6× faster than a compiled multi-core CPU baseline at 24 qubits, within 8 machine epsilons of the CPU results. The figure was measured on engine revision r7; the current revision, r8, is faster.
+
+## How it works
+
+<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (to within 8 machine epsilons)" steps={[
+  { label: "Circuit", note: "FatQat's interface" },
+  { label: "Engine choice", note: "CPU or GPU" },
+  { label: "GPU state vector", note: "double precision", accent: "accent" },
+  { label: "Gate kernels", note: "CUDA via CuPy" },
+  { label: "Parity check", note: "vs CPU results", accent: "amber" },
+]} />
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex); the simulator itself is spaceqat's FatQat (Apache-2.0)</p>
+
+## Limits
+
+- The repository for the backend is not public yet, so this page links only the upstream simulator.
+- The speed-up is for one circuit size (24 qubits) against one CPU baseline.

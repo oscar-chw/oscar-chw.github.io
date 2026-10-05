@@ -15,11 +15,11 @@ test("primary navigation reaches every section", async ({ page }) => {
   }
 });
 
-test("all eleven project pages exist and follow the problem → limits structure", async ({ page }) => {
+test("all twelve project pages exist and follow the problem → limits structure", async ({ page }) => {
   await page.goto("/projects/");
   const links = page.locator('main a[href*="/projects/"]');
   const hrefs = [...new Set(await links.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).pathname)))].filter((h) => h !== "/projects/");
-  expect(hrefs.length).toBe(11);
+  expect(hrefs.length).toBe(12);
   for (const h of hrefs) {
     await page.goto(h);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
