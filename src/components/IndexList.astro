@@ -4,6 +4,7 @@
 // page's heading through a shared view-transition name.
 import type { CollectionEntry } from "astro:content";
 import { url } from "../lib/url";
+import ProjectArt from "./ProjectArt.astro";
 
 // `preview` adds the cursor-trailing card (JavaScript); without it the list is pure HTML and CSS.
 interface Props { projects: CollectionEntry<"projects">[]; start?: number; preview?: boolean }
@@ -19,12 +20,14 @@ const pad = (n: number) => String(n).padStart(2, "0");
           <span class="t" style={`view-transition-name: p-${p.id}`}>{p.data.title}</span>
           <span class="s mono">{p.data.stack.slice(0, 2).join(" · ").toLowerCase()}</span>
           <span class="f mono">{p.data.metrics[0]?.value ?? ""}</span>
+          {preview && <span class="artsrc" hidden><ProjectArt slug={p.id} compact /></span>}
         </a>
       </li>
     ))}
   </ol>
   {preview && (
     <div class="preview glass" aria-hidden="true" hidden>
+      <span class="pa"></span>
       <span class="pf mono"></span>
       <span class="pl"></span>
       <span class="ps"></span>
@@ -56,6 +59,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
         pv.querySelector(".pf")!.textContent = a.dataset.fig ?? "";
         pv.querySelector(".pl")!.textContent = a.dataset.figlabel ?? "";
         pv.querySelector(".ps")!.textContent = a.dataset.summary ?? "";
+        pv.querySelector(".pa")!.replaceChildren(...[...(a.querySelector(".artsrc")?.cloneNode(true).childNodes ?? [])]);
         pv.hidden = false;
       });
     }
@@ -80,9 +84,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
   .s { grid-column: span 3; color: var(--muted); }
   .f { grid-column: span 2; color: var(--accent); text-align: right; font-size: 0.95rem; }
   .preview {
-    position: absolute; left: 0; top: 0; width: 290px; padding: 14px 16px; border-radius: 18px; pointer-events: none;
+    position: absolute; left: 0; top: 0; width: 320px; padding: 14px 16px; border-radius: 18px; pointer-events: none;
     display: flex; flex-direction: column; gap: 4px; z-index: 5; will-change: transform;
   }
+  .pa { display: block; margin: -4px -6px 6px; border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--bg) 60%, transparent); }
+  .pa:empty { display: none; }
   .pf { font-size: 1.8rem; color: var(--accent); line-height: 1; }
   .pl { font-size: 0.8rem; color: var(--muted); }
   .ps { font-size: 0.86rem; line-height: 1.45; margin-top: 6px; }

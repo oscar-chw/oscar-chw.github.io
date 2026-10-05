@@ -6,6 +6,7 @@ import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { url } from "../../lib/url";
 import Icon from "../../components/Icon.astro";
+import ProjectArt from "../../components/ProjectArt.astro";
 
 export async function getStaticPaths() {
   const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
@@ -23,6 +24,8 @@ const sections = headings.filter((h) => h.depth === 2);
       <h1 style={`view-transition-name: p-${entry.id}`}>{d.title}</h1>
       <p class="lede">{d.summary}</p>
     </header>
+
+    <div class="wrap visual"><ProjectArt slug={entry.id} /></div>
 
     {d.metrics.length > 0 && (
       <section class="wrap figs" aria-label="Headline results">
@@ -77,7 +80,8 @@ const sections = headings.filter((h) => h.depth === 2);
   h1 { grid-column: 1 / span 10; margin: 0 0 22px; }
   .lede { grid-column: 1 / span 8; font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); line-height: 1.55; color: var(--ink); margin: 0; }
 
-  .figs { margin-top: 56px; }
+  .visual { margin-top: 48px; }
+  .figs { margin-top: 48px; }
   .figs dl { margin: 0; row-gap: 24px; }
   .figs div { grid-column: span 3; border-top: 1px solid var(--line-2); padding-top: 14px; }
   .figs dt { font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.6rem); color: var(--accent); line-height: 1.1; letter-spacing: -0.03em; }

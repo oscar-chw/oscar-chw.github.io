@@ -1,0 +1,140 @@
+---
+// One animated illustration per project, drawn as SVG and moved by CSS only (zero JS, paused by
+// reduced motion). Each shows the idea of the project, never a number: numbers live in the text.
+interface Props { slug: string; compact?: boolean }
+const { slug, compact = false } = Astro.props;
+const W = 1200, H = compact ? 220 : 260;
+let s = [...slug].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
+const range = (n: number) => Array.from({ length: n }, (_, i) => i);
+const kind = ({
+  "fatqat-gpu-backend": "amplitudes", "qts-research-platform": "lanes", "point-in-time-research": "sweep",
+  "streaming-reconciliation": "memory", "imc-prosperity-4": "ladder", "pokemon-tcg-ai": "cards",
+  "market-making-lab": "quotes", "factor-lab": "ranks", "alpha-search": "tree", "agent-harness": "shell",
+  "studyflow": "timetable", "final-year-project": "gate",
+} as Record<string, string>)[slug] ?? "sweep";
+const caption = ({
+  amplitudes: "state-vector amplitudes, updated in parallel on the GPU",
+  lanes: "three layers, each rebuilt from the one above: raw (kept as delivered), typed, cleansed",
+  sweep: "t = now sweeps forward; nothing to its right is ever read",
+  memory: "in memory, the working set climbs; streamed, it stays flat",
+  ladder: "quotes around a fair value, re-priced as it drifts",
+  cards: "a policy scores each legal option; the best one lights up",
+  quotes: "inventory-aware quotes follow the mid",
+  ranks: "signals sorted into ranks, chosen on validation only",
+  tree: "formulas breed on train data, one branch survives",
+  shell: "one rulebook for every agent; the guard blocks the dangerous line",
+  timetable: "classes fall into place; clashes are refused",
+  gate: "actions pass through the decision layer; risky ones stop",
+} as Record<string, string>)[kind];
+---
+<figure class:list={["art", kind, { compact }]} aria-hidden="true">
+  <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice">
+    {kind === "amplitudes" && range(96).map((i) => (
+      <rect class="amp" x={20 + i * 12} y={H / 2} width="7" height="2" rx="2" style={`--h:${(18 + rnd() * (H * 0.36)).toFixed(0)}px;--d:${(rnd() * 2.4).toFixed(2)}s`} />
+    ))}
+    {kind === "lanes" && (<>
+      {[0, 1, 2].map((l) => <line class="rule" x1="0" x2={W} y1={H * (0.25 + l * 0.25)} y2={H * (0.25 + l * 0.25)} />)}
+      {["raw", "typed", "cleansed"].map((n, l) => <text class="lane-label" x="12" y={H * (0.25 + l * 0.25) - 14}>{n}</text>)}
+      {range(42).map(() => { const l = Math.floor(rnd() * 3); return <rect class={`blk l${l}`} x="-60" y={H * (0.25 + l * 0.25) - 7} width={20 + rnd() * 40} height="14" rx="3" style={`--d:${(rnd() * 9).toFixed(2)}s;--t:${(7 + rnd() * 5).toFixed(1)}s`} />; })}
+    </>)}
+    {kind === "sweep" && (<>
+      <line class="rule" x1="0" x2={W} y1={H * 0.62} y2={H * 0.62} />
+      {range(60).map((i) => <circle class="pt" cx={20 + i * 20} cy={H * 0.62 - 8 - rnd() * H * 0.4} r="3.2" style={`--i:${i}`} />)}
+      <g class="now"><line x1="0" x2="0" y1="10" y2={H - 10} /><text x="8" y="26">t = now</text></g>
+    </>)}
+    {kind === "memory" && (<>
+      <path class="grow" d={`M0 ${H - 20} L${W} 24`} pathLength="1" />
+      <path class="flat" d={`M0 ${H - 40} ${range(40).map((i) => `L${(i + 1) * (W / 40)} ${H - 40 - (i % 2 ? 26 : 8)}`).join(" ")}`} pathLength="1" />
+    </>)}
+    {(kind === "ladder" || kind === "quotes") && (<>
+      <path class="mid" d={`M0 ${H / 2} ${range(30).map((i) => `L${(i + 1) * 40} ${(H / 2 + Math.sin(i * 0.7) * 30 + (rnd() - 0.5) * 16).toFixed(0)}`).join(" ")}`} pathLength="1" />
+      {range(14).map((i) => <rect class={i < 7 ? "bid" : "ask"} x={W * 0.52 + (i < 7 ? -1 : 1) * 14} y={i < 7 ? H / 2 + 10 + i * 13 : H / 2 - 22 - (i - 7) * 13} width={60 + rnd() * 220} height="8" rx="2" style={`--d:${(rnd() * 3).toFixed(2)}s;transform-origin:${i < 7 ? "right" : "left"}`} />)}
+    </>)}
+    {kind === "cards" && range(7).map((i) => (
+      <g class={`card${i === 4 ? " best" : ""}`} style={`transform: translate(${W / 2 - 330 + i * 110}px, ${H * 0.18 + Math.abs(i - 3) * 10}px) rotate(${(i - 3) * 5}deg)`}>
+        <rect width="90" height="128" rx="10" /><rect class="bar" x="12" y={110 - (20 + rnd() * 80)} width="66" height={20 + rnd() * 80} rx="4" />
+      </g>
+    ))}
+    {kind === "ranks" && range(80).map((i) => {
+      const cx = 60 + rnd() * (W - 120), cy = 30 + rnd() * (H - 60);
+      const tx = 90 + (i % 10) * 112, ty = 34 + Math.floor(i / 10) * ((H - 68) / 7);   // the ranked grid slot
+      return <circle class="dot" cx={cx.toFixed(0)} cy={cy.toFixed(0)} r="4" style={`--dx:${(tx - cx).toFixed(0)}px;--dy:${(ty - cy).toFixed(0)}px;--d:${(rnd() * 0.8).toFixed(2)}s`} />;
+    })}
+    {kind === "tree" && (() => { const out: string[] = []; const br = (x: number, y: number, a: number, d: number) => { if (d > 6) return; const x2 = x + Math.cos(a) * (70 - d * 8), y2 = y - Math.sin(a) * (34 - d * 3); out.push(`M${x.toFixed(0)} ${y.toFixed(0)}L${x2.toFixed(0)} ${y2.toFixed(0)}`); br(x2, y2, a + 0.35 + rnd() * 0.3, d + 1); if (rnd() < 0.75) br(x2, y2, a - 0.35 - rnd() * 0.3, d + 1); }; br(W / 2, H - 14, Math.PI / 2, 0); return out.map((d, i) => <path class="br" d={d} pathLength="1" style={`--i:${i}`} />); })()}
+    {kind === "shell" && ["$ install --tools claude codex copilot cursor gemini", "✓ one rulebook → five tools", "✓ memory + transcript search over MCP", "$ rm -rf ~", "✗ blocked by the command guard (fails closed)"].map((l, i) => (
+      <text class={`ln${l.startsWith("✗") ? " bad" : ""}`} x="40" y={44 + i * 42} style={`--i:${i}`}>{l}</text>
+    ))}
+    {kind === "timetable" && range(5).flatMap((d) => range(6).map((h) => (
+      <rect class={`slot${rnd() < 0.45 ? " on" : ""}`} x={W / 2 - 330 + d * 135} y={20 + h * 37} width="125" height="31" rx="5" style={`--d:${((d * 6 + h) * 0.08).toFixed(2)}s`} />
+    )))}
+    {kind === "gate" && (<>
+      <rect class="wall" x={W / 2 - 8} y="20" width="16" height={H - 40} rx="8" />
+      {range(14).map((i) => <circle class={`act${i % 5 === 2 ? " stop" : ""}`} cx="-20" cy={30 + (i % 7) * ((H - 60) / 6)} r="7" style={`--d:${(i * 0.45).toFixed(2)}s`} />)}
+    </>)}
+  </svg>
+  {!compact && <figcaption class="comment">{caption}</figcaption>}
+</figure>
+
+<style>
+  .art { margin: 0; }
+  svg { display: block; width: 100%; height: auto; max-height: 260px; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+  .compact svg { max-height: 120px; border: 0; }
+  figcaption { margin-top: 10px; }
+  .rule { stroke: var(--line-2); stroke-dasharray: 4 6; }
+  text { font: 15px var(--font-mono), monospace; fill: var(--muted); }
+  .lane-label { font-size: 13px; }
+
+  .amp { fill: var(--accent); animation: amp 2.6s ease-in-out var(--d) infinite alternate; }
+  @keyframes amp { from { height: 2px; transform: translateY(0); } to { height: var(--h); transform: translateY(calc(var(--h) / -2)); } }
+
+  .blk { fill: color-mix(in srgb, var(--accent) 70%, transparent); animation: lane var(--t) linear var(--d) infinite; animation-delay: calc(var(--d) * -1); }
+  .blk.l0 { fill: color-mix(in srgb, var(--amber) 70%, transparent); } .blk.l2 { fill: var(--up); }
+  @keyframes lane { to { transform: translateX(1300px); } }
+
+  .pt { fill: var(--accent); animation: lit 6s linear infinite; animation-delay: calc(var(--i) * 0.1s - 6s); }
+  @keyframes lit { 0% { opacity: 1; } 50%, 100% { opacity: 0.12; } }
+  .now { animation: sweep 6s linear infinite; }
+  .now line { stroke: var(--amber); stroke-dasharray: 3 5; }
+  .now text { fill: var(--amber); }
+  @keyframes sweep { from { transform: translateX(0); } to { transform: translateX(1200px); } }
+
+  .grow, .flat, .mid { fill: none; stroke-width: 3; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 5s ease-out infinite; }
+  .grow { stroke: var(--down); } .flat { stroke: var(--accent); } .mid { stroke: var(--ink); stroke-width: 1.6; }
+  @keyframes draw { 0% { stroke-dashoffset: 1; } 70%, 100% { stroke-dashoffset: 0; } }
+
+  .bid { fill: color-mix(in srgb, var(--up) 65%, transparent); } .ask { fill: color-mix(in srgb, var(--down) 65%, transparent); }
+  .bid, .ask { animation: depth 2.8s ease-in-out var(--d) infinite alternate; }
+  @keyframes depth { to { transform: scaleX(0.55); } }
+
+  .card rect:first-child { fill: var(--bg-2); stroke: var(--line-2); }
+  .card .bar { fill: var(--line-2); }
+  .card.best rect:first-child { stroke: var(--accent); animation: pick 2.4s ease-in-out infinite; }
+  .card.best .bar { fill: var(--accent); }
+  @keyframes pick { 50% { stroke-width: 3; } }
+
+  .dot { fill: var(--accent); animation: rank 5s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) infinite alternate; }
+  @keyframes rank { 0%, 25% { transform: translate(0, 0); } 75%, 100% { transform: translate(var(--dx), var(--dy)); } }
+
+  .br { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 6s ease-out infinite; animation-delay: calc(var(--i) * 0.04s); }
+
+  .ln { opacity: 0; animation: type 7s steps(1) infinite; animation-delay: calc(var(--i) * 0.9s); }
+  .ln.bad { fill: var(--down); }
+  @keyframes type { 0% { opacity: 0; } 5%, 90% { opacity: 1; } 100% { opacity: 0; } }
+
+  .slot { fill: var(--bg-2); stroke: var(--line); }
+  .slot.on { fill: color-mix(in srgb, var(--accent) 55%, transparent); animation: slot 6s ease-in-out var(--d) infinite; }
+  @keyframes slot { 0%, 10% { opacity: 0; } 30%, 90% { opacity: 1; } 100% { opacity: 0; } }
+
+  .wall { fill: color-mix(in srgb, var(--accent) 35%, transparent); stroke: var(--accent); }
+  .act { fill: var(--up); animation: pass 6.3s linear var(--d) infinite; }
+  .act.stop { fill: var(--down); animation-name: stop; }
+  @keyframes pass { to { transform: translateX(1260px); } }
+  @keyframes stop { 0% { transform: translateX(0); } 45%, 100% { transform: translateX(585px); opacity: 0; } 40% { opacity: 1; } }
+
+  :global(html[data-paused]) .art :global(*) { animation-play-state: paused !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .art :global(*) { animation: none !important; }
+    .ln { opacity: 1; } .grow, .flat, .mid, .br { stroke-dashoffset: 0; } .amp { height: var(--h); transform: translateY(calc(var(--h) / -2)); }
+  }
+</style>
