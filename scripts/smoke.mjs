@@ -9,7 +9,7 @@ const requireLive = process.argv.includes("--require-live");   // a "snapshot" b
 const pages = [
   ["/", "[data-testid=book-badge]"],
   ["/projects/", "main a"],
-  ["/projects/qts-research-platform/", "table.ledger"],
+  ["/projects/qts-research-platform/", ".figs dt"],
   ["/demos/fourier/", "[data-testid=fourier-error][data-value]:not([data-value=''])"],
   ["/demos/order-book/", "[data-testid=replay-step]"],
   ["/demos/reconciliation/", "[data-testid=series-streaming]"],
