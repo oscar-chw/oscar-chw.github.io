@@ -37,7 +37,8 @@ const dataUri = (svg: string) => "data:image/svg+xml;base64," + Buffer.from(svg)
         ))}
       </div>
     </article>
-    <p class="actions"><button type="button" onclick="window.print()">Print this card</button></p>
+    <p class="actions"><button type="button" id="print">Print this card</button></p>
+    <script is:inline data-inline="print">document.getElementById("print").addEventListener("click", () => window.print());</script>
   </div>
 </Base>
 

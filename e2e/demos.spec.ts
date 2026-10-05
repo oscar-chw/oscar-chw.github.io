@@ -73,3 +73,17 @@ test("harbour demo page renders the interactive harbour", async ({ page }) => {
   await page.goto("/demos/harbour/");
   await expect(page.getByTestId("harbour").locator("canvas")).toBeVisible();
 });
+
+test("fourier: the drawing animation can be paused", async ({ page }) => {
+  await page.goto("/demos/fourier/");
+  const canvas = page.getByTestId("fourier-canvas");
+  await expect(canvas).toHaveAttribute("data-state", "playing");
+  await page.getByTestId("fourier-pause").click();
+  await expect(page.getByTestId("fourier-pause")).toHaveAttribute("aria-pressed", "true");
+  const a = await canvas.evaluate((c: HTMLCanvasElement) => c.toDataURL());
+  await page.waitForTimeout(600);
+  expect(await canvas.evaluate((c: HTMLCanvasElement) => c.toDataURL())).toBe(a);
+  await page.getByTestId("fourier-pause").click();
+  await page.waitForTimeout(600);
+  expect(await canvas.evaluate((c: HTMLCanvasElement) => c.toDataURL())).not.toBe(a);
+});

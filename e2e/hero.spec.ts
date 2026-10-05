@@ -53,9 +53,11 @@ test("live stream: badge says live, mid follows, redraws stay at or under 10 fps
   expect(Number(await page.getByTestId("harbour").getAttribute("data-book-mid"))).toBeGreaterThan(60000);
 });
 
-test("pauses redraws while the tab is hidden", async ({ page }) => {
+test("pauses redraws and closes the stream while the tab is hidden", async ({ page }) => {
+  let closed = false;
   await page.routeWebSocket(WS, (ws) => {
     let m = 60000;
+    ws.onClose(() => { closed = true; });
     const t = setInterval(() => { try { ws.send(JSON.stringify(depth(m++))); } catch { clearInterval(t); } }, 20);
   });
   await page.goto("/");
@@ -69,6 +71,27 @@ test("pauses redraws while the tab is hidden", async ({ page }) => {
   const f0 = await frames(page);
   await page.waitForTimeout(1500);
   expect(await frames(page)).toBe(f0);
+  expect(closed).toBe(true);                 // the socket itself is closed, not just the painting
+});
+
+test("the live book can be paused and resumed", async ({ page }) => {
+  let opened = 0;
+  await page.routeWebSocket(WS, (ws) => {
+    opened++;
+    let m = 60000;
+    const t = setInterval(() => { try { ws.send(JSON.stringify(depth(m++))); } catch { clearInterval(t); } }, 20);
+  });
+  await page.goto("/");
+  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  await page.getByTestId("book-pause").click();
+  await expect(page.getByTestId("book-badge")).toHaveText(/paused/i);
+  await expect(page.getByTestId("book-pause")).toHaveAttribute("aria-pressed", "true");
+  const f0 = await frames(page);
+  await page.waitForTimeout(1200);
+  expect(await frames(page)).toBe(f0);
+  await page.getByTestId("book-pause").click();
+  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  expect(opened).toBe(2);
 });
 
 test("reduced motion: book redraws at most once a second", async ({ browser }) => {
@@ -105,4 +128,16 @@ test("keyboard users can step through the read-outs", async ({ page }) => {
   const first = await page.getByTestId("harbour-tip").textContent();
   await page.keyboard.press("ArrowRight");
   await expect(page.getByTestId("harbour-tip")).not.toHaveText(first ?? "");
+});
+
+test("Tab moves from the harbour into the read-out's link", async ({ page, browserName }) => {
+  await blockNetwork(page);
+  await page.goto("/");
+  await page.getByTestId("harbour").focus();
+  const tip = page.getByTestId("harbour-tip");
+  for (let i = 0; i < 40 && !/race test/i.test((await tip.textContent()) ?? ""); i++) await page.keyboard.press("ArrowRight");
+  await expect(tip).toContainText(/race test/i);
+  await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab");
+  await expect(tip.getByRole("link")).toBeFocused();
+  await expect(tip).toBeVisible();
 });

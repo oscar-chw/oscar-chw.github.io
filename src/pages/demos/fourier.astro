@@ -10,6 +10,7 @@ import Demo from "../../layouts/Demo.astro";
       <input id="circles" data-testid="fourier-circles" type="range" min="1" max="500" value="200" />
       <p class="readout">RMS error <span data-testid="fourier-error" data-value="" data-source="portrait">computing…</span> px</p>
       <div class="buttons">
+        <button type="button" data-testid="fourier-pause" aria-pressed="false">Pause</button>
         <button type="button" data-testid="fourier-draw">Draw your own</button>
         <button type="button" data-testid="fourier-reset">Back to the portrait</button>
       </div>
@@ -36,6 +37,15 @@ import Demo from "../../layouts/Demo.astro";
 
   let pts: Pt[] = [], pen: number[] = [], terms: Term[] = [], c: Pt = [0, 0], recon: Pt[] = [];
   let k = Number(slider.value), t0 = performance.now(), raf = 0, mode: "portrait" | "drawn" = "portrait";
+  let pausedAt: number | null = null;
+  const pauseBtn = document.querySelector<HTMLButtonElement>("[data-testid=fourier-pause]")!;
+  const setPaused = (p: boolean) => { pausedAt = p ? performance.now() : null; pauseBtn.setAttribute("aria-pressed", String(p)); pauseBtn.textContent = p ? "Resume" : "Pause"; };
+  // WCAG 2.2.2: the drawing animation can be paused and resumed where it stopped.
+  pauseBtn.addEventListener("click", () => {
+    if (pausedAt === null) { cancelAnimationFrame(raf); setPaused(true); }
+    else if (canvas.dataset.state === "playing") { t0 += performance.now() - pausedAt; setPaused(false); raf = requestAnimationFrame(frame); }
+    else setPaused(false);
+  });
 
   function load(p: Pt[], penUp: number[], src: "portrait" | "drawn") {
     pts = p; pen = penUp; mode = src; c = centre(p); terms = dft(p);
@@ -48,7 +58,7 @@ import Demo from "../../layouts/Demo.astro";
     recon = pts.map((_, n) => evaluate(terms, k, n / pts.length, c));
     const e = rmsError(pts, terms, k);
     err.textContent = e.toFixed(2); err.dataset.value = e.toFixed(4); err.dataset.source = mode;
-    t0 = performance.now();
+    t0 = performance.now(); setPaused(false);
     if (reduce) { draw(1); canvas.dataset.state = "static"; } else { canvas.dataset.state = "playing"; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
   }
   function draw(progress: number) {
@@ -111,8 +121,8 @@ import Demo from "../../layouts/Demo.astro";
 
 <style>
   .fourier { display: grid; grid-template-columns: minmax(0, 560px) minmax(220px, 1fr); gap: 28px; align-items: start; }
-  canvas { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; background: #0a1022; box-shadow: var(--shadow); touch-action: none; }
-  canvas.armed { outline: 2px dashed var(--amber); outline-offset: 3px; cursor: crosshair; }
+  canvas { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; background: #0a1022; box-shadow: var(--shadow); }
+  canvas.armed { touch-action: none; outline: 2px dashed var(--amber); outline-offset: 3px; cursor: crosshair; }
   .controls label { display: flex; justify-content: space-between; font-weight: 600; }
   output { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
   input[type=range] { width: 100%; accent-color: var(--accent); margin: 10px 0 14px; }

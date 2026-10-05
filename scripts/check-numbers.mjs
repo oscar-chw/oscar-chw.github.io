@@ -14,7 +14,7 @@ const ROOT = "src/content";
 if (!existsSync(CONTENT_MD)) { console.error(`check-numbers: approved source ${CONTENT_MD} not found`); process.exit(1); }
 if (!existsSync(ROOT)) { console.error(`check-numbers: ${ROOT}/ not found`); process.exit(1); }
 
-const NUM = /(?<![\w.,/#-])\d+(?:[.,]\d+)*/g;   // "700B+", "100k", "25×" all yield their digits
+const NUM = /(?<![\w.,/#])\d+(?:[.,]\d+)*/g;   // "700B+", "100k", "25×", "−0.5" all yield their digits
 const nums = (s) => new Set([...s.matchAll(NUM)].map((m) => m[0].replace(/[.,]$/, "")));
 // Structural fields are not claims: ordering keys, dates, links, source lists.
 const SKIP_KEYS = /^(order|sources|repo|links|date|start|end|href|url|slug|weight|demo|image|alt)\s*:/;

@@ -19,6 +19,7 @@ const BUILTIN = {
   "asof 0-of-120": /\b0[- ]of[- ]120\b|120 hypotheses/i,
   "researcher-only FYP": /32% violated|fine-tuned 4B/i,
   "business minor": /business minor|minor in business/i,
+  "tel link": /\btel:/i,
 };
 const ALLOWED_EMAIL = /^(choiheiwang@gmail\.com|\d+\+oscar-chw@users\.noreply\.github\.com)$/i;
 
@@ -36,8 +37,14 @@ const walk = (d) => readdirSync(d).flatMap((f) => {
 const files = TARGETS.filter(existsSync).flatMap(walk).filter((p) => /\.(html|md|mdx|astro|ts|js|json|txt|xml|svg)$/.test(p));
 if (!files.some((f) => f.startsWith("dist/"))) { console.error("scan-content: no built site in dist/; build first"); process.exit(1); }
 
-// Visible text only for HTML, so numbers inside inline data/scripts do not trip the phone rule.
-const visible = (html) => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ");
+// For HTML: visible text plus every attribute value (a phone number can hide in href="tel:…" or
+// aria-label), but not scripts, styles or data: URIs, whose digit runs are not contact details.
+const visible = (html) => {
+  const body = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ");
+  const GEOMETRY = /^(d|points|viewBox|transform|x[12]?|y[12]?|cx|cy|r|width|height|stroke-dasharray|style|srcset|sizes)$/;
+  const attrs = [...body.matchAll(/\s([\w:-]+)="([^"]*)"/g)].filter(([, n, v]) => !GEOMETRY.test(n) && !v.startsWith("data:")).map((m) => m[2]);
+  return body.replace(/<[^>]+>/g, " ") + "\n" + attrs.join("\n");
+};
 
 let bad = 0;
 for (const f of files) {

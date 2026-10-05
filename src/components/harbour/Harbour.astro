@@ -5,12 +5,15 @@ interface Props { legend?: boolean }
 const { legend = true } = Astro.props;
 ---
 <figure class="harbour">
-  <div class="stage" data-testid="harbour" tabindex="0" data-base={import.meta.env.BASE_URL}
+  <div class="stage" data-testid="harbour" tabindex="0" role="group" data-base={import.meta.env.BASE_URL}
        aria-label="Victoria Harbour drawn from data. Use the left and right arrow keys to read each part; Escape hides the read-out."
        aria-describedby="harbour-legend">
     <canvas width="1584" height="396" aria-hidden="true"></canvas>
-    <span class="badge mono" data-testid="book-badge" role="status" aria-live="polite">connecting…</span>
-    <div class="tip" data-testid="harbour-tip" role="tooltip" hidden></div>
+    <div class="tip" data-testid="harbour-tip" aria-live="polite" hidden></div>
+    <div class="book">
+      <span class="badge mono" data-testid="book-badge" role="status">connecting…</span>
+      <button type="button" class="pause mono" data-testid="book-pause" aria-pressed="false" aria-label="Pause the live order book">Pause</button>
+    </div>
   </div>
   {legend && (
     <figcaption id="harbour-legend">
@@ -34,9 +37,12 @@ const { legend = true } = Astro.props;
   .harbour { margin: 0; }
   .stage { position: relative; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); background: #0a1022; cursor: crosshair; aspect-ratio: 4 / 1; }
   canvas { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
-  .badge { position: absolute; left: 10px; bottom: 10px; padding: 3px 9px; border-radius: 99px; background: rgb(8 13 26 / 0.8); color: #c9dbe4; border: 1px solid #2b3d5c; font-size: 0.75rem; }
+  .book { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; }
+  .badge, .pause { padding: 3px 9px; border-radius: 99px; background: rgb(8 13 26 / 0.8); color: #c9dbe4; border: 1px solid #2b3d5c; font-size: 0.75rem; }
+  .pause { cursor: pointer; font-family: ui-monospace, Menlo, monospace; }
+  .pause:hover { border-color: #6ee6d7; }
   .badge[data-state="live"] { color: #3fb950; border-color: #2d6a3a; }
-  .tip { position: absolute; max-width: 340px; background: rgb(8 13 26 / 0.95); border: 1px solid #2b3d5c; border-radius: 8px; padding: 8px 10px; font: 13px/1.45 ui-monospace, Menlo, monospace; color: #d6e6ee; z-index: 2; }
+  .tip { position: absolute; max-width: min(340px, calc(100% - 12px)); max-height: calc(100% - 8px); overflow: auto; background: rgb(8 13 26 / 0.95); border: 1px solid #2b3d5c; border-radius: 8px; padding: 8px 10px; font: 13px/1.45 ui-monospace, Menlo, monospace; color: #d6e6ee; z-index: 2; }
   .tip :global(a) { color: #6ee6d7; }
   .tip :global(.g) { color: #3fb950; } .tip :global(.r) { color: #ff7b72; }
   figcaption ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 6px 28px; color: var(--muted); font-size: 0.88rem; }

@@ -173,12 +173,13 @@ const SNAPSHOT_ROWS: Rows = {
 export async function mountHarbour(wrap: HTMLElement) {
   const canvas = wrap.querySelector("canvas")!, tip = wrap.querySelector<HTMLElement>("[data-testid=harbour-tip]")!;
   const badge = wrap.querySelector<HTMLElement>("[data-testid=book-badge]")!;
+  const pauseBtn = wrap.querySelector<HTMLButtonElement>("[data-testid=book-pause]")!;
   const cx = canvas.getContext("2d")!;
   // paint the city off-screen, then show it whole: no half-drawn frames
   const base = document.createElement("canvas"); base.width = W; base.height = H;
   const geo = await drawCity(base.getContext("2d")!, base);
 
-  let rows = SNAPSHOT_ROWS, state: FeedState | "connecting" = "connecting", restAt = "", frames = 0;
+  let rows = SNAPSHOT_ROWS, state: FeedState | "connecting" = "connecting", restAt = "", frames = 0, paused = false;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let gate = new FrameGate(reduce.matches ? 1 : 10);
   reduce.addEventListener("change", () => (gate = new FrameGate(reduce.matches ? 1 : 10)));
@@ -200,8 +201,8 @@ export async function mountHarbour(wrap: HTMLElement) {
   }
 
   function setBadge() {
-    badge.dataset.state = state;
-    badge.textContent = state === "live" ? "live · BTCUSDT" : state === "rest" ? `snapshot · ${restAt} UTC` : state === "fallback" ? "snapshot · 5 Oct 2026" : "connecting…";
+    badge.dataset.state = paused ? "paused" : state;
+    badge.textContent = paused ? "paused" : state === "live" ? "live · BTCUSDT" : state === "rest" ? `snapshot · ${restAt} UTC` : state === "fallback" ? "snapshot · 5 Oct 2026" : "connecting…";
   }
 
   let pending: ReturnType<typeof setTimeout> | undefined;
@@ -221,13 +222,23 @@ export async function mountHarbour(wrap: HTMLElement) {
       onState: (s) => { if (s !== state) { state = s; setBadge(); } if (s === "fallback") { rows = SNAPSHOT_ROWS; request(); } },
     });
   };
+  const halt = () => { feed?.stop(); feed = undefined; clearTimeout(pending); pending = undefined; };
   // Stop the stream while the tab is hidden; reconnect when it is shown again.
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { feed?.stop(); clearTimeout(pending); pending = undefined; }
-    else if (state === "live" || state === "connecting") { start(); }
+    if (document.hidden) halt();
+    else if (!paused && (state === "live" || state === "connecting")) start();
+  });
+  // WCAG 2.2.2: anything that updates by itself can be paused.
+  pauseBtn.addEventListener("click", () => {
+    paused = !paused;
+    pauseBtn.setAttribute("aria-pressed", String(paused));
+    pauseBtn.textContent = paused ? "Resume" : "Pause";
+    if (paused) halt(); else start();
+    setBadge();
   });
 
-  paint(); setBadge(); start();
+  paint(); setBadge();
+  if (!document.hidden) start();           // a page opened in a background tab waits until it is shown
 
   // ---------- read-outs: pointer and keyboard ----------
   const d0 = Date.UTC(2020, 0, 1), day = (i: number) => new Date(d0 + i * 864e5).toISOString().slice(0, 10);
@@ -283,5 +294,6 @@ export async function mountHarbour(wrap: HTMLElement) {
     show(readout(x, y), x * sc + ox, y * sc + oy);
     void r;
   });
-  wrap.addEventListener("blur", () => (tip.hidden = true));
+  // hide the read-out only when focus leaves the harbour, so Tab can reach the links inside it
+  wrap.addEventListener("focusout", (e) => { if (!wrap.contains(e.relatedTarget as Node | null)) tip.hidden = true; });
 }

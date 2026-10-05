@@ -22,6 +22,8 @@ jobs:
         run: node scripts/scan-content.mjs
       - name: Link check (internal and external)
         run: node scripts/link-check.mjs dist --external
+      - name: Link check of the /next/ preview build (every internal link honours the base)
+        run: SITE_BASE=/next/ npx astro build --outDir dist-next && node scripts/link-check.mjs dist-next --base /next/
       - run: npx playwright install --with-deps chromium webkit
       - name: Browser tests (Chromium and WebKit)
         run: npx playwright test

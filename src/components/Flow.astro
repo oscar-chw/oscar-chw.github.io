@@ -1,6 +1,6 @@
 ---
 // A left-to-right pipeline diagram drawn as inline SVG: zero JS, themed by CSS tokens,
-// stacks vertically on narrow screens. `steps` are boxes; `note` is a caption under each.
+// stacks vertically on narrow screens (display:none keeps screen readers from reading both forms). `steps` are boxes; `note` is a caption under each.
 interface Step { label: string; note?: string; accent?: "accent" | "amber" | "up" | "down" }
 interface Props { steps: Step[]; title: string; caption?: string }
 const { steps, title, caption } = Astro.props;
@@ -24,7 +24,7 @@ const id = "flow-" + title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       );
     })}
   </svg>
-  <ol class="narrow" aria-hidden="true">
+  <ol class="narrow">
     {steps.map((s) => <li><strong>{s.label}</strong>{s.note && <span>{s.note}</span>}</li>)}
   </ol>
   {caption && <figcaption class="comment">{caption}</figcaption>}

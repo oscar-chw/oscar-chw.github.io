@@ -34,7 +34,7 @@ const here = Astro.url.pathname;
     <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
     <link rel="sitemap" href={url("/sitemap-index.xml")} />
     <Font cssVariable="--font-sans" preload />
-    <script is:inline>
+    <script is:inline data-inline="theme">
       // Before first paint, so a light-theme reader never sees a dark flash.
       try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
     </script>
@@ -67,7 +67,7 @@ const here = Astro.url.pathname;
         <li><a href={url("/card/")}>Contact card</a></li>
       </ul>
     </footer>
-    <script is:inline>
+    <script is:inline data-inline="theme">
       document.querySelector(".theme").addEventListener("click", () => {
         const r = document.documentElement, next = r.dataset.theme === "light" ? "dark" : "light";
         r.dataset.theme = next;

@@ -37,14 +37,14 @@ export function bands(book: Book, bps: number[]) {
   return { mid, cumBid: cum(book.bids, -1), cumAsk: cum(book.asks, 1) };
 }
 
-/** Admits at most `fps` frames per second; catches up on the grid so slow ticks do not drift below fps. */
+/** Admits at most `fps` frames per second. */
 export class FrameGate {
   private last = -Infinity;
   private readonly interval: number;
   constructor(fps: number) { this.interval = 1000 / fps; }
   ready(now: number): boolean {
     if (now - this.last < this.interval) return false;
-    this.last = this.last === -Infinity ? now : now - ((now - this.last) % this.interval);
+    this.last = now;                         // measured from the last frame painted: no two frames closer than 1/fps
     return true;
   }
 }
@@ -65,7 +65,9 @@ export function createFeed(o: FeedOptions) {
   const get = o.fetchImpl ?? fetch.bind(globalThis);
   let stopped = false, fellBack = false;
   const ws = new WS(o.wsUrl);
-  const silence = setTimeout(() => fallBack(), o.timeoutMs ?? 6000);
+  // Re-armed on every good message, so a socket that goes quiet without closing still falls back.
+  const arm = () => setTimeout(() => fallBack(), o.timeoutMs ?? 6000);
+  let silence = arm();
 
   async function fallBack() {
     if (stopped || fellBack) return;
@@ -90,6 +92,7 @@ export function createFeed(o: FeedOptions) {
     try { book = parseDepth(JSON.parse(String(e.data))); } catch { /* malformed frame: skip it */ }
     if (!book) return;
     clearTimeout(silence);
+    silence = arm();
     o.onBook(book, "live");
     o.onState("live");
   };
