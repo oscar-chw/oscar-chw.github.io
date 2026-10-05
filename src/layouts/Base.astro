@@ -4,8 +4,8 @@ import "../styles/global.css";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
 
-interface Props { title?: string; description?: string; wide?: boolean }
-const { title, description = SITE.description } = Astro.props;
+interface Props { title?: string; description?: string; errorPage?: boolean }
+const { title, description = SITE.description, errorPage = false } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · quant research infrastructure`;
 const canonical = new URL(Astro.url.pathname, SITE.site).href;
 const nav = [
@@ -23,14 +23,14 @@ const here = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!errorPage && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(url("/og.png"), SITE.site).href} />
     <meta name="theme-color" content="#0a1022" />
-    {import.meta.env.BASE_URL !== "/" && <meta name="robots" content="noindex" />}
+    {(errorPage || import.meta.env.BASE_URL !== "/") && <meta name="robots" content="noindex" />}
     <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
     <link rel="sitemap" href={url("/sitemap-index.xml")} />
     <Font cssVariable="--font-sans" preload />

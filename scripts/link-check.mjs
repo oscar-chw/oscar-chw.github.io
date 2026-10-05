@@ -30,10 +30,14 @@ for (const page of pages) {
   const html = readFileSync(page, "utf8");
   for (const [, url] of html.matchAll(/\s(?:href|src)="([^"]+)"/g)) {
     if (/^(mailto:|tel:|data:|javascript:|#)/.test(url)) continue;
-    if (/^https?:\/\//.test(url)) { if (!external.has(url)) external.set(url, relative(DIST, page)); continue; }
-    let path = url.startsWith("/") ? url : "/" + join(relative(DIST, dirname(page)), url);
+    // The site's own absolute URLs (canonical, og:url) are checked against the build, not the network:
+    // before launch they would 404 live, after launch they would only test the previous deploy.
+    const own = url.match(/^https?:\/\/oscar-chw\.github\.io(\/.*)?$/);
+    if (/^https?:\/\//.test(url) && !own) { if (!external.has(url)) external.set(url, relative(DIST, page)); continue; }
+    const target = own ? own[1] ?? "/" : url;
+    let path = target.startsWith("/") ? target : "/" + join(relative(DIST, dirname(page)), target);
     if (BASE && path.startsWith(BASE + "/")) path = path.slice(BASE.length);
-    else if (BASE && url.startsWith("/")) { console.error(`FAIL ${relative(DIST, page)}: ${url} ignores the base ${BASE}`); bad++; continue; }
+    else if (BASE && target.startsWith("/")) { console.error(`FAIL ${relative(DIST, page)}: ${url} ignores the base ${BASE}`); bad++; continue; }
     if (!exists(path)) { console.error(`FAIL ${relative(DIST, page)}: broken internal link ${url}`); bad++; }
   }
 }
