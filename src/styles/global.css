@@ -38,6 +38,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+/* `hidden` always wins: a component class that sets display must never resurrect a hidden element */
+[hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;

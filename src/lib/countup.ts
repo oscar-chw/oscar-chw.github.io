@@ -9,7 +9,9 @@ export function parseFigure(s: string): Figure | null {
   return { pre: m[1], n: Number(m[2].replace(/,/g, "")), dec: grouped ? 0 : (m[2].split(".")[1] ?? "").length, grouped, post: m[3] };
 }
 
+/** Ratios ("25×") count up from 1× (the baseline itself), everything else from 0. */
 export function figureAt(f: Figure, t: number): string {
-  const v = f.n * Math.min(1, Math.max(0, t));
+  const from = /^\s*×/.test(f.post) ? Math.min(1, f.n) : 0;
+  const v = from + (f.n - from) * Math.min(1, Math.max(0, t));
   return f.pre + (f.grouped ? Math.round(v).toLocaleString("en-US") : v.toFixed(f.dec)) + f.post;
 }

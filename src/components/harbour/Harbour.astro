@@ -9,6 +9,8 @@ const { legend = true } = Astro.props;
        aria-label="Victoria Harbour drawn from data. Use the left and right arrow keys to read each part; Escape hides the read-out."
        aria-describedby={legend ? "harbour-legend" : undefined}>
     <canvas width="1584" height="396" aria-hidden="true"></canvas>
+    <div class="xh" aria-hidden="true" hidden></div><div class="xv" aria-hidden="true" hidden></div>
+    <span class="xp mono" aria-hidden="true" hidden></span><span class="xd mono" aria-hidden="true" hidden></span>
     <div class="tip" data-testid="harbour-tip" aria-live="polite" hidden></div>
     <div class="book">
       <span class="badge mono" data-testid="book-badge" role="status">connecting…</span>
@@ -43,6 +45,13 @@ const { legend = true } = Astro.props;
   .pause { cursor: pointer; font-family: ui-monospace, Menlo, monospace; }
   .pause:hover { border-color: #6ee6d7; }
   .badge[data-state="live"] { color: #3fb950; border-color: #2d6a3a; }
+  .xh, .xv { position: absolute; pointer-events: none; z-index: 1; }
+  .xh { left: 0; right: 0; top: 0; height: 0; border-top: 1px dashed rgb(110 230 215 / 0.55); }
+  .xv { top: 0; bottom: 0; left: 0; width: 0; border-left: 1px dashed rgb(110 230 215 / 0.55); }
+  .xp, .xd { position: absolute; z-index: 1; pointer-events: none; font-size: 11px; padding: 1px 6px; background: #6ee6d7; color: #05070c; border-radius: 3px; }
+  .xp { right: 6px; top: -9px; }
+  .xd { bottom: 6px; left: -40px; }
+  .stage:has(.xh:not([hidden])) { cursor: none; }
   .tip { position: absolute; max-width: min(340px, calc(100% - 12px)); max-height: calc(100% - 8px); overflow: auto; background: rgb(8 13 26 / 0.95); border: 1px solid #2b3d5c; border-radius: 8px; padding: 8px 10px; font: 13px/1.45 ui-monospace, Menlo, monospace; color: #d6e6ee; z-index: 2; }
   .tip :global(a) { color: #6ee6d7; }
   .tip :global(.g) { color: #3fb950; } .tip :global(.r) { color: #ff7b72; }

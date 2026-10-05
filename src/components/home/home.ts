@@ -157,3 +157,49 @@ for (const el of document.querySelectorAll<HTMLElement>("[data-ticker-mid]")) {
     el.textContent = mid.toLocaleString("en-US", { maximumFractionDigits: 1 });
   });
 }
+
+// ---------- boot sequence: real facts as a boot log, once per visit, any key skips ----------
+const boot = document.querySelector<HTMLElement>("[data-boot]");
+if (boot && !still) {
+  let seen = false;
+  try { seen = sessionStorage.getItem("booted") === "1" || localStorage.getItem("noboot") === "1"; } catch { /* storage blocked: show it */ }
+  if (!seen) {
+    const log = boot.querySelector("[data-boot-log]")!;
+    const lines = [
+      "<span class=ac>oscar@chw</span> boot v2026.10",
+      "[<span class=ok> OK </span>] mounting market data ............ 700B+ rows",
+      "[<span class=ok> OK </span>] c++20 order-book replay ......... 25×",
+      "[<span class=ok> OK </span>] cuda state vector ............... 6×",
+      "[<span class=ok> OK </span>] look-ahead guard ................ armed",
+      "[<span class=ok> OK </span>] wss://stream.binance.com ........ connecting",
+      "",
+      "<span class=ac>&gt;</span> welcome",
+    ];
+    boot.hidden = false;
+    let i = 0;
+    const done = () => { boot.classList.add("done"); clearInterval(id); removeEventListener("keydown", done); boot.removeEventListener("pointerdown", done); try { sessionStorage.setItem("booted", "1"); } catch { /* ignore */ } setTimeout(() => (boot.hidden = true), 600); };
+    const id = setInterval(() => { if (i < lines.length) log.innerHTML += lines[i++] + "\n"; else done(); }, 170);
+    addEventListener("keydown", done, { once: true });
+    boot.addEventListener("pointerdown", done, { once: true });
+  }
+}
+
+// ---------- clock: Hong Kong time in the status line ----------
+for (const el of document.querySelectorAll<HTMLElement>("[data-clock]")) {
+  const tick = () => (el.textContent = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Hong_Kong", hour: "2-digit", minute: "2-digit" }).format(new Date()));
+  tick(); setInterval(tick, 15000);
+}
+
+// ---------- manifesto: words light up with scroll progress ----------
+for (const m of document.querySelectorAll<HTMLElement>("[data-manifesto]")) {
+  if (still) continue;
+  const words = [...m.querySelectorAll<HTMLElement>(".say span")];
+  const update = () => {
+    const r = m.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / (r.height + innerHeight * 0.35)));
+    const n = Math.round(p * words.length * 1.15);
+    words.forEach((w, i) => w.toggleAttribute("data-on", i < n));
+  };
+  addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
+  update();
+}

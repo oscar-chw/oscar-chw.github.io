@@ -13,5 +13,10 @@ describe("count-up figures", () => {
     expect(figureAt(parseFigure("0.09 s")!, 0.5)).toBe("0.04 s");   // 0.045 rounds half-even in toFixed's binary form
     expect(figureAt(parseFigure("top 5%")!, 0)).toBe("top 0%");
   });
+  it("ratios start at the 1× baseline, not at zero", () => {
+    expect(figureAt(parseFigure("25×")!, 0)).toBe("1×");
+    expect(figureAt(parseFigure("6×")!, 0)).toBe("1×");
+    expect(figureAt(parseFigure("700B+")!, 0)).toBe("0B+");
+  });
   it("returns null for text with no number", () => { expect(parseFigure("live")).toBeNull(); });
 });

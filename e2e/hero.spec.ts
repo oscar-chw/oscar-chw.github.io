@@ -159,3 +159,29 @@ test("a page opened in a hidden tab says paused, then goes live when shown", asy
   await page.evaluate(() => { (window as unknown as { __hidden: boolean }).__hidden = false; document.dispatchEvent(new Event("visibilitychange")); });
   await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
 });
+
+test.describe("boot sequence", () => {
+  test.use({ storageState: { cookies: [], origins: [] } });
+  test("plays once per visit and any key skips it", async ({ page }) => {
+    await blockNetwork(page);
+    await page.goto("/");
+    const boot = page.locator("[data-boot]");
+    await expect(boot).toBeVisible();
+    await expect(boot).toContainText("700B+ rows");
+    await page.keyboard.press("Space");
+    await expect(boot).toBeHidden({ timeout: 3000 });
+    await page.reload();
+    await page.waitForTimeout(400);
+    await expect(boot).toBeHidden();
+  });
+});
+
+test("crosshair shows the BTC price and date under the pointer", async ({ page }) => {
+  await blockNetwork(page);
+  await page.goto("/");
+  const box = (await page.getByTestId("harbour").boundingBox())!;
+  await page.mouse.move(box.x + box.width * (600 / 1584), box.y + box.height * (200 / 396));
+  await expect(page.locator(".xp")).toBeVisible();
+  await expect(page.locator(".xp")).toHaveText(/^\$\d{1,3}(,\d{3})*$/);
+  await expect(page.locator(".xd")).toHaveText(/^20\d\d-\d\d-\d\d$/);
+});

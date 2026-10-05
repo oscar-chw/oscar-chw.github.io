@@ -28,12 +28,16 @@ const demos = [
 ] as const;
 ---
 <Base>
+  <div class="boot" data-boot aria-hidden="true" hidden>
+    <pre class="mono" data-boot-log></pre>
+    <p class="mono skip-hint">press any key</p>
+  </div>
   <div class="spotlight" data-spotlight aria-hidden="true"></div>
 
   <section class="hero" aria-labelledby="hero-name">
     <canvas class="sky" data-sky data-parallax="0.35" aria-hidden="true"></canvas>
     <div class="hero-text wrap cols" data-parallax="-0.18" data-fade>
-      <p class="kicker mono">CS @ CUHK · Hong Kong · class of 2027</p>
+      <p class="status mono"><span class="dot" aria-hidden="true"></span>open to work <span class="sep">·</span> CS @ CUHK, class of 2027 <span class="sep">·</span> HKT <time data-clock>--:--</time> <span class="sep">·</span> BTC <b data-ticker-mid>live</b></p>
       <h1 id="hero-name" aria-label="Oscar Choi"><span data-scramble data-text="Oscar Choi" aria-hidden="true">Oscar Choi</span></h1>
       <p class="line">I build <span class="typed" data-type={JSON.stringify(building)}>{building[0]}</span><span class="caret" aria-hidden="true"></span></p>
       <p class="sub">Open to quant developer, quant research, trading, software engineering, full-stack and AI engineering roles.</p>
@@ -56,6 +60,11 @@ const demos = [
       ))}
     </div>
   </div>
+
+  <section class="manifesto wrap" data-manifesto aria-label="Principle">
+    <p class="say">{"A result only counts if it couldn't have seen the future.".split(" ").map((w) => <span>{w} </span>)}</p>
+    <p class="mono why">the rule behind <a href={url("/projects/point-in-time-research/")}>point-in-time research</a>, and behind the dashed towers after t = now</p>
+  </section>
 
   <section class="story" data-story aria-label="Selected results">
     <div class="pin">
@@ -145,7 +154,28 @@ const demos = [
   .sky { position: absolute; inset: 0 0 25% 0; width: 100%; height: 75%; }
   .hero-text { position: relative; padding-top: 120px; padding-bottom: 36px; }
   .hero-text > * { grid-column: 1 / span 10; }
-  .kicker { color: var(--muted); margin: 0 0 18px; }
+  .status { color: var(--muted); margin: 0 0 18px; font-size: 0.82rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+  .status b { color: var(--accent); font-weight: 500; display: inline-block; min-width: 9ch; }
+  .sep { color: var(--line-2); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--up); box-shadow: 0 0 0 0 var(--up); animation: ping 2.4s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--up) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 8px transparent; } }
+
+  /* boot sequence: once per visit, any key skips; never shown without JS or with reduced motion */
+  .boot { position: fixed; inset: 0; z-index: 50; background: var(--bg); display: flex; flex-direction: column; justify-content: flex-start; padding-top: 32vh !important; padding: 0 max(16px, (100vw - 1240px) / 2); transition: opacity 0.5s, visibility 0.5s; }
+  .boot pre { margin: 0; font-size: clamp(0.78rem, 0.7rem + 0.3vw, 0.95rem); line-height: 1.8; color: var(--muted); white-space: pre-wrap; }
+  .boot :global(.ok) { color: var(--up); } .boot :global(.ac) { color: var(--accent); }
+  .boot[hidden] { display: none; }   /* the class sets display:flex, which would beat the hidden attribute */
+  .boot.done { opacity: 0; visibility: hidden; }
+  .skip-hint { position: absolute; bottom: 28px; color: var(--muted); font-size: 0.75rem; margin: 0; }
+
+  /* manifesto: one sentence that fills in word by word as you scroll */
+  .manifesto { padding: 140px 0 60px; }
+  .say { font-size: clamp(2rem, 1rem + 4.4vw, 5.2rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1.04; margin: 0; max-width: 18ch; }
+  /* unlit words stay readable (3:1 for large text); lighting them is emphasis, not disclosure */
+  .say span { color: color-mix(in srgb, var(--ink) 50%, var(--bg)); transition: color 0.25s; }
+  .say span[data-on] { color: var(--ink); }
+  .why { color: var(--muted); font-size: 0.85rem; margin-top: 26px; }
+  @media (prefers-reduced-motion: reduce) { .say span { color: var(--ink); } }
   h1 { font-size: clamp(3.4rem, 1.6rem + 8vw, 9rem); line-height: 0.9; letter-spacing: -0.055em; margin: 0 0 22px; }
   /* room for the longest typed phrase, so typing never reflows the hero */
   .line { font-size: clamp(1.25rem, 1rem + 1.2vw, 2rem); letter-spacing: -0.02em; margin: 0 0 10px; min-height: 2.6em; }

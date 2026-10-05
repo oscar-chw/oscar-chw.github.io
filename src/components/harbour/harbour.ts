@@ -14,7 +14,7 @@ type Rows = { label: string[]; bid: number[]; ask: number[]; mid: number };
 
 interface Geo {
   M: { o: number; c: number; h: number; l: number; rets: number[] }[];
-  BW: number; Y: (v: number) => number; roof: [number, number][]; hub: [number, number];
+  BW: number; Y: (v: number) => number; price: (y: number) => number; roof: [number, number][]; hub: [number, number];
 }
 
 // Each stage stays under ~50 ms on a 4x-throttled phone CPU, so painting the city never blocks input.
@@ -152,7 +152,9 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
   { const [rx, ry] = roof[Math.floor(roof.length * 0.16)]; label("BTC/USDT, 2020 → now", 28, 76, rx, ry - 2); }
   label("12 readers · 5 writers · 0 lost", hub[0] + 18, hub[1] + 6);
   cx.font = "italic 20px Menlo, monospace"; cx.fillStyle = "rgba(170,215,225,0.85)"; cx.fillText("no look-ahead", XT + 22, 92);
-  return { M, BW, Y, roof, hub };
+  // inverse of Y: the price a screen height stands for (the crosshair's price axis)
+  const price = (y: number) => Math.exp(lo + ((WL - 28 - y) / 205) * (hi - lo));
+  return { M, BW, Y, price, roof, hub };
 }
 
 /** Rows for the water: live books by depth level, the bundled snapshot by distance from mid. */
@@ -279,12 +281,24 @@ export async function mountHarbour(wrap: HTMLElement) {
     tip.style.left = Math.max(6, Math.min(px + 14, r.width - tip.offsetWidth - 6)) + "px";
     tip.style.top = Math.max(4, py - tip.offsetHeight - 12) + "px";
   }
+  // trading-chart crosshair over the skyline: price on the right axis, date on the bottom axis
+  const xh = wrap.querySelector<HTMLElement>(".xh"), xv = wrap.querySelector<HTMLElement>(".xv");
+  const xp = wrap.querySelector<HTMLElement>(".xp"), xd = wrap.querySelector<HTMLElement>(".xd");
+  const cross = (x: number, y: number, px: number, py: number) => {
+    const on = x >= 0 && x < XT && y > 20 && y < WL;
+    for (const el of [xh, xv, xp, xd]) if (el) el.hidden = !on;
+    if (!on || !xh || !xv || !xp || !xd) return;
+    xh.style.transform = `translateY(${py}px)`; xv.style.transform = `translateX(${px}px)`;
+    xp.textContent = "$" + Math.round(geo.price(y)).toLocaleString("en-US"); xp.style.transform = `translateY(${py}px)`;
+    xd.textContent = day(Math.min(daily.close.length - 1, Math.max(0, Math.round((x / geo.BW) * 30)))); xd.style.transform = `translateX(${px}px)`;
+  };
   wrap.addEventListener("mousemove", (e) => {
-    if ((e.target as HTMLElement).closest("[data-testid=harbour-tip]")) return;
+    if ((e.target as HTMLElement).closest("[data-testid=harbour-tip], button")) return;
     const [x, y, r] = toCanvas(e.clientX, e.clientY);
+    cross(x, y, e.clientX - r.left, e.clientY - r.top);
     show(readout(x, y), e.clientX - r.left, e.clientY - r.top);
   });
-  wrap.addEventListener("mouseleave", () => (tip.hidden = true));
+  wrap.addEventListener("mouseleave", () => { tip.hidden = true; cross(-1, -1, 0, 0); });
 
   const stops: [number, number][] = [
     ...geo.roof.filter((_, i) => i % 8 === 0).map(([x, y]) => [x, y + 6] as [number, number]),
