@@ -1,0 +1,29 @@
+---
+title: Final-year project
+summary: A decision layer that makes small local LLM agents safer, supervised by Prof. XU Hong.
+order: 11
+group: Engineering and AI
+role: Final-year project, CUHK
+stack: [Bayesian scoring, conformal risk control, local LLMs]
+metrics:
+  - { value: "−80%", label: "rule violations on held-out tasks versus a prompted agent" }
+---
+## The problem
+
+Small LLM agents that run locally are cheap and private, but they break the rules they are given. Prompting harder only goes so far.
+
+## What I built
+
+Final-year project (Prof. XU Hong): built a decision layer that makes small local LLM agents safer; on held-out tasks it cut rule violations by 80% versus a prompted agent (Bayesian scoring + conformal risk control).
+
+## Result
+
+On held-out tasks, rule violations fell by 80% versus a prompted agent.
+
+## How it works
+
+The layer sits between the agent and its actions. It combines Bayesian scoring with conformal risk control to decide when an agent's action is safe to take.
+
+## Limits
+
+- The research is unpublished, so this page is an overview only, with no code link.

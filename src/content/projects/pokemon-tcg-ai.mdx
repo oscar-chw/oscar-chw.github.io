@@ -1,0 +1,46 @@
+---
+title: Kaggle Pokémon TCG AI Battle
+summary: An agent for a two-player card game with hidden information, entered against 6,807 teams. Policy learning from game records, a batched GPU simulator prototype, and gates proving the deployed agent is the trained one.
+order: 6
+featured: true
+group: Competitions
+role: Team entry; author of this repository
+stack: [Python, PyTorch, NumPy, Rust, GPU]
+metrics:
+  - { value: "89,048", label: "decisions from 926 games, split by game so validation never leaks into training" }
+  - { value: "~110M", label: "steps/s on a batched Rust/GPU simulator of a simplified game loop" }
+links:
+  - { label: "Repository: ptcg-ai-battle", href: "https://github.com/oscar-chw/ptcg-ai-battle" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+In this card game, the set of legal moves changes at every prompt and half the board is hidden. Kaggle runs the agent in a sandbox with no guarantee that PyTorch is installed. The hardest problem turned out not to be playing well. It was knowing that the agent running in the sandbox is the one that was trained.
+
+## What I built
+
+- **Policy learning** on 89,048 decisions from 926 games. The split is by game, so positions from a validation game never leak into training.
+- **A set-transformer policy** that scores each legal option from typed board tokens, served with NumPy at inference so it does not depend on PyTorch.
+- **Parity and packaging gates** that test the built package itself, not the training code.
+- **A batched Rust/GPU simulator prototype** of a simplified game loop at about 110M steps/s, with the GPU output checked against a CPU reference.
+
+## How it works
+
+<Flow title="Agent pipeline" caption="the gates test the packaged artefact, the thing Kaggle actually runs" steps={[
+  { label: "Engine prompt", note: "legal options given" },
+  { label: "Board tokens", note: "typed, with edges" },
+  { label: "Set transformer", note: "scores each option", accent: "accent" },
+  { label: "NumPy serving", note: "no torch needed" },
+  { label: "Package gates", note: "parity, fallbacks", accent: "amber" },
+]} />
+
+- **Imitation first, reinforcement learning only as a fine-tune.**
+- **The serving fallback counts and logs every exception** instead of silently playing a random move, so a broken agent is visible.
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
+
+## Limits
+
+- The simulator is a prototype of a simplified game loop, not a full engine port.
+- The final agent cannot be rebuilt from the repository alone: the weights, the game corpus and the licensed engine are not included.

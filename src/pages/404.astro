@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import { url } from "../lib/url";
+---
+<Base title="Not found">
+  <div class="wrap measure" style="padding-top:48px">
+    <p class="comment">404</p>
+    <h1>Nothing is moored here</h1>
+    <p>That page does not exist, or it moved when this site was rebuilt.</p>
+    <p><a href={url("/")}>Back home</a> · <a href={url("/projects/")}>All projects</a></p>
+  </div>
+</Base>

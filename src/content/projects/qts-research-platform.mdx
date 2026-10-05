@@ -1,0 +1,58 @@
+---
+title: QTS research data platform
+summary: The market-data platform I architected as sole developer for the CUHK Quant Trading Society's research team. Researchers query it in seconds and get the same rows back every time.
+order: 1
+featured: true
+group: Research platforms
+role: Lead Developer, Quant Research Team (sole developer)
+period: Jan 2026 – present
+stack: [Python, Apache Parquet, Apache Arrow, DuckDB, Polars, C]
+metrics:
+  - { value: "700B+", label: "rows of A-share tick data (2017–2026), plus crypto and Polymarket order books" }
+  - { value: "0.09 s", label: "to load a full stock-day through the query service" }
+  - { value: "23 of 23", label: "commits kept in a race test with 12 readers and 5 writers" }
+  - { value: "500M+", label: "duplicate rows removed in the cleaning work I led" }
+links:
+  - { label: "Public write-up: qts-platform-showcase", href: "https://github.com/oscar-chw/qts-platform-showcase" }
+  - { label: "Runnable stand-in on synthetic data: qts-platform-demo", href: "https://github.com/oscar-chw/qts-platform-demo" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+The research team needed tick-level Chinese A-share and crypto data that they could trust, query in seconds, and reproduce later on exactly the same rows. The data arrived as compressed vendor archives, each with its own quirks, and no one on the team was building the infrastructure full time. As the only developer, I owned the whole stack.
+
+## What I built
+
+- **A layered store.** Raw deliveries are kept byte-identical. A typed, versioned Parquet layer sits above them, and a cleansed layer above that flags bad rows instead of dropping them.
+- **A query service for researchers** in Python over HTTP and SQL. It returns Apache Arrow, pins every read to a data version, and refuses requests that would see the future.
+- **Data cleaning, led with the team:** exact duplicates removed, look-ahead leaks blocked before they reach research data.
+- **The shared research server**, which I administer: per-member data permissions through custom Linux PAM and eBPF modules in C, single sign-on without a VPN, and 200+ automated health checks.
+
+## Result
+
+- 700B+ rows stored across A-share ticks (2017–2026), crypto market data and Polymarket order books.
+- A full stock-day loads in 0.09 s.
+- A race test with 12 readers and 5 writers (4 appending, 1 rewriting a partition) kept all 23 of 23 commits.
+- 500M+ duplicate rows removed.
+
+## How it works
+
+<Flow title="QTS data platform" caption="each layer rebuilds from the one below; nothing upstream is ever edited in place" steps={[
+  { label: "Vendor archives", note: "compressed, quirky" },
+  { label: "Raw layer", note: "byte-identical", accent: "amber" },
+  { label: "Typed Parquet", note: "versioned" },
+  { label: "Cleansed layer", note: "flag, never drop" },
+  { label: "Query service", note: "Arrow, pinned, as-of", accent: "accent" },
+]} />
+
+Three decisions shaped it:
+
+- **Flag, never drop.** Only exact duplicates are deleted. A cleansing rule that silently removes rows is a rule nobody can audit.
+- **Three layers, not two.** When a cleansing rule changes, it reruns from the typed layer instead of re-decoding archives, and every rule's effect stays visible.
+- **Safety over peak speed.** The query interface is deliberately slower than hand-written DuckDB SQL. In exchange it gives pinned versions, explicit errors and no look-ahead. Raw DuckDB is still there for those who want it.
+
+## Limits
+
+- The platform's code and data are closed, so the figures above cannot be reproduced from a public repository. The write-up explains the design, and the demo shows the same guarantees on synthetic data.
+- The write-up reports no uptime or researcher-usage figures.

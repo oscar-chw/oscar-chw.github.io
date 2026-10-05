@@ -1,0 +1,45 @@
+---
+// The interactive harbour. Canvas painted client-side; the visible legend below it
+// is real text, so the picture is never the only way to read the data.
+interface Props { legend?: boolean }
+const { legend = true } = Astro.props;
+---
+<figure class="harbour">
+  <div class="stage" data-testid="harbour" tabindex="0" data-base={import.meta.env.BASE_URL}
+       aria-label="Victoria Harbour drawn from data. Use the left and right arrow keys to read each part; Escape hides the read-out."
+       aria-describedby="harbour-legend">
+    <canvas width="1584" height="396" aria-hidden="true"></canvas>
+    <span class="badge mono" data-testid="book-badge" role="status" aria-live="polite">connecting…</span>
+    <div class="tip" data-testid="harbour-tip" role="tooltip" hidden></div>
+  </div>
+  {legend && (
+    <figcaption id="harbour-legend">
+      <ul>
+        <li><span class="k">buildings</span> one per 30 days of BTC/USDT daily closes (Binance, 2020 to now); roof = close on a log scale, spire light = high</li>
+        <li><span class="k">windows</span> one per day: <span class="up">green up</span>, <span class="down">red down</span></li>
+        <li><span class="k">beams</span> the QTS data platform's race test: 12 readers, 5 writers, 0 commits lost</li>
+        <li><span class="k">t = now</span> nothing to its right is used: no look-ahead</li>
+        <li><span class="k">water</span> the live Binance BTCUSDT order book: <span class="up">bids</span> | <span class="down">asks</span></li>
+      </ul>
+    </figcaption>
+  )}
+</figure>
+
+<script>
+  import { mountHarbour } from "./harbour";
+  for (const el of document.querySelectorAll<HTMLElement>("[data-testid=harbour]")) void mountHarbour(el);
+</script>
+
+<style>
+  .harbour { margin: 0; }
+  .stage { position: relative; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); background: #0a1022; cursor: crosshair; aspect-ratio: 4 / 1; }
+  canvas { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
+  .badge { position: absolute; left: 10px; bottom: 10px; padding: 3px 9px; border-radius: 99px; background: rgb(8 13 26 / 0.8); color: #c9dbe4; border: 1px solid #2b3d5c; font-size: 0.75rem; }
+  .badge[data-state="live"] { color: #3fb950; border-color: #2d6a3a; }
+  .tip { position: absolute; max-width: 340px; background: rgb(8 13 26 / 0.95); border: 1px solid #2b3d5c; border-radius: 8px; padding: 8px 10px; font: 13px/1.45 ui-monospace, Menlo, monospace; color: #d6e6ee; z-index: 2; }
+  .tip :global(a) { color: #6ee6d7; }
+  .tip :global(.g) { color: #3fb950; } .tip :global(.r) { color: #ff7b72; }
+  figcaption ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 6px 28px; color: var(--muted); font-size: 0.88rem; }
+  .k { font-family: ui-monospace, Menlo, monospace; color: var(--ink); margin-right: 6px; }
+  @media (max-width: 700px) { .stage { aspect-ratio: 2 / 1; } }
+</style>

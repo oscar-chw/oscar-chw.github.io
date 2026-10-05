@@ -1,0 +1,40 @@
+---
+title: Agent Harness
+summary: A one-command installer that gives Claude Code, Codex, Copilot, Cursor and Gemini CLI shared rules and memory, plus transcript search and a destructive-command guard in Claude Code.
+order: 9
+group: Engineering and AI
+role: Designer and sole author
+stack: [Python, SQLite full-text search, Model Context Protocol]
+links:
+  - { label: "Repository: agent-harness", href: "https://github.com/oscar-chw/agent-harness" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+Every AI coding tool keeps its own instruction file. None of them share memory, and they forget between sessions, so they repeat the same mistakes. And a tool running with broad permissions can execute a destructive command.
+
+## What I built
+
+- **One rulebook, translated per tool**, so the tools cannot drift apart. It stays short because it is paid for in every request.
+- **Shared memory and retrieval over MCP**, including search over past session transcripts.
+- **A command guard for Claude Code** that parses each shell command and fails closed.
+- **A keep rule**: features that showed no measured gain ship off by default.
+
+## How it works
+
+<Flow title="Agent harness" caption="installs with the standard library alone, so it runs wherever the tools run" steps={[
+  { label: "One rulebook", note: "single source" },
+  { label: "Tool adapters", note: "own format, backups" },
+  { label: "MCP server", note: "memory, retrieval", accent: "accent" },
+  { label: "Command guard", note: "fails closed", accent: "down" },
+]} />
+
+**Why fail closed:** the guard blocks any command it cannot parse. A false block costs the user one question. A missed delete of the home directory cannot be undone.
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
+
+## Limits
+
+- The guard is a seat belt, not a sandbox, and has known gaps.
+- The evaluation was small and ran on a private corpus. Only some of the supported tools were measured.

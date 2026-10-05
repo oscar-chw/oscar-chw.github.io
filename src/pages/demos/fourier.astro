@@ -1,0 +1,126 @@
+---
+import Demo from "../../layouts/Demo.astro";
+---
+<Demo title="Fourier portrait" description="A single closed line traced from my photo, redrawn by rotating circles. Each circle spins at a fixed speed; chained tip to tail, their sum draws the face.">
+  <Fragment slot="instructions">Move the slider to change how many circles are used. Fewer circles give a blurrier line, and the error figure shows by how much. Press <strong>Draw your own</strong>, then drag inside the frame to draw a shape; when you let go, circles redraw it.</Fragment>
+  <div class="fourier">
+    <canvas data-testid="fourier-canvas" width="800" height="800" aria-label="Fourier drawing canvas" data-state="idle"></canvas>
+    <div class="controls">
+      <label for="circles">Circles <output id="circles-out">200</output></label>
+      <input id="circles" data-testid="fourier-circles" type="range" min="1" max="500" value="200" />
+      <p class="readout">RMS error <span data-testid="fourier-error" data-value="" data-source="portrait">computing…</span> px</p>
+      <div class="buttons">
+        <button type="button" data-testid="fourier-draw">Draw your own</button>
+        <button type="button" data-testid="fourier-reset">Back to the portrait</button>
+      </div>
+      <p class="comment hint" aria-live="polite"></p>
+    </div>
+  </div>
+  <Fragment slot="source">
+    <strong>Data:</strong> one of my photos turned into an edge map, then into one closed path, resampled to 2048 evenly spaced points (the same path drawn by 500 circles on my GitHub profile). The Fourier transform runs in your browser. A shape you draw never leaves the page.
+  </Fragment>
+</Demo>
+
+<script>
+  import { dft, evaluate, rmsError, resample, centre, type Pt, type Term } from "../../lib/fourier";
+  import portrait from "../../data/portrait-path.json";
+
+  const canvas = document.querySelector<HTMLCanvasElement>("[data-testid=fourier-canvas]")!;
+  const cx = canvas.getContext("2d")!;
+  const slider = document.querySelector<HTMLInputElement>("[data-testid=fourier-circles]")!;
+  const out = document.getElementById("circles-out")!;
+  const err = document.querySelector<HTMLElement>("[data-testid=fourier-error]")!;
+  const hint = document.querySelector<HTMLElement>(".hint")!;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const S = 800;
+
+  let pts: Pt[] = [], pen: number[] = [], terms: Term[] = [], c: Pt = [0, 0], recon: Pt[] = [];
+  let k = Number(slider.value), t0 = performance.now(), raf = 0, mode: "portrait" | "drawn" = "portrait";
+
+  function load(p: Pt[], penUp: number[], src: "portrait" | "drawn") {
+    pts = p; pen = penUp; mode = src; c = centre(p); terms = dft(p);
+    slider.max = String(Math.min(500, terms.length));
+    k = Math.min(Number(slider.value), terms.length);
+    refresh();
+  }
+  function refresh() {
+    out.textContent = String(k);
+    recon = pts.map((_, n) => evaluate(terms, k, n / pts.length, c));
+    const e = rmsError(pts, terms, k);
+    err.textContent = e.toFixed(2); err.dataset.value = e.toFixed(4); err.dataset.source = mode;
+    t0 = performance.now();
+    if (reduce) { draw(1); canvas.dataset.state = "static"; } else { canvas.dataset.state = "playing"; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); }
+  }
+  function draw(progress: number) {
+    cx.fillStyle = "#0a1022"; cx.fillRect(0, 0, S, S);
+    const m = Math.max(2, Math.floor(recon.length * progress));
+    cx.lineWidth = 2; cx.strokeStyle = "#6ee6d7"; cx.shadowColor = "rgba(110,230,215,0.6)"; cx.shadowBlur = 4;
+    cx.beginPath();
+    for (let i = 0; i < m; i++) { const [x, y] = recon[i]; if (i === 0 || pen[i]) cx.moveTo(x, y); else cx.lineTo(x, y); }
+    cx.stroke(); cx.shadowBlur = 0;
+    if (progress < 1) {                                      // the arm: circles chained tip to tail
+      let [x, y] = c; const t = m / recon.length;
+      cx.lineWidth = 1;
+      for (let i = 0; i < Math.min(k, 80); i++) {
+        const a = 2 * Math.PI * terms[i].freq * t + terms[i].phase, r = terms[i].amp;
+        if (r < 0.5) break;
+        cx.strokeStyle = `rgba(230,240,245,${0.32 * (1 - i / 80) + 0.06})`;
+        cx.beginPath(); cx.arc(x, y, r, 0, 7); cx.stroke();
+        const nx = x + r * Math.cos(a), ny = y + r * Math.sin(a);
+        cx.beginPath(); cx.moveTo(x, y); cx.lineTo(nx, ny); cx.stroke(); x = nx; y = ny;
+      }
+      cx.fillStyle = "#fff"; cx.beginPath(); cx.arc(x, y, 3, 0, 7); cx.fill();
+    }
+  }
+  function frame(now: number) {
+    const p = Math.min(1, (now - t0) / 12000);
+    draw(p);
+    if (p < 1) raf = requestAnimationFrame(frame); else canvas.dataset.state = "done";
+  }
+
+  slider.addEventListener("input", () => { k = Number(slider.value); refresh(); });
+
+  // drawing your own path
+  let drawing = false, stroke: Pt[] = [];
+  const at = (e: PointerEvent): Pt => { const r = canvas.getBoundingClientRect(); return [((e.clientX - r.left) / r.width) * S, ((e.clientY - r.top) / r.height) * S]; };
+  document.querySelector("[data-testid=fourier-draw]")!.addEventListener("click", () => {
+    cancelAnimationFrame(raf); drawing = true; stroke = [];
+    cx.fillStyle = "#0a1022"; cx.fillRect(0, 0, S, S);
+    canvas.dataset.state = "drawing"; canvas.classList.add("armed");
+    hint.textContent = "drag inside the frame to draw, then let go";
+  });
+  document.querySelector("[data-testid=fourier-reset]")!.addEventListener("click", () => { drawing = false; canvas.classList.remove("armed"); hint.textContent = ""; load(portrait.pts as Pt[], portrait.pen, "portrait"); });
+  canvas.addEventListener("pointerdown", (e) => { if (!drawing) return; canvas.setPointerCapture(e.pointerId); stroke = [at(e)]; });
+  canvas.addEventListener("pointermove", (e) => {
+    if (!drawing || !stroke.length) return;
+    const p = at(e), q = stroke[stroke.length - 1];
+    if (Math.hypot(p[0] - q[0], p[1] - q[1]) < 2) return;
+    stroke.push(p);
+    cx.strokeStyle = "#ffbe78"; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(q[0], q[1]); cx.lineTo(p[0], p[1]); cx.stroke();
+  });
+  canvas.addEventListener("pointerup", () => {
+    if (!drawing || stroke.length < 8) return;
+    drawing = false; canvas.classList.remove("armed");
+    hint.textContent = "redrawn by circles; move the slider to change how many";
+    load(resample(stroke, 512), new Array(512).fill(0), "drawn");
+  });
+
+  // the transform takes a moment on slow phones; let the page paint first
+  setTimeout(() => load(portrait.pts as Pt[], portrait.pen, "portrait"), 30);
+</script>
+
+<style>
+  .fourier { display: grid; grid-template-columns: minmax(0, 560px) minmax(220px, 1fr); gap: 28px; align-items: start; }
+  canvas { width: 100%; height: auto; aspect-ratio: 1; border-radius: 10px; background: #0a1022; box-shadow: var(--shadow); touch-action: none; }
+  canvas.armed { outline: 2px dashed var(--amber); outline-offset: 3px; cursor: crosshair; }
+  .controls label { display: flex; justify-content: space-between; font-weight: 600; }
+  output { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
+  input[type=range] { width: 100%; accent-color: var(--accent); margin: 10px 0 14px; }
+  .readout { font-family: ui-monospace, Menlo, monospace; color: var(--muted); }
+  .readout span { color: var(--ink); }
+  .hint:empty { display: none; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+  button { font: inherit; font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  @media (max-width: 760px) { .fourier { grid-template-columns: 1fr; } }
+</style>

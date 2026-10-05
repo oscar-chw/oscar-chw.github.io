@@ -1,0 +1,49 @@
+---
+title: WorldQuant-style Alpha Search
+summary: A public-data companion to my WorldQuant BRAIN work. Genetic programming over WorldQuant-style formulas, with pre-registered splits and delay-1, cost-aware evaluation.
+order: 3
+featured: true
+group: Quant research
+role: Designer and sole author
+stack: [Python, SQLite, genetic programming]
+metrics:
+  - { value: "6.7 years", label: "of Binance daily data, 34 coins" }
+  - { value: "17,000+", label: "equity alpha candidates simulated in my BRAIN work, which this lab accompanies" }
+links:
+  - { label: "Repository: alpha-gp-lab", href: "https://github.com/oscar-chw/alpha-gp-lab" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+As a WorldQuant BRAIN Research Consultant (Gold level), I simulated 17,000+ equity alpha candidates and submitted 11, with a best out-of-sample Sharpe of 2.18. BRAIN data and alphas cannot be shared, so this lab rebuilds the search on public data. Generating formulaic alphas is cheap. Evaluating them honestly is the hard part, because every extra look at the data quietly overfits.
+
+## What I built
+
+A genetic-programming search over WorldQuant-style formulas, run on 6.7 years of Binance daily data for 34 coins:
+
+- **Pre-registered splits.** Formulas may breed only on train data, are chosen on validation, and get exactly one test score.
+- **Delay-1, cost-aware evaluation.** A signal computed today can trade only tomorrow, after costs.
+- **An equal-budget random search as the control**, sharing the GP's filter and validation rule, so any difference comes from breeding alone.
+- **A grammar parser instead of eval.** Both LLM-suggested seeds and offspring pass through the same AST parser, so a hostile line cannot run.
+
+## How it works
+
+<Flow title="Alpha search" caption="each evaluator only holds data up to its own split's end" steps={[
+  { label: "Grammar parser", note: "parse, never eval" },
+  { label: "Seeds", note: "replayed, hash-keyed" },
+  { label: "GP search", note: "breeds on train", accent: "accent" },
+  { label: "Validation pick", note: "correlation-filtered" },
+  { label: "Single test", note: "one untouched score", accent: "amber" },
+]} />
+
+- Real-data configurations were committed before any real-data run, so thresholds could not be tuned on the results.
+- Every candidate's lineage is stored in SQLite, so any reported formula can be traced back to its parents.
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
+
+## Limits
+
+- The coin universe is survivorship-biased: only coins that exist today.
+- The cost and portfolio model is simple, with no borrow or funding.
+- The repository reports its own result in full. This page states the method only.

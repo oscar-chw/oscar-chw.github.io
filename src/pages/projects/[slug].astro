@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { url } from "../../lib/url";
+
+export async function getStaticPaths() {
+  const all = await getCollection("projects");
+  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Base title={d.title} description={d.summary}>
+  <article class="wrap project">
+    <p class="comment"><a href={url("/projects/")}>work</a> / {d.group.toLowerCase()}</p>
+    <h1>{d.title}</h1>
+    <p class="lede measure">{d.summary}</p>
+    <dl class="meta">
+      <div><dt>role</dt><dd>{d.role}</dd></div>
+      {d.period && <div><dt>when</dt><dd>{d.period}</dd></div>}
+      <div><dt>stack</dt><dd>{d.stack.join(", ")}</dd></div>
+      {d.partOf && <div><dt>part of</dt><dd><a href={url(`/projects/${d.partOf}/`)}>{d.partOf}</a></dd></div>}
+    </dl>
+    {d.metrics.length > 0 && (
+      <table class="ledger">
+        <caption class="comment">headline results</caption>
+        <tbody>
+          {d.metrics.map((m) => <tr><th scope="row">{m.label}</th><td>{m.value}</td></tr>)}
+        </tbody>
+      </table>
+    )}
+    <div class="body measure"><Content /></div>
+    {d.links.length > 0 && (
+      <section class="links" aria-labelledby="links-h">
+        <h2 id="links-h">Links</h2>
+        <ul>{d.links.map((l) => <li><a href={l.href}>{l.label}</a> <span class="comment">{new URL(l.href).host}{new URL(l.href).pathname.replace(/\/$/, "")}</span></li>)}</ul>
+      </section>
+    )}
+  </article>
+</Base>
+
+<style>
+  .project { padding-top: 32px; }
+  .comment a { color: inherit; }
+  .lede { font-size: 1.2rem; color: var(--ink); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 36px; margin: 1.4rem 0; padding: 0; }
+  .meta div { display: flex; gap: 10px; align-items: baseline; }
+  .meta dt { font: 0.8rem ui-monospace, Menlo, monospace; color: var(--muted); }
+  .meta dd { margin: 0; }
+  .ledger { border-collapse: collapse; margin: 1.6rem 0 0.4rem; min-width: min(100%, 560px); font-variant-numeric: tabular-nums; }
+  .ledger caption { text-align: left; margin-bottom: 6px; }
+  .ledger th, .ledger td { border-top: 1px solid var(--line); padding: 9px 0; text-align: left; vertical-align: baseline; }
+  .ledger th { font-weight: 400; color: var(--muted); padding-right: 32px; }
+  .ledger td { font: 600 1.05rem ui-monospace, Menlo, monospace; color: var(--accent); white-space: nowrap; }
+  .body :global(h2) { padding-top: 0.4rem; }
+  .links ul { list-style: none; padding: 0; }
+  .links li { padding: 6px 0; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+  @media (max-width: 560px) { .ledger td { white-space: normal; } }
+</style>

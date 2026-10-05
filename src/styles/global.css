@@ -1,0 +1,65 @@
+/* Night harbour (default) and day chart (light). Every colour is a token so both
+   themes, the canvas islands and the inline SVG diagrams read the same values. */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a1022;
+  --bg-2: #0f1a33;
+  --line: #22325a;
+  --ink: #d6e6ee;
+  --muted: #93abbb;
+  --accent: #6ee6d7;
+  --up: #3fb950;
+  --down: #f85149;
+  --amber: #ffbe78;
+  --shadow: 0 10px 40px rgb(0 0 0 / 0.45);
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f2f6f8;
+  --bg-2: #e3ecf1;
+  --line: #c3d2db;
+  --ink: #0b1830;
+  --muted: #44586b;
+  --accent: #08665e;
+  --up: #1a7f37;
+  --down: #c4291f;
+  --amber: #8a4b00;
+  --shadow: 0 10px 30px rgb(11 24 48 / 0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--font-sans), system-ui, sans-serif;
+  font-feature-settings: "ss01", "tnum";
+}
+:where(h1, h2, h3) { line-height: 1.15; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.1rem); margin: 0 0 0.6rem; }
+h2 { font-size: 1.4rem; margin: 2.6rem 0 0.8rem; }
+h3 { font-size: 1.1rem; margin: 1.8rem 0 0.5rem; }
+p, ul, ol { margin: 0 0 1rem; }
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+img, svg, canvas { max-width: 100%; }
+code, kbd, .mono { font-family: ui-monospace, Menlo, "SF Mono", Consolas, monospace; font-size: 0.88em; }
+
+/* the "code comment" label: the site's one typographic signature */
+.comment { font-family: ui-monospace, Menlo, monospace; font-size: 0.82rem; color: var(--muted); letter-spacing: 0; }
+.comment::before { content: "// "; color: var(--accent); }
+
+.wrap { width: min(100% - 32px, 1180px); margin-inline: auto; }
+.measure { max-width: 68ch; }
+.up { color: var(--up); }
+.down { color: var(--down); }
+
+.skip { position: absolute; left: 16px; top: -100px; z-index: 10; background: var(--bg-2); color: var(--ink); padding: 8px 12px; border: 1px solid var(--line); }
+.skip:focus { top: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

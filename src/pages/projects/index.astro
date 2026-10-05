@@ -1,0 +1,39 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { url } from "../../lib/url";
+
+const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const groups = [...new Set(all.map((p) => p.data.group))];
+---
+<Base title="Work" description="Projects by Oscar Choi: research platforms, quant research, competitions and engineering.">
+  <div class="wrap">
+    <h1>Work</h1>
+    <p class="measure">Each page follows the same order: the problem, what I built, the result, how it works, and its limits. Every number comes from the linked repository or my CV.</p>
+    {groups.map((g) => (
+      <section aria-labelledby={`g-${g}`}>
+        <h2 id={`g-${g}`}>{g}</h2>
+        <ul class="list">
+          {all.filter((p) => p.data.group === g).map((p) => (
+            <li>
+              <a href={url(`/projects/${p.id}/`)}>{p.data.title}</a>
+              <p>{p.data.summary}</p>
+              {p.data.metrics[0] && <p class="fig"><span>{p.data.metrics[0].value}</span> {p.data.metrics[0].label}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .wrap { padding-top: 32px; }
+  .list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0 40px; }
+  .list li { border-top: 1px solid var(--line); padding: 16px 0 18px; }
+  .list a { font-weight: 600; font-size: 1.08rem; color: var(--ink); text-decoration: none; }
+  .list a:hover { color: var(--accent); }
+  .list p { color: var(--muted); margin: 6px 0 0; font-size: 0.97rem; }
+  .fig { font-size: 0.85rem !important; }
+  .fig span { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
+</style>

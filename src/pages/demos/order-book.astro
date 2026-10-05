@@ -1,0 +1,126 @@
+---
+import Demo from "../../layouts/Demo.astro";
+---
+<Demo title="Order-book replay" description="A limit order book with price-time priority, replaying seeded order flow one event at a time. Resting quotes queue at their price; aggressive orders take liquidity from the best price first.">
+  <Fragment slot="instructions">Press <strong>Play</strong> to run the tape, or <strong>Step</strong> to apply one event at a time. Change the seed for a different session. Bids are green and asks are red; the bar length is the size resting at each price.</Fragment>
+  <div class="replay">
+    <div class="panel">
+      <div class="controls">
+        <button type="button" data-testid="replay-play" aria-pressed="false">Play</button>
+        <button type="button" data-testid="replay-stepbtn">Step</button>
+        <label>seed <input type="number" id="seed" value="7" min="1" max="9999" /></label>
+        <label>speed <input type="range" id="speed" min="1" max="60" value="20" /></label>
+      </div>
+      <dl class="stats">
+        <div><dt>event</dt><dd data-testid="replay-step">0</dd></div>
+        <div><dt>best bid</dt><dd class="up" data-testid="best-bid">–</dd></div>
+        <div><dt>best ask</dt><dd class="down" data-testid="best-ask">–</dd></div>
+        <div><dt>trades</dt><dd id="ntrades">0</dd></div>
+      </dl>
+      <table class="ladder" aria-label="Order book, top 8 levels each side">
+        <thead><tr><th scope="col">bid size</th><th scope="col">price</th><th scope="col">ask size</th></tr></thead>
+        <tbody id="ladder"></tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <canvas id="mid" width="640" height="220" aria-label="Mid price over the last 400 events"></canvas>
+      <p class="comment">mid price, last 400 events</p>
+      <ol id="tape" class="tape" aria-label="Most recent events"></ol>
+    </div>
+  </div>
+  <Fragment slot="source">
+    <strong>Data: SYNTHETIC.</strong> A seeded random-walk fair value; passive quotes placed around it; cancels; and market orders that cross the spread. No market data is used. The matching engine is <code>src/lib/replay.ts</code>, which has unit tests checking that the book never ends a step crossed and that fills follow price-time priority.
+  </Fragment>
+</Demo>
+
+<script>
+  import { syntheticTape, LimitBook, type Event } from "../../lib/replay";
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const play = $("[data-testid=replay-play]"), stepBtn = $("[data-testid=replay-stepbtn]");
+  const seedIn = $<HTMLInputElement>("#seed"), speed = $<HTMLInputElement>("#speed");
+  const stepOut = $("[data-testid=replay-step]"), bidOut = $("[data-testid=best-bid]"), askOut = $("[data-testid=best-ask]");
+  const ladder = $("#ladder"), tape = $("#tape"), ntrades = $("#ntrades");
+  const canvas = $<HTMLCanvasElement>("#mid"), cx = canvas.getContext("2d")!;
+  const N = 4000, WINDOW = 400;          // tape length; events shown in the mid-price chart
+
+  let events: Event[] = [], book = new LimitBook(), i = 0, trades = 0, mids: number[] = [], timer = 0;
+
+  function reset() {
+    events = syntheticTape(Number(seedIn.value) || 7, N); book = new LimitBook(); i = 0; trades = 0; mids = [];
+    for (let w = 0; w < 120; w++) apply(false);          // warm-up so the book starts populated
+    render();
+  }
+  function apply(log = true) {
+    if (i >= events.length) { stop(); return; }
+    const ev = events[i++], fills = book.apply(ev);
+    trades += fills.length;
+    const { bid, ask } = book.best();
+    if (bid !== null && ask !== null) mids.push((bid + ask) / 2);
+    if (log) {
+      const li = document.createElement("li");
+      li.textContent = ev.kind === "cancel" ? `cancel #${ev.id}` : ev.kind === "limit" ? `${ev.side} ${ev.qty} @ ${ev.price}` : `market ${ev.side} ${ev.qty}` + (fills.length ? ` → ${fills.map((f) => `${f.qty}@${f.price}`).join(", ")}` : "");
+      if (fills.length) li.className = ev.side === "buy" ? "up" : "down";
+      tape.prepend(li);
+      while (tape.children.length > 12) tape.lastElementChild!.remove();
+    }
+  }
+  function render() {
+    stepOut.textContent = String(i);
+    const { bid, ask } = book.best();
+    bidOut.textContent = bid === null ? "–" : String(bid);
+    askOut.textContent = ask === null ? "–" : String(ask);
+    ntrades.textContent = String(trades);
+    const d = book.depth(8), max = Math.max(1, ...d.bids.map((l) => l[1]), ...d.asks.map((l) => l[1]));
+    const row = (b: [number, number] | null, a: [number, number] | null, p: number) =>
+      `<tr><td>${b ? `<span class="bar b" style="width:${(b[1] / max) * 100}%"></span>${b[1]}` : ""}</td><td class="p">${p}</td><td>${a ? `<span class="bar a" style="width:${(a[1] / max) * 100}%"></span>${a[1]}` : ""}</td></tr>`;
+    ladder.innerHTML = [...d.asks].reverse().map((a) => row(null, a, a[0])).join("") + d.bids.map((b) => row(b, null, b[0])).join("");
+    // mid-price sparkline
+    cx.clearRect(0, 0, canvas.width, canvas.height);
+    const recent = mids.slice(-WINDOW);
+    if (recent.length > 1) {
+      const lo = Math.min(...recent), hi = Math.max(...recent), W = canvas.width, H = canvas.height;
+      cx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--accent"); cx.lineWidth = 1.5; cx.beginPath();
+      recent.forEach((m, j) => { const x = (j / (WINDOW - 1)) * W, y = H - 10 - ((m - lo) / Math.max(hi - lo, 1)) * (H - 20); j ? cx.lineTo(x, y) : cx.moveTo(x, y); });
+      cx.stroke();
+    }
+  }
+  function tick() { for (let s = 0; s < Number(speed.value) / 10 + 1; s++) apply(); render(); }
+  function stop() { clearInterval(timer); timer = 0; play.textContent = "Play"; play.setAttribute("aria-pressed", "false"); }
+  play.addEventListener("click", () => {
+    if (timer) { stop(); return; }
+    timer = window.setInterval(tick, 100);
+    play.textContent = "Pause"; play.setAttribute("aria-pressed", "true");
+  });
+  stepBtn.addEventListener("click", () => { stop(); apply(); render(); });
+  seedIn.addEventListener("change", () => { stop(); tape.innerHTML = ""; reset(); });
+  document.addEventListener("themechange", render);
+  reset();
+</script>
+
+<style>
+  .replay { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+  .panel { min-width: 0; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 12px; }
+  .controls label { display: flex; gap: 8px; align-items: center; color: var(--muted); font-size: 0.9rem; }
+  input[type=number] { width: 5.5em; font: inherit; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 3px 6px; }
+  input[type=range] { accent-color: var(--accent); }
+  button { font: inherit; font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
+  button[aria-pressed=true] { border-color: var(--accent); }
+  .stats { display: flex; flex-wrap: wrap; gap: 6px 26px; margin: 0 0 12px; }
+  .stats div { display: flex; gap: 8px; align-items: baseline; }
+  .stats dt { font: 0.8rem ui-monospace, Menlo, monospace; color: var(--muted); }
+  .stats dd { margin: 0; font: 600 1rem ui-monospace, Menlo, monospace; }
+  .ladder { width: 100%; border-collapse: collapse; font: 0.88rem ui-monospace, Menlo, monospace; table-layout: fixed; }
+  .ladder th { color: var(--muted); font-weight: 400; font-size: 0.78rem; text-align: center; padding-bottom: 4px; }
+  .ladder :global(td) { position: relative; padding: 3px 8px; text-align: center; border-top: 1px solid var(--line); }
+  .ladder :global(td.p) { color: var(--ink); }
+  .ladder :global(.bar) { position: absolute; top: 3px; bottom: 3px; opacity: 0.28; z-index: -1; }
+  .ladder :global(.bar.b) { right: 0; background: var(--up); }
+  .ladder :global(.bar.a) { left: 0; background: var(--down); }
+  .ladder :global(tbody) { position: relative; z-index: 0; }
+  canvas { width: 100%; height: auto; background: var(--bg-2); border-radius: 8px; }
+  .tape { list-style: none; padding: 0; margin: 10px 0 0; font: 0.85rem ui-monospace, Menlo, monospace; color: var(--muted); min-height: 14em; }
+  .tape :global(li.up) { color: var(--up); } .tape :global(li.down) { color: var(--down); }
+  @media (max-width: 760px) { .replay { grid-template-columns: 1fr; } }
+</style>

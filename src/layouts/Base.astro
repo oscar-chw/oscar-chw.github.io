@@ -1,0 +1,99 @@
+---
+import { Font } from "astro:assets";
+import "../styles/global.css";
+import { SITE } from "../data/site";
+import { url } from "../lib/url";
+
+interface Props { title?: string; description?: string; wide?: boolean }
+const { title, description = SITE.description } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · quant research infrastructure`;
+const canonical = new URL(Astro.url.pathname, SITE.site).href;
+const nav = [
+  ["Work", "/projects/"],
+  ["Demos", "/demos/"],
+  ["About", "/about/"],
+  ["CV", "/cv/"],
+] as const;
+const here = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(url("/og.png"), SITE.site).href} />
+    <meta name="theme-color" content="#0a1022" />
+    {import.meta.env.BASE_URL !== "/" && <meta name="robots" content="noindex" />}
+    <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={url("/sitemap-index.xml")} />
+    <Font cssVariable="--font-sans" preload />
+    <script is:inline>
+      // Before first paint, so a light-theme reader never sees a dark flash.
+      try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href={url("/")} aria-label="Oscar Choi, home">Oscar Choi</a>
+      <nav aria-label="Primary">
+        <ul>
+          {nav.map(([label, path]) => (
+            <li><a href={url(path)} aria-current={here.startsWith(url(path)) ? "page" : undefined}>{label}</a></li>
+          ))}
+        </ul>
+      </nav>
+      <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+      </button>
+    </header>
+    <main id="content" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer wrap">
+      <p class="comment">built with Astro · static · no tracking</p>
+      <ul>
+        <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        <li><a href={SITE.github}>GitHub</a></li>
+        <li><a href={SITE.linkedin}>LinkedIn</a></li>
+        <li><a href={url("/card/")}>Contact card</a></li>
+      </ul>
+    </footer>
+    <script is:inline>
+      document.querySelector(".theme").addEventListener("click", () => {
+        const r = document.documentElement, next = r.dataset.theme === "light" ? "dark" : "light";
+        r.dataset.theme = next;
+        try { localStorage.setItem("theme", next); } catch {}
+        document.dispatchEvent(new CustomEvent("themechange"));
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .site-header { display: flex; align-items: center; gap: 24px; padding-block: 18px; }
+  .brand { color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; margin-right: auto; }
+  nav ul, .site-footer ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding-block: 6px; }
+  nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
+  nav a[aria-current="page"] { box-shadow: inset 0 -2px var(--accent); }
+  .theme { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 50%; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; }
+  .theme:hover { color: var(--ink); }
+  main { outline: none; }
+  .site-footer { border-top: 1px solid var(--line); margin-top: 96px; padding-block: 28px 40px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; align-items: baseline; }
+  .site-footer p { margin: 0; }
+  .site-footer a { color: var(--muted); font-size: 0.92rem; }
+  @media (max-width: 560px) {
+    .site-header { flex-wrap: wrap; gap: 10px 18px; }
+    nav { order: 3; width: 100%; }
+  }
+  @media print { .site-header, .site-footer, .skip { display: none; } }
+</style>

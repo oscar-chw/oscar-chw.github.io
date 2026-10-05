@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Harbour from "../components/harbour/Harbour.astro";
+import { SITE } from "../data/site";
+import { url } from "../lib/url";
+
+const featured = (await getCollection("projects")).filter((p) => p.data.featured).sort((a, b) => a.data.order - b.data.order);
+---
+<Base>
+  <div class="hero">
+    <Harbour />
+  </div>
+  <section class="wrap intro">
+    <h1>Oscar Choi</h1>
+    <p class="lede measure">Computer Science at CUHK, graduating 2027. I build quant research infrastructure and AI tools for research. I'm looking for quant developer, quant research, trading, software engineering and full-stack roles.</p>
+    <ul class="contact">
+      <li><a href={url("/cv/")}>CV</a></li>
+      <li><a href={SITE.github}>GitHub</a></li>
+      <li><a href={SITE.linkedin}>LinkedIn</a></li>
+      <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+    </ul>
+  </section>
+  <section class="wrap" aria-labelledby="featured-h">
+    <h2 id="featured-h">Selected work</h2>
+    <ol class="featured">
+      {featured.map((p) => (
+        <li>
+          <a href={url(`/projects/${p.id}/`)}><span class="t">{p.data.title}</span></a>
+          <p>{p.data.summary}</p>
+          {p.data.metrics[0] && <p class="fig"><span>{p.data.metrics[0].value}</span> {p.data.metrics[0].label}</p>}
+        </li>
+      ))}
+    </ol>
+    <p class="more"><a href={url("/projects/")}>All eleven projects</a><a href={url("/demos/")}>Interactive demos</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero { width: min(100% - 32px, 1440px); margin: 8px auto 0; }
+  .intro { padding-top: 40px; }
+  .lede { font-size: 1.22rem; }
+  .contact { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 1.2rem 0 0; }
+  .featured { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); column-gap: 48px; }
+  .featured li { border-top: 1px solid var(--line); padding: 18px 0 20px; }
+  .featured a { text-decoration: none; }
+  .t { font-weight: 600; font-size: 1.12rem; color: var(--ink); }
+  .featured a:hover .t { color: var(--accent); }
+  .featured p { color: var(--muted); margin: 6px 0 0; font-size: 0.97rem; }
+  .more { display: flex; gap: 26px; }
+  .fig span { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
+</style>

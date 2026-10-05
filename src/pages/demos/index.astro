@@ -1,0 +1,28 @@
+---
+import Base from "../../layouts/Base.astro";
+import { url } from "../../lib/url";
+const demos = [
+  ["/demos/fourier/", "Fourier portrait", "Up to 500 rotating circles redraw a line portrait. Change the number of circles, or draw your own shape and watch it get redrawn.", "photo → one closed path"],
+  ["/demos/order-book/", "Order-book replay", "A price-time-priority matching engine replays seeded order flow step by step: quotes, cancels and trades.", "SYNTHETIC order flow"],
+  ["/demos/reconciliation/", "Streaming reconciliation", "Peak memory for an in-memory reader and a streaming reader of the same 225,000 rows, with each reader's memory over time.", "SYNTHETIC benchmark, measured"],
+  ["/demos/harbour/", "The harbour", "The home-page harbour, full size: BTC history as a skyline, a platform race test as beams, and the live order book as the water.", "Binance public data"],
+] as const;
+---
+<Base title="Demos" description="Interactive demos by Oscar Choi. All run in your browser.">
+  <div class="wrap" style="padding-top:32px">
+    <h1>Demos</h1>
+    <p class="measure">Everything here runs in your browser with no server or tracking. Each demo states where its data comes from.</p>
+    <ul class="list">
+      {demos.map(([href, t, d, src]) => (
+        <li><a href={url(href)}>{t}</a><p>{d}</p><p class="comment">{src}</p></li>
+      ))}
+    </ul>
+  </div>
+</Base>
+<style>
+  .list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 0 40px; }
+  .list li { border-top: 1px solid var(--line); padding: 16px 0 18px; }
+  .list a { font-weight: 600; font-size: 1.08rem; color: var(--ink); text-decoration: none; }
+  .list a:hover { color: var(--accent); }
+  .list p { color: var(--muted); margin: 6px 0 0; }
+</style>

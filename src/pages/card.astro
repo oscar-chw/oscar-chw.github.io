@@ -1,0 +1,64 @@
+---
+// Career-fair card: prints on one A4/Letter page. QR codes are generated at build
+// time from SITE, so buying a domain only means changing SITE.site.
+import QRCode from "qrcode";
+import { Picture } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import photo from "../assets/profile_photo.jpg";
+import { SITE } from "../data/site";
+
+const qr = (text: string) => QRCode.toString(text, { type: "svg", margin: 1, errorCorrectionLevel: "M", color: { dark: "#0a1022", light: "#ffffff" } });
+const codes = [
+  { label: "Website", text: SITE.site, shown: SITE.site.replace("https://", "") },
+  { label: "LinkedIn", text: SITE.linkedin, shown: "linkedin.com/in/oscar-chw" },
+];
+const svgs = await Promise.all(codes.map((c) => qr(c.text)));
+const dataUri = (svg: string) => "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64");
+---
+<Base title="Contact card" description="Oscar Choi's contact card with QR codes for the website and LinkedIn.">
+  <div class="wrap">
+    <article class="card">
+      <div class="who">
+        <Picture src={photo} alt="" width={120} height={120} formats={["avif", "webp"]} class="photo" />
+        <div>
+          <h1>Oscar Choi</h1>
+          <p>{SITE.fullName}</p>
+          <p class="role">Computer Science, CUHK · graduating 2027</p>
+          <p class="role">Quant developer · quant research · trading · software engineering</p>
+          <p class="mail">{SITE.email}</p>
+        </div>
+      </div>
+      <div class="codes">
+        {codes.map((c, i) => (
+          <figure>
+            <img src={dataUri(svgs[i])} width="148" height="148" alt={`QR code: ${c.text}`} />
+            <figcaption><strong>{c.label}</strong><span>{c.shown}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </article>
+    <p class="actions"><button type="button" onclick="window.print()">Print this card</button></p>
+  </div>
+</Base>
+
+<style>
+  .wrap { padding-top: 32px; }
+  .card { background: #fff; color: #0a1022; border-radius: 12px; padding: 28px; max-width: 720px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; box-shadow: var(--shadow); }
+  .who { display: flex; gap: 20px; align-items: center; }
+  .photo { border-radius: 50%; width: 96px; height: 96px; object-fit: cover; }
+  h1 { font-size: 1.9rem; margin: 0; color: #0a1022; }
+  .card p { margin: 2px 0; }
+  .role { color: #44586b; font-size: 0.92rem; }
+  .mail { font-family: ui-monospace, Menlo, monospace; font-size: 0.9rem; color: #08665e; }
+  .codes { display: flex; gap: 22px; }
+  figure { margin: 0; text-align: center; }
+  figcaption { display: flex; flex-direction: column; font-size: 0.8rem; color: #44586b; }
+  figcaption strong { color: #0a1022; }
+  button { font: inherit; background: none; color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  @media print {
+    @page { margin: 12mm; }
+    :global(body) { background: #fff; }
+    .card { box-shadow: none; border: 1px solid #c3d2db; }
+    .actions { display: none; }
+  }
+</style>

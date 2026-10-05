@@ -1,0 +1,46 @@
+---
+title: IMC Prosperity 4
+summary: Team SHDC placed in the top 5% of IMC's global trading competition. I coded the final two rounds and wrote the lessons-learned review.
+order: 5
+featured: true
+group: Competitions
+role: Team of 3; coded the final two rounds
+period: "2026"
+stack: [Python, Kalman filter, Ornstein–Uhlenbeck models]
+metrics:
+  - { value: "top 5%", label: "globally: 904th of 18,803 teams" }
+  - { value: "18th", label: "in Hong Kong" }
+links:
+  - { label: "Lessons-learned write-up: imc-prosperity-4-shdc", href: "https://github.com/oscar-chw/imc-prosperity-4-shdc" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+IMC Prosperity is a multi-round algorithmic and manual trading competition. Each round adds new products, and each needs its own fair value, its own risk, and its own decision about when a signal is real. We were a team of 3: my teammates coded the early rounds and I coded the final two.
+
+## What I built
+
+- **Kalman/OU fair values for market making.** A Kalman filter replaced a fixed-window drift gate, so a drift signal is used only when its slope is clearly away from zero.
+- **A gated one-lot relative-value trade** across a product family, capped at one lot and run beside market making on a subset of products.
+- **The team's results check**, plus a round-by-round review against nine public write-ups from teams placed 2nd to 583rd.
+
+## Result
+
+Top 5% globally (904th of 18,803 teams) and 18th in Hong Kong.
+
+## How it works
+
+<Flow title="Lessons-learned review" caption="one template per round, so rounds compare like for like" steps={[
+  { label: "Round records", note: "one template each" },
+  { label: "Top-team ideas", note: "idea by idea" },
+  { label: "Lessons", note: "from our records", accent: "accent" },
+  { label: "Doc checker", note: "links, structure" },
+]} />
+
+The review names our main process mistake: we used a fast local replay as our filter but never set a go/no-go rule for it. It also records a costed decision. My teammates priced delta-hedging the vouchers and rejected it.
+
+## Limits
+
+- The team's competition code is unpublished, so the strategy is described rather than shown.
+- Local backtests are not official scores and may overstate them.

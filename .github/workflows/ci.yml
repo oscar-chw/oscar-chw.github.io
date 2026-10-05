@@ -1,0 +1,37 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main, v2]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx astro check
+      - run: npm run test:unit
+      - run: npm run build
+      - name: JS budget (<= 50 KB gz on non-demo pages)
+        run: node scripts/js-budget.mjs
+      - name: Never-publish scan (built-in rules; the private denylist runs locally)
+        run: node scripts/scan-content.mjs
+      - name: Link check (internal and external)
+        run: node scripts/link-check.mjs dist --external
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Browser tests (Chromium and WebKit)
+        run: npx playwright test
+      - name: Lighthouse CI (>= 0.95 in every category)
+        run: npx lhci autorun
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            playwright-report/
+            test-results/
+            .lighthouseci/

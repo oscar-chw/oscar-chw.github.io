@@ -1,0 +1,11 @@
+---
+import Demo from "../../layouts/Demo.astro";
+import Harbour from "../../components/harbour/Harbour.astro";
+---
+<Demo title="The harbour" description="Victoria Harbour, drawn from data. Every building, window, beam and ripple is a number.">
+  <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. The badge in the corner says whether the water shows the live order book or a snapshot.</Fragment>
+  <Harbour />
+  <Fragment slot="source">
+    <strong>Data:</strong> Binance public market data. The skyline uses BTC/USDT daily closes from 2020. The water uses the live <code>btcusdt@depth20@100ms</code> stream; if that is blocked, it falls back to a REST snapshot from <code>data-api.binance.vision</code>, and failing that to a snapshot bundled with this site (taken 5 Oct 2026). The beams show the QTS data platform's race test. The browser connects to Binance directly; no key, no server.
+  </Fragment>
+</Demo>

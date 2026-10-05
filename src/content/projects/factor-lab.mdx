@@ -1,0 +1,47 @@
+---
+title: Factor Lab
+summary: Compared momentum and reversal with lagged prices and Spearman rank IC, chose on validation data only, then built portfolios under risk and position limits by solving a convex optimization.
+order: 8
+group: Quant research
+role: Designer and sole author
+partOf: point-in-time-research
+stack: [Python, convex optimization]
+links:
+  - { label: "Package: asof-research/packages/factor", href: "https://github.com/oscar-chw/asof-research/tree/main/packages/factor" }
+---
+import Flow from "../../components/Flow.astro";
+
+## The problem
+
+Factor research fails quietly in three places: using prices before they were available, choosing a factor after peeking at the test window, and building portfolios that ignore turnover and limits. The Factor Lab rules out each of those mistakes by construction, not by discipline.
+
+## What I built
+
+- **Momentum vs reversal on lagged prices**, scored by Spearman rank IC on fixed train, validation and test dates.
+- **Selection on validation only.** Test labels never enter selection, and only the chosen factor is scored, once, on the held-out test.
+- **Portfolio construction as a convex optimization**: weights under risk and position limits with a turnover cost, checked against hand-solved cases.
+- **Append-only, hashed trials.** Failed runs are kept, and any trial can be verified and recomputed later.
+
+## Result
+
+On synthetic data: the optimizer is checked against hand-solved cases, and every trial can be recomputed from its hashes.
+
+## How it works
+
+<Flow title="Factor lab" caption="availability clocks are supplied, or an assumed delay is declared" steps={[
+  { label: "Price CSV", note: "explicit mapping" },
+  { label: "Prepare", note: "point-in-time panel" },
+  { label: "Score", note: "rank IC, lagged" },
+  { label: "Select", note: "validation only", accent: "accent" },
+  { label: "Optimize", note: "limits, turnover", accent: "amber" },
+]} />
+
+- **No guessing of timestamps or columns.** Unknown or conflicting rows are refused.
+- **The report states its clock**: whether availability times were supplied or an assumed delay was declared.
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
+
+## Limits
+
+- Synthetic data, with no corporate-action, calendar or survivorship corrections.
+- Execution is idealized, and no significance claims are made.

@@ -1,0 +1,25 @@
+---
+import Base from "./Base.astro";
+import { url } from "../lib/url";
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+---
+<Base title={title} description={description}>
+  <div class="wrap demo">
+    <p class="comment"><a href={url("/demos/")}>demos</a> / {title.toLowerCase()}</p>
+    <h1>{title}</h1>
+    <p class="measure lede">{description}</p>
+    <div class="how" data-testid="instructions"><slot name="instructions" /></div>
+    <slot />
+    <aside class="source measure" data-testid="data-source"><slot name="source" /></aside>
+  </div>
+</Base>
+<style>
+  .demo { padding-top: 32px; }
+  .comment a { color: inherit; }
+  .lede { font-size: 1.12rem; }
+  .how { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.2rem; max-width: 68ch; }
+  .how :global(kbd) { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
+  .source { margin-top: 2rem; border-left: 2px solid var(--amber); padding: 4px 0 4px 14px; color: var(--muted); font-size: 0.92rem; }
+  .source :global(strong) { color: var(--ink); }
+</style>

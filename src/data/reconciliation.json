@@ -1,0 +1,26 @@
+{
+ "data": "SYNTHETIC",
+ "source": "github.com/oscar-chw/streaming-reconciliation, results/resource-gate-2026-10-05.json (seven alternating pairs) and results/measure-2026-10-05.json",
+ "rows": 225000,
+ "baseline": {
+  "seconds": 3.358,
+  "peakMB": 683.8
+ },
+ "streaming": {
+  "seconds": 2.96,
+  "peakMB": 27.5,
+  "tempMB": 22.5
+ },
+ "scale": [
+  {
+   "rows": 22500,
+   "baseline": 90.0,
+   "streaming": 28.1
+  },
+  {
+   "rows": 225000,
+   "baseline": 684.9,
+   "streaming": 27.6
+  }
+ ]
+}

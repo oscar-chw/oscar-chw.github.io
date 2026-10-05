@@ -1,0 +1,59 @@
+// Gate: nothing on the "never publish" list reaches the built site or its sources.
+// Named failures: a phone number, student ID, GPA, a second email address, a
+// withheld result (Kaggle rank, alpha-gp-lab test IC, the asof 0-of-120 study,
+// the researcher-only FYP figures), or any term from the private denylist(s).
+//
+// SCAN_DENYLIST: colon-separated regex files kept outside this repo (one
+// case-insensitive regex per line). If the variable names a file that does
+// not exist, the scan FAILS rather than silently skipping it.
+import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
+import { join, relative } from "node:path";
+
+const TARGETS = ["dist", "src", "public"];
+const BUILTIN = {
+  "phone (HK)": /(?:\+?852[\s-]?)?\b[2-9]\d{3}[\s-]?\d{4}\b(?![\s-]?\d)/,
+  "student id": /\b1155\d{6}\b/,
+  "gpa": /\bGPA\b|\bcGPA\b/i,
+  "kaggle rank": /2,043|\b2043(?:rd)?\b/,
+  "alpha-gp-lab test IC": /0\.082|\bt\s*0\.22\b/,
+  "asof 0-of-120": /\b0[- ]of[- ]120\b|120 hypotheses/i,
+  "researcher-only FYP": /32% violated|fine-tuned 4B/i,
+  "business minor": /business minor|minor in business/i,
+};
+const ALLOWED_EMAIL = /^(choiheiwang@gmail\.com|\d+\+oscar-chw@users\.noreply\.github\.com)$/i;
+
+const extra = [];
+for (const f of (process.env.SCAN_DENYLIST ?? "").split(":").filter(Boolean)) {
+  if (!existsSync(f)) { console.error(`scan-content: denylist ${f} not found`); process.exit(1); }
+  readFileSync(f, "utf8").split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#"))
+    .forEach((p, i) => extra.push([`denylist ${f.split("/").pop()}#${i + 1}`, new RegExp(p, "i")]));
+}
+
+const walk = (d) => readdirSync(d).flatMap((f) => {
+  const p = join(d, f);
+  return statSync(p).isDirectory() ? walk(p) : [p];
+});
+const files = TARGETS.filter(existsSync).flatMap(walk).filter((p) => /\.(html|md|mdx|astro|ts|js|json|txt|xml|svg)$/.test(p));
+if (!files.some((f) => f.startsWith("dist/"))) { console.error("scan-content: no built site in dist/; build first"); process.exit(1); }
+
+// Visible text only for HTML, so numbers inside inline data/scripts do not trip the phone rule.
+const visible = (html) => html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, " ").replace(/<[^>]+>/g, " ");
+
+let bad = 0;
+for (const f of files) {
+  const raw = readFileSync(f, "utf8");
+  const text = f.endsWith(".html") ? visible(raw) : raw;
+  const lines = text.split("\n");
+  const isCode = /\.(ts|js|json|svg)$/.test(f) || f.startsWith("dist/") && !f.endsWith(".html");
+  lines.forEach((line, i) => {
+    for (const [kind, re] of [...Object.entries(BUILTIN), ...extra]) {
+      if (kind === "phone (HK)" && isCode) continue;        // numeric data arrays are not phone numbers
+      if (re.test(line)) { console.error(`FAIL ${relative(".", f)}:${i + 1}: ${kind}`); bad++; }
+    }
+    for (const m of line.matchAll(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g)) {
+      if (!ALLOWED_EMAIL.test(m[0]) && !/@(?:astrojs|example)\./.test(m[0])) { console.error(`FAIL ${relative(".", f)}:${i + 1}: email ${m[0].replace(/^[^@]+/, "***")}`); bad++; }
+    }
+  });
+}
+if (bad) { console.error(`scan-content: ${bad} finding(s)`); process.exit(1); }
+console.log(`scan-content: OK (${files.length} files, ${extra.length} denylist terms)`);
