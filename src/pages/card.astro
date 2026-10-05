@@ -54,10 +54,11 @@ const dataUri = (svg: string) => "data:image/svg+xml;base64," + Buffer.from(svg)
   figure { margin: 0; text-align: center; }
   figcaption { display: flex; flex-direction: column; font-size: 0.8rem; color: #44586b; }
   figcaption strong { color: #0a1022; }
+  .actions { margin-top: 18px; }
   button { font: inherit; background: none; color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
   @media print {
     @page { margin: 12mm; }
-    :global(body) { background: #fff; }
+    :global(html), :global(body) { background: #fff !important; color-scheme: light !important; }
     .card { box-shadow: none; border: 1px solid #c3d2db; }
     .actions { display: none; }
   }
