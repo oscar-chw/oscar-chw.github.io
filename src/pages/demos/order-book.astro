@@ -60,7 +60,7 @@ import Demo from "../../layouts/Demo.astro";
     if (log) {
       const li = document.createElement("li");
       li.textContent = ev.kind === "cancel" ? `cancel #${ev.id}` : ev.kind === "limit" ? `${ev.side} ${ev.qty} @ ${ev.price}` : `market ${ev.side} ${ev.qty}` + (fills.length ? ` → ${fills.map((f) => `${f.qty}@${f.price}`).join(", ")}` : "");
-      if (fills.length) li.className = ev.side === "buy" ? "up" : "down";
+      if (fills.length) li.className = fills[0].side === "buy" ? "up" : "down";
       tape.prepend(li);
       while (tape.children.length > 12) tape.lastElementChild!.remove();
     }
