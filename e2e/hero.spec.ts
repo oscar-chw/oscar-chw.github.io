@@ -141,3 +141,21 @@ test("Tab moves from the harbour into the read-out's link", async ({ page, brows
   await expect(tip.getByRole("link")).toBeFocused();
   await expect(tip).toBeVisible();
 });
+
+test("a page opened in a hidden tab says paused, then goes live when shown", async ({ page }) => {
+  await page.routeWebSocket(WS, (ws) => {
+    let m = 60000;
+    const t = setInterval(() => { try { ws.send(JSON.stringify(depth(m++))); } catch { clearInterval(t); } }, 20);
+  });
+  await page.addInitScript(() => {
+    (window as unknown as { __hidden: boolean }).__hidden = true;
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => (window as unknown as { __hidden: boolean }).__hidden });
+    Object.defineProperty(document, "visibilityState", { configurable: true, get: () => ((window as unknown as { __hidden: boolean }).__hidden ? "hidden" : "visible") });
+  });
+  await page.goto("/");
+  await expect(page.getByTestId("book-badge")).toHaveText(/paused/i, { timeout: 8000 });
+  await page.waitForTimeout(800);
+  await expect(page.getByTestId("book-badge")).toHaveText(/paused/i);          // stays paused: no stream while hidden
+  await page.evaluate(() => { (window as unknown as { __hidden: boolean }).__hidden = false; document.dispatchEvent(new Event("visibilitychange")); });
+  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+});

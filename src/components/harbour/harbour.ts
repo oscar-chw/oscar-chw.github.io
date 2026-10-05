@@ -201,8 +201,10 @@ export async function mountHarbour(wrap: HTMLElement) {
   }
 
   function setBadge() {
-    badge.dataset.state = paused ? "paused" : state;
-    badge.textContent = paused ? "paused" : state === "live" ? "live · BTCUSDT" : state === "rest" ? `snapshot · ${restAt} UTC` : state === "fallback" ? "snapshot · 5 Oct 2026" : "connecting…";
+    // a stream stopped by the user, or by a hidden tab, says so instead of "connecting…" or a stale "live"
+    const idle = paused || (document.hidden && (state === "live" || state === "connecting"));
+    badge.dataset.state = idle ? "paused" : state;
+    badge.textContent = idle ? "paused" : state === "live" ? "live · BTCUSDT" : state === "rest" ? `snapshot · ${restAt} UTC` : state === "fallback" ? "snapshot · 5 Oct 2026" : "connecting…";
   }
 
   let pending: ReturnType<typeof setTimeout> | undefined;
@@ -227,6 +229,7 @@ export async function mountHarbour(wrap: HTMLElement) {
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) halt();
     else if (!paused && (state === "live" || state === "connecting")) start();
+    setBadge();
   });
   // WCAG 2.2.2: anything that updates by itself can be paused.
   pauseBtn.addEventListener("click", () => {
