@@ -1,7 +1,11 @@
 ---
 import Demo from "../../layouts/Demo.astro";
+const code = [
+  { label: "This demo's source", href: "https://github.com/oscar-chw/oscar-chw.github.io" },
+  { label: "The C++20 order-book replay (asof-research)", href: "https://github.com/oscar-chw/asof-research" },
+];
 ---
-<Demo title="Order-book replay" description="A limit order book with price-time priority, replaying seeded order flow one event at a time. Resting quotes queue at their price; aggressive orders take liquidity from the best price first.">
+<Demo code={code} title="Order-book replay" description="A limit order book with price-time priority, replaying seeded order flow one event at a time. Resting quotes queue at their price; aggressive orders take liquidity from the best price first.">
   <Fragment slot="instructions">Press <strong>Play</strong> to run the tape, or <strong>Step</strong> to apply one event at a time. Change the seed for a different session. Bids are green and asks are red; the bar length is the size resting at each price.</Fragment>
   <div class="replay">
     <div class="panel">

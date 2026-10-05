@@ -10,8 +10,12 @@ const x = (s: number) => L + (s / tMax) * (W - L - R);
 const y = (mb: number) => H - B - (mb / mMax) * (H - B - T);
 const xt = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5], yt = [0, 100, 200, 300, 400, 500, 600, 700];
 const fmt = (n: number) => n.toLocaleString("en-US");
+const code = [
+  { label: "streaming-reconciliation (code and measurements)", href: "https://github.com/oscar-chw/streaming-reconciliation" },
+  { label: "This demo's source", href: "https://github.com/oscar-chw/oscar-chw.github.io" },
+];
 ---
-<Demo title="Streaming reconciliation" description={`Two readers count the same ${fmt(r.rows)} trade rows exactly once. The in-memory reader holds the whole history; the streaming reader spills size-capped sorted runs to disk and merges them.`}>
+<Demo code={code} title="Streaming reconciliation" description={`Two readers count the same ${fmt(r.rows)} trade rows exactly once. The in-memory reader holds the whole history; the streaming reader spills size-capped sorted runs to disk and merges them.`}>
   <Fragment slot="instructions">Press <strong>Run both</strong> to replay the two readers side by side on their measured run times. The table below the chart gives the measured peaks at two input sizes.</Fragment>
 
   <figure class="chart">

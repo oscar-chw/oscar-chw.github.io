@@ -1,8 +1,9 @@
 ---
 import Base from "./Base.astro";
 import { url } from "../lib/url";
-interface Props { title: string; description: string }
-const { title, description } = Astro.props;
+import Icon from "../components/Icon.astro";
+interface Props { title: string; description: string; code?: { label: string; href: string }[] }
+const { title, description, code = [] } = Astro.props;
 ---
 <Base title={title} description={description}>
   <div class="wrap demo">
@@ -12,6 +13,11 @@ const { title, description } = Astro.props;
     <div class="how" data-testid="instructions"><slot name="instructions" /></div>
     <slot />
     <aside class="source measure" data-testid="data-source"><slot name="source" /></aside>
+    {code.length > 0 && (
+      <ul class="code" aria-label="Source code">
+        {code.map((c) => <li><a class="glass" href={c.href}><Icon name="github" size={16} />{c.label}<Icon name="arrow-up-right" size={14} /></a></li>)}
+      </ul>
+    )}
   </div>
 </Base>
 <style>
@@ -22,4 +28,7 @@ const { title, description } = Astro.props;
   .how :global(kbd) { border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; }
   .source { margin-top: 2rem; border-left: 2px solid var(--amber); padding: 4px 0 4px 14px; color: var(--muted); font-size: 0.92rem; }
   .source :global(strong) { color: var(--ink); }
+  .code { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .code a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 0.9rem; }
+  .code a:hover { border-color: var(--accent); }
 </style>

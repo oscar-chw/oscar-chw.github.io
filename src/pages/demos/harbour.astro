@@ -1,8 +1,12 @@
 ---
 import Demo from "../../layouts/Demo.astro";
 import Harbour from "../../components/harbour/Harbour.astro";
+const code = [
+  { label: "This demo's source", href: "https://github.com/oscar-chw/oscar-chw.github.io" },
+  { label: "The animated header on my GitHub profile", href: "https://github.com/oscar-chw/oscar-chw" },
+];
 ---
-<Demo title="The harbour" description="Victoria Harbour, drawn from data. Every building, window, beam and ripple is a number.">
+<Demo code={code} title="The harbour" description="Victoria Harbour, drawn from data. Every building, window, beam and ripple is a number.">
   <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. The badge in the corner says whether the water shows the live order book or a snapshot.</Fragment>
   <Harbour />
   <Fragment slot="source">

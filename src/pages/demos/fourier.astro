@@ -1,8 +1,13 @@
 ---
 import Demo from "../../layouts/Demo.astro";
+import Icon from "../../components/Icon.astro";
+const code = [
+  { label: "This demo's source", href: "https://github.com/oscar-chw/oscar-chw.github.io" },
+  { label: "The portrait on my GitHub profile", href: "https://github.com/oscar-chw/oscar-chw" },
+];
 ---
-<Demo title="Fourier portrait" description="A single closed line traced from my photo, redrawn by rotating circles. Each circle spins at a fixed speed; chained tip to tail, their sum draws the face.">
-  <Fragment slot="instructions">Move the slider to change how many circles are used. Fewer circles give a blurrier line, and the error figure shows by how much. Press <strong>Draw your own</strong>, then drag inside the frame to draw a shape; when you let go, circles redraw it.</Fragment>
+<Demo code={code} title="Fourier portrait" description="A single closed line traced from my photo, redrawn by rotating circles. Each circle spins at a fixed speed; chained tip to tail, their sum draws the face.">
+  <Fragment slot="instructions">Move the slider to change how many circles are used. Fewer circles give a blurrier line, and the error figure shows by how much. Press <strong>Draw your own</strong> and drag inside the frame, or <strong>Use your own photo</strong>: its outlines are traced and redrawn by circles.</Fragment>
   <div class="fourier">
     <canvas data-testid="fourier-canvas" width="800" height="800" aria-label="Fourier drawing canvas" data-state="idle"></canvas>
     <div class="controls">
@@ -11,10 +16,12 @@ import Demo from "../../layouts/Demo.astro";
       <p class="readout">RMS error <span data-testid="fourier-error" data-value="" data-source="portrait">computing…</span> px</p>
       <div class="buttons">
         <button type="button" data-testid="fourier-pause" aria-pressed="false">Pause</button>
-        <button type="button" data-testid="fourier-draw">Draw your own</button>
+        <button type="button" data-testid="fourier-draw"><Icon name="pencil" size={15} />Draw your own</button>
+        <label class="upload"><Icon name="image-up" size={15} />Use your own photo<input type="file" accept="image/*" data-testid="fourier-upload" /></label>
         <button type="button" data-testid="fourier-reset">Back to the portrait</button>
       </div>
       <p class="comment hint" aria-live="polite"></p>
+      <p class="privacy" data-testid="privacy-note"><Icon name="shield-check" size={15} />Your photo stays on your device. It is traced inside this page, never uploaded, never saved, and gone when you leave.</p>
     </div>
   </div>
   <Fragment slot="source">
@@ -25,6 +32,7 @@ import Demo from "../../layouts/Demo.astro";
 <script>
   import { dft, evaluate, rmsError, resample, centre, type Pt, type Term } from "../../lib/fourier";
   import portrait from "../../data/portrait-path.json";
+  import { toGray, edges, tour, resampleTour } from "../../lib/trace";
 
   const canvas = document.querySelector<HTMLCanvasElement>("[data-testid=fourier-canvas]")!;
   const cx = canvas.getContext("2d")!;
@@ -36,7 +44,7 @@ import Demo from "../../layouts/Demo.astro";
   const S = 800;
 
   let pts: Pt[] = [], pen: number[] = [], terms: Term[] = [], c: Pt = [0, 0], recon: Pt[] = [];
-  let k = Number(slider.value), t0 = performance.now(), raf = 0, mode: "portrait" | "drawn" = "portrait";
+  let k = Number(slider.value), t0 = performance.now(), raf = 0, mode: "portrait" | "drawn" | "photo" = "portrait";
   let pausedAt: number | null = null;
   const pauseBtn = document.querySelector<HTMLButtonElement>("[data-testid=fourier-pause]")!;
   const setPaused = (p: boolean) => { pausedAt = p ? performance.now() : null; pauseBtn.setAttribute("aria-pressed", String(p)); pauseBtn.textContent = p ? "Resume" : "Pause"; };
@@ -47,7 +55,7 @@ import Demo from "../../layouts/Demo.astro";
     else setPaused(false);
   });
 
-  function load(p: Pt[], penUp: number[], src: "portrait" | "drawn") {
+  function load(p: Pt[], penUp: number[], src: "portrait" | "drawn" | "photo") {
     pts = p; pen = penUp; mode = src; c = centre(p); terms = dft(p);
     slider.max = String(Math.min(500, terms.length));
     k = Math.min(Number(slider.value), terms.length);
@@ -116,6 +124,30 @@ import Demo from "../../layouts/Demo.astro";
   });
 
   // the transform takes a moment on slow phones; let the page paint first
+  // your own photo: decoded and traced in this page only (no network); the file object is dropped afterwards
+  const upload = document.querySelector<HTMLInputElement>("[data-testid=fourier-upload]")!;
+  upload.addEventListener("change", async () => {
+    const file = upload.files?.[0];
+    upload.value = "";
+    if (!file) return;
+    hint.textContent = "tracing your photo…";
+    try {
+      const bmp = await createImageBitmap(file);
+      const scale = Math.min(1, 320 / Math.max(bmp.width, bmp.height)), w = Math.max(8, Math.round(bmp.width * scale)), h = Math.max(8, Math.round(bmp.height * scale));
+      const off = document.createElement("canvas"); off.width = w; off.height = h;
+      const ox = off.getContext("2d", { willReadFrequently: true })!; ox.drawImage(bmp, 0, 0, w, h); bmp.close();
+      const pts = edges(toGray(ox.getImageData(0, 0, w, h).data, w, h));
+      if (pts.length < 20) { hint.textContent = "that photo has too few outlines to trace; try one with a clear subject"; return; }
+      const { path, pen } = tour(pts), r = resampleTour(path, pen, 1024);
+      const fit = 680 / Math.max(w, h), dx = (800 - w * fit) / 2, dy = (800 - h * fit) / 2;
+      drawing = false; canvas.classList.remove("armed");
+      load(r.pts.map(([x, y]) => [dx + x * fit, dy + y * fit] as Pt), r.pen, "photo");
+      hint.textContent = "traced in your browser; move the slider to change how many circles";
+    } catch {
+      hint.textContent = "that file could not be read as an image";
+    }
+  });
+
   setTimeout(() => load(portrait.pts as Pt[], portrait.pen, "portrait"), 30);
 </script>
 
@@ -129,6 +161,13 @@ import Demo from "../../layouts/Demo.astro";
   .readout { font-family: ui-monospace, Menlo, monospace; color: var(--muted); }
   .readout span { color: var(--ink); }
   .hint:empty { display: none; }
+  .buttons button, .upload { display: inline-flex; align-items: center; gap: 7px; }
+  .upload { font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+  .upload:hover, .upload:focus-within { border-color: var(--accent); }
+  .upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .upload:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .privacy { display: flex; gap: 8px; align-items: flex-start; font-size: 0.85rem; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+  .privacy :global(svg) { color: var(--up); flex: none; margin-top: 2px; }
   .buttons { display: flex; flex-wrap: wrap; gap: 10px; }
   button { font: inherit; font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
   button:hover { border-color: var(--accent); }

@@ -87,3 +87,16 @@ test("fourier: the drawing animation can be paused", async ({ page }) => {
   await page.waitForTimeout(600);
   expect(await canvas.evaluate((c: HTMLCanvasElement) => c.toDataURL())).not.toBe(a);
 });
+
+test("fourier: your own photo is traced in the browser and never sent anywhere", async ({ page }) => {
+  const sharp = (await import("sharp")).default;
+  const png = await sharp(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><rect width="160" height="160" fill="#000"/><circle cx="80" cy="80" r="50" fill="#fff"/><rect x="30" y="20" width="30" height="30" fill="#fff"/></svg>')).png().toBuffer();
+  await page.goto("/demos/fourier/");
+  await expect(page.getByTestId("privacy-note")).toContainText("never uploaded");
+  await expect(page.getByTestId("fourier-error")).toHaveAttribute("data-value", /\d/);
+  const requests: string[] = [];
+  page.on("request", (r) => requests.push(r.url()));
+  await page.getByTestId("fourier-upload").setInputFiles({ name: "me.png", mimeType: "image/png", buffer: png });
+  await expect(page.getByTestId("fourier-error")).toHaveAttribute("data-source", "photo", { timeout: 10000 });
+  expect(requests).toEqual([]);                       // nothing at all left the page while tracing
+});
