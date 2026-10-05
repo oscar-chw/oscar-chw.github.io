@@ -54,7 +54,8 @@ const visible = (html) => {
 let bad = 0;
 for (const f of files) {
   const raw = readFileSync(f, "utf8");
-  const text = f.endsWith(".html") ? visible(raw) : raw;
+  // embedded data: URIs (images, filter maps) are encoded bytes, not prose; their digit runs are not phone numbers
+  const text = (f.endsWith(".html") ? visible(raw) : raw).replace(/data:[^"')\s]+/g, "data:…");
   const lines = text.split("\n");
   const isCode = /\.(ts|js|json|svg)$/.test(f) || f.startsWith("dist/") && !f.endsWith(".html");
   lines.forEach((line, i) => {

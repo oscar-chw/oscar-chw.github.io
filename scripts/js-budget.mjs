@@ -10,7 +10,7 @@ import { gzipSync } from "node:zlib";
 
 const DIST = process.argv[2] ?? "dist";
 const BUDGET = 50 * 1024;
-const INLINE_TEXT_BUDGET = 1536;   // theme script + the command palette
+const INLINE_TEXT_BUDGET = 1536;   // theme script + the console stub (the console itself loads on use)
 const ALLOWED_INLINE = new Set(["theme", "palette", "print"]);
 
 if (!existsSync(DIST)) { console.error(`js-budget: ${DIST}/ does not exist; build first`); process.exit(1); }

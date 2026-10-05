@@ -92,3 +92,23 @@ test("command palette: / opens it, typing filters, Enter navigates, Escape close
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Command palette" })).toBeHidden();
 });
+
+test("typing in the top bar opens the console; commands answer, unknown ones say so", async ({ page }) => {
+  await page.goto("/projects/");
+  await page.locator("[data-term]").click();
+  await page.keyboard.type("whoami");
+  const dialog = page.getByRole("dialog", { name: "Command palette" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator(".pq")).toHaveValue(/whoami$/);
+  await page.keyboard.press("Enter");
+  await expect(dialog.locator(".po")).toContainText("open to work");
+  await dialog.locator(".pq").fill("rm -rf /");
+  await page.keyboard.press("Enter");
+  await expect(dialog.locator(".po")).toContainText("permission denied");
+  await dialog.locator(".pq").fill("xyzzy");
+  await page.keyboard.press("Enter");
+  await expect(dialog.locator(".po")).toContainText("command not found");
+  await dialog.locator(".pq").fill("cd factor");
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/projects\/factor-lab\/$/);
+});

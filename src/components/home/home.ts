@@ -225,3 +225,16 @@ for (const m of document.querySelectorAll<HTMLElement>("[data-manifesto]")) {
   addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
   update();
 }
+
+// ---------- easter eggs: the Konami code lights up the harbour; a note for whoever opens devtools ----------
+const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+let kpos = 0;
+addEventListener("keydown", (e) => {
+  kpos = e.key === KONAMI[kpos] ? kpos + 1 : e.key === KONAMI[0] ? 1 : 0;
+  if (kpos === KONAMI.length) { kpos = 0; document.documentElement.classList.toggle("lights"); }
+});
+console.log(
+  "%c oscar@chw:~$ %c you opened devtools. we should talk: choiheiwang@gmail.com\n(try typing `sudo hire oscar` in the console on the page, or the Konami code)",
+  "background:#6ee6d7;color:#05070c;font-family:monospace;padding:2px 4px",
+  "color:#8b9aaa;font-family:monospace",
+);

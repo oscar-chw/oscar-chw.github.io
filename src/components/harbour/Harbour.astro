@@ -58,6 +58,12 @@ const { legend = true } = Astro.props;
   @keyframes flick { 0%, 88%, 100% { opacity: 0; } 92%, 96% { opacity: 0.95; } }
   @keyframes ping { 0% { transform: scale(1); opacity: 0.85; } 100% { transform: scale(5); opacity: 0; } }
   :global(html[data-paused]) .life :global(*) { animation-play-state: paused; }
+  /* easter egg: "lights" in the console, or the Konami code, starts a Symphony of Lights */
+  :global(html.lights) .life :global(.pkt) { animation-duration: 0.7s !important; stroke-width: 3; filter: drop-shadow(0 0 6px currentColor); }
+  :global(html.lights) .life :global(.pkt.r) { color: #6ee6d7; } :global(html.lights) .life :global(.pkt.w) { color: #ffbe78; }
+  :global(html.lights) .life :global(.roofline) { animation: draw 0s forwards, glow 1.2s ease-in-out infinite alternate; }
+  :global(html.lights) .life :global(.win) { animation-duration: 1.4s !important; fill: #ffe9b0; }
+  @keyframes glow { from { stroke: #aaf0e6; } to { stroke: #ffbe78; } }
   @media (prefers-reduced-motion: reduce) { .life :global(.roofline) { stroke-dashoffset: 0; } .life :global(.pkt), .life :global(.win), .life :global(.ping) { display: none; } }
   .xh, .xv { position: absolute; pointer-events: none; z-index: 1; }
   .xh { left: 0; right: 0; top: 0; height: 0; border-top: 1px dashed rgb(110 230 215 / 0.55); }

@@ -81,7 +81,7 @@ const demos = [
     </div>
     <div class="panels">
       {story.map((p, i) => (
-        <article class="panel" role="tabpanel" id={`bp-${i}`} aria-labelledby={`bt-${i}`} data-panel data-active={i === 0 ? "" : undefined}>
+        <div class="panel" role="tabpanel" id={`bp-${i}`} aria-labelledby={`bt-${i}`} data-panel data-active={i === 0 ? "" : undefined}>
           <div class="txt">
             <p class="comment">{p.data.title}</p>
             <p class="fig mono" data-fig={p.data.metrics[0].value}>{p.data.metrics[0].value}</p>
@@ -110,7 +110,7 @@ const demos = [
               </>)}
             </div>
           ); })()}
-        </article>
+        </div>
       ))}
     </div>
     <div class="clock" aria-hidden="true" hidden><i></i></div>

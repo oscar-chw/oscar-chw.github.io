@@ -185,3 +185,10 @@ test("crosshair shows the BTC price and date under the pointer", async ({ page }
   await expect(page.locator(".xp")).toHaveText(/^\$\d{1,3}(,\d{3})*$/);
   await expect(page.locator(".xd")).toHaveText(/^20\d\d-\d\d-\d\d$/);
 });
+
+test("the Konami code starts the Symphony of Lights", async ({ page }) => {
+  await blockNetwork(page);
+  await page.goto("/");
+  for (const k of ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]) await page.keyboard.press(k);
+  await expect(page.locator("html")).toHaveClass(/lights/);
+});
