@@ -5,5 +5,6 @@ export const SITE = {
   email: "choiheiwang@gmail.com",
   github: "https://github.com/oscar-chw",
   linkedin: "https://www.linkedin.com/in/oscar-chw/",
+  instagram: "https://www.instagram.com/terrific_owl/",
   site: "https://oscar-chw.github.io",
 };

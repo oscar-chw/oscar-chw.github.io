@@ -32,6 +32,7 @@ const commands: [string, string, string][] = [
   ["link", "Email Oscar", `mailto:${SITE.email}`],
   ["link", "GitHub", SITE.github],
   ["link", "LinkedIn", SITE.linkedin],
+  ["link", "Instagram @terrific_owl", SITE.instagram],
 ];
 ---
 <!doctype html>
@@ -98,6 +99,7 @@ const commands: [string, string, string][] = [
         <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
         <li><a href={SITE.github}>GitHub</a></li>
         <li><a href={SITE.linkedin}>LinkedIn</a></li>
+        <li><a href={SITE.instagram}>Instagram</a></li>
         <li><a href={url("/card/")}>Contact card</a></li>
       </ul>
     </footer>
