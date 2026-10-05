@@ -9,20 +9,37 @@ const demos = [
 ] as const;
 ---
 <Base title="Demos" description="Interactive demos by Oscar Choi. All run in your browser.">
-  <div class="wrap" style="padding-top:32px">
-    <h1>Demos</h1>
-    <p class="measure">Everything here runs in your browser with no server or tracking. Each demo states where its data comes from.</p>
-    <ul class="list">
-      {demos.map(([href, t, d, src]) => (
-        <li><a href={url(href)}>{t}</a><p>{d}</p><p class="comment">{src}</p></li>
+  <div class="wrap">
+    <header class="cols top">
+      <p class="comment kick">runs in your browser · no server · no tracking</p>
+      <h1>Demos</h1>
+      <p class="lede">Each one says where its data comes from.</p>
+    </header>
+    <ul class="tiles">
+      {demos.map(([href, t, d, src], i) => (
+        <li class="reveal" style={`--i:${i}`}>
+          <a class="tile glass" href={url(href)}>
+            <span class="num mono">0{i + 1}</span>
+            <span class="tt">{t}</span>
+            <span class="td">{d}</span>
+            <span class="src mono">{src}</span>
+          </a>
+        </li>
       ))}
     </ul>
   </div>
 </Base>
 <style>
-  .list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 0 40px; }
-  .list li { border-top: 1px solid var(--line); padding: 16px 0 18px; }
-  .list a { font-weight: 600; font-size: 1.08rem; color: var(--ink); text-decoration: none; }
-  .list a:hover { color: var(--accent); }
-  .list p { color: var(--muted); margin: 6px 0 0; }
+  .top { padding-top: 64px; margin-bottom: 40px; }
+  .kick { grid-column: 1 / -1; margin: 0 0 12px; }
+  h1 { grid-column: 1 / -1; font-size: clamp(3rem, 1.4rem + 7vw, 8rem); letter-spacing: -0.055em; margin: 0 0 18px; }
+  .lede { grid-column: 1 / span 7; color: var(--muted); font-size: 1.12rem; margin: 0; }
+  .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .tile { display: flex; flex-direction: column; gap: 10px; min-height: 240px; height: 100%; padding: 26px; border-radius: 22px; color: var(--ink); text-decoration: none; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s; }
+  .tile:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .num { color: var(--accent); }
+  .tt { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.025em; margin-top: auto; }
+  .td { color: var(--muted); line-height: 1.55; }
+  .src { color: var(--amber); font-size: 0.78rem; }
+  @media (max-width: 760px) { .tiles { grid-template-columns: 1fr; } .lede { grid-column: 1 / -1; } }
 </style>

@@ -198,6 +198,7 @@ export async function mountHarbour(wrap: HTMLElement) {
     frames++;
     wrap.dataset.frames = String(frames);
     wrap.dataset.bookMid = rows.mid.toFixed(2);
+    document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid, state } }));
   }
 
   function setBadge() {
@@ -238,6 +239,8 @@ export async function mountHarbour(wrap: HTMLElement) {
     pauseBtn.textContent = paused ? "Resume" : "Pause";
     if (paused) halt(); else start();
     setBadge();
+    // one switch for all self-moving parts of the page (ticker, particles), not just the book
+    document.dispatchEvent(new CustomEvent("motionpause", { detail: paused }));
   });
 
   paint(); setBadge();

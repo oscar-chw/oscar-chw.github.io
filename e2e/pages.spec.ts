@@ -77,3 +77,18 @@ test("unknown paths get the 404 page", async ({ page }) => {
   expect(res?.status()).toBe(404);
   await expect(page.getByRole("link", { name: /home/i }).first()).toBeVisible();
 });
+
+test("command palette: / opens it, typing filters, Enter navigates, Escape closes", async ({ page }) => {
+  await page.goto("/about/");
+  await page.keyboard.press("/");
+  const dialog = page.getByRole("dialog", { name: "Command palette" });
+  await expect(dialog).toBeVisible();
+  await page.keyboard.type("fatqat");
+  await expect(dialog.getByRole("option").filter({ visible: true })).toHaveCount(1);
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/projects\/fatqat-gpu-backend\/$/);
+  await page.keyboard.press(process.platform === "darwin" ? "Meta+k" : "Control+k");
+  await expect(page.getByRole("dialog", { name: "Command palette" })).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog", { name: "Command palette" })).toBeHidden();
+});

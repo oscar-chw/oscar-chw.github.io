@@ -1,5 +1,6 @@
 ---
 import { Font } from "astro:assets";
+import { getCollection } from "astro:content";
 import "../styles/global.css";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
@@ -15,6 +16,23 @@ const nav = [
   ["CV", "/cv/"],
 ] as const;
 const here = Astro.url.pathname;
+// command palette entries: every page, every project, every demo, plus a few actions
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+const commands: [string, string, string][] = [
+  ["home", "Home", url("/")],
+  ["work", "All projects", url("/projects/")],
+  ...projects.map((p) => ["project", p.data.title, url(`/projects/${p.id}/`)] as [string, string, string]),
+  ["demo", "Fourier portrait", url("/demos/fourier/")],
+  ["demo", "Order-book replay", url("/demos/order-book/")],
+  ["demo", "Streaming reconciliation", url("/demos/reconciliation/")],
+  ["demo", "The harbour", url("/demos/harbour/")],
+  ["page", "About", url("/about/")],
+  ["page", "CV (PDF download)", url("/cv/Oscar_Choi_CV.pdf")],
+  ["page", "Contact card", url("/card/")],
+  ["link", "Email Oscar", `mailto:${SITE.email}`],
+  ["link", "GitHub", SITE.github],
+  ["link", "LinkedIn", SITE.linkedin],
+];
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -29,11 +47,12 @@ const here = Astro.url.pathname;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL(url("/og.png"), SITE.site).href} />
-    <meta name="theme-color" content="#0a1022" />
+    <meta name="theme-color" content="#05070c" />
     {(errorPage || import.meta.env.BASE_URL !== "/") && <meta name="robots" content="noindex" />}
     <link rel="icon" href={url("/favicon.svg")} type="image/svg+xml" />
     <link rel="sitemap" href={url("/sitemap-index.xml")} />
     <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" />
     <script is:inline data-inline="theme">
       // Before first paint, so a light-theme reader never sees a dark flash.
       try { const t = localStorage.getItem("theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch {}
@@ -42,23 +61,38 @@ const here = Astro.url.pathname;
   </head>
   <body>
     <a class="skip" href="#content">Skip to content</a>
-    <header class="site-header wrap">
-      <a class="brand" href={url("/")} aria-label="Oscar Choi, home">Oscar Choi</a>
-      <nav aria-label="Primary">
-        <ul>
-          {nav.map(([label, path]) => (
-            <li><a href={url(path)} aria-current={here.startsWith(url(path)) ? "page" : undefined}>{label}</a></li>
-          ))}
-        </ul>
-      </nav>
-      <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
-        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
-      </button>
+    <header class="site-header">
+      <div class="bar glass">
+        <a class="brand" href={url("/")}><span>oscar@chw</span><span class="tilde" aria-hidden="true">:~$</span><span class="sr-only"> home</span></a>
+        <nav aria-label="Primary">
+          <ul>
+            {nav.map(([label, path]) => (
+              <li><a href={url(path)} aria-current={here.startsWith(url(path)) ? "page" : undefined}>{label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <button class="kbtn mono" type="button" data-palette-open aria-label="Open the command palette" title="Command palette (⌘K or /)">⌘K</button>
+        <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+        </button>
+      </div>
     </header>
+    <dialog class="palette glass" aria-label="Command palette">
+      <form method="dialog" class="pf">
+        <span class="mono prompt" aria-hidden="true">~$</span>
+        <input type="text" class="pq mono" placeholder="go to… (try fatqat, cv, demos)" aria-label="Search pages" autocomplete="off" spellcheck="false" />
+        <kbd class="mono esc">esc</kbd>
+      </form>
+      <ul class="pl" role="listbox" aria-label="Results">
+        {commands.map(([kind, label, href]) => (
+          <li role="option"><a href={href}><span class="mono k">{kind}</span><span>{label}</span></a></li>
+        ))}
+      </ul>
+    </dialog>
     <main id="content" tabindex="-1">
       <slot />
     </main>
-    <footer class="site-footer wrap">
+    <footer class="site-footer wrap cols">
       <p class="comment">built with Astro · static · no tracking</p>
       <ul>
         <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
@@ -67,6 +101,28 @@ const here = Astro.url.pathname;
         <li><a href={url("/card/")}>Contact card</a></li>
       </ul>
     </footer>
+    <script is:inline data-inline="palette">
+      (() => {
+        const d = document.querySelector(".palette"), q = d.querySelector(".pq"), items = [...d.querySelectorAll("li")];
+        let sel = 0;
+        const vis = () => items.filter((li) => !li.hidden);
+        const mark = () => vis().forEach((li, i) => li.toggleAttribute("aria-selected", i === sel));
+        const open = () => { if (!d.open) { d.showModal(); q.value = ""; filter(); } };
+        const filter = () => { const s = q.value.toLowerCase().trim(); items.forEach((li) => (li.hidden = !!s && !li.textContent.toLowerCase().includes(s))); sel = 0; mark(); };
+        q.addEventListener("input", filter);
+        q.addEventListener("keydown", (e) => {
+          const v = vis();
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = (sel + (e.key === "ArrowDown" ? 1 : v.length - 1)) % Math.max(1, v.length); mark(); v[sel]?.scrollIntoView({ block: "nearest" }); }
+          if (e.key === "Enter") { e.preventDefault(); v[sel]?.querySelector("a").click(); }
+        });
+        d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
+        document.querySelectorAll("[data-palette-open]").forEach((b) => b.addEventListener("click", open));
+        addEventListener("keydown", (e) => {
+          const t = e.target, typing = t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+          if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) { e.preventDefault(); open(); }
+        });
+      })();
+    </script>
     <script is:inline data-inline="theme">
       document.querySelector(".theme").addEventListener("click", () => {
         const r = document.documentElement, next = r.dataset.theme === "light" ? "dark" : "light";
@@ -79,21 +135,39 @@ const here = Astro.url.pathname;
 </html>
 
 <style>
-  .site-header { display: flex; align-items: center; gap: 24px; padding-block: 18px; }
-  .brand { color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; margin-right: auto; }
-  nav ul, .site-footer ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; flex-wrap: wrap; }
-  nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding-block: 6px; }
-  nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
-  nav a[aria-current="page"] { box-shadow: inset 0 -2px var(--accent); }
-  .theme { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 50%; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; }
+  /* a floating glass command bar: the one piece of chrome that hovers over the page */
+  .site-header { position: sticky; top: 12px; z-index: 20; display: flex; justify-content: center; padding: 12px 16px 0; }
+  .bar { display: flex; align-items: center; gap: 22px; padding: 7px 8px 7px 18px; border-radius: 999px; width: min(100%, 760px); }
+  .brand { color: var(--ink); text-decoration: none; font: 500 0.92rem var(--font-mono), monospace; margin-right: auto; white-space: nowrap; }
+  .tilde { color: var(--accent); }
+  nav ul, .site-footer ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; flex-wrap: wrap; }
+  nav a { display: block; color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 6px 12px; border-radius: 999px; }
+  nav a:hover { color: var(--ink); }
+  nav a[aria-current="page"] { color: var(--ink); background: var(--glass-bg); box-shadow: inset 0 0 0 1px var(--glass-edge); }
+  .kbtn { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 999px; height: 34px; padding: 0 12px; font-size: 0.78rem; cursor: pointer; flex: none; }
+  .kbtn:hover { color: var(--ink); border-color: var(--accent); }
+  .palette { width: min(100% - 32px, 620px); margin: 14vh auto auto; padding: 0; border-radius: 22px; color: var(--ink); overflow: hidden; }
+  .palette::backdrop { background: rgb(0 0 0 / 0.5); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .pf { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--glass-edge); }
+  .prompt { color: var(--accent); }
+  .pq { flex: 1; background: none; border: 0; outline: 0; color: var(--ink); font-size: 1rem; }
+  .esc { font-size: 0.7rem; color: var(--muted); border: 1px solid var(--glass-edge); border-radius: 6px; padding: 1px 6px; }
+  .pl { list-style: none; margin: 0; padding: 8px; max-height: 52vh; overflow: auto; }
+  .pl a { display: flex; gap: 14px; align-items: baseline; padding: 9px 12px; border-radius: 12px; color: var(--ink); text-decoration: none; }
+  .pl li[aria-selected] a, .pl a:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .k { width: 56px; flex: none; font-size: 0.72rem; color: var(--muted); }
+  .theme { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; flex: none; }
   .theme:hover { color: var(--ink); }
   main { outline: none; }
-  .site-footer { border-top: 1px solid var(--line); margin-top: 96px; padding-block: 28px 40px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; align-items: baseline; }
-  .site-footer p { margin: 0; }
-  .site-footer a { color: var(--muted); font-size: 0.92rem; }
-  @media (max-width: 560px) {
-    .site-header { flex-wrap: wrap; gap: 10px 18px; }
-    nav { order: 3; width: 100%; }
+  .site-footer { border-top: 1px solid var(--line-2); margin-top: 120px; padding-block: 28px 44px; align-items: baseline; row-gap: 12px; }
+  .site-footer p { margin: 0; grid-column: 1 / span 5; }
+  .site-footer ul { grid-column: 6 / -1; justify-content: flex-end; gap: 22px; }
+  .site-footer a { color: var(--muted); font-size: 0.9rem; }
+  @media (max-width: 640px) {
+    .bar { gap: 6px; padding-left: 14px; }
+    .brand .tilde, .kbtn { display: none; }
+    nav a { padding: 6px 8px; font-size: 0.88rem; }
+    .site-footer p, .site-footer ul { grid-column: 1 / -1; justify-content: flex-start; }
   }
   @media print { .site-header, .site-footer, .skip { display: none; } }
 </style>

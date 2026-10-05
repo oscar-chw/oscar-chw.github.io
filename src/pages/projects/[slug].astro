@@ -1,60 +1,125 @@
 ---
+// A project page on the 12-column grid: title (morphs from the index row), figures strip,
+// a sticky side column (facts and section links), the write-up, then the next project.
+// Zero JavaScript: transitions and reveals are CSS.
 import { getCollection, render } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { url } from "../../lib/url";
 
 export async function getStaticPaths() {
-  const all = await getCollection("projects");
-  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+  return all.map((entry, i) => ({ params: { slug: entry.id }, props: { entry, next: all[(i + 1) % all.length] } }));
 }
-const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { entry, next } = Astro.props;
+const { Content, headings } = await render(entry);
 const d = entry.data;
+const sections = headings.filter((h) => h.depth === 2);
 ---
 <Base title={d.title} description={d.summary}>
-  <article class="wrap project">
-    <p class="comment"><a href={url("/projects/")}>work</a> / {d.group.toLowerCase()}</p>
-    <h1>{d.title}</h1>
-    <p class="lede measure">{d.summary}</p>
-    <dl class="meta">
-      <div><dt>role</dt><dd>{d.role}</dd></div>
-      {d.period && <div><dt>when</dt><dd>{d.period}</dd></div>}
-      <div><dt>stack</dt><dd>{d.stack.join(", ")}</dd></div>
-      {d.partOf && <div><dt>part of</dt><dd><a href={url(`/projects/${d.partOf}/`)}>{d.partOf}</a></dd></div>}
-    </dl>
+  <article class="project">
+    <header class="wrap cols top">
+      <p class="crumb comment"><a href={url("/projects/")}>work</a> / {d.group.toLowerCase()}</p>
+      <h1 style={`view-transition-name: p-${entry.id}`}>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+    </header>
+
     {d.metrics.length > 0 && (
-      <table class="ledger">
-        <caption class="comment">headline results</caption>
-        <tbody>
-          {d.metrics.map((m) => <tr><th scope="row">{m.label}</th><td>{m.value}</td></tr>)}
-        </tbody>
-      </table>
-    )}
-    <div class="body measure"><Content /></div>
-    {d.links.length > 0 && (
-      <section class="links" aria-labelledby="links-h">
-        <h2 id="links-h">Links</h2>
-        <ul>{d.links.map((l) => <li><a href={l.href}>{l.label}</a> <span class="comment">{new URL(l.href).host}{new URL(l.href).pathname.replace(/\/$/, "")}</span></li>)}</ul>
+      <section class="wrap figs" aria-label="Headline results">
+        <dl class="cols">
+          {d.metrics.map((m, i) => (
+            <div class="reveal" style={`--i:${i}`}>
+              <dt class="mono">{m.value}</dt>
+              <dd>{m.label}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     )}
+
+    <div class="wrap cols main">
+      <aside class="side">
+        <dl class="facts">
+          <dt class="mono">role</dt><dd>{d.role}</dd>
+          {d.period && <><dt class="mono">when</dt><dd>{d.period}</dd></>}
+          <dt class="mono">stack</dt><dd>{d.stack.join(", ")}</dd>
+          {d.partOf && <><dt class="mono">part of</dt><dd><a href={url(`/projects/${d.partOf}/`)}>{d.partOf}</a></dd></>}
+        </dl>
+        {sections.length > 1 && (
+          <nav class="toc" aria-label="On this page">
+            <ol>{sections.map((h, i) => <li><a href={`#${h.slug}`}><span class="mono">{String(i + 1).padStart(2, "0")}</span>{h.text}</a></li>)}</ol>
+          </nav>
+        )}
+      </aside>
+
+      <div class="body">
+        <Content />
+        {d.links.length > 0 && (
+          <section class="links" aria-labelledby="links-h">
+            <h2 id="links-h">Links</h2>
+            <ul>{d.links.map((l) => <li><a href={l.href}><span>{l.label}</span><span class="mono host">{new URL(l.href).host}{new URL(l.href).pathname.replace(/\/$/, "")}</span></a></li>)}</ul>
+          </section>
+        )}
+      </div>
+    </div>
+
+    <a class="next wrap" href={url(`/projects/${next.id}/`)}>
+      <span class="comment">next project</span>
+      <span class="nt" style={`view-transition-name: p-${next.id}`}>{next.data.title} <span aria-hidden="true">→</span></span>
+    </a>
   </article>
 </Base>
 
 <style>
-  .project { padding-top: 32px; }
-  .comment a { color: inherit; }
-  .lede { font-size: 1.2rem; color: var(--ink); }
-  .meta { display: flex; flex-wrap: wrap; gap: 8px 36px; margin: 1.4rem 0; padding: 0; }
-  .meta div { display: flex; gap: 10px; align-items: baseline; }
-  .meta dt { font: 0.8rem ui-monospace, Menlo, monospace; color: var(--muted); }
-  .meta dd { margin: 0; }
-  .ledger { border-collapse: collapse; margin: 1.6rem 0 0.4rem; min-width: min(100%, 560px); font-variant-numeric: tabular-nums; }
-  .ledger caption { text-align: left; margin-bottom: 6px; }
-  .ledger th, .ledger td { border-top: 1px solid var(--line); padding: 9px 0; text-align: left; vertical-align: baseline; }
-  .ledger th { font-weight: 400; color: var(--muted); padding-right: 32px; }
-  .ledger td { font: 600 1.05rem ui-monospace, Menlo, monospace; color: var(--accent); white-space: nowrap; }
-  .body :global(h2) { padding-top: 0.4rem; }
-  .links ul { list-style: none; padding: 0; }
-  .links li { padding: 6px 0; display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
-  @media (max-width: 560px) { .ledger td { white-space: normal; } }
+  .top { padding-top: 64px; }
+  .crumb { grid-column: 1 / -1; margin: 0 0 18px; }
+  .crumb a { color: inherit; }
+  h1 { grid-column: 1 / span 10; margin: 0 0 22px; }
+  .lede { grid-column: 1 / span 8; font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); line-height: 1.55; color: var(--ink); margin: 0; }
+
+  .figs { margin-top: 56px; }
+  .figs dl { margin: 0; row-gap: 24px; }
+  .figs div { grid-column: span 3; border-top: 1px solid var(--line-2); padding-top: 14px; }
+  .figs dt { font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.6rem); color: var(--accent); line-height: 1.1; letter-spacing: -0.03em; }
+  .figs dd { margin: 8px 0 0; color: var(--muted); font-size: 0.93rem; line-height: 1.45; }
+
+  .main { margin-top: 72px; align-items: start; }
+  /* sticky split: facts and section links stay in view while the write-up scrolls beside them */
+  .side { grid-column: 1 / span 3; position: sticky; top: 96px; font-size: 0.92rem; }
+  .facts { margin: 0; display: grid; grid-template-columns: 1fr; }
+  .facts dt { color: var(--muted); font-size: 0.75rem; border-top: 1px solid var(--line-2); padding-top: 10px; }
+  .facts dd { margin: 4px 0 14px; }
+  .toc ol { list-style: none; margin: 18px 0 0; padding: 0; border-top: 1px solid var(--line-2); }
+  .toc a { display: flex; gap: 12px; padding: 7px 0; color: var(--muted); text-decoration: none; }
+  .toc a:hover { color: var(--ink); }
+  .toc .mono { color: var(--accent); font-size: 0.78rem; padding-top: 2px; }
+
+  .body { grid-column: 5 / span 8; max-width: 72ch; counter-reset: sec; }
+  .body :global(h2) { counter-increment: sec; scroll-margin-top: 96px; border-top: 1px solid var(--line-2); padding-top: 22px; margin-top: 56px; }
+  .body :global(h2:first-child) { margin-top: 0; }
+  .body :global(h2)::before { content: "// " counter(sec, decimal-leading-zero); display: block; font: 400 0.78rem var(--font-mono), monospace; color: var(--accent); letter-spacing: 0; margin-bottom: 10px; }
+  .body :global(p), .body :global(li) { color: color-mix(in srgb, var(--ink) 88%, var(--muted)); }
+  .body :global(li) { margin-bottom: 0.45rem; }
+  .body :global(strong) { color: var(--ink); font-weight: 600; }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .body :global(:is(h2, p, ul, figure)) { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 30%; }
+    }
+  }
+
+  .links ul { list-style: none; padding: 0; margin: 0; border-bottom: 1px solid var(--line-2); }
+  .links li { border-top: 1px solid var(--line-2); }
+  .links a { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; padding: 14px 0; text-decoration: none; transition: padding 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .links a:hover { padding-left: 10px; }
+  .host { color: var(--muted); font-size: 0.8rem; }
+
+  .next { display: flex; flex-direction: column; gap: 10px; margin-top: 120px; padding: 40px 0 0; border-top: 1px solid var(--line-2); color: var(--ink); text-decoration: none; }
+  .nt { font-size: clamp(2rem, 1rem + 4vw, 4.4rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1; transition: color 0.2s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .next:hover .nt { color: var(--accent); transform: translateX(12px); }
+
+  @media (max-width: 900px) {
+    .side { position: static; grid-column: 1 / -1; margin-bottom: 40px; }
+    .body { grid-column: 1 / -1; }
+    .figs div { grid-column: span 6; }
+    h1, .lede { grid-column: 1 / -1; }
+  }
 </style>

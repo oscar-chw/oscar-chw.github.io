@@ -1,39 +1,35 @@
 ---
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
-import { url } from "../../lib/url";
+import IndexList from "../../components/IndexList.astro";
 
 const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 const groups = [...new Set(all.map((p) => p.data.group))];
+let n = 1;
+const blocks = groups.map((g) => { const ps = all.filter((p) => p.data.group === g); const start = n; n += ps.length; return { g, ps, start }; });
 ---
-<Base title="Work" description="Projects by Oscar Choi: research platforms, quant research, competitions and engineering.">
+<Base title="Work" description="Projects by Oscar Choi: research platforms, quant research, competitions, engineering and AI.">
   <div class="wrap">
-    <h1>Work</h1>
-    <p class="measure">Each page follows the same order: the problem, what I built, the result, how it works, and its limits. Every number comes from the linked repository or my CV.</p>
-    {groups.map((g) => (
-      <section aria-labelledby={`g-${g}`}>
-        <h2 id={`g-${g}`}>{g}</h2>
-        <ul class="list">
-          {all.filter((p) => p.data.group === g).map((p) => (
-            <li>
-              <a href={url(`/projects/${p.id}/`)}>{p.data.title}</a>
-              <p>{p.data.summary}</p>
-              {p.data.metrics[0] && <p class="fig"><span>{p.data.metrics[0].value}</span> {p.data.metrics[0].label}</p>}
-            </li>
-          ))}
-        </ul>
+    <header class="cols top">
+      <p class="comment kick">{all.length} projects</p>
+      <h1>Work</h1>
+      <p class="lede">Every page reads the same way: the problem, what I built, the result, how it works, and its limits. Every number comes from the linked repository or my CV.</p>
+    </header>
+    {blocks.map(({ g, ps, start }) => (
+      <section aria-labelledby={`g-${start}`} class="grp">
+        <h2 id={`g-${start}`} class="mono">{g.toLowerCase()}</h2>
+        <IndexList projects={ps} start={start} />
       </section>
     ))}
   </div>
 </Base>
 
 <style>
-  .wrap { padding-top: 32px; }
-  .list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0 40px; }
-  .list li { border-top: 1px solid var(--line); padding: 16px 0 18px; }
-  .list a { font-weight: 600; font-size: 1.08rem; color: var(--ink); text-decoration: none; }
-  .list a:hover { color: var(--accent); }
-  .list p { color: var(--muted); margin: 6px 0 0; font-size: 0.97rem; }
-  .fig { font-size: 0.85rem !important; }
-  .fig span { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
+  .top { padding-top: 64px; margin-bottom: 40px; }
+  .kick { grid-column: 1 / -1; margin: 0 0 12px; }
+  h1 { grid-column: 1 / -1; font-size: clamp(3rem, 1.4rem + 7vw, 8rem); letter-spacing: -0.055em; margin: 0 0 18px; }
+  .lede { grid-column: 1 / span 7; color: var(--muted); font-size: 1.12rem; margin: 0; }
+  .grp { margin-top: 56px; }
+  .grp h2 { font-size: 0.82rem; font-weight: 400; letter-spacing: 0; color: var(--accent); margin: 0 0 12px; }
+  @media (max-width: 760px) { .lede { grid-column: 1 / -1; } }
 </style>

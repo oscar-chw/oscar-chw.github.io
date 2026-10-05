@@ -1,0 +1,93 @@
+---
+// Projects as one aligned list: number, title, stack, headline figure, on the 12-column grid.
+// Pointer users get a glass preview that trails the cursor; the title morphs into the project
+// page's heading through a shared view-transition name.
+import type { CollectionEntry } from "astro:content";
+import { url } from "../lib/url";
+
+// `preview` adds the cursor-trailing card (JavaScript); without it the list is pure HTML and CSS.
+interface Props { projects: CollectionEntry<"projects">[]; start?: number; preview?: boolean }
+const { projects, start = 1, preview = false } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+<div class="index" data-index={preview ? "" : undefined}>
+  <ol>
+    {projects.map((p, i) => (
+      <li class="reveal" style={`--i:${i % 4}`}>
+        <a href={url(`/projects/${p.id}/`)} data-summary={p.data.summary} data-fig={p.data.metrics[0]?.value ?? ""} data-figlabel={p.data.metrics[0]?.label ?? ""}>
+          <span class="n mono">{pad(start + i)}</span>
+          <span class="t" style={`view-transition-name: p-${p.id}`}>{p.data.title}</span>
+          <span class="s mono">{p.data.stack.slice(0, 2).join(" · ").toLowerCase()}</span>
+          <span class="f mono">{p.data.metrics[0]?.value ?? ""}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+  {preview && (
+    <div class="preview glass" aria-hidden="true" hidden>
+      <span class="pf mono"></span>
+      <span class="pl"></span>
+      <span class="ps"></span>
+    </div>
+  )}
+</div>
+
+{preview && <script>
+  // Preview follows the cursor with a little lag and leans into its motion (a soft 3D tilt).
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const root of document.querySelectorAll<HTMLElement>("[data-index]")) {
+    const pv = root.querySelector<HTMLElement>(".preview")!;
+    if (!fine) continue;
+    let x = 0, y = 0, tx = 0, ty = 0, raf = 0;
+    const loop = () => {
+      const dx = tx - x, dy = ty - y;
+      x += dx * (still ? 1 : 0.18); y += dy * (still ? 1 : 0.18);
+      pv.style.transform = `translate(${x}px, ${y}px) perspective(600px) rotateY(${Math.max(-14, Math.min(14, dx * 0.25))}deg) rotateX(${Math.max(-10, Math.min(10, -dy * 0.25))}deg)`;
+      raf = Math.abs(dx) + Math.abs(dy) > 0.5 ? requestAnimationFrame(loop) : 0;
+    };
+    root.addEventListener("pointermove", (e) => {
+      const r = root.getBoundingClientRect();
+      tx = e.clientX - r.left + 24; ty = e.clientY - r.top - 60;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    for (const a of root.querySelectorAll<HTMLAnchorElement>("a")) {
+      a.addEventListener("pointerenter", () => {
+        pv.querySelector(".pf")!.textContent = a.dataset.fig ?? "";
+        pv.querySelector(".pl")!.textContent = a.dataset.figlabel ?? "";
+        pv.querySelector(".ps")!.textContent = a.dataset.summary ?? "";
+        pv.hidden = false;
+      });
+    }
+    root.addEventListener("pointerleave", () => (pv.hidden = true));
+  }
+</script>}
+
+<style>
+  .index { position: relative; }
+  ol { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line-2); }
+  li { border-top: 1px solid var(--line-2); }
+  a {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: baseline;
+    padding: 22px 0; color: var(--ink); text-decoration: none; position: relative;
+    transition: padding 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s;
+  }
+  a::before { content: ""; position: absolute; inset: 0; background: var(--accent); opacity: 0; transition: opacity 0.25s; z-index: -1; }
+  a:hover, a:focus-visible { padding-left: 14px; }
+  a:hover::before, a:focus-visible::before { opacity: 0.06; }
+  .n { grid-column: span 1; color: var(--muted); }
+  .t { grid-column: span 6; font-size: clamp(1.25rem, 0.9rem + 1.4vw, 2rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
+  .s { grid-column: span 3; color: var(--muted); }
+  .f { grid-column: span 2; color: var(--accent); text-align: right; font-size: 0.95rem; }
+  .preview {
+    position: absolute; left: 0; top: 0; width: 290px; padding: 14px 16px; border-radius: 18px; pointer-events: none;
+    display: flex; flex-direction: column; gap: 4px; z-index: 5; will-change: transform;
+  }
+  .pf { font-size: 1.8rem; color: var(--accent); line-height: 1; }
+  .pl { font-size: 0.8rem; color: var(--muted); }
+  .ps { font-size: 0.86rem; line-height: 1.45; margin-top: 6px; }
+  @media (max-width: 760px) {
+    .n { grid-column: span 2; } .t { grid-column: span 10; }
+    .s { grid-column: 3 / span 6; } .f { grid-column: span 4; }
+  }
+</style>

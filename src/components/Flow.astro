@@ -1,46 +1,35 @@
 ---
-// A left-to-right pipeline diagram drawn as inline SVG: zero JS, themed by CSS tokens,
-// stacks vertically on narrow screens (display:none keeps screen readers from reading both forms). `steps` are boxes; `note` is a caption under each.
+// A pipeline diagram as an ordered list: numbered stages on a connector line, each with a short
+// note. Plain HTML, so it stays legible at any width and reads naturally to screen readers.
 interface Step { label: string; note?: string; accent?: "accent" | "amber" | "up" | "down" }
 interface Props { steps: Step[]; title: string; caption?: string }
 const { steps, title, caption } = Astro.props;
-const W = 196, H = 78, GAP = 40;
-const width = steps.length * W + (steps.length - 1) * GAP;
-const id = "flow-" + title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 ---
 <figure class="flow">
-  <svg class="wide" viewBox={`0 0 ${width} ${H + 8}`} role="img" aria-labelledby={id}>
-    <title id={id}>{title}: {steps.map((s) => s.label).join(", then ")}</title>
-    <defs><marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="var(--muted)" /></marker></defs>
-    {steps.map((s, i) => {
-      const x = i * (W + GAP);
-      return (
-        <g>
-          <rect x={x + 0.5} y="4.5" width={W - 1} height={H - 1} rx="6" fill="var(--bg-2)" stroke={`var(--${s.accent ?? "line"})`} />
-          <text x={x + 14} y="34" class="label">{s.label}</text>
-          {s.note && <text x={x + 14} y="58" class="note">{s.note}</text>}
-          {i < steps.length - 1 && <line x1={x + W + 4} y1={4 + H / 2} x2={x + W + GAP - 6} y2={4 + H / 2} stroke="var(--muted)" marker-end={`url(#${id}-arrow)`} />}
-        </g>
-      );
-    })}
-  </svg>
-  <ol class="narrow">
-    {steps.map((s) => <li><strong>{s.label}</strong>{s.note && <span>{s.note}</span>}</li>)}
+  <ol aria-label={title}>
+    {steps.map((s, i) => (
+      <li class={s.accent ? `hl ${s.accent}` : undefined}>
+        <span class="i mono">{String(i + 1).padStart(2, "0")}</span>
+        <span class="l">{s.label}</span>
+        {s.note && <span class="n mono">{s.note}</span>}
+      </li>
+    ))}
   </ol>
   {caption && <figcaption class="comment">{caption}</figcaption>}
 </figure>
 
 <style>
-  /* the diagram breaks out of the 68ch text column so its labels stay legible */
-  .flow { margin: 1.4rem 0 2rem; width: min(100vw - 32px, 1120px); }
-  svg { display: block; width: 100%; height: auto; overflow: visible; }
-  .label { fill: var(--ink); font: 600 17px var(--font-sans), sans-serif; }
-  .note { fill: var(--muted); font: 13.5px ui-monospace, Menlo, monospace; }
-  figcaption { margin-top: 0.6rem; }
-  .narrow { display: none; list-style: none; padding: 0; margin: 0; }
-  .narrow li { border: 1px solid var(--line); background: var(--bg-2); border-radius: 6px; padding: 8px 12px; position: relative; }
-  .narrow li + li { margin-top: 22px; }
-  .narrow li + li::before { content: "↓"; position: absolute; top: -21px; left: 14px; color: var(--muted); }
-  .narrow span { display: block; color: var(--muted); font: 0.8rem ui-monospace, Menlo, monospace; }
-  @media (max-width: 900px) { .flow { width: auto; } .wide { display: none; } .narrow { display: block; } }
+  .flow { margin: 1.6rem 0 2.2rem; }
+  ol { list-style: none; margin: 0; padding: 0; position: relative; }
+  ol::before { content: ""; position: absolute; left: 15px; top: 18px; bottom: 18px; width: 1px; background: var(--line-2); }
+  li { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; column-gap: 16px; align-items: baseline; padding: 11px 0; }
+  li + li { border-top: 1px dashed var(--line); }
+  .i { position: relative; z-index: 1; width: 32px; text-align: center; font-size: 0.72rem; color: var(--muted); background: var(--bg); padding: 2px 0; border: 1px solid var(--line-2); border-radius: 999px; }
+  .l { font-weight: 600; color: var(--ink); }
+  .n { color: var(--muted); font-size: 0.8rem; text-align: right; }
+  .hl .i { color: var(--bg); border-color: transparent; }
+  .accent .i { background: var(--accent); } .amber .i { background: var(--amber); }
+  .up .i { background: var(--up); } .down .i { background: var(--down); }
+  figcaption { margin-top: 0.7rem; }
+  @media (max-width: 560px) { li { grid-template-columns: 32px minmax(0, 1fr); } .n { grid-column: 2; text-align: left; } }
 </style>

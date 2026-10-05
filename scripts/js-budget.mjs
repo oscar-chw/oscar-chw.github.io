@@ -2,7 +2,7 @@
 //   - every non-demo page ships <= 50 KB of gzipped JS (external + inline);
 //   - text pages (everything but the home page and the demos) ship no external JS
 //     and no inline event handlers; their only inline scripts are the named,
-//     allowlisted ones (data-inline="theme" | "print"), under 1 KB gzipped.
+//     allowlisted ones (data-inline="theme" | "palette" | "print"), under 1.5 KB gzipped.
 // Fails if dist/ is missing or holds no pages, so an absent build never passes.
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -10,8 +10,8 @@ import { gzipSync } from "node:zlib";
 
 const DIST = process.argv[2] ?? "dist";
 const BUDGET = 50 * 1024;
-const INLINE_TEXT_BUDGET = 1024;
-const ALLOWED_INLINE = new Set(["theme", "print"]);
+const INLINE_TEXT_BUDGET = 1536;   // theme script + the command palette
+const ALLOWED_INLINE = new Set(["theme", "palette", "print"]);
 
 if (!existsSync(DIST)) { console.error(`js-budget: ${DIST}/ does not exist; build first`); process.exit(1); }
 

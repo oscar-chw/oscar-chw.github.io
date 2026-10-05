@@ -11,13 +11,22 @@ export default defineConfig({
   build: { inlineStylesheets: "always" },
   fonts: [
     {
-      name: "Instrument Sans",
+      name: "Geist",
       cssVariable: "--font-sans",
       provider: fontProviders.google(),
       weights: ["400 700"],
       styles: ["normal"],
       subsets: ["latin"],
       fallbacks: ["system-ui", "sans-serif"],
+    },
+    {
+      name: "Geist Mono",
+      cssVariable: "--font-mono",
+      provider: fontProviders.google(),
+      weights: ["400 600"],
+      styles: ["normal"],
+      subsets: ["latin"],
+      fallbacks: ["ui-monospace", "Menlo", "monospace"],
     },
   ],
 });
