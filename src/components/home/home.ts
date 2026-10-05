@@ -1,4 +1,3 @@
-import { parseFigure, figureAt } from "../../lib/countup";
 // Home-page motion: name scramble, typed line, particle sky, scroll parallax, scroll-scrubbed
 // story, magnetic buttons, cursor spotlight, tilt tiles. One "motionpause" switch (the harbour's
 // Pause button) and prefers-reduced-motion stop everything that moves by itself.
@@ -97,29 +96,52 @@ if (!still && layers.length) {
   }, { passive: true });
 }
 
-// ---------- scroll-scrubbed story: one figure per screen, counting up with the scroll ----------
-for (const story of document.querySelectorAll<HTMLElement>("[data-story]")) {
-  if (still) continue;
-  const steps = [...story.querySelectorAll<HTMLElement>("[data-step]")];
-  const rail = [...story.querySelectorAll<HTMLElement>("[data-tick]")];
-  story.classList.add("scrub");
-  story.style.height = `${(steps.length + 1) * 100}vh`;
-  const figs = steps.map((s) => { const el = s.querySelector<HTMLElement>("[data-fig]")!; return { el, spec: parseFigure(el.dataset.fig ?? "") }; });
-  const update = () => {
-    const r = story.getBoundingClientRect(), span = r.height - innerHeight;
-    const p = Math.min(1, Math.max(0, -r.top / span)), pos = p * steps.length;
-    const k = Math.min(steps.length - 1, Math.floor(pos)), local = pos - k;
-    steps.forEach((s, i) => s.toggleAttribute("data-active", i === k));
-    rail.forEach((t, i) => t.toggleAttribute("data-active", i === k));
-    const f = figs[k];
-    const t = Math.min(1, local * 2.4), eased = 1 - Math.pow(1 - t, 3);
-    if (f.spec) f.el.textContent = figureAt(f.spec, eased);
-    steps[k].style.setProperty("--l", eased.toFixed(3));        // the visual grows with the figure
-    story.style.setProperty("--p", String(p));
+// ---------- results board: one object, the figure flips to the next result by itself ----------
+const DIGITS = "0123456789";
+/** Departure-board flip: digits cycle through random digits and settle left to right; other characters stay. */
+function flip(el: HTMLElement, target: string) {
+  if (still) { el.textContent = target; return; }
+  const chars = [...target];
+  let f = 0;
+  const id = setInterval(() => {
+    f++;
+    el.textContent = chars.map((c, i) => (/\d/.test(c) && f < 6 + i * 2 ? DIGITS[(Math.random() * 10) | 0] : c)).join("");
+    if (f >= 6 + chars.length * 2) { clearInterval(id); el.textContent = target; }
+  }, 45);
+}
+for (const board of document.querySelectorAll<HTMLElement>("[data-board]")) {
+  const tabs = [...board.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+  const panels = [...board.querySelectorAll<HTMLElement>("[data-panel]")];
+  const clock = board.querySelector<HTMLElement>(".clock")!;
+  const toggle = board.querySelector<HTMLButtonElement>("[data-board-toggle]")!;
+  const PERIOD = 5000;
+  let k = 0, held = still;
+  board.classList.add("live");
+  board.querySelector<HTMLElement>(".tabs")!.hidden = false;
+  clock.hidden = still; toggle.hidden = still;
+  clock.style.setProperty("--period", `${PERIOD}ms`);
+  const show = (i: number, focus = false) => {
+    k = (i + panels.length) % panels.length;
+    panels.forEach((p, j) => p.toggleAttribute("data-active", j === k));
+    tabs.forEach((t, j) => { t.setAttribute("aria-selected", String(j === k)); t.tabIndex = j === k ? 0 : -1; });
+    if (focus) tabs[k].focus();
+    const fig = panels[k].querySelector<HTMLElement>("[data-fig]")!;
+    flip(fig, fig.dataset.fig ?? "");
+    clock.classList.remove("run"); void clock.offsetWidth; if (!held) clock.classList.add("run");
   };
-  let ticking = false;
-  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); } }, { passive: true });
-  update();
+  tabs.forEach((t, i) => t.addEventListener("click", () => show(i)));
+  board.querySelector(".tabs")!.addEventListener("keydown", (e) => {
+    const key = (e as KeyboardEvent).key;
+    if (key === "ArrowRight" || key === "ArrowLeft") { e.preventDefault(); show(k + (key === "ArrowRight" ? 1 : -1), true); }
+  });
+  // the clock bar is the timer: when its animation ends, advance (hover, focus and Pause freeze it)
+  clock.querySelector("i")!.addEventListener("animationend", () => { if (!held && !paused) show(k + 1); });
+  toggle.addEventListener("click", () => {
+    held = !held; board.classList.toggle("held", held);
+    toggle.setAttribute("aria-pressed", String(held)); toggle.textContent = held ? "play" : "pause";
+    if (!held) show(k);
+  });
+  show(0);
 }
 
 // ---------- magnetic buttons ----------

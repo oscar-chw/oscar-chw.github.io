@@ -20,6 +20,11 @@ const BUILTIN = {
   "researcher-only FYP": /32% violated|fine-tuned 4B/i,
   "business minor": /business minor|minor in business/i,
   "tel link": /\btel:/i,
+  // BRAIN rules forbid automation as a source of alpha ideas: no counts, no "-style", no companion framing.
+  // "BRAIN"/"WorldQuant" may appear only in the experience entry on the about page (checked below).
+  "BRAIN simulation count": /17,000|17000/,
+  "WorldQuant-style": /WorldQuant[- ]style/i,
+  "companion framing": /\bcompanion\b/i,
 };
 const ALLOWED_EMAIL = /^(choiheiwang@gmail\.com|\d+\+oscar-chw@users\.noreply\.github\.com)$/i;
 
@@ -53,6 +58,8 @@ for (const f of files) {
   const lines = text.split("\n");
   const isCode = /\.(ts|js|json|svg)$/.test(f) || f.startsWith("dist/") && !f.endsWith(".html");
   lines.forEach((line, i) => {
+    const aboutPage = /(^|\/)about(\.mdx|\/index\.html)$/.test(f);
+    if (!aboutPage && /\bBRAIN\b|WorldQuant/i.test(line)) { console.error(`FAIL ${relative(".", f)}:${i + 1}: WorldQuant/BRAIN outside the about page's experience entry`); bad++; }
     for (const [kind, re] of [...Object.entries(BUILTIN), ...extra]) {
       if (kind === "phone (HK)" && isCode) continue;        // numeric data arrays are not phone numbers
       if (re.test(line)) { console.error(`FAIL ${relative(".", f)}:${i + 1}: ${kind}`); bad++; }

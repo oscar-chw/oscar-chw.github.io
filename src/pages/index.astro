@@ -8,9 +8,9 @@ import { url } from "../lib/url";
 
 const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 const featured = all.filter((p) => p.data.featured);
-// the scroll story: each featured project's headline figure, one per screen, with a visual
+// the results board: each featured project's headline figure with a visual
 // derived from the figure itself (no second source of numbers to drift out of sync)
-const story = featured.filter((p) => p.data.metrics[0]);
+const story = featured.filter((p) => p.data.metrics[0]);   // the results board, one per featured project
 type Viz = { kind: "ratio" | "cut" | "rank" | "count"; n: number };
 const viz = (v: string): Viz => {
   const n = Number((v.match(/\d+(?:\.\d+)?/) ?? ["0"])[0]);
@@ -66,13 +66,23 @@ const demos = [
     <p class="mono why">the rule behind <a href={url("/projects/point-in-time-research/")}>point-in-time research</a>, and behind the dashed towers after t = now</p>
   </section>
 
-  <section class="story" data-story aria-label="Selected results">
-    <div class="pin">
-      <ol class="rail" aria-hidden="true">{story.map(() => <li data-tick></li>)}</ol>
+  <section class="board wrap" data-board aria-labelledby="board-h">
+    <div class="bhead">
+      <h2 id="board-h" class="mono">results board</h2>
+      <button type="button" class="btoggle mono" data-board-toggle aria-pressed="false" hidden>pause</button>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Results" hidden>
       {story.map((p, i) => (
-        <article class="step" data-step data-active={i === 0 ? "" : undefined}>
+        <button type="button" role="tab" id={`bt-${i}`} aria-controls={`bp-${i}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+          <span class="mono">{String(i + 1).padStart(2, "0")}</span> {p.data.title.replace(/^GPU Backend for /, "").replace(/ research data platform$/, "")}
+        </button>
+      ))}
+    </div>
+    <div class="panels">
+      {story.map((p, i) => (
+        <article class="panel" role="tabpanel" id={`bp-${i}`} aria-labelledby={`bt-${i}`} data-panel data-active={i === 0 ? "" : undefined}>
           <div class="txt">
-            <p class="comment">{String(i + 1).padStart(2, "0")} / {String(story.length).padStart(2, "0")} · {p.data.title}</p>
+            <p class="comment">{p.data.title}</p>
             <p class="fig mono" data-fig={p.data.metrics[0].value}>{p.data.metrics[0].value}</p>
             <p class="cap">{p.data.metrics[0].label}</p>
             <a class="more" href={url(`/projects/${p.id}/`)}>How it works</a>
@@ -90,7 +100,7 @@ const demos = [
                 <p class="mono axis">peak memory</p>
               </>)}
               {z.kind === "rank" && (<>
-                <div class="track"><i class="field"></i><b style="--at:calc(100% - var(--n) * 1%)"></b></div>
+                <div class="rank"><i class="field"></i><b style="--at:calc(100% - var(--n) * 1%)"></b></div>
                 <p class="mono axis">all teams → the top {z.n}%</p>
               </>)}
               {z.kind === "count" && (<>
@@ -102,6 +112,7 @@ const demos = [
         </article>
       ))}
     </div>
+    <div class="clock" aria-hidden="true" hidden><i></i></div>
   </section>
 
   <section id="work" class="wrap section" aria-labelledby="work-h">
@@ -199,34 +210,45 @@ const demos = [
   .c { color: var(--accent); font-weight: 500; }
   @keyframes tick { to { transform: translateX(-50%); } }
 
-  /* the story: static list by default; with JS it pins and scrubs one figure per screen */
-  .story { position: relative; }
-  .pin { width: min(100% - 32px, 1240px); margin: 0 auto; padding: 72px 0; }
-  .step { padding: 48px 0; border-bottom: 1px solid var(--line-2); }
-  .fig { font-size: clamp(3.6rem, 1rem + 11vw, 11rem); line-height: 0.95; letter-spacing: -0.06em; color: var(--ink); margin: 10px 0 14px; font-weight: 600; }
-  .cap { font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem); color: var(--muted); max-width: 40ch; }
-  .more { font-family: var(--font-mono), monospace; font-size: 0.9rem; }
-  .rail { display: none; }
-  .story:global(.scrub) .pin { position: sticky; top: 0; height: 100svh; display: grid; align-items: center; padding: 0; }
-  .step { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; }
+  /* results board: one object that changes in place. Without JS every result is listed;
+     with JS one shows at a time, its digits flip to the next every few seconds, tabs jump. */
+  @property --l { syntax: "<number>"; inherits: true; initial-value: 1; }
+  .board { position: relative; z-index: 1; padding-top: 96px; }
+  .bhead { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--line-2); padding-bottom: 12px; }
+  .bhead h2 { font-size: 0.82rem; font-weight: 400; letter-spacing: 0; color: var(--accent); margin: 0; }
+  .btoggle { background: none; border: 1px solid var(--line-2); color: var(--muted); border-radius: 999px; padding: 3px 12px; font-size: 0.75rem; cursor: pointer; }
+  .btoggle:hover { color: var(--ink); border-color: var(--accent); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; }
+  .tabs button { background: none; border: 1px solid var(--line-2); color: var(--muted); border-radius: 999px; padding: 6px 14px; font: 500 0.88rem var(--font-sans), sans-serif; cursor: pointer; transition: color 0.2s, border-color 0.2s, background 0.2s; }
+  .tabs button .mono { color: var(--accent); font-size: 0.72rem; margin-right: 4px; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .tabs button[aria-selected="true"] .mono { color: var(--bg); }
+  .panel { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center; padding: 40px 0; border-bottom: 1px solid var(--line-2); }
+  .board:global(.live) .panels { display: grid; }
+  .board:global(.live) .panel { grid-area: 1 / 1; border: 0; opacity: 0; visibility: hidden; transition: opacity 0.35s, visibility 0.35s, --l 0s; --l: 0; }
+  .board:global(.live) .panel[data-active] { opacity: 1; visibility: visible; --l: 1; transition: opacity 0.35s, visibility 0s, --l 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s; }
   .txt { grid-column: 1 / span 6; }
-  .viz { grid-column: 8 / -1; display: flex; flex-direction: column; gap: 16px; --l: 1; }
+  .fig { font-size: clamp(3.4rem, 1rem + 9vw, 9.5rem); line-height: 0.95; letter-spacing: -0.05em; color: var(--ink); margin: 10px 0 14px; font-weight: 600; white-space: nowrap; }
+  .cap { font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.35rem); color: var(--muted); max-width: 40ch; }
+  .more { font-family: var(--font-mono), monospace; font-size: 0.9rem; }
+  .clock { height: 2px; background: var(--line); margin-top: 8px; overflow: hidden; }
+  .clock i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+  .clock:global(.run) i { animation: clock var(--period, 5s) linear forwards; }
+  .board:hover .clock i, .board:focus-within .clock i, :global(html[data-paused]) .clock i, .board:global(.held) .clock i { animation-play-state: paused; }
+  @keyframes clock { to { transform: scaleX(1); } }
+  .viz { grid-column: 8 / -1; display: flex; flex-direction: column; gap: 16px; }
   .bar { position: relative; height: 34px; border-left: 1px solid var(--line-2); }
   .bar i { position: absolute; left: 0; top: 8px; bottom: 8px; width: calc(var(--w) * var(--l)); background: var(--line-2); border-radius: 0 6px 6px 0; transition: width 0.15s linear; }
   .bar.hot i { background: var(--accent); }
   .lab { font-size: 0.78rem; color: var(--muted); margin: 0 0 -10px; }
   .axis { color: var(--muted); font-size: 0.8rem; margin: 0; }
-  .track { position: relative; height: 54px; }
-  .track .field { position: absolute; inset: 22px 0; background: repeating-linear-gradient(90deg, var(--line-2) 0 2px, transparent 2px 7px); }
-  .track b { position: absolute; top: 0; bottom: 0; left: calc(var(--at) * var(--l)); width: 3px; background: var(--accent); box-shadow: 0 0 18px var(--accent); }
+  .rank { position: relative; height: 54px; }
+  .rank .field { position: absolute; inset: 22px 0; background: repeating-linear-gradient(90deg, var(--line-2) 0 2px, transparent 2px 7px); }
+  .rank b { position: absolute; top: 0; bottom: 0; left: calc(var(--at) * var(--l)); width: 3px; background: var(--accent); box-shadow: 0 0 18px var(--accent); }
   .dots { display: grid; grid-template-columns: repeat(20, 1fr); gap: 6px; }
   .dots i { aspect-ratio: 1; border-radius: 50%; background: var(--line-2); }
   .dots i { background: color-mix(in srgb, var(--accent) calc(clamp(0, (var(--l) * 120 - var(--k)) * 100, 100) * 1%), var(--line-2)); }
-  .story:global(.scrub) .step { grid-area: 1 / 1; border: 0; padding: 0 0 0 56px; opacity: 0; transform: translateY(30px); transition: opacity 0.45s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none; }
-  .story:global(.scrub) .step[data-active] { opacity: 1; transform: none; pointer-events: auto; }
-  .story:global(.scrub) .rail { display: flex; flex-direction: column; gap: 10px; grid-area: 1 / 1; align-self: center; list-style: none; margin: 0; padding: 0; width: 20px; }
-  .rail li { width: 2px; height: 34px; background: var(--line-2); transition: background 0.3s, height 0.3s; }
-  .rail li[data-active] { background: var(--accent); height: 56px; }
 
   .section { position: relative; z-index: 1; padding-top: 72px; }
   .head { align-items: baseline; margin-bottom: 18px; }

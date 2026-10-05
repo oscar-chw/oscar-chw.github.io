@@ -17,6 +17,7 @@
     "@astrojs/mdx": "^8.0.2",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.5",
+    "lucide": "^1.52.0",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {

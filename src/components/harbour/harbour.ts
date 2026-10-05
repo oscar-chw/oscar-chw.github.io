@@ -15,6 +15,7 @@ type Rows = { label: string[]; bid: number[]; ask: number[]; mid: number };
 interface Geo {
   M: { o: number; c: number; h: number; l: number; rets: number[] }[];
   BW: number; Y: (v: number) => number; price: (y: number) => number; roof: [number, number][]; hub: [number, number];
+  beams: [number, number, boolean][]; lit: [number, number][];
 }
 
 // Each stage stays under ~50 ms on a 4x-throttled phone CPU, so painting the city never blocks input.
@@ -69,7 +70,7 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
 
   await pause();
   // front row: one building per block. roof = close, spire = high, windows = that block's days
-  const BW = XT / M.length, roof: [number, number][] = [];
+  const BW = XT / M.length, roof: [number, number][] = [], lit: [number, number][] = [], beams: [number, number, boolean][] = [];
   M.forEach((m) => {
     const i = roof.length, w = Math.max(7, BW * (0.55 + 0.42 * rnd())), x = i * BW + (BW - w) / 2, top = Y(m.c);
     g = cx.createLinearGradient(x, 0, x + w, 0); g.addColorStop(0, "#1d2f52"); g.addColorStop(1, "#0e182e"); cx.fillStyle = g; cx.fillRect(x, top, w, WL - top);
@@ -83,6 +84,7 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
     cx.fillStyle = "rgba(60,82,118,0.22)"; cells.forEach(([xx, yy]) => cx.fillRect(xx, yy, 2, 3));
     for (let d = 0; d < m.rets.length && cells.length; d++) {
       const [xx, yy] = cells.splice(Math.floor(rnd() * cells.length), 1)[0], v = m.rets[d];
+      lit.push([xx, yy]);
       cx.fillStyle = v > 0 ? (v > 0.02 ? "rgba(86,211,100,0.95)" : "rgba(63,185,80,0.62)") : (v < -0.02 ? "rgba(248,81,73,0.92)" : "rgba(248,81,73,0.5)");
       cx.fillRect(xx, yy, 2, 3);
     }
@@ -98,6 +100,7 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
   { const idx = [...roof.keys()].filter((i) => Math.abs(roof[i][0] - hub[0]) > 90);
     for (let k = 0; k < 17; k++) {
       const [rx, ry] = roof[idx[Math.floor(((k + 0.5) / 17) * idx.length)]], writer = k % 3 === 1 && k < 15, col = writer ? "255,190,120" : "110,230,215";
+      beams.push([rx, ry - 2, writer]);
       const lg = cx.createLinearGradient(hub[0], hub[1], rx, ry); lg.addColorStop(0, `rgba(${col},${writer ? 0.55 : 0.42})`); lg.addColorStop(1, `rgba(${col},0.06)`);
       cx.save(); cx.shadowColor = `rgba(${col},0.8)`; cx.shadowBlur = 5; cx.strokeStyle = lg; cx.lineWidth = writer ? 1.3 : 1; cx.beginPath(); cx.moveTo(hub[0], hub[1]); cx.lineTo(rx, ry - 2); cx.stroke(); cx.restore();
       cx.fillStyle = `rgba(${col},0.9)`; cx.beginPath(); cx.arc(rx, ry - 2, 1.5, 0, 7); cx.fill();
@@ -154,7 +157,7 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
   cx.font = "italic 20px Menlo, monospace"; cx.fillStyle = "rgba(170,215,225,0.85)"; cx.fillText("no look-ahead", XT + 22, 92);
   // inverse of Y: the price a screen height stands for (the crosshair's price axis)
   const price = (y: number) => Math.exp(lo + ((WL - 28 - y) / 205) * (hi - lo));
-  return { M, BW, Y, price, roof, hub };
+  return { M, BW, Y, price, roof, hub, beams, lit };
 }
 
 /** Rows for the water: live books by depth level, the bundled snapshot by distance from mid. */
@@ -172,6 +175,32 @@ const SNAPSHOT_ROWS: Rows = {
   label: snapshot.bands_bps.map((b) => `within ${b} bps of mid`), bid: snapshot.cum_bid_btc, ask: snapshot.cum_ask_btc, mid: snapshot.mid,
 };
 
+/** The living layer over the painted city: the roofline draws itself, packets travel the beams
+ * (readers pull from the platform, writers push to it), windows flicker and the beacon pings.
+ * Pure SVG + CSS animation, so the browser pauses it with the tab and the Pause button stops it. */
+function life(geo: Geo): SVGSVGElement {
+  const ns = "http://www.w3.org/2000/svg", f = (v: number) => v.toFixed(1);
+  const [hx, hy] = geo.hub;
+  let rs = 7; const rnd = () => (rs = (rs * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const roofLen = geo.roof.reduce((s, p, i) => (i ? s + Math.hypot(p[0] - geo.roof[i - 1][0], p[1] - geo.roof[i - 1][1]) : 0), 0);
+  let html = `<path class="roofline" d="M${geo.roof.map(([x, y]) => `${f(x)},${f(y)}`).join(" L")}" style="--len:${Math.ceil(roofLen)}"/>`;
+  geo.beams.forEach(([rx, ry, writer], k) => {
+    const len = Math.hypot(rx - hx, ry - hy), [a, b] = writer ? [[rx, ry], [hx, hy]] : [[hx, hy], [rx, ry]];
+    html += `<path class="pkt ${writer ? "w" : "r"}" d="M${f(a[0])},${f(a[1])} L${f(b[0])},${f(b[1])}" style="--len:${Math.ceil(len)};animation-duration:${(1.8 + rnd() * 1.6).toFixed(2)}s;animation-delay:-${(rnd() * 3).toFixed(2)}s"/>`;
+    void k;
+  });
+  for (let i = 0; i < 140 && geo.lit.length; i++) {
+    const [x, y] = geo.lit[Math.floor(rnd() * geo.lit.length)];
+    html += `<rect class="win" x="${x}" y="${y}" width="2" height="3" style="animation-duration:${(4 + rnd() * 7).toFixed(1)}s;animation-delay:-${(rnd() * 9).toFixed(1)}s"/>`;
+  }
+  html += `<circle class="ping" cx="${f(hx)}" cy="${f(hy)}" r="3"/>`;
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.setAttribute("class", "life"); svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("preserveAspectRatio", "xMaxYMid slice");   // matches the canvas: object-fit cover, object-position 100%
+  svg.innerHTML = html;
+  return svg;
+}
+
 export async function mountHarbour(wrap: HTMLElement) {
   const canvas = wrap.querySelector("canvas")!, tip = wrap.querySelector<HTMLElement>("[data-testid=harbour-tip]")!;
   const badge = wrap.querySelector<HTMLElement>("[data-testid=book-badge]")!;
@@ -180,6 +209,7 @@ export async function mountHarbour(wrap: HTMLElement) {
   // paint the city off-screen, then show it whole: no half-drawn frames
   const base = document.createElement("canvas"); base.width = W; base.height = H;
   const geo = await drawCity(base.getContext("2d")!, base);
+  wrap.querySelector(".life")?.replaceWith(life(geo));
 
   let rows = SNAPSHOT_ROWS, state: FeedState | "connecting" = "connecting", restAt = "", frames = 0, paused = false;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
@@ -243,6 +273,7 @@ export async function mountHarbour(wrap: HTMLElement) {
     setBadge();
     // one switch for all self-moving parts of the page (ticker, particles), not just the book
     document.dispatchEvent(new CustomEvent("motionpause", { detail: paused }));
+    document.documentElement.toggleAttribute("data-paused", paused);
   });
 
   paint(); setBadge();
