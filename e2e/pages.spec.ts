@@ -176,6 +176,20 @@ test("Escape closes an open definition without moving the pointer, and the point
   await expect(pop).toBeHidden();                                // dismissible
 });
 
+test("if the console's code fails to load once, the next keystroke tries again", async ({ page }) => {
+  let fails = 1;
+  await page.route(/\/console\.js$/, (r) => (fails-- > 0 ? r.abort() : r.continue()));
+  await page.goto("/projects/");
+  await page.locator("[data-term]").click();
+  await page.keyboard.type("w");                                  // this load fails
+  await page.waitForTimeout(400);
+  await page.keyboard.type("hoami");                              // the next keystroke loads it again
+  await expect(page.getByRole("dialog", { name: "Command palette" })).toBeVisible({ timeout: 8000 });
+  await expect(page.locator(".palette .pq")).toHaveValue("whoami");
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog", { name: "Command palette" }).locator(".po")).toContainText("open to work", { timeout: 8000 });
+});
+
 test("one object: hovering a project row turns the pinned object into that project", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");

@@ -1,7 +1,10 @@
 name: Deploy to GitHub Pages
-# main deploys the site at the root. (Until launch on 2026-10-06, v2 deployed a preview under /next/.)
+# main deploys the site at the root, and only a commit whose CI run passed: the deploy starts when CI
+# completes on main and builds exactly that commit. (Until launch on 2026-10-06, v2 deployed a preview.)
 on:
-  push:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 permissions:
@@ -13,10 +16,11 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
+        with: { fetch-depth: 0, ref: "${{ github.event.workflow_run.head_sha || github.sha }}" }
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci

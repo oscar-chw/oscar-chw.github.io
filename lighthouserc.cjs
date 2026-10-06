@@ -1,8 +1,8 @@
-// Lighthouse CI: >= 0.95 in every category on the home page and one project page,
+// Lighthouse CI: >= 0.95 in every category on the home page, the lead project page and the Lab,
 // default mobile profile (simulated slow 4G), the stricter of the two.
 // LHCI_URL_BASE set => audit a deployed site (launch check); unset => audit dist/ locally.
 const base = process.env.LHCI_URL_BASE;
-const paths = ["/", "/projects/point-in-time-research/"];
+const paths = ["/", "/projects/ai-quant-research-system/", "/demos/"];
 module.exports = {
   ci: {
     collect: {

@@ -5,8 +5,8 @@
 .lab { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 28px; align-items: start; }
 .tree { position: sticky; top: 100px; font-size: 0.84rem; border: 1px solid var(--line-2); border-radius: 18px; padding: 14px 10px; background: color-mix(in srgb, var(--bg-2) 60%, transparent); max-height: calc(100vh - 120px); overflow: auto; }
 .tree .root { color: var(--accent); margin: 0 6px 8px; }
-.tree ul { list-style: none; margin: 0; padding: 0; }
-.tree ul ul { margin: 2px 0 8px 14px; border-left: 1px dashed var(--line-2); }
+.tree [role=listbox], .tree .files { margin: 0; padding: 0; }
+.tree .files { margin: 2px 0 8px 14px; border-left: 1px dashed var(--line-2); }
 .tree .d { display: flex; align-items: center; gap: 6px; color: var(--muted); padding: 3px 6px; }
 .tree [role=option] a { background-image: none !important; display: flex; align-items: center; gap: 7px; padding: 5px 10px; border-radius: 8px; color: var(--ink); text-decoration: none; transition: background 0.2s, padding 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 .tree [role=option] a:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); padding-left: 14px; }

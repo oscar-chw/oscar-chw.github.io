@@ -5,11 +5,15 @@ import Icon from "../components/Icon.astro";
 import "../styles/global.css";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
+import { execSync } from "node:child_process";
 
 interface Props { title?: string; description?: string; errorPage?: boolean }
 const { title, description = SITE.description, errorPage = false } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · quant research infrastructure`;
 const canonical = new URL(Astro.url.pathname, SITE.site).href;
+// the commit this page was built from: launch-check compares it with the commit it link-checked
+let build = "dev";
+try { build = execSync("git rev-parse --short=12 HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim(); } catch { /* not a git checkout */ }
 const nav = [
   ["Work", "/projects/", "layers"],
   ["Demos", "/demos/", "sparkles"],
@@ -39,6 +43,7 @@ const commands: [string, string, string][] = [
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
+    <meta name="build" content={build} />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
@@ -120,12 +125,15 @@ const commands: [string, string, string][] = [
       (() => {
         const d = document.querySelector(".palette"), bar = document.querySelector("[data-term]");
         let m, handing = false, go = false;
-        const load = () => (m ||= import(d.dataset.js));
-        const open = (t = "") => load().then((c) => c.open(t));
+        // a failed load (offline, a blip) is forgotten, so the next keystroke or click tries again;
+        // Chromium also caches a failed import() of a URL, so a retry asks for a fresh one
+        let tries = 0;
+        const load = () => (m ||= import(d.dataset.js + (tries++ ? `?retry=${tries}` : "")).catch((e) => { m = undefined; handing = false; throw e; }));
+        const open = (t = "") => load().then((c) => c.open(t), () => {});
         document.querySelectorAll("[data-palette-open]").forEach((b) => b.addEventListener("click", () => open()));
         // keep typing in the bar while the console loads, then hand over everything typed so far;
         // an Enter pressed while it loads is kept and runs the command once it is there
-        const hand = () => { if (handing) return; handing = true; load().then((c) => { const t = bar.value; bar.value = ""; handing = false; c.open(t, go); go = false; }); };
+        const hand = () => { if (handing) return; handing = true; load().then((c) => { const t = bar.value; bar.value = ""; handing = false; c.open(t, go); go = false; }, () => {}); };
         if (bar) { bar.addEventListener("input", hand); bar.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); go = true; hand(); } }); }
         addEventListener("keydown", (e) => {
           const t = e.target, typing = t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));

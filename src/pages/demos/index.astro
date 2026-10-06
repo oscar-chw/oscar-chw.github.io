@@ -18,19 +18,19 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   <div class="wrap lab" data-lab data-base={import.meta.env.BASE_URL}>
     <nav class="tree mono" aria-label="Experiments">
       <p class="root">~/lab</p>
-      <ul role="listbox" aria-label="Experiments" tabindex="0">
+      <div role="listbox" aria-label="Experiments" tabindex="0">
         {folders.map((f) => (
-          <li class="dir"><span class="d"><Icon name="folder" size={14} />{f}/</span>
-            <ul>
+          <div class="dir" role="group" aria-labelledby={`dir-${f}`}><span class="d" id={`dir-${f}`}><Icon name="folder" size={14} />{f}/</span>
+            <div class="files">
               {EXPERIMENTS.filter((e) => e.folder === f).map((e) => (
-                <li role="option" id={`opt-${e.id}`} data-exp={e.id} aria-selected="false">
+                <div role="option" id={`opt-${e.id}`} data-exp={e.id} aria-selected="false">
                   <a href={e.kind === "page" ? url(e.href!) : `#${e.id}`}><Icon name={e.kind === "page" ? "external-link" : "file-code"} size={13} />{e.file}</a>
-                </li>
+                </div>
               ))}
-            </ul>
-          </li>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </nav>
 
     <section class="bench" aria-live="polite">
