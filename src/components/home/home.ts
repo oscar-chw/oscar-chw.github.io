@@ -166,11 +166,13 @@ for (const m of document.querySelectorAll<HTMLElement>("[data-manifesto]")) {
 }
 
 // ---------- easter eggs: the Konami code lights up the harbour; a note for whoever opens devtools ----------
-const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-let kpos = 0;
+// The real code ends B A; A B works too, because plenty of people remember it that way.
+const ARROWS = "ArrowUp ArrowUp ArrowDown ArrowDown ArrowLeft ArrowRight ArrowLeft ArrowRight";
+const CODES = [`${ARROWS} b a`, `${ARROWS} a b`];
+let last: string[] = [];
 addEventListener("keydown", (e) => {
-  kpos = e.key === KONAMI[kpos] ? kpos + 1 : e.key === KONAMI[0] ? 1 : 0;
-  if (kpos === KONAMI.length) { kpos = 0; document.documentElement.classList.toggle("lights"); }
+  last = [...last, e.key.length === 1 ? e.key.toLowerCase() : e.key].slice(-10);
+  if (CODES.includes(last.join(" "))) { last = []; document.documentElement.classList.toggle("lights"); }
 });
 console.log(
   "%c oscar@chw:~$ %c you opened devtools. we should talk: choiheiwang@gmail.com\n(try typing `sudo hire oscar` in the console on the page, or the Konami code)",

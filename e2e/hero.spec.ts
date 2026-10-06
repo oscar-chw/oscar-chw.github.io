@@ -164,4 +164,7 @@ test("the Konami code starts the Symphony of Lights", async ({ page }) => {
   await page.goto("/");
   for (const k of ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]) await page.keyboard.press(k);
   await expect(page.locator("html")).toHaveClass(/lights/);
+  // the way many people remember it, A then B, toggles it back off
+  for (const k of ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "a", "b"]) await page.keyboard.press(k);
+  await expect(page.locator("html")).not.toHaveClass(/lights/);
 });

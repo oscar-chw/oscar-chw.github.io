@@ -1,10 +1,8 @@
 name: Deploy to GitHub Pages
-# main deploys the site at the root. v2 deploys the preview under /next/ and keeps
-# main's current index.html byte-for-byte at the root, so the live page does not
-# change until v2 is merged.
+# main deploys the site at the root. (Until launch on 2026-10-06, v2 deployed a preview under /next/.)
 on:
   push:
-    branches: [main, v2]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,17 +21,7 @@ jobs:
         with: { node-version: 22, cache: npm }
       - run: npm ci
       - name: Build
-        run: |
-          mkdir -p _site
-          if [ "$GITHUB_REF_NAME" = "main" ]; then
-            npm run build
-            cp -R dist/. _site/
-          else
-            SITE_BASE=/next/ npm run build
-            mkdir -p _site/next
-            cp -R dist/. _site/next/
-            git show origin/main:index.html > _site/index.html
-          fi
+        run: npm run build && mkdir -p _site && cp -R dist/. _site/
       - uses: actions/upload-pages-artifact@v3
         with: { path: _site }
   deploy:
