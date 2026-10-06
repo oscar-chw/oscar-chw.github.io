@@ -7,9 +7,9 @@ const code = [
 ];
 ---
 <Demo code={code} title="The harbour" description="Victoria Harbour, drawn from a market my matching engine simulates in your browser. Pick the kind of market.">
-  <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. Pick a market below: calm, trending, mean-reverting, volatile, a crash, or one that switches between them. Change the seed for another history of the same kind.</Fragment>
+  <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. Pick a market for the skyline below: calm, trending, mean-reverting, volatile, a crash, or one that switches between them, and a seed for another history of the same kind. The water can show a live ETH, BTC or SOL book, or the simulated one.</Fragment>
   <Harbour picker />
   <Fragment slot="source">
-    <strong>Data:</strong> synthetic. A seeded stream of limit orders, cancels and market orders, around a fair value that follows the chosen regime, runs through a price-time-priority matching engine in this page. The skyline is the first 36,000 order events; after <em>t = now</em> the same market keeps trading and the water shows its order book. The beams show the QTS data platform's race test. Nothing is fetched.
+    <strong>Data:</strong> the skyline is synthetic: a seeded stream of limit orders, cancels and market orders, around a fair value that follows the chosen regime, runs through a price-time-priority matching engine in this page (the first 36,000 order events). The water is live: the ETH/USDT, BTC/USDT or SOL/USDT order book from Binance's public market-data stream (<code>data-stream.binance.vision</code>), straight from your browser, no key and no server; if the stream fails it takes one REST snapshot, and failing that the simulated market's own book. The beams show the QTS data platform's race test.
   </Fragment>
 </Demo>

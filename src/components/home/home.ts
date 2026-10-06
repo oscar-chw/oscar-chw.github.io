@@ -108,14 +108,15 @@ if (spot && fine && !still) {
   addEventListener("pointermove", (e) => { spot.style.setProperty("--x", `${e.clientX}px`); spot.style.setProperty("--y", `${e.clientY}px`); spot.style.opacity = "1"; }, { passive: true });
 }
 
-// ---------- ticker: the simulated market's live mid from the harbour ----------
+// ---------- ticker: the harbour's live mid (ETH/USDT, or SIM when the simulated book is the water) ----------
 for (const el of document.querySelectorAll<HTMLElement>("[data-ticker-mid]")) {
   let last = 0;
   document.addEventListener("harbourmid", (e) => {
-    const { mid } = (e as CustomEvent<{ mid: number }>).detail, now = performance.now();
+    const { mid, label } = (e as CustomEvent<{ mid: number; label: string }>).detail, now = performance.now();
     if (now - last < 1000) return;
     last = now;
     el.textContent = mid.toFixed(2);
+    for (const l of document.querySelectorAll<HTMLElement>("[data-ticker-label]")) l.textContent = label;
   });
 }
 

@@ -10,9 +10,9 @@ Source of [oscar-chw.github.io](https://oscar-chw.github.io), Oscar Choi's perso
 
 ## The harbour
 
-`src/components/harbour/` draws one market, simulated in the page: a seeded stream of limit orders, cancels and market orders runs through a price-time-priority matching engine (`src/lib/replay.ts`, `src/lib/market.ts`). The skyline is that market's past (36,000 order events, one building per 30 sessions); after *t = now* the same market keeps trading and the water shows its live order book. The beams draw the QTS data platform's race test. Nothing is fetched.
+`src/components/harbour/` paints a city from a simulated market: a seeded stream of limit orders, cancels and market orders runs through a price-time-priority matching engine (`src/lib/replay.ts`, `src/lib/market.ts`), and the skyline is that market's past (36,000 order events, one building per 30 sessions). The water is a live order book: ETH/USDT from Binance's public market-data stream (`data-stream.binance.vision`, no key), straight from the browser. If the stream fails it takes one REST snapshot, and failing that the simulated market keeps trading and its own book becomes the water. The beams draw the QTS data platform's race test.
 
-Redraws are capped at 10 fps (1 fps under reduced motion), the market stops while the tab is hidden, and Pause stops everything that moves. `/demos/harbour/` adds a market picker (regime-switching, calm, trending, mean-reverting, volatile, crash) and a seed.
+Redraws are capped at 10 fps (1 fps under reduced motion), the stream closes while the tab is hidden, and Pause stops everything that moves. `/demos/harbour/` adds a market picker for the skyline (regime-switching, calm, trending, mean-reverting, volatile, crash, and a seed) and for the water (ETH, BTC or SOL live, or simulated).
 
 ## The Lab
 

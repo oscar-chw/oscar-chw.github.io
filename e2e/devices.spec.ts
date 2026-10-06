@@ -24,6 +24,7 @@ for (const s of SIZES) {
     test("no page scrolls sideways or throws", async ({ page }) => {
       test.setTimeout(90_000);
       await page.route(offsite, (r) => r.abort());
+      await page.routeWebSocket(/binance/, (ws) => ws.close());   // the live order book is tested on its own
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(`${page.url()}: ${e.message}`));
       const wide: string[] = [];

@@ -1,15 +1,21 @@
-// Victoria Harbour drawn from one simulated market: seeded order flow through my matching engine
-// (src/lib/market.ts). The city is that market's past, painted once into a base layer with the
-// platform race test and the blueprint future; only the water, the same market's live order book,
-// is repainted, and at most 10 times a second. Nothing is fetched: it all runs in the page.
-import { FrameGate, type Book } from "../../lib/orderbook";
+// Victoria Harbour. The city is a simulated market's past (seeded order flow through my matching engine,
+// src/lib/market.ts), painted once into a base layer with the platform race test and the blueprint
+// future. The water is a live exchange order book (Binance's public market-data stream, ETH/USDT by
+// default), repainted at most 10 times a second; if the stream and its REST snapshot both fail, the
+// simulated market keeps trading and its own book becomes the water.
+import { FrameGate, createFeed, type Book, type FeedState } from "../../lib/orderbook";
 import { Market, REGIMES, type Regime } from "../../lib/market";
 import { attachRipples } from "./ripples";
 
 const W = 1584, H = 396, WL = 286, XT = 1210;          // canvas size, waterline, t = now
 const ROWS = 14, ROW_H = 6.4, BAR = 190;
 const SESSIONS = 1800, PER_SESSION = 20, BLOCK = 30;     // the past: 36,000 order events, one building per 30 sessions
-const LIVE_EVENTS = 12;                                  // order events per 100 ms once t = now
+const LIVE_EVENTS = 12;                                  // simulated order events per 100 ms once t = now
+// live books: Binance's public market-data endpoints (no key; data-stream.binance.vision also serves the US)
+const PAIRS = { ETH: "ethusdt", BTC: "btcusdt", SOL: "solusdt" } as const;
+type Source = keyof typeof PAIRS | "sim";
+const wsUrl = (p: string) => `wss://data-stream.binance.vision/ws/${p}@depth20@100ms`;
+const restUrl = (p: string) => `https://data-api.binance.vision/api/v3/depth?symbol=${p.toUpperCase()}&limit=20`;
 type Kind = Regime | "switching";
 const kindLabel = (k: Kind) => (k === "switching" ? "regime-switching" : REGIMES[k].label.toLowerCase());
 
@@ -215,12 +221,13 @@ export async function mountHarbour(wrap: HTMLElement) {
   let base!: HTMLCanvasElement, market!: Market, geo!: Geo, rows!: Rows, kind: Kind = "switching", seed = 42, builds = 0;
   // the picker (demo page) may already show a choice: a restored form after Back, or a click while loading
   const picker = wrap.closest(".harbour")?.querySelector<HTMLFormElement>("[data-market]");
-  const chosen = (): [Kind, number] => {
-    if (!picker) return [kind, seed];
+  let source: Source = (wrap.dataset.book as Source) || "ETH";
+  const chosen = (): [Kind, number, Source] => {
+    if (!picker) return [kind, seed, source];
     const f = new FormData(picker);
-    return [(f.get("regime") as Kind) ?? "switching", Math.max(1, Math.floor(Number(f.get("seed")) || 1))];
+    return [(f.get("regime") as Kind) ?? "switching", Math.max(1, Math.floor(Number(f.get("seed")) || 1)), (f.get("book") as Source) ?? source];
   };
-  [kind, seed] = chosen();
+  [kind, seed, source] = chosen();
   // paint the city off-screen, then show it whole: no half-drawn frames. Each build draws on its own
   // canvas and only the newest is kept, so quick picker changes cannot interleave two cities.
   async function build(): Promise<boolean> {
@@ -236,7 +243,9 @@ export async function mountHarbour(wrap: HTMLElement) {
   }
   await build();
 
-  let frames = 0, paused = false;
+  let frames = 0, paused = false, state: FeedState | "connecting" | "sim" = "connecting", restAt = "";
+  const pair = () => (source === "sim" ? "" : `${source}/USDT`);
+  const simulated = () => source === "sim" || state === "fallback" || state === "sim";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let gate = new FrameGate(reduce.matches ? 1 : 10);
   reduce.addEventListener("change", () => (gate = new FrameGate(reduce.matches ? 1 : 10)));
@@ -250,20 +259,21 @@ export async function mountHarbour(wrap: HTMLElement) {
       gr = cx.createLinearGradient(XT, 0, XT + al, 0); gr.addColorStop(0, "rgba(248,81,73,0.85)"); gr.addColorStop(1, "rgba(248,81,73,0.10)"); cx.fillStyle = gr; cx.fillRect(XT + 3, yy, al, 2);
     });
     cx.font = "18px Menlo, monospace";
-    const t = `bids | asks  ${rows.mid.toFixed(2)}`, w = cx.measureText(t).width;
+    const t = `${simulated() ? "" : `${source} `}bids | asks  ${rows.mid.toFixed(2)}`, w = cx.measureText(t).width;
     cx.fillStyle = "rgba(8,13,26,0.72)"; cx.fillRect(XT - w / 2 - 6, H - 26, w + 12, 24); cx.fillStyle = "rgba(190,225,232,0.95)"; cx.fillText(t, XT - w / 2, H - 8);
     frames++;
     wrap.dataset.frames = String(frames);
     water?.refresh();
     wrap.dataset.bookMid = rows.mid.toFixed(2);
-    document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid } }));
+    document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid, label: simulated() ? "SIM" : source } }));
   }
 
   function setBadge() {
-    // a market stopped by the user, or by a hidden tab, says so instead of a stale "live"
+    // a book stopped by the user, or by a hidden tab, says so instead of a stale "live"
     const idle = paused || document.hidden;
-    badge.dataset.state = idle ? "paused" : "live";
-    badge.textContent = idle ? "paused" : `live · seed ${seed}`;
+    badge.dataset.state = idle ? "paused" : simulated() ? "sim" : state;
+    badge.textContent = idle ? "paused" : simulated() ? `simulated · seed ${seed}` : state === "live" ? `live · ${pair()}`
+      : state === "rest" ? `snapshot · ${pair()} · ${restAt} UTC` : `connecting · ${pair()}`;
   }
 
   let pending: ReturnType<typeof setTimeout> | undefined;
@@ -276,14 +286,27 @@ export async function mountHarbour(wrap: HTMLElement) {
 
   // after t = now the market keeps trading: a few order events every 100 ms through the same engine
   let clock: ReturnType<typeof setInterval> | undefined;
-  const start = () => {
+  // the simulated market keeps trading after t = now: its own book is the water when there is no live one
+  const startSim = () => {
     clearInterval(clock);
     clock = setInterval(() => {
       for (let i = 0; i < LIVE_EVENTS; i++) market.step();
       rows = rowsFromBook(market.book.depth(20), market.mid()); request();
     }, 100);
   };
-  const halt = () => { clearInterval(clock); clock = undefined; clearTimeout(pending); pending = undefined; };
+  let feed: ReturnType<typeof createFeed> | undefined;
+  const start = () => {
+    feed?.stop(); clearInterval(clock);
+    if (source === "sim") { state = "sim"; setBadge(); startSim(); return; }
+    state = "connecting"; setBadge();
+    const p = PAIRS[source];
+    feed = createFeed({
+      wsUrl: wsUrl(p), restUrl: restUrl(p),
+      onBook: (book, s) => { rows = rowsFromBook(book, (book.bids[0][0] + book.asks[0][0]) / 2); if (s === "rest") restAt = new Date().toISOString().slice(11, 16); request(); },
+      onState: (s) => { state = s; if (s === "fallback") startSim(); setBadge(); },
+    });
+  };
+  const halt = () => { feed?.stop(); feed = undefined; clearInterval(clock); clock = undefined; clearTimeout(pending); pending = undefined; };
   // Stop the market while the tab is hidden; resume when it is shown again.
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) halt();
@@ -305,10 +328,12 @@ export async function mountHarbour(wrap: HTMLElement) {
   // the market picker (demo page): another regime or seed rebuilds the city and restarts the water
   picker?.addEventListener("submit", (e) => { e.preventDefault(); picker.dispatchEvent(new Event("change")); });   // Enter in the seed field
   picker?.addEventListener("change", async () => {
-    const [rk, sd] = chosen();
-    if (rk === kind && sd === seed) return;
-    kind = rk; seed = sd;
+    const [rk, sd, src] = chosen();
+    if (rk === kind && sd === seed && src === source) return;
+    const city = rk !== kind || sd !== seed;
+    kind = rk; seed = sd; source = src;
     halt(); tip.hidden = true;
+    if (!city) { setBadge(); if (!paused && !document.hidden) start(); return; }   // only the water changes
     if (!(await build())) return;           // a newer choice is already building
     k = -1;                                  // the keyboard read-out starts again at the first building
     paint(); setBadge();
@@ -332,7 +357,8 @@ export async function mountHarbour(wrap: HTMLElement) {
       return `<b>After t = now: no look-ahead</b><br>Look-ahead bias is using data that was not yet known at decision time, which makes a backtest look better than anything that could have traded.<br>These towers stay unlit blueprints. <a href="${site}projects/ai-quant-research-system/#point-in-time-research">Point-in-time research →</a>`;
     if (y > WL + 6 && y < WL + 12 + ROWS * ROW_H && Math.abs(x - XT) < 200) {
       const l = Math.max(0, Math.min(ROWS - 1, Math.floor((y - WL - 8) / ROW_H)));
-      return `<b>Order book, ${rows.label[l]}</b><br><span class="g">bids ${rows.bid[l]} lots</span> · <span class="r">asks ${rows.ask[l]} lots</span><br>${badge.textContent}`;
+      const unit = simulated() ? "lots" : source, q = (v: number) => (simulated() ? String(v) : v.toFixed(3));
+      return `<b>Order book, ${rows.label[l]}</b><br><span class="g">bids ${q(rows.bid[l])} ${unit}</span> · <span class="r">asks ${q(rows.ask[l])} ${unit}</span><br>${badge.textContent}`;
     }
     const i = Math.floor(x / geo.BW), m = geo.M[i];
     if (m && y < WL && y > geo.Y(m.h) - 14) {

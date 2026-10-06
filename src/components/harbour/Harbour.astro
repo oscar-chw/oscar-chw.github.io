@@ -6,7 +6,7 @@ interface Props { legend?: boolean; picker?: boolean }
 const { legend = true, picker = false } = Astro.props;
 ---
 <figure class="harbour">
-  <div class="stage" data-testid="harbour" tabindex="0" role="group" data-base={import.meta.env.BASE_URL}
+  <div class="stage" data-testid="harbour" tabindex="0" role="group" data-base={import.meta.env.BASE_URL} data-book="ETH"
        aria-label="Victoria Harbour drawn from a simulated market. Use the left and right arrow keys to read each part; Escape hides the read-out."
        aria-describedby={legend ? "harbour-legend" : undefined}>
     <canvas width="1584" height="396" aria-hidden="true"></canvas>
@@ -27,6 +27,13 @@ const { legend = true, picker = false } = Astro.props;
         {Object.entries(REGIMES).map(([k, r]) => <label title={r.blurb}><input type="radio" name="regime" value={k} /> {r.label}</label>)}
       </fieldset>
       <label class="seed">seed <input type="number" name="seed" value="42" min="1" max="999999" inputmode="numeric" /></label>
+      <fieldset>
+        <legend>water</legend>
+        <label title="live from Binance"><input type="radio" name="book" value="ETH" checked /> ETH/USDT live</label>
+        <label title="live from Binance"><input type="radio" name="book" value="BTC" /> BTC/USDT live</label>
+        <label title="live from Binance"><input type="radio" name="book" value="SOL" /> SOL/USDT live</label>
+        <label title="the simulated market's own book"><input type="radio" name="book" value="sim" /> Simulated</label>
+      </fieldset>
     </form>
   )}
   {legend && (
@@ -36,7 +43,7 @@ const { legend = true, picker = false } = Astro.props;
         <li><span class="k">windows</span> one per session: <span class="up">green up</span>, <span class="down">red down</span></li>
         <li><span class="k">beams</span> the QTS data platform's race test: 12 readers, 5 writers, 0 commits lost</li>
         <li><span class="k">t = now</span> nothing to its right is used: no look-ahead</li>
-        <li><span class="k">water</span> the same market, still trading: its live order book, <span class="up">bids</span> | <span class="down">asks</span></li>
+        <li><span class="k">water</span> a live order book, ETH/USDT from Binance's public feed (<span class="up">bids</span> | <span class="down">asks</span>); if the feed is unavailable, the simulated market keeps trading and its own book takes over</li>
       </ul>
     </figcaption>
   )}

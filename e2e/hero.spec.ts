@@ -3,10 +3,24 @@ import { offsite } from "./site";
 
 // Contract for the harbour hero (src/components/harbour):
 //   [data-testid=harbour]     focusable wrapper; data-book-mid = current mid, data-frames = book redraws
-//   [data-testid=book-badge]  "live · seed N" | "paused"
+//   [data-testid=book-badge]  "live · ETH/USDT" | "snapshot · …" | "simulated · seed N" | "paused"
 //   [data-testid=harbour-tip] read-out shown on hover or keyboard focus
 // The market is simulated in the page, so every test runs with all other origins blocked.
+// Binance's stream and REST endpoints are never contacted from tests: blocked, or mocked per test
+const WS = /data-stream\.binance\.vision/;
+const depth = (mid: number) => ({ lastUpdateId: 1,
+  bids: Array.from({ length: 20 }, (_, i) => [(mid - 0.5 - i).toFixed(2), "1.000"]),
+  asks: Array.from({ length: 20 }, (_, i) => [(mid + 0.5 + i).toFixed(2), "1.000"]) });
+async function liveFeed(page: Page, start = 2500) {
+  const urls: string[] = [];
+  await page.routeWebSocket(WS, (ws) => {
+    urls.push(ws.url()); let m = start;
+    const t = setInterval(() => { try { ws.send(JSON.stringify(depth(m++))); } catch { clearInterval(t); } }, 20);
+  });
+  return urls;
+}
 async function blockNetwork(page: Page) {
+  await page.routeWebSocket(WS, (ws) => ws.close());
   await page.route(offsite, (r) => r.abort());
 }
 test.beforeEach(async ({ page }) => { await blockNetwork(page); });
@@ -18,9 +32,9 @@ async function frames(page: Page) {
   return Number(await page.getByTestId("harbour").getAttribute("data-frames"));
 }
 
-test("the simulated market trades with no network: badge live, mid moves, redraws stay at or under 10 fps", async ({ page }) => {
+test("with no network the simulated market takes over the water: badge says so, mid moves, redraws stay at or under 10 fps", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 42", { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText("simulated · seed 42", { timeout: 15000 });
   const mid0 = await page.getByTestId("harbour").getAttribute("data-book-mid");
   const f0 = await frames(page);
   await page.waitForTimeout(2000);
@@ -33,7 +47,7 @@ test("the simulated market trades with no network: badge live, mid moves, redraw
 
 test("pauses redraws while the tab is hidden", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText(/simulated|live/i, { timeout: 15000 });
   await page.evaluate(() => {
     Object.defineProperty(document, "visibilityState", { configurable: true, get: () => "hidden" });
     Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
@@ -49,7 +63,7 @@ test("pauses redraws while the tab is hidden", async ({ page }) => {
 
 test("the market can be paused and resumed", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText(/simulated|live/i, { timeout: 15000 });
   await page.getByTestId("book-pause").click();
   await expect(page.getByTestId("book-badge")).toHaveText(/paused/i);
   await expect(page.getByTestId("book-pause")).toHaveAttribute("aria-pressed", "true");
@@ -57,7 +71,7 @@ test("the market can be paused and resumed", async ({ page }) => {
   await page.waitForTimeout(1200);
   expect(await frames(page)).toBe(f0);
   await page.getByTestId("book-pause").click();
-  await expect(page.getByTestId("book-badge")).toHaveText(/live/i);
+  await expect(page.getByTestId("book-badge")).toHaveText(/simulated|live/i);
   await expect.poll(() => frames(page)).toBeGreaterThan(f0);
 });
 
@@ -66,7 +80,7 @@ test("reduced motion: book redraws at most once a second", async ({ browser }) =
   const page = await ctx.newPage();
   await blockNetwork(page);
   await page.goto("/");
-  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText(/simulated|live/i, { timeout: 15000 });
   const f0 = await frames(page);
   await page.waitForTimeout(3000);
   expect((await frames(page)) - f0).toBeLessThanOrEqual(4);
@@ -86,7 +100,7 @@ test("the demo's market picker rebuilds the city for another regime and seed", a
   expect(trending).toMatch(/^Sessions 1 to 30/);
   expect(trending).not.toBe(switching);
   await page.getByLabel("seed").fill("7"); await page.getByLabel("seed").press("Enter");
-  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText("simulated · seed 7", { timeout: 15000 });
 });
 
 test("the harbour draws the market the picker shows, including a choice restored by Back", async ({ page }) => {
@@ -94,11 +108,11 @@ test("the harbour draws the market the picker shows, including a choice restored
   await expect(page.getByTestId("harbour")).toHaveAttribute("data-ready", "1", { timeout: 8000 });
   await page.getByText("Crash", { exact: true }).click();
   await page.getByLabel("seed").fill("7"); await page.getByLabel("seed").press("Enter");
-  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText("simulated · seed 7", { timeout: 15000 });
   await page.goto("/about/");
   await page.goBack();
   await expect(page.getByLabel("seed")).toHaveValue("7");
-  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText("simulated · seed 7", { timeout: 15000 });
 });
 
 test("hovering the blueprint towers after t = now explains look-ahead bias", async ({ page }) => {
@@ -145,7 +159,7 @@ test("a page opened in a hidden tab says paused, then goes live when shown", asy
   await page.waitForTimeout(800);
   await expect(page.getByTestId("book-badge")).toHaveText(/paused/i);          // stays paused: no trading while hidden
   await page.evaluate(() => { (window as unknown as { __hidden: boolean }).__hidden = false; document.dispatchEvent(new Event("visibilitychange")); });
-  await expect(page.getByTestId("book-badge")).toHaveText(/live/i, { timeout: 8000 });
+  await expect(page.getByTestId("book-badge")).toHaveText(/simulated|live/i, { timeout: 15000 });
 });
 
 test.describe("boot sequence", () => {
@@ -180,4 +194,26 @@ test("the Konami code starts the Symphony of Lights", async ({ page }) => {
   // the way many people remember it, A then B, toggles it back off
   for (const k of ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "a", "b"]) await page.keyboard.press(k);
   await expect(page.locator("html")).not.toHaveClass(/lights/);
+});
+
+test("live: the water shows the ETH/USDT book from the stream, and the ticker follows it", async ({ page }) => {
+  await page.unrouteAll(); await page.route((u) => !/^(localhost|127\.0\.0\.1)$/.test(u.hostname), (r) => r.abort());
+  const urls = await liveFeed(page, 2500);
+  await page.goto("/");
+  await expect(page.getByTestId("book-badge")).toHaveText("live · ETH/USDT", { timeout: 8000 });
+  await expect.poll(async () => Number(await page.getByTestId("harbour").getAttribute("data-book-mid"))).toBeGreaterThan(2500);
+  await expect(page.locator(".status [data-ticker-label]")).toHaveText("ETH");
+  expect(urls[0]).toContain("ethusdt@depth20");
+});
+
+test("live: the demo's water picker switches the stream to BTC, and to the simulated book", async ({ page }) => {
+  await page.unrouteAll(); await page.route((u) => !/^(localhost|127\.0\.0\.1)$/.test(u.hostname), (r) => r.abort());
+  const urls = await liveFeed(page, 60000);
+  await page.goto("/demos/harbour/");
+  await expect(page.getByTestId("book-badge")).toHaveText("live · ETH/USDT", { timeout: 8000 });
+  await page.getByText("BTC/USDT live").click();
+  await expect(page.getByTestId("book-badge")).toHaveText("live · BTC/USDT", { timeout: 8000 });
+  expect(urls.some((u) => u.includes("btcusdt@depth20"))).toBe(true);
+  await page.getByText("Simulated", { exact: true }).click();
+  await expect(page.getByTestId("book-badge")).toHaveText("simulated · seed 42");
 });
