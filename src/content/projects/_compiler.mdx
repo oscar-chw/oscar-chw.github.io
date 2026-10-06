@@ -1,0 +1,30 @@
+import Flow from "../../components/Flow.astro";
+
+### The problem
+
+A compiler has to turn source code into something a real toolchain accepts, with every corner of the language right: calls that return nothing, short-circuit evaluation with side effects, nested loops with break and continue, names that shadow other names.
+
+### What I built
+
+- **A compiler for SysY**, a subset of C, written in Java.
+- **An ANTLR4 lexer and parser**, and a visitor-based generator that emits LLVM IR through the LLVM 13 C API.
+- An individual course project. The code stays private under the course's rules, so this page describes it rather than linking it.
+
+### Result
+
+After the course I wrote 12 extra test programs (void calls, short-circuit side effects, nested break and continue, recursion, shadowing, hex and octal literals, early returns) and differential-tested every program against clang compiling the same source as C. The tests found one bug: a call to a void function was given a name, which is invalid IR. After a two-line fix, all 30 programs match.
+
+### How it works
+
+<Flow title="SysY to LLVM IR" caption="every test program is also compiled by clang as C, and the two must agree" steps={[
+  { label: "SysY source", note: "a subset of C" },
+  { label: "Lex and parse", note: "ANTLR4" },
+  { label: "Visit the tree", note: "types, scopes" },
+  { label: "Emit LLVM IR", note: "LLVM C API", accent: "accent" },
+  { label: "Compare", note: "against clang", accent: "amber" },
+]} />
+
+### Limits
+
+- The code is private under the course's rules, so there is nothing to inspect here: this is a description, not evidence.
+- Agreeing with clang on these programs shows they behave the same; it is not a proof that every program compiles correctly.

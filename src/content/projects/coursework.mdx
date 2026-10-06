@@ -1,6 +1,6 @@
 ---
 title: Coursework
-summary: 'Course projects worth showing: a DNA data-storage simulator built alone in a group-based course, and a CUHK course planner built by a team of 6.'
+summary: 'Course projects worth showing: a DNA data-storage simulator built alone in a group-based course, a compiler from a subset of C to LLVM IR, and a CUHK course planner built by a team of 6.'
 order: 6
 featured: false
 group: Coursework
@@ -9,6 +9,9 @@ stack:
 - Python
 - NumPy
 - Matplotlib
+- Java
+- ANTLR4
+- LLVM
 - React
 - TypeScript
 - Express
@@ -19,6 +22,7 @@ links:
 ---
 import Part from "../../components/Part.astro";
 import P_dna_storage from "./_dna-storage.mdx";
+import P_compiler from "./_compiler.mdx";
 import P_studyflow from "./_studyflow.mdx";
 
 ## DNA data-storage simulator
@@ -26,6 +30,12 @@ import P_studyflow from "./_studyflow.mdx";
 <Part id="dna-storage" role="Sole author (individual project in a group-based course)" stack={["Python", "NumPy", "Matplotlib"]} links={[{"label": "Repository: dna-storage-simulation", "href": "https://github.com/Oscar-Codespace/dna-storage-simulation"}]} />
 
 <P_dna_storage />
+
+## SysY to LLVM IR compiler
+
+<Part id="compiler" role="Sole author (individual coursework; code private under course rules)" stack={["Java", "ANTLR4", "LLVM"]} />
+
+<P_compiler />
 
 ## StudyFlow: CUHK course planner
 
