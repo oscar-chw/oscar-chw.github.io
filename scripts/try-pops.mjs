@@ -12,7 +12,7 @@ for (const [name, text] of [["piano", "piano"], ["card", "Pokémon TCG"], ["pixe
   const box = await hob.boundingBox();
   await p.screenshot({ path: `${out}/pop-${name}.png`, clip: { x: Math.max(0, box.x - 200), y: Math.max(0, box.y - 260), width: 520, height: 300 } });
 }
-await p.goto(base.replace(/\/$/, "") + "/projects/factor-lab/");
+await p.goto(base.replace(/\/$/, "") + "/projects/ai-quant-research-system/");
 await p.waitForTimeout(1500);
 const term = p.locator("main .def").first();
 await term.scrollIntoViewIfNeeded(); await term.hover(); await p.waitForTimeout(600);

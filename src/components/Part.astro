@@ -1,0 +1,35 @@
+---
+// One component of a grouped project page: an anchor under its old page's slug (old URLs redirect
+// here), then its role, stack, headline figures and repository, above its own write-up.
+import Icon from "./Icon.astro";
+interface Props {
+  id?: string;                 // only where the heading's own slug differs from the old page's
+  role: string; stack?: string[]; period?: string;
+  metrics?: { value: string; label: string }[]; links?: { label: string; href: string }[];
+}
+const { id, role, stack = [], period, metrics = [], links = [] } = Astro.props;
+---
+<div class="part" id={id}>
+  <p class="meta mono"><span>{role}</span>{period && <span>{period}</span>}{stack.length > 0 && <span>{stack.join(" · ")}</span>}</p>
+  {metrics.length > 0 && (
+    <dl class="pm">
+      {metrics.map((m) => <div><dt class="mono">{m.value}</dt><dd>{m.label}</dd></div>)}
+    </dl>
+  )}
+  {links.length > 0 && (
+    <p class="pl">{links.map((l) => <a href={l.href}><Icon name="github" size={14} />{l.label}<Icon name="arrow-up-right" size={12} /></a>)}</p>
+  )}
+</div>
+
+<style>
+  .part { scroll-margin-top: 96px; margin: 4px 0 18px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; font-size: 0.76rem; color: var(--muted); }
+  .meta span + span::before { content: "·"; margin-right: 14px; color: var(--line-2); }
+  .pm { display: flex; flex-wrap: wrap; gap: 14px 32px; margin: 16px 0 0; }
+  .pm div { max-width: 26ch; }
+  .pm dt { font-size: 1.5rem; color: var(--accent); letter-spacing: -0.03em; line-height: 1.1; }
+  .pm dd { margin: 4px 0 0; font-size: 0.82rem; line-height: 1.4; color: var(--muted); }
+  .pl { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 14px 0 0; font-size: 0.86rem; }
+  .pl a { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .pl a:hover { text-decoration: underline; }
+</style>

@@ -1,38 +1,23 @@
----
-title: Point-in-Time Research Platform
-summary: A quant research platform built so results can be trusted. Data is read as it was known at the time, studies are registered before they run, and AI may propose and critique ideas but never decides what counts as a result.
-order: 2
-featured: true
-group: Research platforms
-role: Designer and sole author
-stack: [Python, C++20, pybind11, pandas, pytest, hypothesis]
-metrics:
-  - { value: "25×", label: "C++20 order-book replay vs an optimized Python batch path, byte-identical output" }
-  - { value: "2.3×", label: "end-to-end when the native replay is called from Python" }
-  - { value: "47", label: "tests on the native replay" }
-links:
-  - { label: "Repository: asof-research", href: "https://github.com/oscar-chw/asof-research" }
----
 import Flow from "../../components/Flow.astro";
 import Term from "../../components/Term.astro";
 
-## The problem
+### The problem
 
 A backtest is only as honest as its inputs and its process. Data that was not yet known at the time (<Term t="look-ahead bias">look-ahead</Term>), a rule tweaked after seeing the test, or an AI assistant that grades its own idea can each make a weak strategy look strong. I wanted a research loop where code, not discretion, controls what data a study sees, when its rule is fixed, and who writes the numbers. In that loop, an LLM-proposed idea has to beat simple controls.
 
-## What I built
+### What I built
 
 - **A <Term t="point-in-time">point-in-time data layer</Term>.** Every read is as-of: a study at time *t* cannot see anything stamped after *t*.
 - **<Term t="pre-registered">Pre-registered studies</Term>.** Each hypothesis becomes a method card, which is frozen and hashed together with its data before it runs. Any later tweak counts as a new trial.
 - **A bounded AI role.** An LLM may draft hypotheses (without seeing prices) and a critic may object through a fixed schema. Neither can promote a result. Only the pre-registered rule decides.
 - **A C++20 order-book replay engine** that reconstructs the book at any time *T*. It replaced the Python batch path, and parity is checked byte for byte.
-- Two packages built on the same contract: the [Market-Making Lab](../market-making-lab/) and the [Factor Lab](../factor-lab/).
+- Two packages built on the same contract: the [Market-Making Lab](#market-making-lab) and the [Factor Lab](#factor-lab).
 
-## Result
+### Result
 
 On a synthetic 100k-message benchmark, the C++20 replay is 25× faster than an optimized Python batch path, with byte-identical output and 47 tests. Called from Python, the whole path is 2.3× faster end to end.
 
-## How it works
+### How it works
 
 <Flow title="Pre-registered research loop" caption="the critic can only object; the frozen rule decides" steps={[
   { label: "Propose", note: "LLM sees no prices" },
@@ -49,7 +34,7 @@ On a synthetic 100k-message benchmark, the C++20 replay is 25× faster than an o
 
 <p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
 
-## Limits
+### Limits
 
 - The replay benchmark is synthetic: one instrument and a shallow book. When the replay is called from Python, most of the time goes to the Python side and crossing the binding.
 - No model has run the full loop yet: the LLM steps so far replay hand-written responses, so the loop is tested but the AI arm is not yet measured.

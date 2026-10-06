@@ -42,7 +42,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
             <p class="blurb">{e.blurb}</p>
             <p class="meta mono">
               <span class="data"><Icon name="database" size={13} />{e.data}</span>
-              {e.project && <a href={url(`/projects/${e.project}/`)}><Icon name="arrow-up-right" size={13} />the project</a>}
+              {e.project && <a href={url(`/projects/${e.project.split("#")[0]}/`) + (e.project.includes("#") ? `#${e.project.split("#")[1]}` : "")}><Icon name="arrow-up-right" size={13} />the project</a>}
               <a href={e.code}><Icon name="github" size={13} />code</a>
             </p>
           </header>

@@ -1,36 +1,22 @@
----
-title: Streaming Reconciliation
-summary: Rebuilt the trade-reconciliation step from a Web3 hackathon trading system so it streams instead of loading everything into memory. Every closed trade is counted exactly once, in flat memory.
-order: 4
-featured: true
-group: Engineering and AI
-role: Designer and sole author of the reconciliation layer
-stack: [Python, Decimal, external sort]
-metrics:
-  - { value: "−96%", label: "peak memory on a 225k-row synthetic benchmark (684 MB to under 30 MB)" }
-  - { value: "−12%", label: "time versus the in-memory reader, with identical output" }
-links:
-  - { label: "Repository: streaming-reconciliation", href: "https://github.com/oscar-chw/streaming-reconciliation" }
----
 import Flow from "../../components/Flow.astro";
 import Term from "../../components/Term.astro";
 
-## The problem
+### The problem
 
 At the Hong Kong Universities Web3 Quant Trading Hackathon, where I initiated the project and was lead architect, our trading system recorded each closed trade twice, as JSONL and as CSV. Crash retries could add further copies. Profit and loss is only right if every close is counted exactly once, and the original reader did that by holding every row in memory, so its memory grew with the trading history.
 
-## What I built
+### What I built
 
 - **A retry-safe writer** that tags every close with a caller-supplied identity.
 - **A streaming reader** that hashes the bytes it reads and <Term t="external sort">spills size-capped sorted runs to disk</Term>. A heap merge then counts each identity once, using exact decimals.
 - **Refusal over guessing.** Conflicting copies of the same close stop the run instead of being silently resolved.
 - **The old in-memory reader is kept** as the measured control.
 
-## Result
+### Result
 
 On a 225k-row synthetic benchmark, peak memory fell 96% (684 MB to under 30 MB) in 12% less time than the in-memory reader. The output was identical, and the reader recovered correctly when killed midway. The [demo](../../demos/reconciliation/) animates both readers on the measured runs.
 
-## How it works
+### How it works
 
 <Flow title="Streaming reconciliation" caption="memory is bounded by the run size, not by the length of the history" steps={[
   { label: "Writer", note: "identity per close" },
@@ -45,7 +31,7 @@ On a 225k-row synthetic benchmark, peak memory fell 96% (684 MB to under 30 MB) 
 
 <p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
 
-## Limits
+### Limits
 
 - The evidence is synthetic, measured on one Python version.
 - The time win depends on scale: at small inputs, the streaming reader is not faster.

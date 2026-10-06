@@ -1,0 +1,92 @@
+---
+title: AI quant research system
+summary: 'Three parts: a vault that keeps book notes and measured results as cited, version-controlled notes; a harness whose gates decide when work is done; and AI coding agents that read, build and review.'
+order: 0
+featured: true
+group: Research platforms
+role: Designer and sole author
+stack:
+- Claude Code
+- Python
+- C++20
+- SQLite
+- ChromaDB
+- Model Context Protocol
+metrics:
+- value: 1,805
+  label: paraphrased, cited claims from one quant textbook
+- value: 1,400+
+  label: extracted claims verified by passing tests
+- value: '758'
+  label: tests, 0 failing
+- value: '266'
+  label: gated tasks across the whole project, with about 140 AI subagents
+links:
+- label: 'Repository: agentic-quant-research'
+  href: https://github.com/oscar-chw/agentic-quant-research
+- label: 'Repository: asof-research'
+  href: https://github.com/oscar-chw/asof-research
+- label: 'Repository: agent-harness'
+  href: https://github.com/oscar-chw/agent-harness
+- label: 'Repository: quant-research-vault'
+  href: https://github.com/oscar-chw/quant-research-vault
+- label: 'Repository: Polymarket-Crypto-5min'
+  href: https://github.com/oscar-chw/Polymarket-Crypto-5min
+---
+import Part from "../../components/Part.astro";
+import Flow from "../../components/Flow.astro";
+import P_point_in_time_research from "./_point-in-time-research.mdx";
+import P_factor_lab from "./_factor-lab.mdx";
+import P_market_making_lab from "./_market-making-lab.mdx";
+import P_agent_harness from "./_agent-harness.mdx";
+
+## The centrepiece build
+
+Its centrepiece is one complete build: over about four days in September 2026, a Claude Code orchestrator and its subagents turned López de Prado's *Advances in Financial Machine Learning* into 1,805 paraphrased, cited claims and a tested Python library. The result in [this repository](https://github.com/oscar-chw/agentic-quant-research): **1,400+ extracted claims verified by passing tests** (758 tests, 0 failing).
+
+Across the whole project, the orchestrator and about 140 AI subagents (per private session logs) completed 266 gated tasks.
+
+<Flow title="The centrepiece build" caption="a task is done when its gate command exits 0, not when it looks done" steps={[
+  { label: "One book", note: "read by agents" },
+  { label: "Claims", note: "paraphrased, cited" },
+  { label: "Gated tasks", note: "exit 0 or not done", accent: "amber" },
+  { label: "Library", note: "tested Python", accent: "accent" },
+]} />
+
+The vault in this build keeps book notes and measured results as cited, version-controlled notes.
+
+## Point-in-time research platform
+
+<Part id="point-in-time-research" role="Designer and sole author" stack={["Python", "C++20", "pybind11", "pandas", "pytest", "hypothesis"]} metrics={[{"value": "25×", "label": "C++20 order-book replay vs an optimized Python batch path, byte-identical output"}, {"value": "2.3×", "label": "end-to-end when the native replay is called from Python"}, {"value": "47", "label": "tests on the native replay"}]} links={[{"label": "Repository: asof-research", "href": "https://github.com/oscar-chw/asof-research"}]} />
+
+<P_point_in_time_research />
+
+## Factor Lab
+
+<Part role="Designer and sole author" stack={["Python", "convex optimization"]} links={[{"label": "Package: asof-research/packages/factor", "href": "https://github.com/oscar-chw/asof-research/tree/main/packages/factor"}]} />
+
+<P_factor_lab />
+
+## Market-Making Lab
+
+<Part role="Designer and sole author" stack={["Python", "exact decimals"]} metrics={[{"value": "18", "label": "synthetic scenarios with partial fills, queue position and cancel delays"}]} links={[{"label": "Package: asof-research/packages/imc-sim", "href": "https://github.com/oscar-chw/asof-research/tree/main/packages/imc-sim"}]} />
+
+<P_market_making_lab />
+
+## Agent harness
+
+<Part role="Designer and sole author" stack={["Python", "SQLite full-text search", "Model Context Protocol"]} links={[{"label": "Repository: agent-harness", "href": "https://github.com/oscar-chw/agent-harness"}]} />
+
+<P_agent_harness />
+
+## The vault's paper layer
+
+<Part id="quant-research-vault" role="Designer and sole author" links={[{ "label": "Repository: quant-research-vault", "href": "https://github.com/oscar-chw/quant-research-vault" }]} />
+
+The paper layer of the vault: arXiv and optional OpenAlex paper metadata fetched into SQLite, indexed in ChromaDB and served to AI assistants through a read-only search server. It was not used in the centrepiece build.
+
+## An earlier, separate experiment
+
+<Part id="polymarket-crypto-5min" role="Designer and sole author" links={[{ "label": "Repository: Polymarket-Crypto-5min", "href": "https://github.com/oscar-chw/Polymarket-Crypto-5min" }]} />
+
+An earlier, separate experiment (July 2026, not built from the book): a point-in-time walk-forward backtester whose availability audit caught a look-ahead leak in candle timing.

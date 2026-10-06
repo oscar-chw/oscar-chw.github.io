@@ -10,7 +10,7 @@ const shots = [
   ["/", "home-light", 1440, 900, "light"],
   ["/", "home-phone", 390, 844, "dark"],
   ["/projects/", "work", 1280, 900, "dark"],
-  ["/projects/point-in-time-research/", "project", 1280, 900, "dark"],
+  ["/projects/ai-quant-research-system/", "project", 1280, 900, "dark"],
   ["/projects/qts-research-platform/", "project-phone", 390, 844, "light"],
   ["/about/", "about", 1280, 900, "light"],
   ["/demos/fourier/", "fourier", 1280, 900, "dark"],

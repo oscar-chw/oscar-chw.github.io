@@ -1,0 +1,38 @@
+---
+title: Competitions
+summary: IMC Prosperity 4, where Team SHDC placed in the top 5% of IMC's global trading competition, and the Kaggle Pokémon TCG AI Battle, an agent for a card game with hidden information entered against 6,807 teams.
+order: 3
+featured: true
+group: Competitions
+role: Team entries
+stack:
+- Python
+- Kalman filter
+- Ornstein–Uhlenbeck models
+- PyTorch
+- NumPy
+- Rust
+- GPU
+links:
+- label: 'Lessons-learned write-up: imc-prosperity-4-shdc'
+  href: https://github.com/oscar-chw/imc-prosperity-4-shdc
+- label: 'Repository: ptcg-ai-battle'
+  href: https://github.com/oscar-chw/ptcg-ai-battle
+---
+import Part from "../../components/Part.astro";
+import P_imc_prosperity_4 from "./_imc-prosperity-4.mdx";
+import P_pokemon_tcg_ai from "./_pokemon-tcg-ai.mdx";
+
+
+
+## IMC Prosperity 4
+
+<Part role="Team of 3; coded the final two rounds" period="2026" stack={["Python", "Kalman filter", "Ornstein–Uhlenbeck models"]} metrics={[{"value": "top 5%", "label": "globally: 904th of 18,803 teams"}, {"value": "18th", "label": "in Hong Kong"}]} links={[{"label": "Lessons-learned write-up: imc-prosperity-4-shdc", "href": "https://github.com/oscar-chw/imc-prosperity-4-shdc"}]} />
+
+<P_imc_prosperity_4 />
+
+## Kaggle Pokémon TCG AI Battle
+
+<Part id="pokemon-tcg-ai" role="Team entry; author of this repository" stack={["Python", "PyTorch", "NumPy", "Rust", "GPU"]} metrics={[{"value": "89,048", "label": "decisions from 926 games, split by game so validation never leaks into training"}, {"value": "~110M", "label": "steps/s on a batched Rust/GPU simulator of a simplified game loop"}]} links={[{"label": "Repository: ptcg-ai-battle", "href": "https://github.com/oscar-chw/ptcg-ai-battle"}]} />
+
+<P_pokemon_tcg_ai />

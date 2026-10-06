@@ -10,15 +10,23 @@ test("primary navigation reaches every section", async ({ page }) => {
   }
 });
 
-test("all twelve project pages exist and follow the problem → limits structure", async ({ page }) => {
+test("six grouped project pages exist and every write-up follows the problem → limits structure", async ({ page }) => {
   await page.goto("/projects/");
   const links = page.locator('main a[href*="/projects/"]');
   const hrefs = [...new Set(await links.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).pathname)))].filter((h) => h !== "/projects/");
-  expect(hrefs.length).toBe(12);
+  expect(hrefs.length).toBe(6);
   for (const h of hrefs) {
     await page.goto(h);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: /problem/i })).toBeVisible();
+    await expect(page.locator("main").getByRole("heading", { name: /problem/i }).first()).toBeVisible();
+  }
+});
+
+test("old project URLs land on their section of the group page", async ({ page }) => {
+  for (const [old, group] of [["factor-lab", "ai-quant-research-system"], ["pokemon-tcg-ai", "competitions"], ["studyflow", "supporting-work"]]) {
+    await page.goto(`/projects/${old}/`);
+    await expect(page).toHaveURL(new RegExp(`/projects/${group}/#${old}$`));
+    await expect(page.locator(`#${old}`)).toBeAttached();
   }
 });
 
@@ -111,9 +119,9 @@ test("typing in the top bar opens the console; commands answer, unknown ones say
   await dialog.locator(".pq").fill("xyzzy");
   await page.keyboard.press("Enter");
   await expect(dialog.locator(".po")).toContainText("command not found");
-  await dialog.locator(".pq").fill("cd factor");
+  await dialog.locator(".pq").fill("cd compet");
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/\/projects\/factor-lab\/$/);
+  await expect(page).toHaveURL(/\/projects\/competitions\/$/);
 });
 
 test("one object: hovering a project row turns the pinned object into that project", async ({ page }) => {

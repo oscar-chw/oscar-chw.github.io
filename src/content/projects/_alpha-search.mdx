@@ -1,24 +1,11 @@
----
-title: Formulaic Alpha Search (GP)
-summary: Genetic programming over formulaic alpha expressions on public Binance data, with pre-registered train/validation/test splits, delay-1 signals, trading costs and an equal-budget random-search control.
-order: 3
-featured: false
-group: Quant research
-role: Designer and sole author
-stack: [Python, SQLite, genetic programming]
-metrics:
-  - { value: "6.7 years", label: "of public Binance daily data, 34 coins" }
-links:
-  - { label: "Repository: alpha-gp-lab", href: "https://github.com/oscar-chw/alpha-gp-lab" }
----
 import Flow from "../../components/Flow.astro";
 import Term from "../../components/Term.astro";
 
-## The problem
+### The problem
 
 Generating formulaic alphas is cheap. Evaluating them honestly is the hard part, because every extra look at the data quietly overfits. A search that breeds thousands of formulas will always find something that looks good in-sample; the question is whether the process can tell a real signal from luck.
 
-## What I built
+### What I built
 
 A <Term t="genetic programming">genetic-programming search</Term> over formulaic alpha expressions, run on 6.7 years of public Binance daily data for 34 coins:
 
@@ -27,7 +14,7 @@ A <Term t="genetic programming">genetic-programming search</Term> over formulaic
 - **An equal-budget random-search control**, sharing the GP's filter and validation rule, so any difference comes from breeding alone.
 - **A grammar parser instead of eval.** Every candidate passes through the same AST parser, so a hostile line cannot run.
 
-## How it works
+### How it works
 
 <Flow title="Formulaic alpha search" caption="each evaluator only holds data up to its own split's end" steps={[
   { label: "Grammar parser", note: "parse, never eval" },
@@ -42,7 +29,7 @@ A <Term t="genetic programming">genetic-programming search</Term> over formulaic
 
 <p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
 
-## Limits
+### Limits
 
 - The coin universe is survivorship-biased: only coins that exist today.
 - The cost and portfolio model is simple, with no borrow or funding.

@@ -12,9 +12,9 @@ const DEMOS = [
 test("the lab covers every project and links all four full demos", async ({ page }) => {
   await page.goto("/projects/");
   const projects = await page.locator('main a[href*="/projects/"]').evaluateAll((as) => [...new Set(as.map((a) => (a as HTMLAnchorElement).pathname.split("/").filter(Boolean).pop()))].filter((s) => s !== "projects"));
-  expect(projects.length).toBe(12);
+  expect(projects.length).toBe(6);
   await page.goto("/demos/");
-  for (const slug of projects) await expect(page.locator(`[data-panel] a[href$="/projects/${slug}/"]`).first()).toBeAttached();
+  for (const slug of projects) await expect(page.locator(`[data-panel] a[href*="/projects/${slug}/"]`).first()).toBeAttached();
   for (const [href] of DEMOS) await expect(page.locator(`[data-panel] a.launch[href$="${href}"]`).first()).toBeAttached();
 });
 
