@@ -19,8 +19,8 @@ test("the lab covers every project and links all four full demos", async ({ page
 });
 
 test("lab: deep links open an experiment; the arrow keys walk the rail", async ({ page }) => {
-  await page.goto("/demos/#asof");
-  await expect(page.locator('[data-panel="asof"]')).toBeVisible();
+  await page.goto("/demos/#point-in-time");
+  await expect(page.locator('[data-panel="point-in-time"]')).toBeVisible();
   await expect(page.locator('[data-panel="guard"]')).toBeHidden();
   await page.locator(".tree [role=listbox]").focus();
   await page.keyboard.press("ArrowDown");
@@ -273,4 +273,16 @@ test("lab: the file list always fits its box; folders fold only when needed and 
   await dir.locator("[data-dir]").click();
   await expect(dir).not.toHaveClass(/shut/);
   await expect(dir.locator("[role=option]").first()).toBeVisible();
+});
+
+test("lab: an expanded file list scrolls with the mouse wheel inside it (smooth page scroll does not take the wheel)", async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 700 });
+  await page.goto("/demos/");
+  await page.locator(".tree").evaluate((t) => t.querySelectorAll(".dir.shut").forEach((d) => d.classList.remove("shut")));   // expand everything
+  const tree = page.locator(".tree");
+  expect(await tree.evaluate((t) => t.scrollHeight > t.clientHeight)).toBe(true);           // now taller than its box
+  await tree.hover();
+  await page.mouse.wheel(0, 400);
+  await expect.poll(() => tree.evaluate((t) => t.scrollTop)).toBeGreaterThan(50);
+  await expect(page.locator('[data-exp="reconciliation"]')).toBeVisible();
 });

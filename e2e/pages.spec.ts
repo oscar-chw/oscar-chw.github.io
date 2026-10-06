@@ -242,6 +242,13 @@ test("music panel: hover shows the tracks and the volume; a YouTube track plays 
   await expect(mini).toBeVisible();
   await expect(mini.locator("iframe")).toHaveAttribute("src", /^https:\/\/www\.youtube-nocookie\.com\/embed\/K6jn04Qb0J4\?/);
   await expect(mini.getByRole("link")).toContainText("Erik C 'Piano Man'");
+  const fr = (await mini.locator("iframe").boundingBox())!;
+  expect(fr.width).toBeGreaterThanOrEqual(200); expect(fr.height).toBeGreaterThanOrEqual(200);   // YouTube's minimum player size
+  const before = (await mini.boundingBox())!;
+  await mini.getByRole("button", { name: "Move the player to the other corner" }).click();
+  const after = (await mini.boundingBox())!;
+  expect(Math.abs(after.x - before.x)).toBeGreaterThan(200);                              // moved, still on screen
+  expect(after.x).toBeGreaterThanOrEqual(0);
   await btn.hover();
   await expect(pop.locator("[data-mus-now]")).toContainText("Rosalina's Observatory");
   await mini.getByRole("button", { name: "Close the player" }).click();

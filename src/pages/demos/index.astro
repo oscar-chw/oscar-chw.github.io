@@ -16,9 +16,9 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     <h1>The Lab</h1>
   </div>
   <div class="wrap lab" data-lab data-base={import.meta.env.BASE_URL}>
-    <nav class="tree mono" aria-label="Experiments">
+    <nav class="tree mono" aria-label="Experiments" data-lenis-prevent>
       <p class="root">~/lab</p>
-      <div role="listbox" aria-label="Experiments" tabindex="0">
+      <div role="listbox" aria-label="Experiments" tabindex="0" data-lenis-prevent>
         {folders.map((f) => (
           <div class="dir" role="group" aria-labelledby={`dir-${f}`}><span class="d" id={`dir-${f}`} data-dir><Icon name="folder" size={14} />{f}/<span class="chev" aria-hidden="true">▾</span></span>
             <div class="files">
@@ -73,7 +73,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     candles: () => import("../../components/lab/exp/candles"),
     guard: () => import("../../components/lab/exp/guard"),
     qubits: () => import("../../components/lab/exp/qubits"),
-    asof: () => import("../../components/lab/exp/asof"),
+    "point-in-time": () => import("../../components/lab/exp/asof"),
     lookahead: () => import("../../components/lab/exp/lookahead"),
     marketmaking: () => import("../../components/lab/exp/marketmaking"),
     imc: () => import("../../components/lab/exp/marketmaking"),
