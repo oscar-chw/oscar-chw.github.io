@@ -1,6 +1,6 @@
-// Home-page motion: name scramble, typed line, particle sky, scroll parallax, scroll-scrubbed
-// story, magnetic buttons, cursor spotlight, tilt tiles. One "motionpause" switch (the harbour's
-// Pause button) and prefers-reduced-motion stop everything that moves by itself.
+// Home-page motion: name scramble, typed line, particle sky, scroll parallax and sink, boot log,
+// clock, manifesto, velocity marquee, cursor spotlight, Konami lights. One "motionpause" switch
+// (the harbour's Pause button) and prefers-reduced-motion stop everything that moves by itself.
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
 let paused = false;
@@ -100,16 +100,6 @@ if (!still && layers.length) {
       ticking = false;
     });
   }, { passive: true });
-}
-
-// ---------- 3D tilt tiles ----------
-if (fine && !still) for (const t of document.querySelectorAll<HTMLElement>("[data-tilt]")) {
-  t.addEventListener("pointermove", (e) => {
-    const r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-    t.style.transform = `perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(0)`;
-    t.style.setProperty("--mx", `${(x + 0.5) * 100}%`); t.style.setProperty("--my", `${(y + 0.5) * 100}%`);
-  });
-  t.addEventListener("pointerleave", () => (t.style.transform = ""));
 }
 
 // ---------- cursor spotlight ----------

@@ -8,9 +8,63 @@ const DEMOS = [
   ["/demos/harbour/", /binance/i],
 ] as const;
 
-test("the demos index links all four demos", async ({ page }) => {
+test("the lab covers every project and links all four full demos", async ({ page }) => {
+  await page.goto("/projects/");
+  const projects = await page.locator('main a[href*="/projects/"]').evaluateAll((as) => [...new Set(as.map((a) => (a as HTMLAnchorElement).pathname.split("/").filter(Boolean).pop()))].filter((s) => s !== "projects"));
+  expect(projects.length).toBe(12);
   await page.goto("/demos/");
-  for (const [href] of DEMOS) await expect(page.locator(`main a[href$="${href}"]`).first()).toBeVisible();
+  for (const slug of projects) await expect(page.locator(`[data-panel] a[href$="/projects/${slug}/"]`).first()).toBeAttached();
+  for (const [href] of DEMOS) await expect(page.locator(`[data-panel] a.launch[href$="${href}"]`).first()).toBeAttached();
+});
+
+test("lab: deep links open an experiment; the arrow keys walk the rail", async ({ page }) => {
+  await page.goto("/demos/#qubits");
+  await expect(page.locator('[data-panel="qubits"]')).toBeVisible();
+  await expect(page.locator('[data-panel="guard"]')).toBeHidden();
+  await page.locator(".tree [role=listbox]").focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(page.locator('[data-panel="asof"]')).toBeVisible();
+  await expect(page).toHaveURL(/#asof$/);
+});
+
+test("lab: the guard blocks a home-directory wipe and allows git status", async ({ page }) => {
+  await page.goto("/demos/#guard");
+  const input = page.locator(".gt-in");
+  await input.fill(["rm", "-rf", "~"].join(" ")); await input.press("Enter");
+  await expect(page.locator(".gt-log li").last()).toContainText("blocked");
+  await input.fill("git status"); await input.press("Enter");
+  await expect(page.locator(".gt-log li").last()).toContainText("allowed");
+});
+
+test("lab: the Bell state preset gives 0.500 on |00⟩ and |11⟩", async ({ page }) => {
+  await page.goto("/demos/#qubits");
+  const panel = page.locator('[data-panel="qubits"]');
+  await panel.getByRole("radio", { name: "2", exact: true }).click();
+  await panel.getByRole("button", { name: "Bell state" }).click();
+  await expect(panel.locator(".amp b").nth(0)).toHaveText("0.500");
+  await expect(panel.locator(".amp b").nth(3)).toHaveText("0.500");
+});
+
+test("lab: the timetable refuses a clash and names it", async ({ page }) => {
+  await page.goto("/demos/#timetable");
+  const panel = page.locator('[data-panel="timetable"]');
+  await panel.getByRole("button", { name: "CSCI 3100 · A" }).click();
+  await panel.getByRole("button", { name: "STAT 2005 · A" }).click();
+  await expect(panel.locator(".lab-note.mono")).toContainText("clashes with CSCI 3100");
+});
+
+test("lab: peeking at today's return reveals the leaky backtest", async ({ page }) => {
+  await page.goto("/demos/#lookahead");
+  const panel = page.locator('[data-panel="lookahead"]');
+  await expect(panel.locator(".ro dd").nth(1)).toHaveText("hidden");
+  await panel.getByRole("radio", { name: "yes" }).click();
+  await expect(panel.locator(".ro dd").nth(1)).toHaveText(/%$/);
+});
+
+test("lab: an illegal move gets no probability", async ({ page }) => {
+  await page.goto("/demos/#policy");
+  await page.locator('[data-panel="policy"] .card').first().click();
+  await expect(page.locator('[data-panel="policy"] .card').first()).toContainText("masked");
 });
 
 for (const [path, source] of DEMOS) {

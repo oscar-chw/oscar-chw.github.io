@@ -38,7 +38,7 @@ let failed = 0;
 for (const page of pages) {
   const rel = relative(DIST, page);
   const html = readFileSync(page, "utf8");
-  const isDemo = /^demos\/[^/]+\//.test(rel);
+  const isDemo = rel.startsWith("demos/");           // the lab (demos/index) and every demo page
   const isText = !isDemo && rel !== "index.html";
   const external = [...html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
   const preloads = [...html.matchAll(/<link[^>]*rel="modulepreload"[^>]*href="([^"]+)"/g)].map((m) => m[1]);

@@ -4,18 +4,18 @@ import Base from "../layouts/Base.astro";
 import Harbour from "../components/harbour/Harbour.astro";
 import WorkObject from "../components/home/WorkObject.astro";
 import Icon from "../components/Icon.astro";
+import { Picture } from "astro:assets";
+import photo from "../assets/profile_photo.jpg";
+import portrait from "../data/portrait-path.json";
+import { EXPERIMENTS } from "../data/lab";
 import { SITE } from "../data/site";
 import { url } from "../lib/url";
 
 const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 const featured = all.filter((p) => p.data.featured);
 const building = ["quant research infrastructure", "market-data platforms", "GPU simulators", "AI tools you can check"];
-const demos = [
-  ["/demos/fourier/", "Fourier portrait", "500 circles redraw a line portrait. Draw your own shape."],
-  ["/demos/order-book/", "Order-book replay", "A price-time-priority matching engine, step by step."],
-  ["/demos/reconciliation/", "Streaming reconciliation", "Same 225,000 rows: in-memory vs streaming."],
-  ["/demos/harbour/", "The harbour", "BTC history as a skyline, the live book as water."],
-] as const;
+// the Fourier line portrait as one SVG path (pen-up samples start a new subpath)
+const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[i] ? "M" : "L"}${x.toFixed(0)} ${y.toFixed(0)}`).join("");
 ---
 <Base>
   <div class="boot" data-boot aria-hidden="true" hidden>
@@ -27,6 +27,11 @@ const demos = [
   <section class="hero" aria-labelledby="hero-name">
     <canvas class="sky" data-sky data-parallax="0.35" aria-hidden="true"></canvas>
     <div class="hero-text wrap cols" data-parallax="-0.18" data-fade>
+      <figure class="me" data-cursor="hi">
+        <Picture src={photo} alt="Oscar Choi" width={360} height={360} formats={["avif", "webp"]} loading="eager" class="me-photo" />
+        <svg class="me-line" viewBox="0 0 800 800" aria-hidden="true"><path d={portraitPath} pathLength="1" /></svg>
+        <figcaption class="mono">hover: the same face, as one line</figcaption>
+      </figure>
       <p class="status mono"><span class="dot" aria-hidden="true"></span>open to work <span class="sep">·</span> CS @ CUHK, class of 2027 <span class="sep">·</span> HKT <time data-clock>--:--</time> <span class="sep">·</span> BTC <b data-ticker-mid>live</b></p>
       <h1 id="hero-name" aria-label="Oscar Choi"><span data-scramble data-text="Oscar Choi" aria-hidden="true">Oscar Choi</span></h1>
       <p class="line">I build <span class="typed" data-type={JSON.stringify(building)}>{building[0]}</span><span class="caret" aria-hidden="true"></span></p>
@@ -68,26 +73,25 @@ const demos = [
     <p class="all"><a href={url("/projects/")}>All {all.length} projects</a></p>
   </section>
 
-  <section class="wrap section" aria-labelledby="demos-h">
+  <section class="wrap section labteaser" aria-labelledby="lab-h">
     <div class="head cols">
-      <h2 id="demos-h">Try it in your browser</h2>
-      <p class="mono note">no server · no tracking</p>
+      <h2 id="lab-h">The Lab</h2>
+      <p class="mono note">one experiment for every project · runs in your browser</p>
     </div>
-    <ul class="tiles">
-      {demos.map(([href, t, d], i) => (
-        <li class="reveal" style={`--i:${i}`}>
-          <a class="tile glass" data-tilt href={url(href)}>
-            <span class="num mono">0{i + 1} <Icon name="arrow-up-right" size={16} class="go" /></span>
-            <span class="tt">{t}</span>
-            <span class="td">{d}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
+    <div class="lt-term">
+      <p class="mono lt-prompt"><span class="c">oscar@chw</span>:~/lab $ ls</p>
+      <ul class="lt-ls mono">
+        {EXPERIMENTS.map((x, i) => (
+          <li class="reveal" style={`--i:${i % 6}`}><a href={url(x.kind === "page" ? x.href! : `/demos/#${x.id}`)} data-cursor="run"><span class="f">{x.folder}/</span><b>{x.file}</b><span class="d">{x.title}</span></a></li>
+        ))}
+      </ul>
+      <a class="btn glass enter" href={url("/demos/")}><Icon name="flask-conical" />Enter the lab</a>
+    </div>
   </section>
 
   <section class="wrap section contact" aria-labelledby="contact-h">
     <h2 id="contact-h" class="big">Let's talk.</h2>
+    <p class="offclock">Off the clock: piano, Pokémon TCG, a bit of gaming, and time with my partner.</p>
     <div class="cta">
       <a class="btn glass" data-magnetic href={`mailto:${SITE.email}`}><Icon name="mail" />{SITE.email}</a>
       <a class="btn ghost" data-magnetic href={SITE.linkedin}><Icon name="linkedin" />LinkedIn</a>
@@ -145,6 +149,17 @@ const demos = [
   .cta { display: flex; flex-wrap: wrap; gap: 12px; }
   .ghost { border: 1px solid var(--line-2); background: transparent; }
   /* the harbour rises out of the page: its sky fades into the night above it, no box */
+  /* the photo: a liquid-glass frame; hover and the Fourier line portrait draws itself over it */
+  .hero-text { position: relative; }
+  .me { position: absolute; right: 0; top: calc(50% - 150px); margin: 0; width: 300px; aspect-ratio: 1; border-radius: 50%; padding: 8px; background: var(--glass-bg); border: 1px solid var(--glass-edge); box-shadow: inset 0 1px 0 var(--glass-hi), var(--shadow); animation: float 7s ease-in-out infinite; }
+  .me :global(img) { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; transition: filter 0.7s, opacity 0.7s; }
+  .me-line { position: absolute; inset: 8px; width: calc(100% - 16px); height: calc(100% - 16px); border-radius: 50%; pointer-events: none; }
+  .me-line path { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.6s cubic-bezier(0.65, 0, 0.35, 1); }
+  .me:hover :global(img) { filter: grayscale(1) brightness(0.25); }
+  .me:hover .me-line path { stroke-dashoffset: 0; }
+  .me figcaption { position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem; color: var(--muted); }
+  @keyframes float { 50% { transform: translateY(-10px); } }
+  .hero-text > :not(.me) { grid-column: 1 / span 9; }
   .band { position: relative; width: 100%; margin: 0; -webkit-mask-image: linear-gradient(transparent 0, #000 38%); mask-image: linear-gradient(transparent 0, #000 38%); }
   .band :global(.stage) { border-radius: 0; box-shadow: none; background: transparent; }
 
@@ -167,20 +182,23 @@ const demos = [
   .note { grid-column: 9 / -1; text-align: right; color: var(--muted); margin: 0; }
   .all { margin-top: 18px; font-family: var(--font-mono), monospace; font-size: 0.92rem; }
 
-  /* demos: the one place for tiles; glass, lit where the cursor is, tilting in 3D */
-  .tiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
-  .tile { position: relative; display: flex; flex-direction: column; gap: 10px; height: 100%; min-height: 220px; padding: 22px; border-radius: 22px; color: var(--ink); text-decoration: none; transition: transform 0.2s ease-out; overflow: hidden; }
-  .tile::after { content: ""; position: absolute; inset: 0; background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%); pointer-events: none; }
-  .num { color: var(--accent); }
-  .tt { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin-top: auto; }
-  .td { color: var(--muted); font-size: 0.93rem; line-height: 1.5; }
+  /* the lab teaser: a terminal listing, each line runs its experiment */
+  .lt-term { border: 1px solid var(--line-2); border-radius: 24px; padding: 22px 24px 26px; background: color-mix(in srgb, var(--bg-2) 55%, transparent); }
+  .lt-prompt { margin: 0 0 14px; color: var(--muted); }
+  .lt-ls { list-style: none; margin: 0 0 22px; padding: 0; columns: 2 320px; column-gap: 40px; }
+  .lt-ls li { break-inside: avoid; }
+  .lt-ls a { display: grid; grid-template-columns: auto auto 1fr; gap: 0 10px; align-items: baseline; padding: 7px 8px; border-radius: 10px; color: var(--ink); text-decoration: none; background-image: none !important; transition: background 0.2s, padding 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+  .lt-ls a:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); padding-left: 16px; }
+  .lt-ls .f { color: var(--muted); } .lt-ls b { color: var(--accent); font-weight: 500; }
+  .lt-ls .d { color: var(--muted); font-size: 0.8rem; text-align: right; }
+  .offclock { color: var(--muted); margin: -10px 0 26px; font-size: 1.05rem; }
 
   .contact { text-align: left; padding-top: 140px; }
   .big { font-size: clamp(3rem, 1rem + 9vw, 8.5rem); letter-spacing: -0.055em; margin: 0 0 30px; }
 
-  @media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1100px) { .me { width: 220px; top: calc(50% - 110px); } }
+  @media (max-width: 900px) { .me { position: relative; top: 0; grid-column: 1 / -1; width: 132px; margin-bottom: 18px; } .me figcaption { display: none; } .hero-text > :not(.me) { grid-column: 1 / -1; } }
   @media (max-width: 560px) {
-    .tiles { grid-template-columns: 1fr; }
     .hero-text > * { grid-column: 1 / -1; }
     .head h2, .note { grid-column: 1 / -1; text-align: left; }
   }
