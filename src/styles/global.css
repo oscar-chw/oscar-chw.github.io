@@ -173,6 +173,19 @@ main p a:not(.btn):hover, main li a:not(.btn):hover, .more:hover, .all a:hover {
 }
 @keyframes reveal { from { opacity: 0; transform: translateY(36px) scale(0.985); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
 
+/* Prose (project write-ups, about): figures read as data, bold is a highlighter stroke drawn as it scrolls
+   into view, the paragraph after each heading leads, inline code is a chip. */
+.body.prose .num { font-family: var(--font-mono), monospace; font-size: 0.9em; color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.body.prose strong { color: var(--ink); font-weight: 600; background: linear-gradient(transparent 60%, color-mix(in srgb, var(--accent) 24%, transparent) 60%) no-repeat 0 0 / 100% 100%; box-decoration-break: clone; -webkit-box-decoration-break: clone; padding: 0 0.08em; }
+.body.prose h2 + p { font-size: 1.12em; line-height: 1.6; color: var(--ink); }
+.body.prose :not(pre) > code { font: 0.86em var(--font-mono), monospace; padding: 0.1em 0.42em; border-radius: 6px; color: var(--ink); background: color-mix(in srgb, var(--accent) 9%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent); }
+@keyframes hl { from { background-size: 0% 100%; } }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .body.prose strong { animation: hl linear both; animation-timeline: view(); animation-range: entry 40% cover 35%; }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .w > span { transform: none; }

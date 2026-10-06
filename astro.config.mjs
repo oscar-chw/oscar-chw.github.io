@@ -1,6 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import rehypeNums from "./src/lib/rehype-nums.mjs";
 
 // SITE_BASE=/next/ builds the preview that is served beside the old page until Oscar approves.
 export default defineConfig({
@@ -8,6 +9,7 @@ export default defineConfig({
   base: process.env.SITE_BASE ?? "/",
   trailingSlash: "always",
   integrations: [mdx(), sitemap()],
+  markdown: { rehypePlugins: [rehypeNums] },
   build: { inlineStylesheets: "always" },
   fonts: [
     {

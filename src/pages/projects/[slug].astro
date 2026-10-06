@@ -55,7 +55,7 @@ const sections = headings.filter((h) => h.depth === 2);
         )}
       </aside>
 
-      <div class="body">
+      <div class="body prose">
         <Content />
         {d.links.length > 0 && (
           <section class="links" aria-labelledby="links-h">
@@ -104,7 +104,6 @@ const sections = headings.filter((h) => h.depth === 2);
   .body :global(h2)::before { content: "// " counter(sec, decimal-leading-zero); display: block; font: 400 0.78rem var(--font-mono), monospace; color: var(--accent); letter-spacing: 0; margin-bottom: 10px; }
   .body :global(p), .body :global(li) { color: color-mix(in srgb, var(--ink) 88%, var(--muted)); }
   .body :global(li) { margin-bottom: 0.45rem; }
-  .body :global(strong) { color: var(--ink); font-weight: 600; }
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       .body :global(:is(h2, p, ul, figure)) { animation: reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 30%; }
