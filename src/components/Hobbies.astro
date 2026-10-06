@@ -7,7 +7,7 @@ const keys = [["C", "a"], ["D", "s"], ["E", "d"], ["F", "f"], ["G", "g"], ["A", 
 const freqs = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25];
 ---
 <p class="hobbies">
-  <span class="lead">Off the clock:</span>
+  <span class="lead">Off the clock:</span>{" "}
   <span class="hob" tabindex="0" data-cursor="play">piano<span class="hpop glass piano" role="group" aria-label="A tiny playable piano; keys A to K">
     {keys.map(([n, k], i) => <button type="button" class="key" data-freq={freqs[i]} aria-label={`play ${n}`}><span class="mono">{k}</span></button>)}
     <span class="hint mono">click or press A to K</span>

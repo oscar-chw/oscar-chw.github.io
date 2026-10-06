@@ -259,3 +259,13 @@ test("music panel: hover shows the tracks and the volume; a YouTube track plays 
   await expect(pop.getByLabel("Music volume")).toHaveValue("30");
   await expect(pop.getByRole("radio", { name: /Rosalina/ })).toBeChecked();
 });
+
+test("the hobbies line reads with normal spacing", async ({ page }) => {
+  await page.goto("/about/");
+  // read the line as text, without the invisible hearts animation
+  const line = await page.locator(".hob").first().locator("xpath=..").evaluate((el) => {
+    const c = el.cloneNode(true) as HTMLElement; c.querySelectorAll(".burst, .hpop").forEach((x) => x.remove());
+    return (c.textContent ?? "").replace(/\s+/g, " ").trim();
+  });
+  expect(line).toBe("Off the clock: piano, Pokémon TCG, a bit of gaming, and time with my partner.");
+});
