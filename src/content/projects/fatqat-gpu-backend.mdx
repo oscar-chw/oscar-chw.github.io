@@ -1,6 +1,6 @@
 ---
 title: GPU Backend for FatQat
-summary: Added a CUDA (GPU) engine to FatQat, an open-source quantum-circuit simulator, keeping its interfaces and double precision. It runs 6× faster than a compiled multi-core CPU baseline at 24 qubits.
+summary: Added a CUDA (GPU) engine to FatQat, an open-source quantum-circuit simulator, keeping its interfaces and double precision. It runs 35–42× faster than compiled CPU code at a fixed 32-thread setting on 24–28-qubit circuits.
 order: 2
 featured: true
 group: Engineering and AI
@@ -8,8 +8,8 @@ role: Author of the GPU backend (CUHK CENG5280 coursework); upstream simulator b
 period: "2026"
 stack: [Python, CUDA, CuPy]
 metrics:
-  - { value: "6×", label: "faster than a compiled multi-core CPU baseline at 24 qubits" }
-  - { value: "≤ 8 ε", label: "from the CPU results (machine epsilons, double precision)" }
+  - { value: "≤ 3.1 ε", label: "from a 60-digit reference (machine epsilons, double precision)" }
+  - { value: "35–42×", label: "faster than compiled CPU code at a fixed 32-thread setting, on 24–28-qubit circuits" }
 links:
   - { label: "Repository: fatqat-cuda", href: "https://github.com/oscar-chw/fatqat-cuda" }
   - { label: "Upstream: spaceqat/fatqat (Apache-2.0)", href: "https://github.com/spaceqat/fatqat" }
@@ -29,11 +29,11 @@ import Term from "../../components/Term.astro";
 
 ## Result
 
-6× faster than a compiled multi-core CPU baseline at 24 qubits, within 8 machine epsilons of the CPU results. The figure was measured on engine revision r7; the current revision, r8, is faster.
+35–42× faster than compiled CPU code at a fixed 32-thread setting on 24–28-qubit circuits, within 3.1 machine epsilons of a 60-digit reference. Measured on engine revision r9.
 
 ## How it works
 
-<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (to within 8 machine epsilons)" steps={[
+<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (within 3.1 machine epsilons of a 60-digit reference)" steps={[
   { label: "Circuit", note: "FatQat's interface" },
   { label: "Engine choice", note: "CPU or GPU" },
   { label: "GPU state vector", note: "double precision", accent: "accent" },
