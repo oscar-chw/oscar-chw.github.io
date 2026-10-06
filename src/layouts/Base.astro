@@ -89,6 +89,9 @@ const commands: [string, string, string][] = [
           </ul>
         </nav>
         <button class="kbtn" type="button" data-palette-open aria-label="Search the site" title="Search (⌘K or /)"><Icon name="search" size={15} /><kbd class="mono">⌘K</kbd></button>
+        <button class="music" type="button" data-music-toggle aria-pressed="false" aria-label="Play background music" title="Background music: soft piano, quiet, off until you turn it on">
+          <Icon name="music" size={15} class="i-off" /><Icon name="volume-2" size={15} class="i-on" />
+        </button>
         <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
           <Icon name="moon" size={16} class="i-dark" /><Icon name="sun" size={16} class="i-light" />
         </button>
@@ -190,6 +193,10 @@ const commands: [string, string, string][] = [
   .k { width: 56px; flex: none; font-size: 0.72rem; color: var(--muted); }
   .theme { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; flex: none; }
   .theme:hover { color: var(--ink); }
+  .music { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; flex: none; }
+  .music:hover { color: var(--ink); }
+  .music[aria-pressed="true"] { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+  .music[aria-pressed="true"] :global(.i-off), .music:not([aria-pressed="true"]) :global(.i-on) { display: none; }
   main { outline: none; }
   .site-footer { border-top: 1px solid var(--line-2); margin-top: 120px; padding-block: 28px 44px; align-items: baseline; row-gap: 12px; }
   .site-footer p { margin: 0; grid-column: 1 / span 5; }

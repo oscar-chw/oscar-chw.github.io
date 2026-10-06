@@ -132,3 +132,28 @@ const undismiss = (e: Event) => {
 };
 document.addEventListener("pointerout", undismiss);
 document.addEventListener("focusout", undismiss);
+
+// ---------- background music: off until asked for, remembered, and after a page change it resumes on the
+// visitor's next tap or key (browsers allow sound only after a gesture). The player loads only on demand.
+const musicBtn = document.querySelector<HTMLButtonElement>("[data-music-toggle]");
+if (musicBtn) {
+  let player: typeof import("./music") | null = null;
+  const wanted = () => { try { return localStorage.getItem("music") === "on"; } catch { return false; } };
+  const show = (on: boolean) => {
+    musicBtn.setAttribute("aria-pressed", String(on));
+    musicBtn.setAttribute("aria-label", on ? "Mute background music" : "Play background music");
+    document.documentElement.toggleAttribute("data-music", on && !!player?.playing());
+    try { localStorage.setItem("music", on ? "on" : "off"); } catch { /* storage blocked: this page only */ }
+  };
+  const play = async () => { player ??= await import("./music"); await player.start(); show(true); };
+  // the button does what it shows: "on" (playing, or waiting for a tap after a page change) turns it off
+  musicBtn.addEventListener("click", () => { if (musicBtn.getAttribute("aria-pressed") === "true") { player?.stop(); show(false); } else void play(); });
+  if (wanted()) {
+    musicBtn.setAttribute("aria-pressed", "true");
+    const resume = (e: Event) => {
+      removeEventListener("pointerdown", resume, true); removeEventListener("keydown", resume, true);
+      if (!musicBtn.contains(e.target as Node) && wanted()) void play();   // the button's own click decides for itself
+    };
+    addEventListener("pointerdown", resume, true); addEventListener("keydown", resume, true);
+  }
+}
