@@ -46,6 +46,22 @@
 .seg button[aria-checked="true"] { background: var(--accent); color: var(--bg); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip, .lab-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-2); background: color-mix(in srgb, var(--bg-2) 70%, transparent); color: var(--ink); border-radius: 999px; padding: 6px 12px; font: 500 0.8rem var(--font-mono), monospace; cursor: pointer; transition: border-color 0.2s, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s; }
+/* gated build */
+.gbw { display: flex; flex-direction: column; gap: 12px; }
+.gb { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 0.82rem; }
+.gb-t { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 4px 12px; align-items: center; padding: 10px 12px; border: 1px solid var(--line-2); border-radius: 14px; transition: border-color 0.3s, background 0.3s; }
+.gb-n { color: var(--muted); }
+.gb-b { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gb-b b { font-weight: 500; color: var(--ink); }
+.gb-g { color: var(--muted); font-size: 0.74rem; overflow-wrap: anywhere; }
+.gb-e { color: var(--down); font-size: 0.72rem; overflow-wrap: anywhere; }
+.gb-e::before { content: "✗ "; }
+.gb-s { font-size: 0.72rem; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--line-2); color: var(--muted); }
+.gb-t.ready { border-color: var(--accent); } .gb-t.ready .gb-s { color: var(--accent); border-color: var(--accent); }
+.gb-t.done { background: color-mix(in srgb, var(--accent) 8%, transparent); } .gb-t.done .gb-s { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+.gb-t .lab-btn[disabled] { opacity: 0.35; cursor: not-allowed; transform: none; }
+.gb-msg { margin: 0; font-size: 0.8rem; color: var(--amber); min-height: 1.4em; }
+@media (max-width: 560px) { .gb-t { grid-template-columns: auto minmax(0, 1fr); } .gb-s, .gb-t .lab-btn { grid-column: 2; justify-self: start; } }
 .chip { max-width: 100%; text-align: left; overflow-wrap: anywhere; }   /* long commands wrap on a phone */
 .gt-in { min-width: 0; flex: 1; min-height: 32px; }
 .gt-log li { overflow-wrap: anywhere; }

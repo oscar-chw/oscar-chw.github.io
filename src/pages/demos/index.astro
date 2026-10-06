@@ -65,6 +65,8 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
 
 <script>
   const LOAD: Record<string, () => Promise<{ mount: (s: HTMLElement, c: HTMLElement) => void }>> = {
+    gatedbuild: () => import("../../components/lab/exp/gatedbuild"),
+    candles: () => import("../../components/lab/exp/candles"),
     guard: () => import("../../components/lab/exp/guard"),
     qubits: () => import("../../components/lab/exp/qubits"),
     asof: () => import("../../components/lab/exp/asof"),

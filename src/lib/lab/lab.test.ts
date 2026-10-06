@@ -8,6 +8,8 @@ import { asOf } from "./asof";
 import { panel, momentum, reversal, meanIC, noise, SPLITS } from "./factors";
 import { spearman } from "./series";
 import { maskedSoftmax } from "./policy";
+import { chain, ready, runGate, claimDone } from "./gatedbuild";
+import { walkForward } from "./candles";
 
 describe("look-ahead", () => {
   it("the leaky rule never loses on a day; the honest one does", () => {
@@ -104,5 +106,37 @@ describe("policy masking", () => {
     expect(p[3]).toBe(0);
     expect(p.reduce((a, b) => a + b, 0)).toBeCloseTo(1, 12);
     expect(p.indexOf(Math.max(...p))).toBe(0);
+  });
+});
+
+describe("gated build", () => {
+  it("only ready tasks can run, and only a passing gate marks one done", () => {
+    let ts = chain();
+    expect(ready(ts)).toEqual([1]);
+    expect(runGate(ts, 3, true, "").error).toMatch(/not ready/);
+    ts = runGate(ts, 1, true, "").tasks;
+    expect(ready(ts)).toEqual([2]);
+    expect(claimDone(ts, 2).tasks.find((t) => t.id === 2)!.state).toBe("pending");
+  });
+  it("a failed gate keeps the task pending with dated evidence; there is no failed state", () => {
+    let ts = chain();
+    for (const id of [1, 2, 3]) ts = runGate(ts, id, true, "").tasks;
+    ts = runGate(ts, 4, false, "2026-10-06 pytest: 1 failed").tasks;
+    const t4 = ts.find((t) => t.id === 4)!;
+    expect(t4.state).toBe("pending");
+    expect(t4.evidence).toEqual(["2026-10-06 pytest: 1 failed"]);
+    expect(ready(ts)).toEqual([4]);                     // the review stays blocked
+    ts = runGate(ts, 4, true, "").tasks;
+    expect(ready(ts)).toEqual([5]);
+  });
+});
+
+describe("candle timing", () => {
+  it("open-time stamps read a close not yet known on every decision; close-time stamps never do", () => {
+    const leaky = walkForward(3, 400, "open"), honest = walkForward(3, 400, "close");
+    expect(leaky.leaks).toBe(leaky.decisions);
+    expect(honest.leaks).toBe(0);
+    expect(leaky.equity.at(-1)!).toBeGreaterThan(honest.equity.at(-1)!);
+    expect(leaky.equity.every((v, i) => i === 0 || v >= leaky.equity[i - 1])).toBe(true);   // the leak never loses
   });
 });

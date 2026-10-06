@@ -19,13 +19,13 @@ test("the lab covers every project and links all four full demos", async ({ page
 });
 
 test("lab: deep links open an experiment; the arrow keys walk the rail", async ({ page }) => {
-  await page.goto("/demos/#qubits");
-  await expect(page.locator('[data-panel="qubits"]')).toBeVisible();
+  await page.goto("/demos/#asof");
+  await expect(page.locator('[data-panel="asof"]')).toBeVisible();
   await expect(page.locator('[data-panel="guard"]')).toBeHidden();
   await page.locator(".tree [role=listbox]").focus();
   await page.keyboard.press("ArrowDown");
-  await expect(page.locator('[data-panel="asof"]')).toBeVisible();
-  await expect(page).toHaveURL(/#asof$/);
+  await expect(page.locator('[data-panel="qubits"]')).toBeVisible();
+  await expect(page).toHaveURL(/#qubits$/);
 });
 
 test("lab: the real guard.py blocks a home-directory wipe with its reason and allows git status", async ({ page }) => {
@@ -183,4 +183,31 @@ test("order-book replay: holding Step keeps stepping; a click steps once", async
   expect(s1 - (s0 + 1)).toBeGreaterThan(8);
   await page.waitForTimeout(400);
   expect(Number(await step.textContent())).toBe(s1);        // stops when released
+});
+
+test("lab: a gated build only moves when a gate passes; a planted bug sends task 4 back with evidence", async ({ page }) => {
+  await page.goto("/demos/#gatedbuild");
+  const panel = page.locator('[data-panel="gatedbuild"]'), rows = panel.locator(".gb-t");
+  await expect(rows).toHaveCount(5);
+  await panel.getByRole("button", { name: /the next task is done/ }).click();
+  await expect(panel.locator(".gb-msg")).toContainText("a claim is not evidence");
+  await expect(rows.nth(0)).toHaveClass(/ready/);
+  await panel.getByRole("radio", { name: "has a bug" }).click();
+  for (const i of [0, 1, 2]) await rows.nth(i).getByRole("button", { name: "run gate" }).click();
+  await rows.nth(3).getByRole("button", { name: "run gate" }).click();
+  await expect(rows.nth(3)).toHaveClass(/ready/);                       // back to pending, still the next to run
+  await expect(rows.nth(3).locator(".gb-e")).toHaveCount(1);
+  await expect(rows.nth(4).getByRole("button", { name: "run gate" })).toBeDisabled();
+  await panel.getByRole("radio", { name: "correct" }).click();
+  await rows.nth(3).getByRole("button", { name: "run gate" }).click();
+  await expect(rows.nth(3)).toHaveClass(/done/);
+  await expect(rows.nth(4)).toHaveClass(/ready/);
+});
+
+test("lab: the candle timing audit flags every read when candles are stamped at their open", async ({ page }) => {
+  await page.goto("/demos/#candles");
+  const panel = page.locator('[data-panel="candles"]');
+  await expect(panel.locator(".ro")).toContainText("0 of");
+  await panel.getByRole("radio", { name: "open" }).click();
+  await expect(panel.locator(".ro")).toContainText(/(\d+) of \1 reads used a close not yet known/);
 });
