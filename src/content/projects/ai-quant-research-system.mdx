@@ -24,8 +24,8 @@ metrics:
 links:
 - label: 'Repository: agentic-quant-research'
   href: https://github.com/oscar-chw/agentic-quant-research
-- label: 'Repository: asof-research'
-  href: https://github.com/oscar-chw/asof-research
+- label: 'Code: the point-in-time research platform (platform/)'
+  href: https://github.com/oscar-chw/agentic-quant-research/tree/main/platform
 - label: 'Repository: agent-harness'
   href: https://github.com/oscar-chw/agent-harness
 - label: 'Repository: quant-research-vault'
@@ -57,19 +57,19 @@ The vault in this build keeps book notes and measured results as cited, version-
 
 ## Point-in-time research platform
 
-<Part id="point-in-time-research" role="Designer and sole author" stack={["Python", "C++20", "pybind11", "pandas", "pytest", "hypothesis"]} metrics={[{"value": "25×", "label": "C++20 order-book replay vs an optimized Python batch path, byte-identical output"}, {"value": "2.3×", "label": "end-to-end when the native replay is called from Python"}, {"value": "47", "label": "tests on the native replay"}]} links={[{"label": "Repository: asof-research", "href": "https://github.com/oscar-chw/asof-research"}]} />
+<Part id="point-in-time-research" role="Designer and sole author" stack={["Python", "C++20", "pybind11", "pandas", "pytest", "hypothesis"]} metrics={[{"value": "25×", "label": "C++20 order-book replay vs an optimized Python batch path, byte-identical output"}, {"value": "2.3×", "label": "end-to-end when the native replay is called from Python"}, {"value": "47", "label": "tests on the native replay"}]} links={[{"label": "Code: the point-in-time research platform (platform/)", "href": "https://github.com/oscar-chw/agentic-quant-research/tree/main/platform"}]} />
 
 <P_point_in_time_research />
 
 ## Factor Lab
 
-<Part role="Designer and sole author" stack={["Python", "convex optimization"]} links={[{"label": "Package: asof-research/packages/factor", "href": "https://github.com/oscar-chw/asof-research/tree/main/packages/factor"}]} />
+<Part role="Designer and sole author" stack={["Python", "convex optimization"]} links={[{"label": "Package: platform/packages/factor", "href": "https://github.com/oscar-chw/agentic-quant-research/tree/main/platform/packages/factor"}]} />
 
 <P_factor_lab />
 
 ## Market-Making Lab
 
-<Part role="Designer and sole author" stack={["Python", "exact decimals"]} metrics={[{"value": "18", "label": "synthetic scenarios with partial fills, queue position and cancel delays"}]} links={[{"label": "Package: asof-research/packages/imc-sim", "href": "https://github.com/oscar-chw/asof-research/tree/main/packages/imc-sim"}]} />
+<Part role="Designer and sole author" stack={["Python", "exact decimals"]} metrics={[{"value": "18", "label": "synthetic scenarios with partial fills, queue position and cancel delays"}]} links={[{"label": "Package: platform/packages/imc-sim", "href": "https://github.com/oscar-chw/agentic-quant-research/tree/main/platform/packages/imc-sim"}]} />
 
 <P_market_making_lab />
 

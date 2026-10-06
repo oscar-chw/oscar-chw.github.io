@@ -1,4 +1,4 @@
-// Point-in-time reads, as the QTS platform and asof-research do them: every version of a value
+// Point-in-time reads, as the QTS platform and the point-in-time research platform do them: every version of a value
 // carries the time it became known; reading "as of" t returns the latest version known by t,
 // never one that arrived later (a correction published tomorrow is invisible today).
 export interface Version { key: string; value: number; known: number }
