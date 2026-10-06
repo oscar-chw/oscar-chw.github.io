@@ -1,5 +1,6 @@
 import { backtest } from "../../../lib/lab/lookahead";
 import { chart, segmented, button, readout, css } from "../ui";
+import { Shuffle } from "lucide";
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const c = chart("Equity curves: honest rule, leaky rule and the market");
@@ -18,7 +19,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   };
   controls.append(
     segmented("let the rule see today's return?", ["no", "yes"], peek, (v) => { peek = v; draw(); }),
-    button("new random market", () => { seed++; draw(); }),
+    button("new random market", () => { seed++; draw(); }, "", Shuffle),
     ro,
   );
   draw();

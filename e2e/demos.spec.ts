@@ -154,3 +154,18 @@ test("fourier: your own photo is traced in the browser and never sent anywhere",
   await expect(page.getByTestId("fourier-error")).toHaveAttribute("data-source", "photo", { timeout: 10000 });
   expect(requests).toEqual([]);                       // nothing at all left the page while tracing
 });
+
+test("order-book replay: holding Step keeps stepping; a click steps once", async ({ page }) => {
+  await page.goto("/demos/order-book/");
+  const step = page.getByTestId("replay-step"), btn = page.getByTestId("replay-stepbtn");
+  const s0 = Number(await step.textContent());
+  await btn.click();
+  await expect(step).toHaveText(String(s0 + 1));
+  const box = (await btn.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down(); await page.waitForTimeout(1300); await page.mouse.up();
+  const s1 = Number(await step.textContent());
+  expect(s1 - (s0 + 1)).toBeGreaterThan(8);
+  await page.waitForTimeout(400);
+  expect(Number(await step.textContent())).toBe(s1);        // stops when released
+});

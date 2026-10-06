@@ -1,5 +1,6 @@
 ---
 import Demo from "../../layouts/Demo.astro";
+import Icon from "../../components/Icon.astro";
 import { url } from "../../lib/url";
 import r from "../../data/reconciliation.json";
 
@@ -43,7 +44,7 @@ const code = [
     </svg>
     <figcaption class="comment">endpoints are measured; the in-memory line assumes memory grows with rows read, the streaming line that it is capped by the run size</figcaption>
   </figure>
-  <p><button type="button" data-testid="recon-play">Run both</button> <span class="mono" data-testid="recon-progress" data-value="0" aria-live="off">t = 0.00 s</span></p>
+  <p><button type="button" data-testid="recon-play"><Icon name="play" size={15} />Run both</button> <span class="mono" data-testid="recon-progress" data-value="0" aria-live="off">t = 0.00 s</span></p>
 
   <table class="peaks">
     <caption class="comment">measured peak memory (median of runs)</caption>
@@ -91,7 +92,7 @@ const code = [
   .lab { font: 12px ui-monospace, Menlo, monospace; }
   .mem-t { fill: var(--down); } .str-t { fill: var(--accent); }
   .cursor { stroke: var(--ink); stroke-dasharray: 3 4; opacity: 0.6; }
-  button { font: inherit; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
+  button { display: inline-flex; align-items: center; gap: 7px; font: inherit; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
   button:hover { border-color: var(--accent); }
   .peaks { border-collapse: collapse; margin: 1.4rem 0 1rem; font-variant-numeric: tabular-nums; }
   .peaks caption { text-align: left; margin-bottom: 6px; }

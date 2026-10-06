@@ -1,5 +1,6 @@
 import { actions, evaluate, calibrate } from "../../../lib/lab/gate";
 import { h, slider, readout, button } from "../ui";
+import { ShieldOff } from "lucide";
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const cal = actions(7, 1500), fresh = actions(42, 1500);
@@ -18,7 +19,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   controls.append(
     slider("target: rule breaks at most", 0.01, 0.2, 0.01, alpha, (v) => `${(v * 100).toFixed(0)}%`, (v) => { alpha = v; tau = calibrate(cal, alpha); draw(); }),
     h("p", { class: "lab-note" }, "The threshold is calibrated on separate actions, then judged on fresh ones (conformal risk control, simplified)."),
-    button("no gate (act on everything)", () => { tau = 1.01; draw(); }),
+    button("no gate (act on everything)", () => { tau = 1.01; draw(); }, "", ShieldOff),
     ro,
   );
   draw();

@@ -1,5 +1,6 @@
 import { run, probs, type Gate } from "../../../lib/lab/qubits";
 import { h, segmented, button } from "../ui";
+import { Sparkles, RotateCcw } from "lucide";
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   let n = 3, target = 0, gates: Gate[] = [];
@@ -26,7 +27,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     tgt,
     h("div", { class: "chips" }, ...(["H", "X", "Z", "S", "T"] as const).map((g) => button(g, () => add({ g, q: target }), "chip mono")),
       button("CNOT → next", () => add({ g: "CNOT", c: target, t: (target + 1) % n }), "chip mono")),
-    h("div", { class: "chips" }, button("Bell state", () => { gates = [{ g: "H", q: 0 }, { g: "CNOT", c: 0, t: 1 }]; draw(); }, "chip mono"), button("reset", () => { gates = []; draw(); }, "chip mono")),
+    h("div", { class: "chips" }, button("Bell state", () => { gates = [{ g: "H", q: 0 }, { g: "CNOT", c: 0, t: 1 }]; draw(); }, "chip mono", Sparkles), button("reset", () => { gates = []; draw(); }, "chip mono", RotateCcw)),
   );
   draw();
 }

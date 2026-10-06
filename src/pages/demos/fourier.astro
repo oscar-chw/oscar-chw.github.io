@@ -15,10 +15,10 @@ const code = [
       <input id="circles" data-testid="fourier-circles" type="range" min="1" max="500" value="200" />
       <p class="readout">RMS error <span data-testid="fourier-error" data-value="" data-source="portrait">computing…</span> px</p>
       <div class="buttons">
-        <button type="button" data-testid="fourier-pause" aria-pressed="false">Pause</button>
+        <button type="button" data-testid="fourier-pause" aria-pressed="false"><Icon name="pause" size={15} class="i-pause" /><Icon name="play" size={15} class="i-play" /><span class="lbl">Pause</span></button>
         <button type="button" data-testid="fourier-draw"><Icon name="pencil" size={15} />Draw your own</button>
         <label class="upload"><Icon name="image-up" size={15} />Use your own photo<input type="file" accept="image/*" data-testid="fourier-upload" /></label>
-        <button type="button" data-testid="fourier-reset">Back to the portrait</button>
+        <button type="button" data-testid="fourier-reset"><Icon name="rotate-ccw" size={15} />Back to the portrait</button>
       </div>
       <p class="comment hint" aria-live="polite"></p>
       <p class="privacy" data-testid="privacy-note"><Icon name="shield-check" size={15} />Your photo stays on your device. It is traced inside this page, never uploaded, never saved, and gone when you leave.</p>
@@ -47,7 +47,7 @@ const code = [
   let k = Number(slider.value), t0 = performance.now(), raf = 0, mode: "portrait" | "drawn" | "photo" = "portrait";
   let pausedAt: number | null = null;
   const pauseBtn = document.querySelector<HTMLButtonElement>("[data-testid=fourier-pause]")!;
-  const setPaused = (p: boolean) => { pausedAt = p ? performance.now() : null; pauseBtn.setAttribute("aria-pressed", String(p)); pauseBtn.textContent = p ? "Resume" : "Pause"; };
+  const setPaused = (p: boolean) => { pausedAt = p ? performance.now() : null; pauseBtn.setAttribute("aria-pressed", String(p)); pauseBtn.querySelector(".lbl")!.textContent = p ? "Resume" : "Pause"; };
   // WCAG 2.2.2: the drawing animation can be paused and resumed where it stopped.
   pauseBtn.addEventListener("click", () => {
     if (pausedAt === null) { cancelAnimationFrame(raf); setPaused(true); }
@@ -161,6 +161,7 @@ const code = [
   .readout { font-family: ui-monospace, Menlo, monospace; color: var(--muted); }
   .readout span { color: var(--ink); }
   .hint:empty { display: none; }
+  [data-testid=fourier-pause][aria-pressed="false"] :global(.i-play), [data-testid=fourier-pause][aria-pressed="true"] :global(.i-pause) { display: none; }
   .buttons button, .upload { display: inline-flex; align-items: center; gap: 7px; }
   .upload { font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 8px 14px; border-radius: 6px; cursor: pointer; }
   .upload:hover, .upload:focus-within { border-color: var(--accent); }

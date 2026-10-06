@@ -1,3 +1,5 @@
+import { createElement, type IconNode } from "lucide";
+
 // Shared building blocks for lab experiments: tiny DOM builder, controls styled as instruments
 // (segmented switches, sliders with live readouts), and an SVG line chart that redraws in place.
 export function h<K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, string> = {}, ...kids: (Node | string)[]) {
@@ -24,8 +26,13 @@ export function segmented(label: string, options: string[], value: string, on: (
   return h("div", { class: "ctl" }, h("span", { class: "ctl-l mono" }, label), wrap);
 }
 
-export function button(text: string, on: () => void, cls = "") {
-  const b = h("button", { type: "button", class: `lab-btn ${cls}` }, text);
+export function icon(node: IconNode, size = 15) {
+  const s = createElement(node); s.setAttribute("width", String(size)); s.setAttribute("height", String(size)); s.setAttribute("aria-hidden", "true");
+  return s;
+}
+
+export function button(text: string, on: () => void, cls = "", ico?: IconNode) {
+  const b = h("button", { type: "button", class: `lab-btn ${cls}` }, ...(ico ? [icon(ico)] : []), text);
   b.addEventListener("click", on);
   return b;
 }

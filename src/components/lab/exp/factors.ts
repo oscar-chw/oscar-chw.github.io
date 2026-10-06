@@ -1,5 +1,6 @@
 import { panel, momentum, reversal, meanIC, SPLITS } from "../../../lib/lab/factors";
 import { h, button, segmented } from "../ui";
+import { Shuffle } from "lucide";
 
 const CANDS = [["momentum 5d", momentum(5)], ["momentum 20d", momentum(20)], ["momentum 60d", momentum(60)], ["reversal 5d", reversal(5)]] as const;
 
@@ -21,7 +22,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   controls.append(
     h("p", { class: "lab-note" }, "Mean daily rank IC: today's signal against tomorrow's returns. The test column stays sealed until a candidate has been chosen on validation, and then only the chosen one is opened."),
     segmented("test window", ["hidden", "open the chosen one"], reveal, (v) => { reveal = v; draw(); }),
-    button("new random market", () => { seed++; draw(); }),
+    button("new random market", () => { seed++; draw(); }, "", Shuffle),
   );
   draw();
 }

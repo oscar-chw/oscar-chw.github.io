@@ -1,5 +1,6 @@
 import { simulate } from "../../../lib/lab/marketmaking";
 import { chart, slider, readout, button, css } from "../ui";
+import { Shuffle } from "lucide";
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const quotes = chart("Fair value with the bid and ask you quote"), inv = chart("Inventory over time", 760, 160), pnl = chart("Marked-to-market P&L", 760, 160);
@@ -16,7 +17,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   controls.append(
     slider("spread", 0.05, 1.5, 0.05, spread, (v) => v.toFixed(2), (v) => { spread = v; draw(); }),
     slider("inventory skew", 0, 0.12, 0.005, skew, (v) => v.toFixed(3), (v) => { skew = v; draw(); }),
-    button("new random flow", () => { seed++; draw(); }),
+    button("new random flow", () => { seed++; draw(); }, "", Shuffle),
     ro,
   );
   draw();

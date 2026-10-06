@@ -1,5 +1,6 @@
 ---
 import Demo from "../../layouts/Demo.astro";
+import Icon from "../../components/Icon.astro";
 const code = [
   { label: "This demo's source", href: "https://github.com/oscar-chw/oscar-chw.github.io" },
   { label: "The C++20 order-book replay (asof-research)", href: "https://github.com/oscar-chw/asof-research" },
@@ -10,8 +11,8 @@ const code = [
   <div class="replay">
     <div class="panel">
       <div class="controls">
-        <button type="button" data-testid="replay-play" aria-pressed="false">Play</button>
-        <button type="button" data-testid="replay-stepbtn">Step</button>
+        <button type="button" data-testid="replay-play" aria-pressed="false"><Icon name="play" size={15} class="i-play" /><Icon name="pause" size={15} class="i-pause" /><span class="lbl">Play</span></button>
+        <button type="button" data-testid="replay-stepbtn" title="Click to step once; hold to keep stepping"><Icon name="step-forward" size={15} />Step</button>
         <label>seed <input type="number" id="seed" value="7" min="1" max="9999" /></label>
         <label>speed <input type="range" id="speed" min="1" max="60" value="20" /></label>
       </div>
@@ -90,13 +91,27 @@ const code = [
     }
   }
   function tick() { for (let s = 0; s < Number(speed.value) / 10 + 1; s++) apply(); render(); }
-  function stop() { clearInterval(timer); timer = 0; play.textContent = "Play"; play.setAttribute("aria-pressed", "false"); }
+  const playLabel = play.querySelector(".lbl")!;
+  function stop() { clearInterval(timer); timer = 0; playLabel.textContent = "Play"; play.setAttribute("aria-pressed", "false"); }
   play.addEventListener("click", () => {
     if (timer) { stop(); return; }
     timer = window.setInterval(tick, 100);
-    play.textContent = "Pause"; play.setAttribute("aria-pressed", "true");
+    playLabel.textContent = "Pause"; play.setAttribute("aria-pressed", "true");
   });
-  stepBtn.addEventListener("click", () => { stop(); apply(); render(); });
+  // Step: one event per click; hold it (pointer, or Enter/Space) and it keeps stepping, faster the longer you hold
+  let holdTimer = 0, holdDelay = 0, held = false;
+  const stepOnce = () => { apply(); render(); };
+  const repeat = () => { stepOnce(); holdDelay = Math.max(16, holdDelay * 0.85); holdTimer = window.setTimeout(repeat, holdDelay); };
+  const release = () => { clearTimeout(holdTimer); holdTimer = 0; };
+  stepBtn.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    stop(); held = true; stepOnce();
+    holdDelay = 120; holdTimer = window.setTimeout(repeat, 380);
+    stepBtn.setPointerCapture(e.pointerId);
+  });
+  for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) stepBtn.addEventListener(ev, release);
+  stepBtn.addEventListener("click", (e) => { if (held) { held = false; return; } e.preventDefault(); stop(); stepOnce(); });   // keyboard click
+  stepBtn.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.repeat) { e.preventDefault(); stepOnce(); } });
   seedIn.addEventListener("change", () => { stop(); tape.innerHTML = ""; reset(); });
   document.addEventListener("themechange", render);
   reset();
@@ -111,6 +126,8 @@ const code = [
   input[type=range] { accent-color: var(--accent); }
   button { font: inherit; font-size: 0.95rem; background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); padding: 7px 14px; border-radius: 6px; cursor: pointer; }
   button[aria-pressed=true] { border-color: var(--accent); }
+  button { display: inline-flex; align-items: center; gap: 7px; }
+  button[aria-pressed="false"] :global(.i-pause), button[aria-pressed="true"] :global(.i-play) { display: none; }
   .stats { display: flex; flex-wrap: wrap; gap: 6px 26px; margin: 0 0 12px; }
   .stats div { display: flex; gap: 8px; align-items: baseline; }
   .stats dt { font: 0.8rem ui-monospace, Menlo, monospace; color: var(--muted); }
