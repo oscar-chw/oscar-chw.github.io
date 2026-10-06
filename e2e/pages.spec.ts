@@ -112,3 +112,14 @@ test("typing in the top bar opens the console; commands answer, unknown ones say
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/\/projects\/factor-lab\/$/);
 });
+
+test("one object: hovering a project row turns the pinned object into that project", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const rows = page.locator("[data-work-object] [data-row]");
+  await rows.nth(2).scrollIntoViewIfNeeded();
+  await rows.nth(3).hover();
+  await expect(rows.nth(3)).toHaveAttribute("aria-current", "true");
+  await expect(page.locator('[data-work-object] [data-state="3"]')).toHaveAttribute("data-active", "");
+  await expect(page.locator('[data-work-object] [data-state="0"]')).not.toHaveAttribute("data-active", "");
+});

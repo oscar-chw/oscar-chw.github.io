@@ -96,54 +96,6 @@ if (!still && layers.length) {
   }, { passive: true });
 }
 
-// ---------- results board: one object, the figure flips to the next result by itself ----------
-const DIGITS = "0123456789";
-/** Departure-board flip: digits cycle through random digits and settle left to right; other characters stay. */
-function flip(el: HTMLElement, target: string) {
-  if (still) { el.textContent = target; return; }
-  const chars = [...target];
-  let f = 0;
-  const id = setInterval(() => {
-    f++;
-    el.textContent = chars.map((c, i) => (/\d/.test(c) && f < 6 + i * 2 ? DIGITS[(Math.random() * 10) | 0] : c)).join("");
-    if (f >= 6 + chars.length * 2) { clearInterval(id); el.textContent = target; }
-  }, 45);
-}
-for (const board of document.querySelectorAll<HTMLElement>("[data-board]")) {
-  const tabs = [...board.querySelectorAll<HTMLButtonElement>("[role=tab]")];
-  const panels = [...board.querySelectorAll<HTMLElement>("[data-panel]")];
-  const clock = board.querySelector<HTMLElement>(".clock")!;
-  const toggle = board.querySelector<HTMLButtonElement>("[data-board-toggle]")!;
-  const PERIOD = 5000;
-  let k = 0, held = still;
-  board.classList.add("live");
-  board.querySelector<HTMLElement>(".tabs")!.hidden = false;
-  clock.hidden = still; toggle.hidden = still;
-  clock.style.setProperty("--period", `${PERIOD}ms`);
-  const show = (i: number, focus = false) => {
-    k = (i + panels.length) % panels.length;
-    panels.forEach((p, j) => p.toggleAttribute("data-active", j === k));
-    tabs.forEach((t, j) => { t.setAttribute("aria-selected", String(j === k)); t.tabIndex = j === k ? 0 : -1; });
-    if (focus) tabs[k].focus();
-    const fig = panels[k].querySelector<HTMLElement>("[data-fig]")!;
-    flip(fig, fig.dataset.fig ?? "");
-    clock.classList.remove("run"); void clock.offsetWidth; if (!held) clock.classList.add("run");
-  };
-  tabs.forEach((t, i) => t.addEventListener("click", () => show(i)));
-  board.querySelector(".tabs")!.addEventListener("keydown", (e) => {
-    const key = (e as KeyboardEvent).key;
-    if (key === "ArrowRight" || key === "ArrowLeft") { e.preventDefault(); show(k + (key === "ArrowRight" ? 1 : -1), true); }
-  });
-  // the clock bar is the timer: when its animation ends, advance (hover, focus and Pause freeze it)
-  clock.querySelector("i")!.addEventListener("animationend", () => { if (!held && !paused) show(k + 1); });
-  toggle.addEventListener("click", () => {
-    held = !held; board.classList.toggle("held", held);
-    toggle.setAttribute("aria-pressed", String(held)); toggle.setAttribute("aria-label", held ? "Play the results board" : "Pause the results board");
-    if (!held) show(k);
-  });
-  show(0);
-}
-
 // ---------- magnetic buttons ----------
 if (fine && !still) for (const b of document.querySelectorAll<HTMLElement>("[data-magnetic]")) {
   b.addEventListener("pointermove", (e) => {

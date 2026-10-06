@@ -1,0 +1,104 @@
+---
+// "One object": the project list scrolls on the left while a single glass object stays pinned on
+// the right and transforms into whichever project is in view (or hovered/focused). Scrolling picks
+// the project; it never drives a number. Without JS the object shows the first project and every
+// row is still a plain link. On phones the object steps aside and rows carry their own figure.
+import type { CollectionEntry } from "astro:content";
+import ProjectArt from "../ProjectArt.astro";
+import Icon from "../Icon.astro";
+import { url } from "../../lib/url";
+
+interface Props { projects: CollectionEntry<"projects">[] }
+const { projects } = Astro.props;
+const pad = (n: number) => String(n + 1).padStart(2, "0");
+---
+<div class="wo cols" data-work-object>
+  <ol class="rows">
+    {projects.map((p, i) => (
+      <li class="reveal" style={`--i:${i % 4}`}>
+        <a href={url(`/projects/${p.id}/`)} data-row={i} aria-current={i === 0 ? "true" : undefined}>
+          <span class="n mono">{pad(i)}</span>
+          <span class="t" style={`view-transition-name: p-${p.id}`}>{p.data.title}</span>
+          <span class="tag mono">{p.data.stack.slice(0, 2).join(" · ").toLowerCase()}</span>
+          {p.data.metrics[0] && <span class="f mono">{p.data.metrics[0].value}</span>}
+        </a>
+      </li>
+    ))}
+  </ol>
+  <div class="stage" aria-hidden="true">
+    <div class="obj glass">
+      {projects.map((p, i) => (
+        <div class="state" data-state={i} data-active={i === 0 ? "" : undefined}>
+          <div class="art"><ProjectArt slug={p.id} compact /></div>
+          <p class="kick mono">{pad(i)} / {pad(projects.length - 1)} · {p.data.group.toLowerCase()}</p>
+          {p.data.metrics[0] && <p class="fig mono" data-fig={p.data.metrics[0].value}>{p.data.metrics[0].value}</p>}
+          {p.data.metrics[0] && <p class="lab">{p.data.metrics[0].label}</p>}
+          <p class="sum">{p.data.summary}</p>
+          <span class="go mono">open the project <Icon name="arrow-right" size={14} /></span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DIGITS = "0123456789";
+  const flip = (el: HTMLElement) => {
+    const target = el.dataset.fig ?? "";
+    if (still) { el.textContent = target; return; }
+    let f = 0;
+    const id = setInterval(() => {
+      f++;
+      el.textContent = [...target].map((c, i) => (/\d/.test(c) && f < 5 + i * 2 ? DIGITS[(Math.random() * 10) | 0] : c)).join("");
+      if (f >= 5 + target.length * 2) { clearInterval(id); el.textContent = target; }
+    }, 40);
+  };
+  for (const root of document.querySelectorAll<HTMLElement>("[data-work-object]")) {
+    const rows = [...root.querySelectorAll<HTMLAnchorElement>("[data-row]")];
+    const states = [...root.querySelectorAll<HTMLElement>("[data-state]")];
+    let k = 0;
+    const show = (i: number) => {
+      if (i === k) return;
+      k = i;
+      states.forEach((s, j) => s.toggleAttribute("data-active", j === i));
+      rows.forEach((r, j) => (j === i ? r.setAttribute("aria-current", "true") : r.removeAttribute("aria-current")));
+      const fig = states[i].querySelector<HTMLElement>("[data-fig]");
+      if (fig) flip(fig);
+    };
+    // the row crossing the middle of the screen becomes the object
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) show(Number((e.target as HTMLElement).dataset.row)); }), { rootMargin: "-48% 0px -48% 0px" });
+    rows.forEach((r, i) => { io.observe(r); r.addEventListener("pointerenter", () => show(i)); r.addEventListener("focus", () => show(i)); });
+  }
+</script>
+
+<style>
+  .wo { align-items: start; }
+  .rows { grid-column: 1 / span 6; list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--line-2); }
+  .rows li { border-top: 1px solid var(--line-2); }
+  .rows a { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; column-gap: 14px; row-gap: 4px; align-items: baseline; padding: 26px 0; color: var(--muted); text-decoration: none; transition: color 0.3s, padding 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .rows a[aria-current="true"], .rows a:hover, .rows a:focus-visible { color: var(--ink); padding-left: 12px; }
+  .n { color: var(--muted); font-size: 0.8rem; }
+  .rows a[aria-current="true"] .n { color: var(--accent); }
+  .t { font-size: clamp(1.3rem, 0.9rem + 1.3vw, 2.1rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+  .tag { grid-column: 2; font-size: 0.78rem; color: var(--muted); }
+  .f { grid-column: 3; grid-row: 1; color: var(--accent); font-size: 0.95rem; opacity: 0; transition: opacity 0.3s; }
+
+  /* the object: pinned while the list scrolls past it */
+  .stage { grid-column: 8 / -1; position: sticky; top: 110px; }
+  .obj { position: relative; border-radius: 28px; padding: 22px 24px 24px; min-height: 470px; overflow: hidden; }
+  .state { position: absolute; inset: 22px 24px 24px; display: flex; flex-direction: column; opacity: 0; transform: translateY(14px) scale(0.98); filter: blur(8px); transition: opacity 0.45s, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s; pointer-events: none; }
+  .state[data-active] { opacity: 1; transform: none; filter: none; }
+  .art { border-radius: 16px; overflow: hidden; background: color-mix(in srgb, var(--bg) 55%, transparent); margin-bottom: 18px; }
+  .kick { font-size: 0.75rem; color: var(--muted); margin: 0 0 6px; }
+  .fig { font-size: clamp(2.6rem, 1.4rem + 3vw, 4.2rem); font-weight: 600; letter-spacing: -0.05em; line-height: 1; margin: 0 0 8px; color: var(--ink); }
+  .lab { color: var(--muted); font-size: 0.92rem; margin: 0 0 12px; max-width: 46ch; }
+  .sum { font-size: 0.98rem; line-height: 1.55; margin: 0; }
+  .go { margin-top: auto; color: var(--accent); font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; }
+
+  @media (max-width: 900px) {
+    .stage { display: none; }
+    .rows { grid-column: 1 / -1; }
+    .f { opacity: 1; }
+  }
+</style>
