@@ -11,14 +11,14 @@ const freqs = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25];
   <span class="hob" tabindex="0" data-cursor="play">piano<span class="hpop glass piano" role="group" aria-label="A tiny playable piano; keys A to K">
     {keys.map(([n, k], i) => <button type="button" class="key" data-freq={freqs[i]} aria-label={`play ${n}`}><span class="mono">{k}</span></button>)}
     <span class="hint mono">click or press A to K</span>
-  </span></span>,
+  </span></span>,{" "}
   <span class="hob" tabindex="0">Pokémon TCG<span class="hpop card glass" aria-hidden="true">
     <span class="ct"><b>Oscar</b><span class="mono">HP 2027</span></span>
     <span class="art"></span>
     <span class="atk"><b>No Look-ahead</b><span class="mono">Prevent all damage from tomorrow's prices.</span></span>
     <span class="atk"><b>Refactor</b><span class="mono">Discard a bug. Draw a test.</span></span>
     <span class="holo"></span>
-  </span></span>,
+  </span></span>,{" "}
   a bit of <span class="hob" tabindex="0">gaming<span class="hpop glass pixel" aria-hidden="true"><i class="sprite"></i><span class="mono">psst: try ↑↑↓↓←→←→ B A on the home page</span></span></span>,
   and <span class="hob hearts" tabindex="0">time with my partner<span class="burst" aria-hidden="true">{Array.from({ length: 7 }, (_, i) => <i style={`--i:${i}`}>♥</i>)}</span></span>.
 </p>
