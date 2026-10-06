@@ -1,15 +1,17 @@
-// Victoria Harbour drawn from data. The city (BTC/USDT history, the platform race test,
-// the blueprint future) is painted once into a base layer; only the water, where the
-// live order book sits, is repainted, and at most 10 times a second.
-import daily from "../../data/btc-daily.json";
-import snapshot from "../../data/book-snapshot.json";
-import { createFeed, FrameGate, type Book, type FeedState } from "../../lib/orderbook";
+// Victoria Harbour drawn from one simulated market: seeded order flow through my matching engine
+// (src/lib/market.ts). The city is that market's past, painted once into a base layer with the
+// platform race test and the blueprint future; only the water, the same market's live order book,
+// is repainted, and at most 10 times a second. Nothing is fetched: it all runs in the page.
+import { FrameGate, type Book } from "../../lib/orderbook";
+import { Market, REGIMES, type Regime } from "../../lib/market";
 import { attachRipples } from "./ripples";
 
 const W = 1584, H = 396, WL = 286, XT = 1210;          // canvas size, waterline, t = now
 const ROWS = 14, ROW_H = 6.4, BAR = 190;
-const WS_URL = "wss://stream.binance.com:9443/ws/btcusdt@depth20@100ms";
-const REST_URL = "https://data-api.binance.vision/api/v3/depth?symbol=BTCUSDT&limit=100";
+const SESSIONS = 1800, PER_SESSION = 20, BLOCK = 30;     // the past: 36,000 order events, one building per 30 sessions
+const LIVE_EVENTS = 12;                                  // order events per 100 ms once t = now
+type Kind = Regime | "switching";
+const kindLabel = (k: Kind) => (k === "switching" ? "regime-switching" : REGIMES[k].label.toLowerCase());
 
 type Rows = { label: string[]; bid: number[]; ask: number[]; mid: number };
 
@@ -22,13 +24,19 @@ interface Geo {
 // Each stage stays under ~50 ms on a 4x-throttled phone CPU, so painting the city never blocks input.
 const pause = () => new Promise<void>((r) => setTimeout(r, 0));
 
-async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement): Promise<Geo> {
-  const CL = daily.close;
+/** Run the market through its past in slices, so no single task blocks input. */
+async function past(m: Market): Promise<number[]> {
+  const out: number[] = [];
+  for (let d = 0; d < SESSIONS; d += 150) { out.push(...m.history(150, PER_SESSION)); await pause(); }
+  return out;
+}
+
+async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, CL: number[], seed: number, kind: Kind): Promise<Geo> {
   let s = 4242; const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
   // one building per 30-day block: open, high, low, close and that block's daily log returns
   const M: Geo["M"] = [];
-  for (let i = 0; i < CL.length; i += 30) {
-    const seg = CL.slice(i, i + 30); if (seg.length < 5) break;
+  for (let i = 0; i < CL.length; i += BLOCK) {
+    const seg = CL.slice(i, i + BLOCK); if (seg.length < 5) break;
     const prev = i > 0 ? CL[i - 1] : seg[0];
     M.push({ o: Math.log(seg[0]), c: Math.log(seg[seg.length - 1]), h: Math.log(Math.max(...seg)), l: Math.log(Math.min(...seg)), rets: seg.map((c, k) => Math.log(c / (k ? seg[k - 1] : prev))) });
   }
@@ -152,8 +160,8 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
     cx.font = "20px Menlo, monospace"; cx.fillStyle = "rgba(8,13,26,0.72)"; const w = cx.measureText(text).width; cx.fillRect(tx - 6, ty - 19, w + 12, 27); cx.fillStyle = "rgba(190,225,232,0.95)"; cx.fillText(text, tx, ty);
     if (px !== undefined && py !== undefined) { cx.strokeStyle = "rgba(190,225,232,0.5)"; cx.setLineDash([2, 3]); cx.beginPath(); cx.moveTo(tx + 8, ty + 9); cx.lineTo(px, py); cx.stroke(); cx.setLineDash([]); cx.fillStyle = "rgba(220,245,245,0.95)"; cx.beginPath(); cx.arc(px, py, 2.2, 0, 7); cx.fill(); }
   };
-  cx.font = "20px Menlo, monospace"; cx.fillStyle = "rgba(140,170,190,0.85)"; cx.fillText("$ ./render --seed 42", 28, 36);
-  { const [rx, ry] = roof[Math.floor(roof.length * 0.16)]; label("BTC/USDT, 2020 → now", 28, 76, rx, ry - 2); }
+  cx.font = "20px Menlo, monospace"; cx.fillStyle = "rgba(140,170,190,0.85)"; cx.fillText(`$ ./market --seed ${seed}`, 28, 36);
+  { const [rx, ry] = roof[Math.floor(roof.length * 0.16)]; label(`simulated ${kindLabel(kind)} market`, 28, 76, rx, ry - 2); }
   label("12 readers · 5 writers · 0 lost", hub[0] + 18, hub[1] + 6);
   cx.font = "italic 20px Menlo, monospace"; cx.fillStyle = "rgba(170,215,225,0.85)"; cx.fillText("no look-ahead", XT + 22, 92);
   // inverse of Y: the price a screen height stands for (the crosshair's price axis)
@@ -161,8 +169,8 @@ async function drawCity(cx: CanvasRenderingContext2D, canvas: HTMLCanvasElement)
   return { M, BW, Y, price, roof, hub, beams, lit };
 }
 
-/** Rows for the water: live books by depth level, the bundled snapshot by distance from mid. */
-function rowsFromBook(book: Book): Rows {
+/** Rows for the water: cumulative size by depth level. */
+function rowsFromBook(book: Book, mid: number): Rows {
   const n = Math.min(20, book.bids.length, book.asks.length), label: string[] = [], bid: number[] = [], ask: number[] = [];
   for (let i = 0; i < ROWS; i++) {
     const k = Math.max(1, Math.round(((i + 1) * n) / ROWS));
@@ -170,11 +178,8 @@ function rowsFromBook(book: Book): Rows {
     bid.push(book.bids.slice(0, k).reduce((s, l) => s + l[1], 0));
     ask.push(book.asks.slice(0, k).reduce((s, l) => s + l[1], 0));
   }
-  return { label, bid, ask, mid: (book.bids[0][0] + book.asks[0][0]) / 2 };
+  return { label, bid, ask, mid };
 }
-const SNAPSHOT_ROWS: Rows = {
-  label: snapshot.bands_bps.map((b) => `within ${b} bps of mid`), bid: snapshot.cum_bid_btc, ask: snapshot.cum_ask_btc, mid: snapshot.mid,
-};
 
 /** The living layer over the painted city: the roofline draws itself, packets travel the beams
  * (readers pull from the platform, writers push to it), windows flicker and the beacon pings.
@@ -207,39 +212,50 @@ export async function mountHarbour(wrap: HTMLElement) {
   const badge = wrap.querySelector<HTMLElement>("[data-testid=book-badge]")!;
   const pauseBtn = wrap.querySelector<HTMLButtonElement>("[data-testid=book-pause]")!;
   const cx = canvas.getContext("2d")!;
-  // paint the city off-screen, then show it whole: no half-drawn frames
-  const base = document.createElement("canvas"); base.width = W; base.height = H;
-  const geo = await drawCity(base.getContext("2d")!, base);
-  wrap.querySelector(".life")?.replaceWith(life(geo));
+  let base!: HTMLCanvasElement, market!: Market, geo!: Geo, rows!: Rows, kind: Kind = "switching", seed = 42, builds = 0;
+  // paint the city off-screen, then show it whole: no half-drawn frames. Each build draws on its own
+  // canvas and only the newest is kept, so quick picker changes cannot interleave two cities.
+  async function build(): Promise<boolean> {
+    const id = ++builds, k = kind, sd = seed;
+    wrap.dataset.ready = "";
+    const b = document.createElement("canvas"); b.width = W; b.height = H;
+    const m = new Market(sd, k), g = await drawCity(b.getContext("2d")!, b, await past(m), sd, k);
+    if (id !== builds) return false;
+    base = b; market = m; geo = g; rows = rowsFromBook(m.book.depth(20), m.mid());
+    wrap.querySelector(".life")?.replaceWith(life(geo));
+    wrap.dataset.ready = "1";
+    return true;
+  }
+  await build();
 
-  let rows = SNAPSHOT_ROWS, state: FeedState | "connecting" = "connecting", restAt = "", frames = 0, paused = false;
+  let frames = 0, paused = false;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let gate = new FrameGate(reduce.matches ? 1 : 10);
   reduce.addEventListener("change", () => (gate = new FrameGate(reduce.matches ? 1 : 10)));
 
   function paint() {
     cx.drawImage(base, 0, 0);
-    const dmax = Math.max(...rows.bid, ...rows.ask);
+    const dmax = Math.max(1, ...rows.bid, ...rows.ask);
     rows.bid.forEach((b, i) => {
       const yy = WL + 10 + i * ROW_H, bl = (b / dmax) * BAR, al = (rows.ask[i] / dmax) * BAR;
       let gr = cx.createLinearGradient(XT - bl, 0, XT, 0); gr.addColorStop(0, "rgba(63,185,80,0.10)"); gr.addColorStop(1, "rgba(63,185,80,0.85)"); cx.fillStyle = gr; cx.fillRect(XT - bl, yy, Math.max(0, bl - 3), 2);
       gr = cx.createLinearGradient(XT, 0, XT + al, 0); gr.addColorStop(0, "rgba(248,81,73,0.85)"); gr.addColorStop(1, "rgba(248,81,73,0.10)"); cx.fillStyle = gr; cx.fillRect(XT + 3, yy, al, 2);
     });
     cx.font = "18px Menlo, monospace";
-    const t = `bids | asks  ${rows.mid.toLocaleString("en-US", { maximumFractionDigits: 1 })}`, w = cx.measureText(t).width;
+    const t = `bids | asks  ${rows.mid.toFixed(2)}`, w = cx.measureText(t).width;
     cx.fillStyle = "rgba(8,13,26,0.72)"; cx.fillRect(XT - w / 2 - 6, H - 26, w + 12, 24); cx.fillStyle = "rgba(190,225,232,0.95)"; cx.fillText(t, XT - w / 2, H - 8);
     frames++;
     wrap.dataset.frames = String(frames);
     water?.refresh();
     wrap.dataset.bookMid = rows.mid.toFixed(2);
-    document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid, state } }));
+    document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid } }));
   }
 
   function setBadge() {
-    // a stream stopped by the user, or by a hidden tab, says so instead of "connecting…" or a stale "live"
-    const idle = paused || (document.hidden && (state === "live" || state === "connecting"));
-    badge.dataset.state = idle ? "paused" : state;
-    badge.textContent = idle ? "paused" : state === "live" ? "live · BTCUSDT" : state === "rest" ? `snapshot · ${restAt} UTC` : state === "fallback" ? "snapshot · 5 Oct 2026" : "connecting…";
+    // a market stopped by the user, or by a hidden tab, says so instead of a stale "live"
+    const idle = paused || document.hidden;
+    badge.dataset.state = idle ? "paused" : "live";
+    badge.textContent = idle ? "paused" : `live · seed ${seed}`;
   }
 
   let pending: ReturnType<typeof setTimeout> | undefined;
@@ -250,20 +266,20 @@ export async function mountHarbour(wrap: HTMLElement) {
     else if (!pending) pending = setTimeout(() => { pending = undefined; request(); }, 100);  // trailing frame: the newest book is never dropped
   }
 
-  let feed: ReturnType<typeof createFeed> | undefined;
+  // after t = now the market keeps trading: a few order events every 100 ms through the same engine
+  let clock: ReturnType<typeof setInterval> | undefined;
   const start = () => {
-    feed?.stop();
-    feed = createFeed({
-      wsUrl: WS_URL, restUrl: REST_URL,
-      onBook: (book, s) => { rows = rowsFromBook(book); if (s === "rest") restAt = new Date().toISOString().slice(11, 16); request(); },
-      onState: (s) => { if (s !== state) { state = s; setBadge(); } if (s === "fallback") { rows = SNAPSHOT_ROWS; request(); } },
-    });
+    clearInterval(clock);
+    clock = setInterval(() => {
+      for (let i = 0; i < LIVE_EVENTS; i++) market.step();
+      rows = rowsFromBook(market.book.depth(20), market.mid()); request();
+    }, 100);
   };
-  const halt = () => { feed?.stop(); feed = undefined; clearTimeout(pending); pending = undefined; };
-  // Stop the stream while the tab is hidden; reconnect when it is shown again.
+  const halt = () => { clearInterval(clock); clock = undefined; clearTimeout(pending); pending = undefined; };
+  // Stop the market while the tab is hidden; resume when it is shown again.
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) halt();
-    else if (!paused && (state === "live" || state === "connecting")) start();
+    else if (!paused) start();
     setBadge();
   });
   // WCAG 2.2.2: anything that updates by itself can be paused.
@@ -278,6 +294,21 @@ export async function mountHarbour(wrap: HTMLElement) {
     document.documentElement.toggleAttribute("data-paused", paused);
   });
 
+  // the market picker (demo page): another regime or seed rebuilds the city and restarts the water
+  const picker = wrap.closest(".harbour")?.querySelector<HTMLFormElement>("[data-market]");
+  picker?.addEventListener("submit", (e) => { e.preventDefault(); picker.dispatchEvent(new Event("change")); });   // Enter in the seed field
+  picker?.addEventListener("change", async () => {
+    const f = new FormData(picker);
+    const rk = (f.get("regime") as Kind) ?? "switching", sd = Math.max(1, Math.floor(Number(f.get("seed")) || 1));
+    if (rk === kind && sd === seed) return;
+    kind = rk; seed = sd;
+    halt(); tip.hidden = true;
+    if (!(await build())) return;           // a newer choice is already building
+    k = -1;                                  // the keyboard read-out starts again at the first building
+    paint(); setBadge();
+    if (!paused && !document.hidden) start();
+  });
+
   // the water answers the cursor (WebGL); created after the first paint so it has pixels to bend
   let water: ReturnType<typeof attachRipples> = null;
   paint(); setBadge();
@@ -285,8 +316,7 @@ export async function mountHarbour(wrap: HTMLElement) {
   if (!document.hidden) start();           // a page opened in a background tab waits until it is shown
 
   // ---------- read-outs: pointer and keyboard ----------
-  const d0 = Date.UTC(2020, 0, 1), day = (i: number) => new Date(d0 + i * 864e5).toISOString().slice(0, 10);
-  const usd = (v: number) => "$" + Math.round(Math.exp(v)).toLocaleString("en-US");
+  const px = (v: number) => Math.exp(v).toFixed(2);
   const site = wrap.dataset.base ?? "/";
   function readout(x: number, y: number): string {
     if (Math.hypot(x - geo.hub[0], y - geo.hub[1]) < 34)
@@ -295,12 +325,12 @@ export async function mountHarbour(wrap: HTMLElement) {
       return `<b>After t = now: no look-ahead</b><br>Look-ahead bias is using data that was not yet known at decision time, which makes a backtest look better than anything that could have traded.<br>These towers stay unlit blueprints. <a href="${site}projects/point-in-time-research/">Point-in-time research →</a>`;
     if (y > WL + 6 && y < WL + 12 + ROWS * ROW_H && Math.abs(x - XT) < 200) {
       const l = Math.max(0, Math.min(ROWS - 1, Math.floor((y - WL - 8) / ROW_H)));
-      return `<b>Order book, ${rows.label[l]}</b><br><span class="g">bids ${rows.bid[l].toFixed(2)} BTC</span> · <span class="r">asks ${rows.ask[l].toFixed(2)} BTC</span><br>${badge.textContent}`;
+      return `<b>Order book, ${rows.label[l]}</b><br><span class="g">bids ${rows.bid[l]} lots</span> · <span class="r">asks ${rows.ask[l]} lots</span><br>${badge.textContent}`;
     }
     const i = Math.floor(x / geo.BW), m = geo.M[i];
     if (m && y < WL && y > geo.Y(m.h) - 14) {
       const up = m.rets.filter((v) => v > 0).length, ch = (Math.exp(m.c - m.o) - 1) * 100;
-      return `<b>${day(i * 30)} → ${day(i * 30 + m.rets.length - 1)}</b><br>close ${usd(m.c)} · high ${usd(m.h)}<br>first→last close <span class="${ch >= 0 ? "g" : "r"}">${ch >= 0 ? "+" : ""}${ch.toFixed(1)}%</span><br><span class="g">${up} up days</span> · <span class="r">${m.rets.length - up} down days</span>`;
+      return `<b>Sessions ${i * BLOCK + 1} to ${i * BLOCK + m.rets.length}</b><br>close ${px(m.c)} · high ${px(m.h)}<br>first→last close <span class="${ch >= 0 ? "g" : "r"}">${ch >= 0 ? "+" : ""}${ch.toFixed(1)}%</span><br><span class="g">${up} up sessions</span> · <span class="r">${m.rets.length - up} down sessions</span>`;
     }
     return "";
   }
@@ -325,8 +355,8 @@ export async function mountHarbour(wrap: HTMLElement) {
     for (const el of [xh, xv, xp, xd]) if (el) el.hidden = !on;
     if (!on || !xh || !xv || !xp || !xd) return;
     xh.style.transform = `translateY(${py}px)`; xv.style.transform = `translateX(${px}px)`;
-    xp.textContent = "$" + Math.round(geo.price(y)).toLocaleString("en-US"); xp.style.transform = `translateY(${py}px)`;
-    xd.textContent = day(Math.min(daily.close.length - 1, Math.max(0, Math.round((x / geo.BW) * 30)))); xd.style.transform = `translateX(${px}px)`;
+    xp.textContent = geo.price(y).toFixed(2); xp.style.transform = `translateY(${py}px)`;
+    xd.textContent = `session ${Math.min(SESSIONS, Math.max(1, Math.round((x / geo.BW) * BLOCK) + 1))}`; xd.style.transform = `translateX(${px}px)`;
   };
   wrap.addEventListener("mousemove", (e) => {
     if ((e.target as HTMLElement).closest("[data-testid=harbour-tip], button")) return;
@@ -336,7 +366,8 @@ export async function mountHarbour(wrap: HTMLElement) {
   });
   wrap.addEventListener("mouseleave", () => { tip.hidden = true; cross(-1, -1, 0, 0); });
 
-  const stops: [number, number][] = [
+  // read from the current city, so the stops follow a rebuilt skyline
+  const stops = (): [number, number][] => [
     ...geo.roof.filter((_, i) => i % 8 === 0).map(([x, y]) => [x, y + 6] as [number, number]),
     [geo.hub[0], geo.hub[1]], [XT + 120, 200], [XT, WL + 14],
   ];
@@ -345,8 +376,9 @@ export async function mountHarbour(wrap: HTMLElement) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" && e.key !== "Escape") return;
     e.preventDefault();
     if (e.key === "Escape") { tip.hidden = true; return; }
-    k = (k + (e.key === "ArrowRight" ? 1 : stops.length - 1)) % stops.length;
-    const [x, y] = stops[k], [, , r, sc, ox, oy] = toCanvas(0, 0);
+    const st = stops();
+    k = (k + (e.key === "ArrowRight" ? 1 : st.length - 1)) % st.length;
+    const [x, y] = st[k], [, , r, sc, ox, oy] = toCanvas(0, 0);
     show(readout(x, y), x * sc + ox, y * sc + oy);
     void r;
   });

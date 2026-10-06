@@ -6,7 +6,7 @@ const DEMOS = [
   ["/demos/fourier/", /photo|path/i],
   ["/demos/order-book/", /synthetic/i],
   ["/demos/reconciliation/", /synthetic/i],
-  ["/demos/harbour/", /binance/i],
+  ["/demos/harbour/", /synthetic/i],
 ] as const;
 
 test("the lab covers every project and links all four full demos", async ({ page }) => {

@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 URL="${1:-https://oscar-chw.github.io}"
 curl -fsS "$URL/" | grep -q 'data-testid="harbour"' || { echo "launch-check: $URL/ is not the new site"; exit 1; }
 curl -fsS -o /dev/null "$URL/cv/Oscar_Choi_CV.pdf"
-node scripts/smoke.mjs "$URL" --require-live      # Chromium and WebKit, live order book, no console errors
+node scripts/smoke.mjs "$URL" --require-live      # Chromium and WebKit, live simulated market, no console errors
 LHCI_URL_BASE="$URL" npx lhci autorun
 npm run build >/dev/null
 node scripts/link-check.mjs dist --external

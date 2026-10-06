@@ -6,10 +6,10 @@ const code = [
   { label: "The animated header on my GitHub profile", href: "https://github.com/oscar-chw/oscar-chw" },
 ];
 ---
-<Demo code={code} title="The harbour" description="Victoria Harbour, drawn from data. Every building, window, beam and ripple is a number.">
-  <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. The badge in the corner says whether the water shows the live order book or a snapshot.</Fragment>
-  <Harbour />
+<Demo code={code} title="The harbour" description="Victoria Harbour, drawn from a market my matching engine simulates in your browser. Pick the kind of market.">
+  <Fragment slot="instructions">Hover over the city to read it, or focus the picture and use <kbd>←</kbd> <kbd>→</kbd>. Pick a market below: calm, trending, mean-reverting, volatile, a crash, or one that switches between them. Change the seed for another history of the same kind.</Fragment>
+  <Harbour picker />
   <Fragment slot="source">
-    <strong>Data:</strong> Binance public market data. The skyline uses BTC/USDT daily closes from 2020. The water uses the live <code>btcusdt@depth20@100ms</code> stream; if that is blocked, it falls back to a REST snapshot from <code>data-api.binance.vision</code>, and failing that to a snapshot bundled with this site (taken 5 Oct 2026). The beams show the QTS data platform's race test. The browser connects to Binance directly; no key, no server.
+    <strong>Data:</strong> synthetic. A seeded stream of limit orders, cancels and market orders, around a fair value that follows the chosen regime, runs through a price-time-priority matching engine in this page. The skyline is the first 36,000 order events; after <em>t = now</em> the same market keeps trading and the water shows its order book. The beams show the QTS data platform's race test. Nothing is fetched.
   </Fragment>
 </Demo>

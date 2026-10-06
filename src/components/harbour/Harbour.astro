@@ -1,12 +1,13 @@
 ---
 // The interactive harbour. Canvas painted client-side; the visible legend below it
 // is real text, so the picture is never the only way to read the data.
-interface Props { legend?: boolean }
-const { legend = true } = Astro.props;
+import { REGIMES } from "../../lib/market";
+interface Props { legend?: boolean; picker?: boolean }
+const { legend = true, picker = false } = Astro.props;
 ---
 <figure class="harbour">
   <div class="stage" data-testid="harbour" tabindex="0" role="group" data-base={import.meta.env.BASE_URL}
-       aria-label="Victoria Harbour drawn from data. Use the left and right arrow keys to read each part; Escape hides the read-out."
+       aria-label="Victoria Harbour drawn from a simulated market. Use the left and right arrow keys to read each part; Escape hides the read-out."
        aria-describedby={legend ? "harbour-legend" : undefined}>
     <canvas width="1584" height="396" aria-hidden="true"></canvas>
     <svg class="life" aria-hidden="true"></svg>
@@ -14,18 +15,28 @@ const { legend = true } = Astro.props;
     <span class="xp mono" aria-hidden="true" hidden></span><span class="xd mono" aria-hidden="true" hidden></span>
     <div class="tip" data-testid="harbour-tip" aria-live="polite" hidden></div>
     <div class="book">
-      <span class="badge mono" data-testid="book-badge" role="status">connecting…</span>
-      <button type="button" class="pause mono" data-testid="book-pause" aria-pressed="false" aria-label="Pause the live order book">Pause</button>
+      <span class="badge mono" data-testid="book-badge" role="status">starting…</span>
+      <button type="button" class="pause mono" data-testid="book-pause" aria-pressed="false" aria-label="Pause the simulated market">Pause</button>
     </div>
   </div>
+  {picker && (
+    <form class="market mono" data-market aria-label="Choose the market">
+      <fieldset>
+        <legend>market</legend>
+        <label><input type="radio" name="regime" value="switching" checked /> Regime-switching</label>
+        {Object.entries(REGIMES).map(([k, r]) => <label title={r.blurb}><input type="radio" name="regime" value={k} /> {r.label}</label>)}
+      </fieldset>
+      <label class="seed">seed <input type="number" name="seed" value="42" min="1" max="999999" inputmode="numeric" /></label>
+    </form>
+  )}
   {legend && (
     <figcaption id="harbour-legend">
       <ul>
-        <li><span class="k">buildings</span> one per 30 days of BTC/USDT daily closes (Binance, 2020 to now); roof = close on a log scale, spire light = high</li>
-        <li><span class="k">windows</span> one per day: <span class="up">green up</span>, <span class="down">red down</span></li>
+        <li><span class="k">buildings</span> one per 30 sessions of a market simulated by my matching engine; roof = close on a log scale, spire light = high</li>
+        <li><span class="k">windows</span> one per session: <span class="up">green up</span>, <span class="down">red down</span></li>
         <li><span class="k">beams</span> the QTS data platform's race test: 12 readers, 5 writers, 0 commits lost</li>
         <li><span class="k">t = now</span> nothing to its right is used: no look-ahead</li>
-        <li><span class="k">water</span> the live Binance BTCUSDT order book: <span class="up">bids</span> | <span class="down">asks</span></li>
+        <li><span class="k">water</span> the same market, still trading: its live order book, <span class="up">bids</span> | <span class="down">asks</span></li>
       </ul>
     </figcaption>
   )}
@@ -40,7 +51,7 @@ const { legend = true } = Astro.props;
   .harbour { margin: 0; }
   .stage { position: relative; border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); background: #0a1022; cursor: crosshair; aspect-ratio: 4 / 1; }
   canvas { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; }
-  .book { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; }
+  .book { position: absolute; left: 10px; bottom: 10px; display: flex; gap: 6px; z-index: 1; }   /* above the WebGL water */
   .badge { min-width: 15ch; text-align: center; }
   .badge, .pause { padding: 3px 9px; border-radius: 99px; background: rgb(8 13 26 / 0.8); color: #c9dbe4; border: 1px solid #2b3d5c; font-size: 0.75rem; }
   .pause { cursor: pointer; font-family: ui-monospace, Menlo, monospace; }
@@ -78,5 +89,15 @@ const { legend = true } = Astro.props;
   .tip :global(.g) { color: #3fb950; } .tip :global(.r) { color: #ff7b72; }
   figcaption ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 6px 28px; color: var(--muted); font-size: 0.88rem; }
   .k { font-family: ui-monospace, Menlo, monospace; color: var(--ink); margin-right: 6px; }
+  .market { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 14px; font-size: 0.8rem; }
+  .market fieldset { display: flex; flex-wrap: wrap; gap: 6px; border: 0; padding: 0; margin: 0; }
+  .market legend { float: left; color: var(--muted); margin-right: 6px; padding: 5px 0; }
+  .market fieldset label { display: inline-flex; align-items: center; padding: 5px 12px; border: 1px solid var(--line-2); border-radius: 99px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .market fieldset label:hover { border-color: var(--accent); }
+  .market fieldset input { position: absolute; opacity: 0; pointer-events: none; }
+  .market fieldset label:has(input:checked) { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .market fieldset label:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .market .seed { color: var(--muted); display: inline-flex; align-items: center; gap: 8px; }
+  .market .seed input { width: 9ch; font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--line-2); border-radius: 6px; padding: 4px 8px; }
   @media (max-width: 700px) { .stage { aspect-ratio: 2 / 1; } }
 </style>

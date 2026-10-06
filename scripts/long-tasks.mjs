@@ -13,7 +13,6 @@ for (let r = 0; r < Number(runs); r++) {
     (window).__long = [];
     new PerformanceObserver((l) => l.getEntries().forEach((e) => (window).__long.push(Math.round(e.duration)))).observe({ type: "longtask", buffered: true });
   });
-  await page.routeWebSocket(/binance/, (ws) => ws.close());
   await page.goto(url);
   await page.waitForTimeout(4000);
   const long = await page.evaluate(() => (window).__long);

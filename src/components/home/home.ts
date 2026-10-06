@@ -108,14 +108,14 @@ if (spot && fine && !still) {
   addEventListener("pointermove", (e) => { spot.style.setProperty("--x", `${e.clientX}px`); spot.style.setProperty("--y", `${e.clientY}px`); spot.style.opacity = "1"; }, { passive: true });
 }
 
-// ---------- ticker: live BTC mid from the harbour ----------
+// ---------- ticker: the simulated market's live mid from the harbour ----------
 for (const el of document.querySelectorAll<HTMLElement>("[data-ticker-mid]")) {
   let last = 0;
   document.addEventListener("harbourmid", (e) => {
     const { mid } = (e as CustomEvent<{ mid: number }>).detail, now = performance.now();
     if (now - last < 1000) return;
     last = now;
-    el.textContent = mid.toLocaleString("en-US", { maximumFractionDigits: 1 });
+    el.textContent = mid.toFixed(2);
   });
 }
 
@@ -132,7 +132,7 @@ if (boot && !still) {
       "[<span class=ok> OK </span>] c++20 order-book replay ......... 25×",
       "[<span class=ok> OK </span>] cuda state vector ............... 6×",
       "[<span class=ok> OK </span>] look-ahead guard ................ armed",
-      "[<span class=ok> OK </span>] wss://stream.binance.com ........ connecting",
+      "[<span class=ok> OK </span>] matching engine ................. seed 42",
       "",
       "<span class=ac>&gt;</span> welcome",
     ];

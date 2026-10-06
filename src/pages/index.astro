@@ -33,7 +33,7 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
         <svg class="me-line" viewBox="0 0 800 800" aria-hidden="true"><path d={portraitPath} pathLength="1" /></svg>
         <figcaption class="mono">hover: the same face, as one line</figcaption>
       </figure>
-      <p class="status mono"><span class="dot" aria-hidden="true"></span>open to work <span class="sep">·</span> CS @ CUHK, class of 2027 <span class="sep">·</span> HKT <time data-clock>--:--</time> <span class="sep">·</span> BTC <b data-ticker-mid>live</b></p>
+      <p class="status mono"><span class="dot" aria-hidden="true"></span>open to work <span class="sep">·</span> CS @ CUHK, class of 2027 <span class="sep">·</span> HKT <time data-clock>--:--</time> <span class="sep">·</span> SIM <b data-ticker-mid>100.00</b></p>
       <h1 id="hero-name" aria-label="Oscar Choi"><span data-scramble data-text="Oscar Choi" aria-hidden="true">Oscar Choi</span></h1>
       <p class="line">I build <span class="typed" data-type={JSON.stringify(building)}>{building[0]}</span><span class="caret" aria-hidden="true"></span></p>
       <p class="sub">Open to quant developer, quant research, trading, software engineering, full-stack and AI engineering roles.</p>
@@ -49,7 +49,7 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
     <div class="track mono">
       {[0, 1].map((dup) => (
         <span class="run" aria-hidden={dup ? "true" : undefined}>
-          <span>BTC/USDT <b class="c" data-ticker-mid>live</b></span>
+          <span>SIM MARKET · SEED 42 <b class="c" data-ticker-mid>100.00</b></span>
           {featured.filter((p) => p.data.metrics[0]).map((p) => <span>{p.data.title.toUpperCase()} <b class="c">{p.data.metrics[0].value}</b></span>)}
           <span>OPEN TO QUANT · SWE · AI ENGINEERING</span>
         </span>

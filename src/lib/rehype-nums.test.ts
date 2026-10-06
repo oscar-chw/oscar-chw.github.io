@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import rehypeNums, { wrapNums } from "./rehype-nums.mjs";
 
-const nums = (s: string) => (wrapNums(s) ?? []).filter((n: { type: string }) => n.type === "element").map((n: { children: { value: string }[] }) => n.children[0].value);
+type Node = { type: string; value?: string; children?: { value: string }[] };
+const parts = (s: string) => (wrapNums(s) ?? []) as Node[];
+const nums = (s: string) => parts(s).filter((n) => n.type === "element").map((n) => n.children![0].value);
 
 describe("prose numbers", () => {
   it("wraps figures with their units", () => {
@@ -12,7 +14,7 @@ describe("prose numbers", () => {
   });
   it("keeps the text identical", () => {
     const s = "from 3 to 12.5% in 2027.";
-    expect((wrapNums(s) ?? []).map((n: { value?: string; children?: { value: string }[] }) => n.value ?? n.children![0].value).join("")).toBe(s);
+    expect(parts(s).map((n) => n.value ?? n.children![0].value).join("")).toBe(s);
   });
   it("skips code and links but enters paragraphs and lists", () => {
     const t = (tagName: string, v: string) => ({ type: "element", tagName, properties: {}, children: [{ type: "text", value: v }] });

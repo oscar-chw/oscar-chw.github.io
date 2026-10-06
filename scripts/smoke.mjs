@@ -1,11 +1,11 @@
-// Smoke test of a deployed site in Chromium and WebKit, with real network (live Binance).
+// Smoke test of a deployed site in Chromium and WebKit, with real network.
 //   node scripts/smoke.mjs https://oscar-chw.github.io/next [--require-live]
 // Fails on any console error or page error, on a harbour that never leaves "connecting…",
 // or on a demo whose interactive element never appears.
 import { chromium, webkit } from "@playwright/test";
 
 const base = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "https://oscar-chw.github.io").replace(/\/$/, "");
-const requireLive = process.argv.includes("--require-live");   // a "snapshot" badge then fails: proves the live stream works
+const requireLive = process.argv.includes("--require-live");   // a badge that is not "live" then fails: proves the simulated market runs
 const pages = [
   ["/", "[data-testid=book-badge]"],
   ["/projects/", "main a"],
@@ -31,7 +31,7 @@ for (const engine of [chromium, webkit]) {
     try {
       await page.locator(sel).first().waitFor({ state: "attached", timeout: 15000 });
       if (sel.includes("book-badge")) {
-        await page.waitForFunction(() => !/connecting/.test(document.querySelector("[data-testid=book-badge]")?.textContent ?? ""), null, { timeout: 15000 });
+        await page.waitForFunction(() => !/starting/.test(document.querySelector("[data-testid=book-badge]")?.textContent ?? ""), null, { timeout: 15000 });
         note = (await page.locator("[data-testid=book-badge]").textContent()) ?? "";
         if (requireLive && !/live/.test(note)) errors.push(`badge says "${note}", not live`);
       }

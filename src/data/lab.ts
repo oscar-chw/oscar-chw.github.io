@@ -47,5 +47,5 @@ export const EXPERIMENTS: Experiment[] = [
   { id: "fourier", folder: "site", file: "fourier.portrait", title: "Fourier portrait", kind: "page", href: "/demos/fourier/", code: "https://github.com/oscar-chw/oscar-chw",
     blurb: "Rotating circles redraw a line portrait. Draw your own shape or trace your own photo, in your browser.", data: "My photo as one closed path; yours never leaves the page." },
   { id: "harbour", folder: "site", file: "harbour.live", title: "The harbour", kind: "page", href: "/demos/harbour/", code: SITE_SRC,
-    blurb: "BTC history as a skyline, the live Binance order book as water.", data: "Binance public market data." },
+    blurb: "A simulated market as a city: its past as the skyline, its live order book as the water. Pick the kind of market.", data: "Synthetic: seeded order flow through my matching engine." },
 ];

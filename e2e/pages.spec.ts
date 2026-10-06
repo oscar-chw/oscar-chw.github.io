@@ -1,12 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { localPyodide } from "./pyodide";
 
-test.beforeEach(async ({ page }) => {
-  // Keep page tests independent of Binance being reachable.
-  await page.routeWebSocket(/stream\.binance\.com/, (ws) => ws.close());
-  await page.route(/data-api\.binance\.vision/, (r) => r.abort());
-});
-
 test("primary navigation reaches every section", async ({ page }) => {
   await page.goto("/");
   for (const [name, path] of [["Work", "/projects/"], ["Demos", "/demos/"], ["About", "/about/"], ["CV", "/cv/"]]) {
