@@ -7,6 +7,7 @@ export interface Note { t: number; midi: number; vel: number; dur: number }   //
 const CHORDS = [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62], [57, 60, 64], [53, 57, 60], [50, 53, 57], [52, 56, 59]];
 const SCALE = [57, 59, 60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81];      // A natural minor, A3 to A5
 export const BEATS_PER_BAR = 4, BARS = CHORDS.length, BPM = 66;
+export const CHORD_NAMES = ["Am", "F", "C", "G", "Am", "F", "Dm", "E"];
 
 function rng(seed: number) {
   let s = seed >>> 0 || 1;

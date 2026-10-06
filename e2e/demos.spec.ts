@@ -258,3 +258,19 @@ test("lab: the DNA channel reads a clean strand back exactly and one deletion ga
   const kept = Number((await ro.locator("dd").first().textContent())!.split(" of ")[0]);
   expect(kept).toBeLessThan(27);
 });
+
+test("lab: the file list always fits its box; folders fold only when needed and open on click", async ({ page }) => {
+  for (const [w, h] of [[1920, 1080], [1366, 768]]) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.goto("/demos/");
+    const fits = await page.locator(".tree").evaluate((t) => t.scrollHeight <= t.clientHeight + 4);
+    expect(fits).toBe(true);
+    await expect(page.locator('.tree [aria-selected="true"]')).toBeVisible();
+    if (w === 1920) await expect(page.locator(".tree .dir.shut")).toHaveCount(0);
+  }
+  const name = await page.locator(".tree .dir.shut [data-dir]").first().textContent();
+  const dir = page.locator(".tree .dir").filter({ has: page.locator("[data-dir]", { hasText: name!.trim() }) });
+  await dir.locator("[data-dir]").click();
+  await expect(dir).not.toHaveClass(/shut/);
+  await expect(dir.locator("[role=option]").first()).toBeVisible();
+});

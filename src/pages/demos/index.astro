@@ -20,7 +20,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
       <p class="root">~/lab</p>
       <div role="listbox" aria-label="Experiments" tabindex="0">
         {folders.map((f) => (
-          <div class="dir" role="group" aria-labelledby={`dir-${f}`}><span class="d" id={`dir-${f}`}><Icon name="folder" size={14} />{f}/</span>
+          <div class="dir" role="group" aria-labelledby={`dir-${f}`}><span class="d" id={`dir-${f}`} data-dir><Icon name="folder" size={14} />{f}/<span class="chev" aria-hidden="true">▾</span></span>
             <div class="files">
               {EXPERIMENTS.filter((e) => e.folder === f).map((e) => (
                 <div role="option" id={`opt-${e.id}`} data-exp={e.id} aria-selected="false">
@@ -94,6 +94,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     if (!panels.has(id)) return;
     for (const [k, p] of panels) p.hidden = k !== id;
     opts.forEach((o) => o.setAttribute("aria-selected", String(o.dataset.exp === id)));
+    opts.find((o) => o.dataset.exp === id)?.closest(".dir")?.classList.remove("shut");   // the open file's folder is always open
     list.setAttribute("aria-activedescendant", `opt-${id}`);
     const panel = panels.get(id)!;
     panel.classList.remove("enter"); void panel.offsetWidth; panel.classList.add("enter");
@@ -116,5 +117,17 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     const cur = opts.findIndex((o) => o.getAttribute("aria-selected") === "true");
     if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(opts[(cur + (e.key === "ArrowDown" ? 1 : opts.length - 1)) % opts.length].dataset.exp!); }
   });
-  open(location.hash.slice(1) && panels.has(location.hash.slice(1)) ? location.hash.slice(1) : "guard", false);
+  // a deep link opens its experiment; otherwise the first one in the list, the one the page shows without JS
+  open(location.hash.slice(1) && panels.has(location.hash.slice(1)) ? location.hash.slice(1) : opts[0].dataset.exp!, false);
+  // folders: click to fold; if the list is taller than its box, fold every folder but the open file's
+  const tree = lab.querySelector<HTMLElement>(".tree")!, dirs = [...lab.querySelectorAll<HTMLElement>(".tree .dir")];
+  for (const d of dirs) d.querySelector("[data-dir]")!.addEventListener("click", () => d.classList.toggle("shut"));
+  const fit = () => {
+    dirs.forEach((d) => d.classList.remove("shut"));
+    const box = narrow.matches ? list : tree;
+    // fold the biggest folders first, one at a time, only until the list fits (never the open file's)
+    const order = dirs.filter((d) => !d.querySelector('[aria-selected="true"]')).sort((x, y) => y.querySelectorAll("[role=option]").length - x.querySelectorAll("[role=option]").length);
+    for (const d of order) { if (box.scrollHeight <= box.clientHeight + 4) break; d.classList.add("shut"); }
+  };
+  fit(); addEventListener("resize", fit);
 </script>

@@ -1,13 +1,15 @@
 // The background music player: a soft synthesised piano (a few decaying sine partials through a gentle
 // low-pass) in a small room (a convolver fed a decaying-noise impulse), playing src/lib/music.ts pass after
 // pass. Loaded only when a visitor turns the music on; quiet by design; suspended while the tab is hidden.
-import { pass, BEATS_PER_BAR, BARS, BPM } from "../../lib/music";
+import { pass, BEATS_PER_BAR, BARS, BPM, CHORD_NAMES } from "../../lib/music";
 
-const VOLUME = 0.12;                              // master gain: background, not foreground (measured peaks near -20 dBFS)
+// master gain = MAX x the visitor's volume (0..1); the default 0.6 gives 0.12, measured peaks near -20 dBFS
+const MAX = 0.2;
+let level = 0.6;
 const SPB = 60 / BPM, PASS = BARS * BEATS_PER_BAR * SPB;
 
 let cx: AudioContext | null = null, master: GainNode, timer: ReturnType<typeof setInterval> | undefined;
-let passStart = 0, seed = 1, queued: { at: number; midi: number; vel: number; dur: number }[] = [];
+let passStart = 0, origin = 0, seed = 1, queued: { at: number; midi: number; vel: number; dur: number }[] = [];
 
 function room(c: AudioContext) {
   const len = Math.floor(c.sampleRate * 2.4), ir = c.createBuffer(2, len, c.sampleRate);
@@ -44,7 +46,8 @@ function tick() {
   }
 }
 
-export async function start() {
+export async function start(volume = level) {
+  level = volume;
   cx ??= new AudioContext();
   if (!master) {
     master = cx.createGain(); master.gain.value = 0;
@@ -54,9 +57,9 @@ export async function start() {
     document.addEventListener("visibilitychange", () => { if (!cx) return; if (document.hidden) void cx.suspend(); else if (timer) void cx.resume(); });
   }
   await cx.resume();
-  queued = []; passStart = cx.currentTime + 0.15;
+  queued = []; passStart = origin = cx.currentTime + 0.15; seed = 1;
   master.gain.cancelScheduledValues(cx.currentTime);
-  master.gain.setTargetAtTime(VOLUME, cx.currentTime, 0.8);                // fade in over a couple of seconds
+  master.gain.setTargetAtTime(MAX * level, cx.currentTime, 0.8);                // fade in over a couple of seconds
   clearInterval(timer); timer = setInterval(tick, 200); tick();
 }
 
@@ -69,3 +72,15 @@ export function stop() {
 }
 
 export const playing = () => !!timer;
+
+export function setVolume(v: number) {
+  level = v;
+  if (cx && timer) master.gain.setTargetAtTime(MAX * level, cx.currentTime, 0.15);
+}
+
+/** Where the piece is now: pass, bar and chord, for the "now playing" line. */
+export function info() {
+  if (!cx || !timer) return null;
+  const t = Math.max(0, cx.currentTime - origin), bar = Math.floor((t % PASS) / (BEATS_PER_BAR * SPB));
+  return { pass: Math.floor(t / PASS) + 1, bar: bar + 1, chord: CHORD_NAMES[bar] };
+}

@@ -133,26 +133,65 @@ const undismiss = (e: Event) => {
 document.addEventListener("pointerout", undismiss);
 document.addEventListener("focusout", undismiss);
 
-// ---------- background music: off until asked for, remembered, and after a page change it resumes on the
-// visitor's next tap or key (browsers allow sound only after a gesture). The player loads only on demand.
+// ---------- background music: two tracks, off until asked for. The choice, the volume and on/off are
+// remembered; after a page change it resumes on the visitor's next tap or key (browsers allow sound only
+// after a gesture). Each player loads only when it is first needed.
 const musicBtn = document.querySelector<HTMLButtonElement>("[data-music-toggle]");
 if (musicBtn) {
-  let player: typeof import("./music") | null = null;
-  const wanted = () => { try { return localStorage.getItem("music") === "on"; } catch { return false; } };
+  const wrap = musicBtn.closest<HTMLElement>("[data-mus]")!, now = wrap.querySelector<HTMLElement>("[data-mus-now]")!;
+  const volIn = wrap.querySelector<HTMLInputElement>("[data-mus-vol]")!, volOut = wrap.querySelector<HTMLOutputElement>("[data-mus-vol-out]")!;
+  const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* storage blocked */ } };
+  type Track = "nocturne" | "unlasting" | "rosalina";
+  const saved = get("music-track");
+  let track: Track = saved === "unlasting" || saved === "rosalina" ? saved : "nocturne";
+  let vol = Math.min(1, Math.max(0, Number(get("music-vol") ?? 0.6)));
+  let gen: typeof import("./music") | null = null, yt: typeof import("./youtube") | null = null;
+  wrap.querySelector<HTMLInputElement>(`input[value="${track}"]`)!.checked = true;
+  volIn.value = String(Math.round(vol * 100)); volOut.textContent = `${volIn.value}%`;
+
+  const isOn = () => musicBtn.getAttribute("aria-pressed") === "true";
   const show = (on: boolean) => {
     musicBtn.setAttribute("aria-pressed", String(on));
     musicBtn.setAttribute("aria-label", on ? "Mute background music" : "Play background music");
-    document.documentElement.toggleAttribute("data-music", on && !!player?.playing());
-    try { localStorage.setItem("music", on ? "on" : "off"); } catch { /* storage blocked: this page only */ }
+    document.documentElement.toggleAttribute("data-music", on && !!(gen?.playing() || yt?.playing()));
+    put("music", on ? "on" : "off");
+    status();
   };
-  const play = async () => { player ??= await import("./music"); await player.start(); show(true); };
+  const status = () => {
+    const i = track === "nocturne" ? gen?.info() : null;
+    now.textContent = !isOn() ? "off · press ♪ to play"
+      : track !== "nocturne" ? (yt?.nowPlaying() ? `▶ ${yt.nowPlaying()!.title} · ${yt.nowPlaying()!.credit}` : "on · tap anywhere to continue")
+      : i ? `▶ Harbour nocturne · pass ${i.pass} · bar ${i.bar} of 8 · ${i.chord}` : "on · tap anywhere to continue";
+  };
+  const stopAll = () => { gen?.stop(); yt?.stop(); };
+  const play = async () => {
+    stopAll();
+    if (track !== "nocturne") { yt ??= await import("./youtube"); yt.start(track, vol, () => show(false)); }
+    else { gen ??= await import("./music"); await gen.start(vol); }
+    show(true);
+  };
   // the button does what it shows: "on" (playing, or waiting for a tap after a page change) turns it off
-  musicBtn.addEventListener("click", () => { if (musicBtn.getAttribute("aria-pressed") === "true") { player?.stop(); show(false); } else void play(); });
-  if (wanted()) {
-    musicBtn.setAttribute("aria-pressed", "true");
+  musicBtn.addEventListener("click", () => { if (isOn()) { stopAll(); show(false); } else void play(); });
+  wrap.querySelectorAll<HTMLInputElement>('input[name="mus-track"]').forEach((r) => r.addEventListener("change", () => {
+    track = r.value as Track; put("music-track", track);
+    if (isOn()) void play(); else status();
+  }));
+  volIn.addEventListener("input", () => {
+    vol = Number(volIn.value) / 100; volOut.textContent = `${volIn.value}%`; put("music-vol", String(vol));
+    gen?.setVolume(vol); yt?.setVolume(vol);
+  });
+  // where there is no hover, a tap on the button also opens the panel; a tap elsewhere closes it
+  if (matchMedia("(hover: none)").matches) {
+    musicBtn.addEventListener("click", () => wrap.classList.add("open"));
+    document.addEventListener("pointerdown", (e) => { if (!wrap.contains(e.target as Node)) wrap.classList.remove("open"); });
+  }
+  setInterval(() => { if (wrap.matches(":hover, :focus-within, .open")) status(); }, 500);
+  if (get("music") === "on") {
+    musicBtn.setAttribute("aria-pressed", "true"); status();
     const resume = (e: Event) => {
       removeEventListener("pointerdown", resume, true); removeEventListener("keydown", resume, true);
-      if (!musicBtn.contains(e.target as Node) && wanted()) void play();   // the button's own click decides for itself
+      if (!wrap.contains(e.target as Node) && isOn()) void play();   // the panel's own controls decide for themselves
     };
     addEventListener("pointerdown", resume, true); addEventListener("keydown", resume, true);
   }

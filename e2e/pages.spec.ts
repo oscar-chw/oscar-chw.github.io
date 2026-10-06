@@ -223,3 +223,30 @@ test("background music: off until asked for, toggles from the nav, and is rememb
   await page.waitForTimeout(500);
   await expect(html).not.toHaveAttribute("data-music", "");          // muted stays muted
 });
+
+test("music panel: hover shows the tracks and the volume; a YouTube track plays in a visible, credited mini-player", async ({ page }) => {
+  await page.route(/https:\/\/(www\.)?youtube(-nocookie)?\.com\//, (r) => r.abort());   // never contact YouTube from tests
+  await page.goto("/about/");
+  const btn = page.locator("[data-music-toggle]"), pop = page.locator(".mus-pop");
+  await btn.hover();
+  await expect(pop).toBeVisible();
+  await expect(pop.getByRole("radio")).toHaveCount(3);
+  await expect(pop.locator("[data-mus-now]")).toContainText("off");
+  await pop.getByLabel("Music volume").fill("30");
+  await expect(pop.locator("[data-mus-vol-out]")).toHaveText("30%");
+  await pop.getByText("Rosalina's Observatory").click();
+  await btn.click();
+  const mini = page.locator(".ytmini");
+  await expect(mini).toBeVisible();
+  await expect(mini.locator("iframe")).toHaveAttribute("src", /^https:\/\/www\.youtube-nocookie\.com\/embed\/K6jn04Qb0J4\?/);
+  await expect(mini.getByRole("link")).toContainText("Erik C 'Piano Man'");
+  await btn.hover();
+  await expect(pop.locator("[data-mus-now]")).toContainText("Rosalina's Observatory");
+  await mini.getByRole("button", { name: "Close the player" }).click();
+  await expect(mini).toHaveCount(0);
+  await expect(btn).toHaveAttribute("aria-pressed", "false");
+  await page.reload();                                               // the choices are remembered
+  await btn.hover();
+  await expect(pop.getByLabel("Music volume")).toHaveValue("30");
+  await expect(pop.getByRole("radio", { name: /Rosalina/ })).toBeChecked();
+});

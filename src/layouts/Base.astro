@@ -89,9 +89,21 @@ const commands: [string, string, string][] = [
           </ul>
         </nav>
         <button class="kbtn" type="button" data-palette-open aria-label="Search the site" title="Search (⌘K or /)"><Icon name="search" size={15} /><kbd class="mono">⌘K</kbd></button>
-        <button class="music" type="button" data-music-toggle aria-pressed="false" aria-label="Play background music" title="Background music: soft piano, quiet, off until you turn it on">
-          <Icon name="music" size={15} class="i-off" /><Icon name="volume-2" size={15} class="i-on" />
-        </button>
+        <div class="mus" data-mus>
+          <button class="music" type="button" data-music-toggle aria-pressed="false" aria-label="Play background music" aria-describedby="mus-pop">
+            <Icon name="music" size={15} class="i-off" /><Icon name="volume-2" size={15} class="i-on" />
+          </button>
+          <div class="mus-pop glass" id="mus-pop" role="group" aria-label="Background music">
+            <p class="mus-h mono">background music</p>
+            <div class="mus-tracks" role="radiogroup" aria-label="Track">
+              <label><input type="radio" name="mus-track" value="nocturne" checked /><span><b>Harbour nocturne</b><i>original · generated live in your browser</i></span></label>
+              <label><input type="radio" name="mus-track" value="unlasting" /><span><b>unlasting</b><i>LiSA · piano arr. Animenz · plays from YouTube</i></span></label>
+              <label><input type="radio" name="mus-track" value="rosalina" /><span><b>Rosalina's Observatory</b><i>Super Mario Galaxy · piano by Erik C 'Piano Man' · YouTube</i></span></label>
+            </div>
+            <p class="mus-now mono" data-mus-now>off · press ♪ to play</p>
+            <label class="mus-vol mono"><Icon name="volume-1" size={14} /><input type="range" min="0" max="100" value="60" data-mus-vol aria-label="Music volume" /><output data-mus-vol-out>60%</output></label>
+          </div>
+        </div>
         <button class="theme" type="button" aria-label="Switch colour theme" title="Switch colour theme">
           <Icon name="moon" size={16} class="i-dark" /><Icon name="sun" size={16} class="i-light" />
         </button>
@@ -197,6 +209,26 @@ const commands: [string, string, string][] = [
   .music:hover { color: var(--ink); }
   .music[aria-pressed="true"] { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
   .music[aria-pressed="true"] :global(.i-off), .music:not([aria-pressed="true"]) :global(.i-on) { display: none; }
+  /* music panel: opens on hover or keyboard focus (and on tap, where there is no hover); a bridge keeps it
+     open while the pointer moves down onto it */
+  .mus { position: relative; flex: none; }
+  .mus-pop { position: absolute; top: calc(100% + 12px); right: -54px; width: min(300px, calc(100vw - 32px)); padding: 14px; border-radius: 18px; display: none; z-index: 40; color: var(--ink); background-color: color-mix(in srgb, var(--bg-2) 94%, transparent); }
+  .mus-pop::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 14px; }
+  .mus:hover .mus-pop, .mus:focus-within .mus-pop, .mus.open .mus-pop { display: block; }
+  .mus-h { margin: 0 0 8px; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .mus-tracks { display: flex; flex-direction: column; gap: 4px; }
+  .mus-tracks label { display: flex; gap: 10px; align-items: flex-start; padding: 7px 8px; border-radius: 10px; cursor: pointer; }
+  .mus-tracks label:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .mus-tracks label:has(input:checked) { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .mus-tracks input { accent-color: var(--accent); margin-top: 3px; }
+  .mus-tracks span { display: flex; flex-direction: column; gap: 1px; }
+  .mus-tracks b { font-weight: 600; font-size: 0.9rem; }
+  .mus-tracks i { font-style: normal; font-size: 0.74rem; color: var(--muted); }
+  .mus-now { margin: 10px 2px 6px; font-size: 0.72rem; color: var(--accent); }
+  .mus-vol { display: flex; align-items: center; gap: 10px; font-size: 0.72rem; color: var(--muted); }
+  .mus-vol input { flex: 1; accent-color: var(--accent); }
+  .mus-vol output { min-width: 4ch; text-align: right; }
+  @media (max-width: 700px) { .mus-pop { position: fixed; top: 84px; right: 16px; } }
   main { outline: none; }
   .site-footer { border-top: 1px solid var(--line-2); margin-top: 120px; padding-block: 28px 44px; align-items: baseline; row-gap: 12px; }
   .site-footer p { margin: 0; grid-column: 1 / span 5; }
