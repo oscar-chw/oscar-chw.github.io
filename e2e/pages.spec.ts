@@ -58,10 +58,10 @@ test("skip link is the first tab stop and focus is visible", async ({ page, brow
   expect(outline).not.toBe("none");
 });
 
-test("about shows the photo and the confirmed minor", async ({ page }) => {
+test("about shows the photo and both confirmed minors", async ({ page }) => {
   await page.goto("/about/");
   await expect(page.getByRole("img", { name: /oscar/i })).toBeVisible();
-  await expect(page.locator("main")).toContainText("Minor in Data Analytics and Informatics");
+  await expect(page.locator("main")).toContainText("Minors in Data Analytics and Informatics, and Business");
 });
 
 test("cv page offers the phone-free PDF", async ({ page }) => {

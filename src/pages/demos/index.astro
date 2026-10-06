@@ -105,7 +105,12 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     }
   }
   // every rail entry opens in the bench; full-page demos show a launch panel there
-  for (const o of opts) o.querySelector("a")!.addEventListener("click", (e) => { e.preventDefault(); open(o.dataset.exp!); });
+  // on a phone the bench sits below the file tree: bring the chosen experiment into view
+  const narrow = matchMedia("(max-width: 800px)");
+  for (const o of opts) o.querySelector("a")!.addEventListener("click", (e) => {
+    e.preventDefault(); open(o.dataset.exp!);
+    if (narrow.matches) panels.get(o.dataset.exp!)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  });
   list.addEventListener("keydown", (e) => {
     const cur = opts.findIndex((o) => o.getAttribute("aria-selected") === "true");
     if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(opts[(cur + (e.key === "ArrowDown" ? 1 : opts.length - 1)) % opts.length].dataset.exp!); }

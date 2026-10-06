@@ -18,7 +18,7 @@ const BUILTIN = {
   "alpha-gp-lab test IC": /0\.082|\bt\s*0\.22\b/,
   "asof 0-of-120": /\b0[- ]of[- ]120\b|120 hypotheses/i,
   "researcher-only FYP": /32% violated|fine-tuned 4B/i,
-  "business minor": /business minor|minor in business/i,
+  "finance minor or BBA (the minor is called Business)": /finance minor|minor in finance|\bBBA\b/i,
   "tel link": /\btel:/i,
   // BRAIN rules forbid automation as a source of alpha ideas: no counts, no "-style", no companion framing.
   // "BRAIN"/"WorldQuant" may appear only in the experience entry on the about page (checked below).

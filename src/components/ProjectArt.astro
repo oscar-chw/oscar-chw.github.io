@@ -81,6 +81,7 @@ const caption = ({
   .art { margin: 0; }
   svg { display: block; width: 100%; height: auto; max-height: 260px; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
   .compact svg { max-height: 120px; border: 0; }
+  @media (max-width: 600px) { svg:not(.compact svg) { height: 200px; max-height: none; } }
   figcaption { margin-top: 10px; }
   .rule { stroke: var(--line-2); stroke-dasharray: 4 6; }
   text { font: 15px var(--font-mono), monospace; fill: var(--muted); }

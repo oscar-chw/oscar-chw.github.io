@@ -85,6 +85,7 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
         {EXPERIMENTS.map((x, i) => (
           <li class="reveal" style={`--i:${i % 6}`}><a href={url(x.kind === "page" ? x.href! : `/demos/#${x.id}`)} data-cursor="run"><span class="f">{x.folder}/</span><b>{x.file}</b><span class="d">{x.title}</span></a></li>
         ))}
+        <li class="more"><a href={url("/demos/")}><span class="f">…/</span><b>every experiment</b><span class="d">in the Lab</span></a></li>
       </ul>
       <a class="btn glass enter" href={url("/demos/")}><Icon name="flask-conical" />Enter the lab</a>
     </div>
@@ -132,6 +133,7 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
 
   /* manifesto: one sentence that fills in word by word, pinned while the work sheet slides over it */
   .manifesto { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; z-index: 0; }
+  @media (max-width: 700px) { .manifesto { position: relative; min-height: 0; padding: 72px 0 56px; } }
   .manifesto > .wrap { width: min(100% - 32px, 1240px); }
   .say { font-size: clamp(2rem, 1rem + 4.4vw, 5.2rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1.04; margin: 0; max-width: 18ch; }
   /* unlit words stay readable (3:1 for large text); lighting them is emphasis, not disclosure */
@@ -193,6 +195,9 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
   .lt-ls .f { color: var(--muted); } .lt-ls b { color: var(--accent); font-weight: 500; }
   .lt-ls .d { color: var(--muted); font-size: 0.8rem; text-align: right; }
   /* narrow phones: the title drops under the file name instead of pushing the row off screen */
+  /* phones: six files and a pointer to the rest, not twenty rows to scroll past */
+  .lt-ls .more { display: none; }
+  @media (max-width: 700px) { .lt-ls li:nth-child(n+7):not(.more) { display: none; } .lt-ls .more { display: block; } }
   @media (max-width: 520px) { .lt-ls a { grid-template-columns: auto minmax(0, 1fr); } .lt-ls b { overflow-wrap: anywhere; } .lt-ls .d { grid-column: 1 / -1; text-align: left; } }
   .offclock { color: var(--muted); margin: -10px 0 26px; font-size: 1.05rem; }
 
