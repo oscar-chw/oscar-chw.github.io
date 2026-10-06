@@ -101,3 +101,21 @@ addEventListener("keydown", (e) => {
   const key = [...piano.querySelectorAll<HTMLElement>(".key")].find((k) => k.textContent?.trim() === e.key.toLowerCase());
   if (key) { e.preventDefault(); play(key); }
 });
+
+// ---------- pop-ups (definitions, hobby cards): an open one stays 12px inside the viewport ----------
+// Delegated, so one listener covers every page; phones get the definition as a bottom sheet in CSS.
+let popHost: HTMLElement | null = null;   // re-fit only on entering a new term, so moving within one never jitters
+const fitPop = (e: Event) => {
+  const host = (e.target as HTMLElement).closest?.<HTMLElement>(".def, .hob") ?? null;
+  if (host === popHost) return;
+  popHost = host;
+  const pop = host?.querySelector<HTMLElement>(".pop, .hpop");
+  if (!pop) return;
+  pop.style.setProperty("--dx", "0px");
+  requestAnimationFrame(() => {
+    const r = pop.getBoundingClientRect(), m = 12, W = document.documentElement.clientWidth;
+    pop.style.setProperty("--dx", `${r.right > W - m ? W - m - r.right : r.left < m ? m - r.left : 0}px`);
+  });
+};
+document.addEventListener("pointerover", fitPop);
+document.addEventListener("focusin", fitPop);

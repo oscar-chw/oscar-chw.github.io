@@ -192,6 +192,8 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
   .lt-ls a:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); padding-left: 16px; }
   .lt-ls .f { color: var(--muted); } .lt-ls b { color: var(--accent); font-weight: 500; }
   .lt-ls .d { color: var(--muted); font-size: 0.8rem; text-align: right; }
+  /* narrow phones: the title drops under the file name instead of pushing the row off screen */
+  @media (max-width: 520px) { .lt-ls a { grid-template-columns: auto minmax(0, 1fr); } .lt-ls b { overflow-wrap: anywhere; } .lt-ls .d { grid-column: 1 / -1; text-align: left; } }
   .offclock { color: var(--muted); margin: -10px 0 26px; font-size: 1.05rem; }
 
   .contact { text-align: left; padding-top: 140px; }

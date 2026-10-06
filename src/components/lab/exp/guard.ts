@@ -8,12 +8,19 @@ const PRESETS = ["git status", "rm -rf ./build", "rm -rf ~", "git push --force o
 // The lab's guard: every verdict is computed by the real guard.py running in Pyodide.
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const log = h("ol", { class: "gt-log mono", "aria-live": "polite" });
-  const status = h("p", { class: "gt-status mono" }, "booting Python (WebAssembly) and the real guard.py…");
+  const status = h("p", { class: "gt-status mono" }, "the real guard.py runs in Python (WebAssembly): it loads when you first use this terminal, then stays cached");
   const input = h("input", { class: "gt-in mono", type: "text", placeholder: "type a shell command and press Enter", "aria-label": "Shell command to test", autocomplete: "off", spellcheck: "false" }) as HTMLInputElement;
   const base = document.querySelector<HTMLElement>("[data-base]")?.dataset.base ?? "/";
-  const mod = pyguard(base), guard = mod.then((m) => m.loadGuard());
-  Promise.all([mod, guard]).then(([{ GUARD_SOURCE: g }]) => { status.textContent = `real guard loaded · ${g.repo}/${g.path} @ ${g.commit}`; status.classList.add("ready"); })
-    .catch(() => (status.textContent = "could not load the Python runtime (offline?). Nothing is judged without the real guard; reload to retry."));
+  // Python is several megabytes: it boots on first use (focus or a command), never just for opening the Lab
+  let guard: ReturnType<typeof boot> | null = null;
+  function boot() {
+    status.textContent = "booting Python (WebAssembly) and the real guard.py…";
+    const mod = pyguard(base), g = mod.then((m) => m.loadGuard());
+    Promise.all([mod, g]).then(([{ GUARD_SOURCE: s }]) => { status.textContent = `real guard loaded · ${s.repo}/${s.path} @ ${s.commit}`; status.classList.add("ready"); })
+      .catch(() => { guard = null; status.textContent = "could not load the Python runtime (offline?). Nothing is judged without the real guard; try again."; });
+    return g;
+  }
+  input.addEventListener("focus", () => void (guard ??= boot()));
 
   const line = (cls: string, cmd: string, verdict: string, why: string) => {
     log.append(h("li", { class: cls }, h("span", { class: "p" }, "$ "), cmd, h("span", { class: "v" }, verdict), h("span", { class: "w" }, why)));
@@ -21,7 +28,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   };
   const run = async (cmd: string) => {
     try {
-      const v = await guard;
+      const v = await (guard ??= boot());
       const reason = v(cmd);
       line(reason ? "no" : "ok", cmd, reason ? "  ✗ blocked" : "  ✓ allowed", reason ?? "the guard found nothing it blocks");
     } catch { line("no", cmd, "  · not judged", "the Python runtime is unavailable"); }

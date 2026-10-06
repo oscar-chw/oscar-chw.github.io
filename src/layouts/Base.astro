@@ -150,7 +150,7 @@ const commands: [string, string, string][] = [
   /* a floating glass command bar: the one piece of chrome that hovers over the page */
   .site-header { position: sticky; top: 12px; z-index: 20; display: flex; justify-content: center; padding: 12px 16px 0; }
   .bar { display: flex; align-items: center; gap: 22px; padding: 7px 8px 7px 18px; border-radius: 999px; width: min(100%, 760px); }
-  .brand { color: var(--ink); text-decoration: none; font: 500 0.92rem var(--font-mono), monospace; white-space: nowrap; }
+  .brand { color: var(--ink); text-decoration: none; font: 500 0.92rem var(--font-mono), monospace; white-space: nowrap; padding: 6px 0; }   /* a 24px+ tap target */
   /* the prompt is a real input: typing here opens the console with what was typed */
   .term { display: flex; align-items: center; gap: 6px; margin-right: auto; min-width: 0; flex: 1; cursor: text; }
   .tilde { color: var(--accent); font-size: 0.92rem; }

@@ -30,9 +30,14 @@ test("lab: deep links open an experiment; the arrow keys walk the rail", async (
 
 test("lab: the real guard.py blocks a home-directory wipe with its reason and allows git status", async ({ page }) => {
   await localPyodide(page);
+  const py: string[] = [];
+  page.on("request", (r) => { if (/pyodide/.test(r.url())) py.push(r.url()); });
   await page.goto("/demos/#guard");
-  await expect(page.locator(".gt-status")).toContainText("real guard loaded", { timeout: 30_000 });
+  await page.waitForTimeout(1000);
+  expect(py).toEqual([]);                      // opening the Lab downloads no Python
   const input = page.locator(".gt-in");
+  await input.focus();
+  await expect(page.locator(".gt-status")).toContainText("real guard loaded", { timeout: 30_000 });
   await input.fill(["rm", "-rf", "~"].join(" ")); await input.press("Enter");
   const last = page.locator(".gt-log li").last();
   await expect(last).toContainText("blocked");

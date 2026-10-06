@@ -186,6 +186,8 @@ main p a:not(.btn):hover, main li a:not(.btn):hover, .more:hover, .all a:hover {
   }
 }
 
+input[type="range"] { min-height: 28px; }   /* the thumb is a comfortable tap target on phones */
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .w > span { transform: none; }

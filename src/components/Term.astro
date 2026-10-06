@@ -1,6 +1,7 @@
 ---
-// A technical term with a plain-English definition that pops up on hover or keyboard focus.
-// Pure CSS: works on text pages with no JavaScript, and the definition is linked for screen readers.
+// A technical term with a plain-English definition that pops up on hover, tap or keyboard focus.
+// CSS shows it, and it works without JavaScript; motion.ts only nudges it back on screen near the
+// edges. Closed, it is display: none, so it never widens the page on a phone.
 import { GLOSSARY } from "../data/glossary";
 interface Props { t: keyof typeof GLOSSARY }
 const { t } = Astro.props;
@@ -8,11 +9,19 @@ const id = `def-${t.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}-${Math.random().
 ---
 <span class="def" tabindex="0" aria-describedby={id}><slot /><span class="pop glass" role="tooltip" id={id}><b class="mono">{t}</b>{GLOSSARY[t]}</span></span>
 
+
 <style>
   .def { position: relative; text-decoration: underline dotted color-mix(in srgb, var(--accent) 70%, transparent); text-underline-offset: 0.22em; text-decoration-thickness: 1.5px; cursor: help; border-radius: 3px; }
   .def:hover, .def:focus-visible { color: var(--accent); }
-  .def .pop { position: absolute; left: 50%; bottom: calc(100% + 12px); z-index: 30; width: max-content; max-width: min(300px, 78vw); padding: 12px 14px; border-radius: 16px; font-size: 0.86rem; line-height: 1.5; font-weight: 400; color: var(--ink); text-align: left; pointer-events: none; background-color: color-mix(in srgb, var(--bg-2) 94%, transparent);
-    opacity: 0; visibility: hidden; transform: translate(-50%, 8px) scale(0.96); transform-origin: 50% 100%; transition: opacity 0.2s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0.2s; }
+  .def .pop { display: none; position: absolute; left: 50%; bottom: calc(100% + 12px); z-index: 30; width: max-content; max-width: min(300px, 78vw); padding: 12px 14px; border-radius: 16px; font-size: 0.86rem; line-height: 1.5; font-weight: 400; color: var(--ink); text-align: left; pointer-events: none; background-color: color-mix(in srgb, var(--bg-2) 94%, transparent);
+    opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), 8px) scale(0.96); transform-origin: 50% 100%; transition: opacity 0.2s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), display 0.2s allow-discrete; }
   .def .pop b { display: block; color: var(--accent); font-size: 0.72rem; font-weight: 500; margin-bottom: 4px; }
-  .def:hover .pop, .def:focus-visible .pop { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); transition: opacity 0.2s, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s; }
+  .def:hover .pop, .def:focus .pop { display: block; opacity: 1; transform: translate(calc(-50% + var(--dx, 0px)), 0) scale(1); }
+  @starting-style { .def:hover .pop, .def:focus .pop { opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), 8px) scale(0.96); } }
+  /* phones: the definition is a sheet along the bottom of the screen, readable at any word position */
+  @media (max-width: 600px) {
+    .def .pop { position: fixed; left: 16px; right: 16px; bottom: 16px; width: auto; max-width: none; transform: translateY(12px); }
+    .def:hover .pop, .def:focus .pop { transform: none; }
+    @starting-style { .def:hover .pop, .def:focus .pop { transform: translateY(12px); } }
+  }
 </style>
