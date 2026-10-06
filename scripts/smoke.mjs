@@ -31,7 +31,7 @@ for (const engine of [chromium, webkit]) {
     try {
       await page.locator(sel).first().waitFor({ state: "attached", timeout: 15000 });
       if (sel.includes("book-badge")) {
-        await page.waitForFunction(() => !/starting/.test(document.querySelector("[data-testid=book-badge]")?.textContent ?? ""), null, { timeout: 15000 });
+        await page.waitForFunction(() => !/starting|connecting/.test(document.querySelector("[data-testid=book-badge]")?.textContent ?? ""), null, { timeout: 15000 });
         note = (await page.locator("[data-testid=book-badge]").textContent()) ?? "";
         if (requireLive && !/live/.test(note)) errors.push(`badge says "${note}", not live`);
       }
