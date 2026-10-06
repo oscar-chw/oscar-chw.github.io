@@ -119,13 +119,14 @@ const commands: [string, string, string][] = [
       // Opens the console; its code (console.js) loads only on first use.
       (() => {
         const d = document.querySelector(".palette"), bar = document.querySelector("[data-term]");
-        let m, handing = false;
+        let m, handing = false, go = false;
         const load = () => (m ||= import(d.dataset.js));
         const open = (t = "") => load().then((c) => c.open(t));
         document.querySelectorAll("[data-palette-open]").forEach((b) => b.addEventListener("click", () => open()));
-        // keep typing in the bar while the console loads, then hand over everything typed so far
-        const hand = () => { if (handing) return; handing = true; load().then((c) => { const t = bar.value; bar.value = ""; handing = false; c.open(t); }); };
-        if (bar) { bar.addEventListener("input", hand); bar.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); hand(); } }); }
+        // keep typing in the bar while the console loads, then hand over everything typed so far;
+        // an Enter pressed while it loads is kept and runs the command once it is there
+        const hand = () => { if (handing) return; handing = true; load().then((c) => { const t = bar.value; bar.value = ""; handing = false; c.open(t, go); go = false; }); };
+        if (bar) { bar.addEventListener("input", hand); bar.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); go = true; hand(); } }); }
         addEventListener("keydown", (e) => {
           const t = e.target, typing = t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
           if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) { e.preventDefault(); open(); }

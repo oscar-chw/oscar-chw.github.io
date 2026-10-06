@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { offsite } from "./site";
 
 // Every page at phone, tablet and desktop sizes: nothing makes the page scroll sideways and no script
 // throws. Named failures this caught on 2026-10-06: closed pop-ups that still took up layout space near
@@ -22,7 +23,7 @@ for (const s of SIZES) {
     test.use({ viewport: { width: s.width, height: s.height }, hasTouch: s.touch });
     test("no page scrolls sideways or throws", async ({ page }) => {
       test.setTimeout(90_000);
-      await page.route((u) => !/^(localhost|127\.0\.0\.1)$/.test(u.hostname), (r) => r.abort());
+      await page.route(offsite, (r) => r.abort());
       const errors: string[] = [];
       page.on("pageerror", (e) => errors.push(`${page.url()}: ${e.message}`));
       const wide: string[] = [];

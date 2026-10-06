@@ -124,6 +124,15 @@ test("typing in the top bar opens the console; commands answer, unknown ones say
   await expect(page).toHaveURL(/\/projects\/competitions\/$/);
 });
 
+test("Enter pressed in the top bar while the console is still loading still runs the command", async ({ page }) => {
+  await page.route(/\/console\.js$/, async (r) => { await new Promise((res) => setTimeout(res, 1500)); await r.continue(); });
+  await page.goto("/projects/");
+  await page.locator("[data-term]").click();
+  await page.keyboard.type("whoami");
+  await page.keyboard.press("Enter");                     // before console.js has arrived
+  await expect(page.getByRole("dialog", { name: "Command palette" }).locator(".po")).toContainText("open to work", { timeout: 8000 });
+});
+
 test("one object: hovering a project row turns the pinned object into that project", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");

@@ -8,7 +8,10 @@ const vis = () => items.filter((li) => !li.hidden);
 const mark = () => vis().forEach((li, i) => li.toggleAttribute("aria-selected", i === sel));
 const say = (t) => { out.textContent = t; out.hidden = !t; };
 const filter = () => { const s = q.value.toLowerCase().trim().replace(/^(cd|open)\s+/, ""); items.forEach((li) => (li.hidden = !!s && !li.textContent.toLowerCase().includes(s))); sel = 0; mark(); };
-export const open = (text = "") => { if (!d.open) d.showModal(); q.value = text; say(""); filter(); q.focus(); };
+export const open = (text = "", go = false) => {
+  if (!d.open) d.showModal(); q.value = text; say(""); filter(); q.focus();
+  if (go && text.trim()) { remember(text.trim()); if (!run(text)) vis()[sel]?.querySelector("a")?.click(); }   // Enter was pressed while this file loaded
+};
 const mail = (subject) => (location.href = `mailto:${d.dataset.mail}${subject ? `?subject=${encodeURIComponent(subject)}` : ""}`);
 const SHELL = new Set("rm rmdir git curl wget bash sh zsh sudo chmod chown dd mv cp find xargs echo cat rsync truncate shred python python3 perl node mkfs kill killall tar ln touch mkdir eval exec env npm pip docker".split(" "));
 const looksShell = (s, c) => SHELL.has(c) || /[|;&>`$]|^:\(/.test(s);

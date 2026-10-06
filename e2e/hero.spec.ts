@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { offsite } from "./site";
 
 // Contract for the harbour hero (src/components/harbour):
 //   [data-testid=harbour]     focusable wrapper; data-book-mid = current mid, data-frames = book redraws
@@ -6,7 +7,7 @@ import { test, expect, type Page } from "@playwright/test";
 //   [data-testid=harbour-tip] read-out shown on hover or keyboard focus
 // The market is simulated in the page, so every test runs with all other origins blocked.
 async function blockNetwork(page: Page) {
-  await page.route((u) => !/^(localhost|127\.0\.0\.1)$/.test(u.hostname), (r) => r.abort());
+  await page.route(offsite, (r) => r.abort());
 }
 test.beforeEach(async ({ page }) => { await blockNetwork(page); });
 
