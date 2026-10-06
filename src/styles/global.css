@@ -48,16 +48,23 @@ body {
   font: 400 1.0625rem/1.65 var(--font-sans), system-ui, sans-serif;
   font-feature-settings: "ss01", "tnum";
 }
-/* the grid made visible: twelve hairline columns behind every page, aligned with .wrap */
+/* the grid made visible: twelve hairline columns behind every page, aligned with .wrap.
+   Any section that paints its own background repaints the same grid (.gridded), so the surface
+   stays one continuous sheet of paper all the way down. */
+:root {
+  --grid-line: color-mix(in srgb, var(--line) 45%, transparent);
+  --grid-img: repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px calc(100% / 12));
+  --grid-pos: max(16px, (100vw - 1240px) / 2) 0 / min(100vw - 32px, 1240px) 100% repeat-y;
+}
 body::before {
   content: "";
   position: fixed;
   inset: 0 max(16px, (100vw - 1240px) / 2);
-  background: repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px calc(100% / 12));
-  opacity: 0.45;
+  background: var(--grid-img);
   pointer-events: none;
   z-index: -1;
 }
+.gridded { background: var(--grid-img) var(--grid-pos), var(--bg); }
 :where(h1, h2, h3) { line-height: 1.05; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
 h1 { font-size: clamp(2.4rem, 1.4rem + 4.2vw, 4.6rem); margin: 0 0 0.8rem; }
 h2 { font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem); margin: 3rem 0 1rem; }
