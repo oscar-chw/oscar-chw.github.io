@@ -13,6 +13,7 @@ links:
   - { label: "Repository: ptcg-ai-battle", href: "https://github.com/oscar-chw/ptcg-ai-battle" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -35,7 +36,7 @@ In this card game, the set of legal moves changes at every prompt and half the b
   { label: "Package gates", note: "parity, fallbacks", accent: "amber" },
 ]} />
 
-- **Imitation first, reinforcement learning only as a fine-tune.**
+- **<Term t="imitation learning">Imitation first</Term>, reinforcement learning only as a fine-tune.**
 - **The serving fallback counts and logs every exception** instead of silently playing a random move, so a broken agent is visible.
 
 <p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>

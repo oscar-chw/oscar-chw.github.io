@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { localPyodide } from "./pyodide";
 
 // Every demo page states its data source ([data-testid=data-source]) and has instructions.
 const DEMOS = [
@@ -27,13 +28,22 @@ test("lab: deep links open an experiment; the arrow keys walk the rail", async (
   await expect(page).toHaveURL(/#asof$/);
 });
 
-test("lab: the guard blocks a home-directory wipe and allows git status", async ({ page }) => {
+test("lab: the real guard.py blocks a home-directory wipe with its reason and allows git status", async ({ page }) => {
+  await localPyodide(page);
   await page.goto("/demos/#guard");
+  await expect(page.locator(".gt-status")).toContainText("real guard loaded", { timeout: 30_000 });
   const input = page.locator(".gt-in");
   await input.fill(["rm", "-rf", "~"].join(" ")); await input.press("Enter");
-  await expect(page.locator(".gt-log li").last()).toContainText("blocked");
+  const last = page.locator(".gt-log li").last();
+  await expect(last).toContainText("blocked");
+  await expect(last.locator(".w")).not.toHaveText("");
   await input.fill("git status"); await input.press("Enter");
   await expect(page.locator(".gt-log li").last()).toContainText("allowed");
+  // shell keys: up recalls history, Ctrl+K kills to the end without opening the site console
+  await input.press("ArrowUp"); await expect(input).toHaveValue("git status");
+  await input.press("Control+a"); await input.press("Control+k");
+  await expect(input).toHaveValue("");
+  await expect(page.getByRole("dialog", { name: "Command palette" })).toBeHidden();
 });
 
 test("lab: the Bell state preset gives 0.500 on |00⟩ and |11⟩", async ({ page }) => {

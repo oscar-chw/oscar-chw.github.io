@@ -14,15 +14,16 @@ links:
   - { label: "Repository: asof-research", href: "https://github.com/oscar-chw/asof-research" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
-A backtest is only as honest as its inputs and its process. Data that was not yet known at the time (look-ahead), a rule tweaked after seeing the test, or an AI assistant that grades its own idea can each make a weak strategy look strong. I wanted a research loop where code, not discretion, controls what data a study sees, when its rule is fixed, and who writes the numbers. In that loop, an LLM-proposed idea has to beat simple controls.
+A backtest is only as honest as its inputs and its process. Data that was not yet known at the time (<Term t="look-ahead bias">look-ahead</Term>), a rule tweaked after seeing the test, or an AI assistant that grades its own idea can each make a weak strategy look strong. I wanted a research loop where code, not discretion, controls what data a study sees, when its rule is fixed, and who writes the numbers. In that loop, an LLM-proposed idea has to beat simple controls.
 
 ## What I built
 
-- **A point-in-time data layer.** Every read is as-of: a study at time *t* cannot see anything stamped after *t*.
-- **Pre-registered studies.** Each hypothesis becomes a method card, which is frozen and hashed together with its data before it runs. Any later tweak counts as a new trial.
+- **A <Term t="point-in-time">point-in-time data layer</Term>.** Every read is as-of: a study at time *t* cannot see anything stamped after *t*.
+- **<Term t="pre-registered">Pre-registered studies</Term>.** Each hypothesis becomes a method card, which is frozen and hashed together with its data before it runs. Any later tweak counts as a new trial.
 - **A bounded AI role.** An LLM may draft hypotheses (without seeing prices) and a critic may object through a fixed schema. Neither can promote a result. Only the pre-registered rule decides.
 - **A C++20 order-book replay engine** that reconstructs the book at any time *T*. It replaced the Python batch path, and parity is checked byte for byte.
 - Two packages built on the same contract: the [Market-Making Lab](../market-making-lab/) and the [Factor Lab](../factor-lab/).

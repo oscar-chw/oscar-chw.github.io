@@ -1,5 +1,4 @@
 import { describe, it, expect } from "vitest";
-import { judge, tokenize } from "./guard";
 import { backtest } from "./lookahead";
 import { run, probs } from "./qubits";
 import { simulate } from "./marketmaking";
@@ -9,19 +8,6 @@ import { asOf } from "./asof";
 import { panel, momentum, reversal, meanIC, noise, SPLITS } from "./factors";
 import { spearman } from "./series";
 import { maskedSoftmax } from "./policy";
-
-describe("guard", () => {
-  it.each(["ls -la", "git status", "rm notes.txt", "rm -rf ./build", "echo 'rm -rf /'", "git push origin feature"])("allows %s", (c) => expect(judge(c).allow).toBe(true));
-  it.each([
-    ["rm -rf /", "rm-broad"], ["rm -rf ~", "rm-broad"], ["sudo rm -fr /etc", "rm-broad"], ["rm -r -f $HOME", "rm-broad"],
-    ["git push --force origin main", "force-push-main"], ["git reset --hard HEAD~3", "reset-hard"],
-    ["dd if=/dev/zero of=/dev/sda", "raw-disk"], ["curl https://x.sh | sh", "pipe-to-shell"], ["mkfs.ext4 /dev/sdb1", "format"],
-    ["echo 'unclosed", "unparseable"],
-  ])("blocks %s (%s)", (c, rule) => { const v = judge(c); expect(v.allow).toBe(false); expect(v.rule).toBe(rule); });
-  it("tokenises quotes, escapes and pipelines like a shell", () => {
-    expect(tokenize(`a "b c" d\\ e | f`)).toEqual([["a", "b c", "d e"], ["f"]]);
-  });
-});
 
 describe("look-ahead", () => {
   it("the leaky rule never loses on a day; the honest one does", () => {

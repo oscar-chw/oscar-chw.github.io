@@ -8,6 +8,8 @@ stack: [Bayesian scoring, conformal risk control, local LLMs]
 metrics:
   - { value: "−80%", label: "rule violations on held-out tasks versus a prompted agent" }
 ---
+import Term from "../../components/Term.astro";
+
 ## The problem
 
 Small LLM agents that run locally are cheap and private, but they break the rules they are given. Prompting harder only goes so far.
@@ -22,7 +24,7 @@ On held-out tasks, rule violations fell by 80% versus a prompted agent.
 
 ## How it works
 
-The layer sits between the agent and its actions. It combines Bayesian scoring with conformal risk control to decide when an agent's action is safe to take.
+The layer sits between the agent and its actions. It <Term t="conformal risk control">combines Bayesian scoring with conformal risk control</Term> to decide when an agent's action is safe to take.
 
 ## Limits
 

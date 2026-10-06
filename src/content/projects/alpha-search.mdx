@@ -12,6 +12,7 @@ links:
   - { label: "Repository: alpha-gp-lab", href: "https://github.com/oscar-chw/alpha-gp-lab" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -19,10 +20,10 @@ Generating formulaic alphas is cheap. Evaluating them honestly is the hard part,
 
 ## What I built
 
-A genetic-programming search over formulaic alpha expressions, run on 6.7 years of public Binance daily data for 34 coins:
+A <Term t="genetic programming">genetic-programming search</Term> over formulaic alpha expressions, run on 6.7 years of public Binance daily data for 34 coins:
 
 - **Pre-registered splits.** Formulas may breed only on train data, are chosen on validation, and get exactly one test score.
-- **Delay-1 signals with trading costs.** A signal computed today can trade only tomorrow, after costs.
+- **<Term t="delay-1">Delay-1 signals with trading costs</Term>.** A signal computed today can trade only tomorrow, after costs.
 - **An equal-budget random-search control**, sharing the GP's filter and validation rule, so any difference comes from breeding alone.
 - **A grammar parser instead of eval.** Every candidate passes through the same AST parser, so a hostile line cannot run.
 

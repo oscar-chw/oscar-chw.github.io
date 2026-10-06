@@ -9,6 +9,7 @@ links:
   - { label: "Repository: agent-harness", href: "https://github.com/oscar-chw/agent-harness" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -17,7 +18,7 @@ Every AI coding tool keeps its own instruction file. None of them share memory, 
 ## What I built
 
 - **One rulebook, translated per tool**, so the tools cannot drift apart. It stays short because it is paid for in every request.
-- **Shared memory and retrieval over MCP**, including search over past session transcripts.
+- **<Term t="MCP">Shared memory and retrieval over MCP</Term>**, including search over past session transcripts.
 - **A command guard for Claude Code** that parses each shell command and fails closed.
 - **A keep rule**: features that showed no measured gain ship off by default.
 

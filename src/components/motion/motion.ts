@@ -83,3 +83,21 @@ if (fine) addEventListener("pointermove", (e) => {
   const r = g.getBoundingClientRect();
   g.style.setProperty("--gx", `${e.clientX - r.left}px`); g.style.setProperty("--gy", `${e.clientY - r.top}px`);
 }, { passive: true });
+
+// ---------- the hobbies piano: Web Audio, created on first key press; keys A to K play when it is open ----------
+let audio: AudioContext | null = null;
+const play = (key: HTMLElement) => {
+  audio ??= new AudioContext();
+  const f = Number(key.dataset.freq), t = audio.currentTime, osc = audio.createOscillator(), gain = audio.createGain();
+  osc.type = "triangle"; osc.frequency.value = f;
+  gain.gain.setValueAtTime(0.0001, t); gain.gain.exponentialRampToValueAtTime(0.22, t + 0.01); gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+  osc.connect(gain).connect(audio.destination); osc.start(t); osc.stop(t + 1.15);
+  key.classList.add("on"); setTimeout(() => key.classList.remove("on"), 140);
+};
+document.addEventListener("click", (e) => { const k = (e.target as HTMLElement).closest<HTMLElement>(".key[data-freq]"); if (k) play(k); });
+addEventListener("keydown", (e) => {
+  const piano = document.querySelector<HTMLElement>(".hob:hover .piano, .hob:focus-within .piano");
+  if (!piano || e.metaKey || e.ctrlKey || e.altKey) return;
+  const key = [...piano.querySelectorAll<HTMLElement>(".key")].find((k) => k.textContent?.trim() === e.key.toLowerCase());
+  if (key) { e.preventDefault(); play(key); }
+});

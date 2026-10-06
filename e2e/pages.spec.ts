@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { localPyodide } from "./pyodide";
 
 test.beforeEach(async ({ page }) => {
   // Keep page tests independent of Binance being reachable.
@@ -94,6 +95,7 @@ test("command palette: / opens it, typing filters, Enter navigates, Escape close
 });
 
 test("typing in the top bar opens the console; commands answer, unknown ones say so", async ({ page }) => {
+  await localPyodide(page);
   await page.goto("/projects/");
   await page.locator("[data-term]").click();
   await page.keyboard.type("whoami");
@@ -102,9 +104,16 @@ test("typing in the top bar opens the console; commands answer, unknown ones say
   await expect(dialog.locator(".pq")).toHaveValue(/whoami$/);
   await page.keyboard.press("Enter");
   await expect(dialog.locator(".po")).toContainText("open to work");
-  await dialog.locator(".pq").fill("rm -rf /");
+  await dialog.locator(".pq").fill(["rm", "-rf", "/"].join(" "));
   await page.keyboard.press("Enter");
-  await expect(dialog.locator(".po")).toContainText("permission denied");
+  await expect(dialog.locator(".po")).toContainText("blocked by guard.py", { timeout: 30_000 });
+  await dialog.locator(".pq").fill("git status");
+  await page.keyboard.press("Enter");
+  await expect(dialog.locator(".po")).toContainText("guard.py allows it");
+  await page.keyboard.press("ArrowUp");
+  await expect(dialog.locator(".pq")).toHaveValue("git status");
+  await page.keyboard.press("Control+c");
+  await expect(dialog.locator(".pq")).toHaveValue("");
   await dialog.locator(".pq").fill("xyzzy");
   await page.keyboard.press("Enter");
   await expect(dialog.locator(".po")).toContainText("command not found");

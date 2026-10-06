@@ -10,6 +10,7 @@ links:
   - { label: "Package: asof-research/packages/factor", href: "https://github.com/oscar-chw/asof-research/tree/main/packages/factor" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -17,7 +18,7 @@ Factor research fails quietly in three places: using prices before they were ava
 
 ## What I built
 
-- **Momentum vs reversal on lagged prices**, scored by Spearman rank IC on fixed train, validation and test dates.
+- **Momentum vs reversal on lagged prices**, scored by <Term t="rank IC">Spearman rank IC</Term> on fixed train, validation and test dates.
 - **Selection on validation only.** Test labels never enter selection, and only the chosen factor is scored, once, on the held-out test.
 - **Portfolio construction as a convex optimization**: weights under risk and position limits with a turnover cost, checked against hand-solved cases.
 - **Append-only, hashed trials.** Failed runs are kept, and any trial can be verified and recomputed later.

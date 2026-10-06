@@ -17,6 +17,7 @@ links:
   - { label: "Runnable stand-in on synthetic data: qts-platform-demo", href: "https://github.com/oscar-chw/qts-platform-demo" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -24,8 +25,8 @@ The research team needed tick-level Chinese A-share and crypto data that they co
 
 ## What I built
 
-- **A layered store.** Raw deliveries are kept byte-identical. A typed, versioned Parquet layer sits above them, and a cleansed layer above that flags bad rows instead of dropping them.
-- **A query service for researchers** in Python over HTTP and SQL. It returns Apache Arrow, pins every read to a data version, and refuses requests that would see the future.
+- **A layered store.** Raw deliveries are kept byte-identical. A typed, <Term t="versioned Parquet">versioned Parquet layer</Term> sits above them, and a cleansed layer above that flags bad rows instead of dropping them.
+- **A query service for researchers** in Python over HTTP and SQL. It returns Apache Arrow, pins every read to a data version, and <Term t="look-ahead bias">refuses requests that would see the future</Term>.
 - **Data cleaning, led with the team:** exact duplicates removed, look-ahead leaks blocked before they reach research data.
 - **The shared research server**, which I administer: per-member data permissions through custom Linux PAM and eBPF modules in C, single sign-on without a VPN, and 200+ automated health checks.
 

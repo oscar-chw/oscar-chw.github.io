@@ -15,10 +15,11 @@ links:
   - { label: "Upstream: spaceqat/fatqat (Apache-2.0)", href: "https://github.com/spaceqat/fatqat" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
-A state-vector quantum simulator keeps every amplitude of the quantum state in memory and updates all of them for every gate. The state doubles with each added qubit, so larger circuits are limited by how fast the machine can move memory. FatQat, an open-source simulator by spaceqat, runs on the CPU. I wanted a GPU engine that existing FatQat code could use without changes and without losing accuracy.
+<Term t="state vector">A state-vector quantum simulator</Term> keeps every amplitude of the quantum state in memory and updates all of them for every gate. The state doubles with each added qubit, so larger circuits are limited by how fast the machine can move memory. FatQat, an open-source simulator by spaceqat, runs on the CPU. I wanted a GPU engine that existing FatQat code could use without changes and without losing accuracy.
 
 ## What I built
 

@@ -13,6 +13,7 @@ links:
   - { label: "Repository: streaming-reconciliation", href: "https://github.com/oscar-chw/streaming-reconciliation" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -21,7 +22,7 @@ At the Hong Kong Universities Web3 Quant Trading Hackathon, where I initiated th
 ## What I built
 
 - **A retry-safe writer** that tags every close with a caller-supplied identity.
-- **A streaming reader** that hashes the bytes it reads and spills size-capped sorted runs to disk. A heap merge then counts each identity once, using exact decimals.
+- **A streaming reader** that hashes the bytes it reads and <Term t="external sort">spills size-capped sorted runs to disk</Term>. A heap merge then counts each identity once, using exact decimals.
 - **Refusal over guessing.** Conflicting copies of the same close stop the run instead of being silently resolved.
 - **The old in-memory reader is kept** as the measured control.
 

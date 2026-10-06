@@ -12,6 +12,7 @@ links:
   - { label: "Package: asof-research/packages/imc-sim", href: "https://github.com/oscar-chw/asof-research/tree/main/packages/imc-sim" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -19,13 +20,13 @@ A market-making strategy that looks profitable in a naive simulator often is not
 
 ## What I built
 
-- **An inventory-aware quoting policy**: the reservation price shifts against the position the book is carrying.
+- **<Term t="market making">An inventory-aware quoting policy</Term>**: the reservation price shifts against the position the book is carrying.
 - **A fill simulator** with a declared queue position, partial fills and cancel delays, run across 18 synthetic scenarios.
 - **A causal analyzer** for saved runs that reports cash, fees, inventory-limit breaches and fill markouts.
 
 ## Result
 
-Across 18 synthetic scenarios, fill quality is measured with as-of markouts: each fill is valued only against prices already observed when it happened, and the forward markout is computed separately afterwards.
+Across 18 synthetic scenarios, <Term t="markouts">fill quality is measured with as-of markouts</Term>: each fill is valued only against prices already observed when it happened, and the forward markout is computed separately afterwards.
 
 ## How it works
 

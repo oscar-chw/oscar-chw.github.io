@@ -1,0 +1,76 @@
+---
+// "Off the clock", with a small surprise behind each hobby: a playable piano, a holographic
+// trainer card (an original design, no Pokémon artwork), a pixel sprite with an easter-egg hint,
+// and a burst of hearts. Pop-ups open on hover or keyboard focus; the piano's sound lives in the
+// shared motion module (Web Audio, created on first key press).
+const keys = [["C", "a"], ["D", "s"], ["E", "d"], ["F", "f"], ["G", "g"], ["A", "h"], ["B", "j"], ["C²", "k"]];
+const freqs = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25];
+---
+<p class="hobbies">
+  <span class="lead">Off the clock:</span>
+  <span class="hob" tabindex="0" data-cursor="play">piano<span class="hpop glass piano" role="group" aria-label="A tiny playable piano; keys A to K">
+    {keys.map(([n, k], i) => <button type="button" class="key" data-freq={freqs[i]} aria-label={`play ${n}`}><span class="mono">{k}</span></button>)}
+    <span class="hint mono">click or press A to K</span>
+  </span></span>,
+  <span class="hob" tabindex="0">Pokémon TCG<span class="hpop card glass" aria-hidden="true">
+    <span class="ct"><b>Oscar</b><span class="mono">HP 2027</span></span>
+    <span class="art"></span>
+    <span class="atk"><b>No Look-ahead</b><span class="mono">Prevent all damage from tomorrow's prices.</span></span>
+    <span class="atk"><b>Refactor</b><span class="mono">Discard a bug. Draw a test.</span></span>
+    <span class="holo"></span>
+  </span></span>,
+  a bit of <span class="hob" tabindex="0">gaming<span class="hpop glass pixel" aria-hidden="true"><i class="sprite"></i><span class="mono">psst: try ↑↑↓↓←→←→ B A on the home page</span></span></span>,
+  and <span class="hob hearts" tabindex="0">time with my partner<span class="burst" aria-hidden="true">{Array.from({ length: 7 }, (_, i) => <i style={`--i:${i}`}>♥</i>)}</span></span>.
+</p>
+
+<style>
+  .hobbies { color: var(--muted); font-size: 1.05rem; line-height: 2; }
+  .lead { margin-right: 4px; }
+  .hob { position: relative; color: var(--ink); border-bottom: 1px dashed color-mix(in srgb, var(--accent) 70%, transparent); cursor: pointer; white-space: nowrap; }
+  .hob:hover, .hob:focus-within { color: var(--accent); }
+  .hob:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  /* the pop-up: sits above its word; a padding bridge keeps it open while the pointer moves up into it */
+  /* .hob-scoped selectors outrank the global .glass background */
+  .hob .hpop { position: absolute; left: 50%; bottom: 100%; z-index: 30; display: block; margin-bottom: 10px; padding: 12px; border-radius: 18px; color: var(--ink); background-color: color-mix(in srgb, var(--bg-2) 94%, transparent); white-space: normal; font-size: 0.8rem; line-height: 1.4; cursor: default;
+    opacity: 0; visibility: hidden; transform: translate(-50%, 10px) scale(0.92) rotate(-2deg); transform-origin: 50% 100%; transition: opacity 0.2s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s 0.2s; }
+  .hpop::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; }
+  .hob:hover .hpop, .hob:focus-within .hpop { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1) rotate(0); transition: opacity 0.2s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0s; }
+
+  /* piano */
+  .piano { display: flex; gap: 3px; padding: 12px 12px 30px; }
+  .key { width: 30px; height: 96px; border-radius: 0 0 7px 7px; border: 1px solid var(--line-2); background: linear-gradient(#f4f6f8, #dfe5ea); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; cursor: pointer; transition: transform 0.08s, background 0.15s; box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.12); }
+  .key span { font-size: 0.66rem; color: #55606b; }
+  .key:active, .key.on { transform: translateY(2px); background: linear-gradient(var(--accent), color-mix(in srgb, var(--accent) 70%, #fff)); box-shadow: none; }
+  .piano .hint { position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; font-size: 0.66rem; color: var(--muted); }
+
+  /* the trainer card: holo foil follows the pointer (motion.ts sets --gx/--gy on .glass) */
+  .hob .card { width: 210px; padding: 12px; border-radius: 14px; overflow: hidden; background: linear-gradient(160deg, #1c2a46, #0d1424); color: #e6edf3; }
+  .ct { display: flex; justify-content: space-between; align-items: baseline; }
+  .ct b { font-size: 1rem; } .ct .mono { font-size: 0.7rem; color: #ff8a8a; }
+  .art { display: block; height: 92px; margin: 8px 0; border-radius: 8px; background: radial-gradient(circle at 50% 60%, #6ee6d7 0 14%, transparent 15%), radial-gradient(circle at 50% 120%, #2b4a7d 0 55%, transparent 56%), linear-gradient(#253a63, #0f1a33); }
+  .atk { display: block; border-top: 1px solid rgb(255 255 255 / 0.12); padding: 6px 0; }
+  .atk b { display: block; font-size: 0.82rem; } .atk .mono { font-size: 0.66rem; color: #9fb0c0; }
+  .holo { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: color-dodge; opacity: 0.28;
+    background: radial-gradient(220px circle at var(--gx, 50%) var(--gy, 30%), rgb(255 255 255 / 0.5), transparent 60%),
+      linear-gradient(115deg, transparent 20%, #ff6ec7 35%, #6ee6d7 50%, #ffe66e 65%, transparent 80%); background-size: 100% 100%, 250% 250%; background-position: 0 0, var(--gx, 50%) var(--gy, 50%); }
+
+  /* pixel sprite */
+  .pixel { width: 190px; text-align: center; }
+  .pixel .mono { display: block; margin-top: 12px; font-size: 0.68rem; color: var(--muted); }
+  .sprite { display: block; width: 4px; height: 4px; margin: 6px auto 34px; transform: translateX(-24px); color: var(--accent); animation: bob 0.9s steps(2) infinite;
+    box-shadow: 8px 0, 40px 0, 12px 4px, 36px 4px, 8px 8px, 12px 8px, 16px 8px, 20px 8px, 24px 8px, 28px 8px, 32px 8px, 36px 8px, 40px 8px,
+      4px 12px, 8px 12px, 16px 12px, 20px 12px, 24px 12px, 28px 12px, 32px 12px, 40px 12px, 44px 12px,
+      0 16px, 4px 16px, 8px 16px, 12px 16px, 16px 16px, 20px 16px, 24px 16px, 28px 16px, 32px 16px, 36px 16px, 40px 16px, 44px 16px, 48px 16px,
+      0 20px, 8px 20px, 12px 20px, 16px 20px, 20px 20px, 24px 20px, 28px 20px, 32px 20px, 36px 20px, 40px 20px, 48px 20px,
+      0 24px, 8px 24px, 40px 24px, 48px 24px, 12px 28px, 16px 28px, 32px 28px, 36px 28px; }
+  @keyframes bob { 50% { transform: translate(-24px, -4px); } }
+
+  /* hearts */
+  .burst { position: absolute; left: 50%; bottom: 100%; width: 0; pointer-events: none; }
+  .burst i { position: absolute; left: 0; bottom: 0; font-style: normal; color: #ff6b9a; opacity: 0; font-size: 0.9rem; }
+  .hearts:hover .burst i, .hearts:focus-visible .burst i { animation: heart 1.4s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i) * 0.09s) both; }
+  @keyframes heart { 0% { opacity: 0; transform: translate(0, 6px) scale(0.4); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(calc((var(--i) - 3) * 14px), -70px) scale(1.2) rotate(calc((var(--i) - 3) * 12deg)); } }
+
+  @media (prefers-reduced-motion: reduce) { .sprite { animation: none; } .hearts .burst i { animation: none !important; } }
+</style>

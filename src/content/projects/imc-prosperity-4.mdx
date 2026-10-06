@@ -14,6 +14,7 @@ links:
   - { label: "Lessons-learned write-up: imc-prosperity-4-shdc", href: "https://github.com/oscar-chw/imc-prosperity-4-shdc" }
 ---
 import Flow from "../../components/Flow.astro";
+import Term from "../../components/Term.astro";
 
 ## The problem
 
@@ -21,7 +22,7 @@ IMC Prosperity is a multi-round algorithmic and manual trading competition. Each
 
 ## What I built
 
-- **Kalman/OU fair values for market making.** A Kalman filter replaced a fixed-window drift gate, so a drift signal is used only when its slope is clearly away from zero.
+- **<Term t="Kalman filter">Kalman/OU fair values for market making</Term>.** A Kalman filter replaced a fixed-window drift gate, so a drift signal is used only when its slope is clearly away from zero.
 - **A gated one-lot relative-value trade** across a product family, capped at one lot and run beside market making on a subset of products.
 - **The team's results check**, plus a round-by-round review against nine public write-ups from teams placed 2nd to 583rd.
 
