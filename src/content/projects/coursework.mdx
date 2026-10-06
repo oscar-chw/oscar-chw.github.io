@@ -1,0 +1,34 @@
+---
+title: Coursework
+summary: 'Course projects worth showing: a DNA data-storage simulator built alone in a group-based course, and a CUHK course planner built by a team of 6.'
+order: 6
+featured: false
+group: Coursework
+role: Author and team lead
+stack:
+- Python
+- NumPy
+- Matplotlib
+- React
+- TypeScript
+- Express
+- Prisma
+links:
+- label: 'Repository: dna-storage-simulation'
+  href: https://github.com/Oscar-Codespace/dna-storage-simulation
+---
+import Part from "../../components/Part.astro";
+import P_dna_storage from "./_dna-storage.mdx";
+import P_studyflow from "./_studyflow.mdx";
+
+## DNA data-storage simulator
+
+<Part id="dna-storage" role="Sole author (individual project in a group-based course)" stack={["Python", "NumPy", "Matplotlib"]} links={[{"label": "Repository: dna-storage-simulation", "href": "https://github.com/Oscar-Codespace/dna-storage-simulation"}]} />
+
+<P_dna_storage />
+
+## StudyFlow: CUHK course planner
+
+<Part id="studyflow" role="Initiator and architecture lead, team of 6" period="Feb – May 2025 (CSCI3100)" stack={["React", "TypeScript", "Express", "Prisma"]} metrics={[{"value": "141 of 290", "label": "commits, the most on the team"}]} />
+
+<P_studyflow />

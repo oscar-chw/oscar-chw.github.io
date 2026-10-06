@@ -12,7 +12,7 @@ const DEMOS = [
 test("the lab covers every project and links all four full demos", async ({ page }) => {
   await page.goto("/projects/");
   const projects = await page.locator('main a[href*="/projects/"]').evaluateAll((as) => [...new Set(as.map((a) => (a as HTMLAnchorElement).pathname.split("/").filter(Boolean).pop()))].filter((s) => s !== "projects"));
-  expect(projects.length).toBe(6);
+  expect(projects.length).toBe(7);
   await page.goto("/demos/");
   for (const slug of projects) await expect(page.locator(`[data-panel] a[href*="/projects/${slug}/"]`).first()).toBeAttached();
   for (const [href] of DEMOS) await expect(page.locator(`[data-panel] a.launch[href$="${href}"]`).first()).toBeAttached();
@@ -245,4 +245,16 @@ test("lab: search answers from this site's own text, explains each score, and th
   const href = await first.getAttribute("href");
   await page.goto(href!);
   await expect(page.locator(`#${href!.split("#")[1]}`)).toBeAttached();
+});
+
+test("lab: the DNA channel reads a clean strand back exactly and one deletion garbles the rest", async ({ page }) => {
+  await page.goto("/demos/#dna");
+  const panel = page.locator('[data-panel="dna"]'), ro = panel.locator(".ro");
+  const sliders = panel.locator('input[type="range"]');
+  await sliders.nth(0).fill("0");
+  await expect(ro).toContainText("27 of 27");
+  await sliders.nth(2).fill("1");                                        // one deletion
+  await expect(panel.locator(".dna .del")).toHaveCount(1);
+  const kept = Number((await ro.locator("dd").first().textContent())!.split(" of ")[0]);
+  expect(kept).toBeLessThan(27);
 });

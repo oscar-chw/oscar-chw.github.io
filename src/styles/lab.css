@@ -73,6 +73,14 @@
 .ctl-group { display: flex; flex-direction: column; gap: 12px; }
 .s3d-wrap { position: relative; margin-bottom: 8px; }
 .s3d-tip { position: absolute; transform: translate(-50%, calc(-100% - 14px)); pointer-events: none; white-space: nowrap; font-size: 0.72rem; padding: 5px 9px; border-radius: 8px; background: rgb(8 13 26 / 0.92); color: #e6edf3; border: 1px solid #2b3d5c; }
+/* DNA channel */
+.dna { margin: 0 0 14px; font-size: 0.82rem; line-height: 1.7; word-break: break-all; letter-spacing: 0.06em; }
+.dna .b { font-style: normal; padding: 0 0.5px; border-radius: 2px; }
+.dna .b.A { color: #6ee6d7; } .dna .b.C { color: #79a8ff; } .dna .b.G { color: #ffbe78; } .dna .b.T { color: #e48ad6; }
+.dna .b.sub { background: var(--down); color: #fff; } .dna .b.ins { background: var(--amber); color: #05070c; }
+.dna .del { color: var(--down); font-weight: 700; }
+.dna-back { margin: 0 0 10px; font-size: 1rem; word-break: break-all; }
+.dna-back .bad { color: var(--down); text-decoration: underline wavy; text-underline-offset: 3px; }
 /* lost updates */
 .lu-big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: 16px; font-size: 0.78rem; color: var(--muted); }
 .lu-big span { display: inline-flex; align-items: baseline; gap: 6px; }

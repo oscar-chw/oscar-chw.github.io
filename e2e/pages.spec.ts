@@ -10,11 +10,11 @@ test("primary navigation reaches every section", async ({ page }) => {
   }
 });
 
-test("six grouped project pages exist and every write-up follows the problem → limits structure", async ({ page }) => {
+test("seven grouped project pages exist and every write-up follows the problem → limits structure", async ({ page }) => {
   await page.goto("/projects/");
   const links = page.locator('main a[href*="/projects/"]');
   const hrefs = [...new Set(await links.evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).pathname)))].filter((h) => h !== "/projects/");
-  expect(hrefs.length).toBe(6);
+  expect(hrefs.length).toBe(7);
   for (const h of hrefs) {
     await page.goto(h);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
@@ -29,7 +29,7 @@ test("six grouped project pages exist and every write-up follows the problem →
 });
 
 test("old project URLs land on their section of the group page", async ({ page }) => {
-  for (const [old, group] of [["factor-lab", "ai-quant-research-system"], ["pokemon-tcg-ai", "competitions"], ["studyflow", "supporting-work"]]) {
+  for (const [old, group] of [["factor-lab", "ai-quant-research-system"], ["pokemon-tcg-ai", "competitions"], ["studyflow", "coursework"]]) {
     await page.goto(`/projects/${old}/`);
     await expect(page).toHaveURL(new RegExp(`/projects/${group}/#${old}$`));
     await expect(page.locator(`#${old}`)).toBeAttached();

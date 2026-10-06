@@ -9,7 +9,7 @@ const projects = defineCollection({
     summary: z.string(),
     order: z.number(),
     featured: z.boolean().default(false),
-    group: z.enum(["Research platforms", "Quant research", "Competitions", "Engineering and AI"]),
+    group: z.enum(["Research platforms", "Quant research", "Competitions", "Engineering and AI", "Coursework"]),
     role: z.string(),
     period: z.string().optional(),
     stack: z.array(z.string()),

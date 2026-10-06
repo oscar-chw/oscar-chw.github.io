@@ -1,0 +1,32 @@
+import Flow from "../../components/Flow.astro";
+
+### The problem
+
+DNA can hold data for a very long time in very little space, but writing and reading it is noisy in a way disks are not. Besides wrong letters (substitutions), the chemistry drops letters (deletions), adds letters (insertions) and loses whole strands (erasures). An insertion or deletion shifts every letter after it, so codes built for wrong letters alone cannot recover the data.
+
+### What I built
+
+- **An encoder** that maps data into DNA strings, a reversible two-bits-per-letter mapping, plus a separate visualisation that targets balanced GC content and reports long runs of one letter.
+- **A noisy channel** that injects seeded substitutions, insertions, deletions and erasures, and shows where they land.
+- **Three ways back**: Reed–Solomon codewords for substitutions and erasures, LT-style fountain codes decoded by belief propagation for lost strands, and a simplified HEDGES-style beam search for insertions and deletions.
+- **Eight figures and an interactive browser demo**, so each stage can be seen, not only read about. An individual project in a group-based course.
+
+### Result
+
+No headline result: every channel is a seeded synthetic simulation, not a physical experiment. The simulator is a teaching tool for the trade-offs, and its limits are stated with each figure.
+
+### How it works
+
+<Flow title="DNA storage simulator" caption="seeded synthetic channels; each stage has its own figure" steps={[
+  { label: "Data", note: "bits" },
+  { label: "Encode", note: "two bits per letter" },
+  { label: "Channel", note: "subs, indels, erasures", accent: "down" },
+  { label: "Decode", note: "RS, fountain, beam search", accent: "accent" },
+  { label: "Data back", note: "or a stated failure" },
+]} />
+
+### Limits
+
+- The HEDGES-style decoder is a simplified custom beam search, not the published HEDGES algorithm.
+- The Reed–Solomon figure encodes codewords but does not run a decoder, and its seeded case (two erasures plus one unknown error) is deliberately outside the RS(10,7) correction bound.
+- The fountain example is a construction check, not a robustness measurement, and the bits-per-letter curve is a hand-coded reference for plotting, not a measurement.

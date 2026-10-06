@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { cdf, blackScholes, ssviVol, grid } from "./options";
 import { race } from "./lostupdates";
 import { buildIndex, search, tokens } from "./bm25";
+import { encode, decode, channel, gc, longestRun, intact } from "./dna";
 
 describe("Black–Scholes", () => {
   it("normal CDF matches known values", () => {
@@ -68,5 +69,39 @@ describe("BM25", () => {
     const ix = buildIndex(docs);
     expect(search(ix, "book", "count")[0].p.id).toBe("c");
     expect(search(ix, "replay book", "bm25")[0].p.id).toBe("a");
+  });
+});
+
+describe("DNA channel", () => {
+  const msg = "Data in DNA lasts for ages.";
+  it("encodes two bits per letter and reads back exactly through a clean channel", () => {
+    expect(encode("A")).toBe("CAAC");                       // 0x41 = 01 00 00 01
+    expect(decode(encode(msg))).toBe(msg);
+    expect(channel(encode(msg), 1, 0, 0, 0).out).toBe(encode(msg));
+  });
+  it("a substitution damages at most one character; one deletion garbles most of what follows", () => {
+    for (const seed of [1, 2, 3, 4, 5]) {
+      expect(intact(msg, decode(channel(encode(msg), seed, 1, 0, 0).out))).toBeGreaterThanOrEqual(msg.length - 1);
+    }
+    let lost = 0;
+    for (const seed of [1, 2, 3, 4, 5]) lost += msg.length - intact(msg, decode(channel(encode(msg), seed, 0, 0, 1).out));
+    expect(lost / 5).toBeGreaterThan(5);
+  });
+  it("marks every substitution and insertion at its final position in the damaged strand", () => {
+    const clean = encode(msg);
+    for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+      const { out, events } = channel(clean, seed, 3, 2, 0);
+      // taking out the letters at the marked insertion positions gives back a strand as long as the clean one...
+      const insAt = new Set(events.filter((e) => e.kind === "ins").map((e) => e.pos));
+      const keep = [...out].map((_, p) => p).filter((p) => !insAt.has(p));
+      expect(insAt.size).toBe(2); expect(keep.length).toBe(clean.length);
+      // ...and every letter that differs from the clean strand sits at a marked substitution
+      const subsAt = new Set(events.filter((e) => e.kind === "sub").map((e) => e.pos));
+      keep.forEach((p, i) => { if (out[p] !== clean[i]) expect(subsAt.has(p)).toBe(true); });
+    }
+  });
+  it("reports GC content and the longest run of one letter", () => {
+    expect(gc("GGCCAATT")).toBe(0.5);
+    expect(longestRun("ACGGGGT")).toBe(4);
   });
 });

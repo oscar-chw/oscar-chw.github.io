@@ -1,6 +1,6 @@
 ---
 title: Supporting work
-summary: 'Smaller, standalone projects: a streaming rewrite of a trade-reconciliation step, a genetic-programming alpha search with pre-registered splits, and a CUHK course planner built by a team of 6.'
+summary: 'Smaller, standalone projects: a streaming rewrite of a trade-reconciliation step, and a genetic-programming alpha search with pre-registered splits.'
 order: 5
 featured: true
 group: Engineering and AI
@@ -11,10 +11,6 @@ stack:
 - external sort
 - SQLite
 - genetic programming
-- React
-- TypeScript
-- Express
-- Prisma
 links:
 - label: 'Repository: streaming-reconciliation'
   href: https://github.com/oscar-chw/streaming-reconciliation
@@ -24,7 +20,6 @@ links:
 import Part from "../../components/Part.astro";
 import P_streaming_reconciliation from "./_streaming-reconciliation.mdx";
 import P_alpha_search from "./_alpha-search.mdx";
-import P_studyflow from "./_studyflow.mdx";
 
 
 
@@ -39,9 +34,3 @@ import P_studyflow from "./_studyflow.mdx";
 <Part id="alpha-search" role="Designer and sole author" stack={["Python", "SQLite", "genetic programming"]} metrics={[{"value": "6.7 years", "label": "of public Binance daily data, 34 coins"}]} links={[{"label": "Repository: alpha-gp-lab", "href": "https://github.com/oscar-chw/alpha-gp-lab"}]} />
 
 <P_alpha_search />
-
-## StudyFlow: CUHK course planner
-
-<Part id="studyflow" role="Initiator and architecture lead, team of 6" period="Feb – May 2025 (CSCI3100)" stack={["React", "TypeScript", "Express", "Prisma"]} metrics={[{"value": "141 of 290", "label": "commits, the most on the team"}]} />
-
-<P_studyflow />
