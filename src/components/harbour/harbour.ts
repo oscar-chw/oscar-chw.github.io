@@ -4,6 +4,7 @@
 import daily from "../../data/btc-daily.json";
 import snapshot from "../../data/book-snapshot.json";
 import { createFeed, FrameGate, type Book, type FeedState } from "../../lib/orderbook";
+import { attachRipples } from "./ripples";
 
 const W = 1584, H = 396, WL = 286, XT = 1210;          // canvas size, waterline, t = now
 const ROWS = 14, ROW_H = 6.4, BAR = 190;
@@ -229,6 +230,7 @@ export async function mountHarbour(wrap: HTMLElement) {
     cx.fillStyle = "rgba(8,13,26,0.72)"; cx.fillRect(XT - w / 2 - 6, H - 26, w + 12, 24); cx.fillStyle = "rgba(190,225,232,0.95)"; cx.fillText(t, XT - w / 2, H - 8);
     frames++;
     wrap.dataset.frames = String(frames);
+    water?.refresh();
     wrap.dataset.bookMid = rows.mid.toFixed(2);
     document.dispatchEvent(new CustomEvent("harbourmid", { detail: { mid: rows.mid, state } }));
   }
@@ -276,7 +278,10 @@ export async function mountHarbour(wrap: HTMLElement) {
     document.documentElement.toggleAttribute("data-paused", paused);
   });
 
+  // the water answers the cursor (WebGL); created after the first paint so it has pixels to bend
+  let water: ReturnType<typeof attachRipples> = null;
   paint(); setBadge();
+  water = attachRipples(wrap, canvas, WL, W, H);
   if (!document.hidden) start();           // a page opened in a background tab waits until it is shown
 
   // ---------- read-outs: pointer and keyboard ----------

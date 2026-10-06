@@ -89,20 +89,17 @@ if (!still && layers.length) {
       if (y < innerHeight * 1.2) for (const l of layers) {
         const k = Number(l.dataset.parallax);
         l.style.transform = `translate3d(0, ${y * k}px, 0)`;
-        if (l.dataset.fade !== undefined) l.style.opacity = String(Math.max(0, 1 - y / (innerHeight * 0.7)));
+        if (l.dataset.fade !== undefined) {
+          // the hero sinks away: fades, shrinks a little and goes out of focus as you leave it
+          const p = Math.min(1, y / (innerHeight * 0.8));
+          l.style.opacity = String(1 - p);
+          l.style.transform += ` scale(${1 - p * 0.08})`;
+          l.style.filter = `blur(${(p * 10).toFixed(1)}px)`;
+        }
       }
       ticking = false;
     });
   }, { passive: true });
-}
-
-// ---------- magnetic buttons ----------
-if (fine && !still) for (const b of document.querySelectorAll<HTMLElement>("[data-magnetic]")) {
-  b.addEventListener("pointermove", (e) => {
-    const r = b.getBoundingClientRect();
-    b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.28}px, ${(e.clientY - r.top - r.height / 2) * 0.35}px)`;
-  });
-  b.addEventListener("pointerleave", () => (b.style.transform = ""));
 }
 
 // ---------- 3D tilt tiles ----------
@@ -190,3 +187,21 @@ console.log(
   "background:#6ee6d7;color:#05070c;font-family:monospace;padding:2px 4px",
   "color:#8b9aaa;font-family:monospace",
 );
+
+// ---------- giant outlined words drift, and speed up / reverse with the scroll ----------
+for (const band of document.querySelectorAll<HTMLElement>("[data-velocity]")) {
+  if (still) continue;
+  const track = band.querySelector<HTMLElement>(".mega-track")!;
+  let x = 0, dir = -1, last = scrollY, v = 0;
+  const loop = () => {
+    const d = scrollY - last; last = scrollY;
+    if (d) dir = d > 0 ? -1 : 1;
+    v += (Math.abs(d) * 0.6 - v) * 0.08;                     // eased scroll speed
+    if (!paused) x += dir * (0.6 + v);
+    const half = track.scrollWidth / 2;
+    if (x < -half) x += half; if (x > 0) x -= half;
+    track.style.transform = `translate3d(${x}px, 0, 0) skewX(${(dir * Math.min(v, 30) * 0.4).toFixed(2)}deg)`;
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+}

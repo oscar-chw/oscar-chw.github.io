@@ -132,6 +132,9 @@ const commands: [string, string, string][] = [
         });
       })();
     </script>
+    <script>
+      import "../components/motion/motion";
+    </script>
     <script is:inline data-inline="theme">
       document.querySelector(".theme").addEventListener("click", () => {
         const r = document.documentElement, next = r.dataset.theme === "light" ? "dark" : "light";

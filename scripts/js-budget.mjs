@@ -1,8 +1,10 @@
 // Gate: the brief's JS budget, measured on the built site.
 //   - every non-demo page ships <= 50 KB of gzipped JS (external + inline);
-//   - text pages (everything but the home page and the demos) ship no external JS
-//     and no inline event handlers; their only inline scripts are the named,
-//     allowlisted ones (data-inline="theme" | "palette" | "print"), under 1.5 KB gzipped.
+//   - text pages (everything but the home page and the demos) load no external JS except the
+//     shared site motion module (Base.astro's script: smooth scroll, cursor, reveals), stay under
+//     12 KB gzipped in total, have no inline event handlers, and their only inline scripts are the
+//     named, allowlisted ones (data-inline="theme" | "palette" | "print"), under 1.5 KB gzipped.
+//     (Changed 2026-10-06 from "no external JS" after Oscar asked for an immersive site.)
 // Fails if dist/ is missing or holds no pages, so an absent build never passes.
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -10,7 +12,9 @@ import { gzipSync } from "node:zlib";
 
 const DIST = process.argv[2] ?? "dist";
 const BUDGET = 50 * 1024;
-const INLINE_TEXT_BUDGET = 1536;   // theme script + the console stub (the console itself loads on use)
+const INLINE_TEXT_BUDGET = 1536;
+const TEXT_BUDGET = 12 * 1024;
+const SHARED_MOTION = /\/_astro\/Base\.astro_astro_type_script_index_\d+_lang\.[\w-]+\.js$/;   // theme script + the console stub (the console itself loads on use)
 const ALLOWED_INLINE = new Set(["theme", "palette", "print"]);
 
 if (!existsSync(DIST)) { console.error(`js-budget: ${DIST}/ does not exist; build first`); process.exit(1); }
@@ -46,7 +50,9 @@ for (const page of pages) {
     bytes += gz(readFileSync(f));
   }
   const inlineBytes = inline.reduce((n, s) => n + gz(s), 0);
-  if (isText && external.length) { console.error(`FAIL ${rel}: text page loads external JS ${external.join(", ")}`); failed++; }
+  const foreign = external.filter((s) => !SHARED_MOTION.test(s.split("?")[0]));
+  if (isText && foreign.length) { console.error(`FAIL ${rel}: text page loads external JS ${foreign.join(", ")}`); failed++; }
+  if (isText && bytes > TEXT_BUDGET) { console.error(`FAIL ${rel}: ${bytes} B gz JS > ${TEXT_BUDGET} on a text page`); failed++; }
   if (isText) {
     const tags = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*type="application\/(?:ld\+)?json")([^>]*)>/g)].map((m) => m[1]);
     for (const attrs of tags) {

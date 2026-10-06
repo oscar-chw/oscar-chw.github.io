@@ -51,13 +51,16 @@ const demos = [
     </div>
   </div>
 
-  <section class="manifesto wrap" data-manifesto aria-label="Principle">
+  <section class="manifesto" data-manifesto aria-label="Principle"><div class="wrap">
     <p class="say">{"A result only counts if it couldn't have seen the future.".split(" ").map((w) => <span>{w} </span>)}</p>
     <p class="mono why">the rule behind <a href={url("/projects/point-in-time-research/")}>point-in-time research</a>, and behind the dashed towers after t = now</p>
-  </section>
+  </div></section>
+
+  <div class="sheet">
+  <div class="mega" data-velocity aria-hidden="true"><div class="mega-track">{[0, 1].map(() => <span>quant research · data platforms · low-latency systems · ai engineering · </span>)}</div></div>
 
   <section id="work" class="wrap section" aria-labelledby="work-h">
-    <div class="head cols reveal">
+    <div class="head cols">
       <h2 id="work-h">Selected work</h2>
       <p class="mono note">scroll or hover · the object follows</p>
     </div>
@@ -66,7 +69,7 @@ const demos = [
   </section>
 
   <section class="wrap section" aria-labelledby="demos-h">
-    <div class="head cols reveal">
+    <div class="head cols">
       <h2 id="demos-h">Try it in your browser</h2>
       <p class="mono note">no server · no tracking</p>
     </div>
@@ -84,7 +87,7 @@ const demos = [
   </section>
 
   <section class="wrap section contact" aria-labelledby="contact-h">
-    <h2 id="contact-h" class="big reveal">Let's talk.</h2>
+    <h2 id="contact-h" class="big">Let's talk.</h2>
     <div class="cta">
       <a class="btn glass" data-magnetic href={`mailto:${SITE.email}`}><Icon name="mail" />{SITE.email}</a>
       <a class="btn ghost" data-magnetic href={SITE.linkedin}><Icon name="linkedin" />LinkedIn</a>
@@ -92,6 +95,7 @@ const demos = [
       <a class="btn ghost" data-magnetic href={SITE.instagram}><Icon name="instagram" />Instagram</a>
     </div>
   </section>
+  </div>
 </Base>
 
 <script>
@@ -121,8 +125,9 @@ const demos = [
   .boot.done { opacity: 0; visibility: hidden; }
   .skip-hint { position: absolute; bottom: 28px; color: var(--muted); font-size: 0.75rem; margin: 0; }
 
-  /* manifesto: one sentence that fills in word by word as you scroll */
-  .manifesto { padding: 140px 0 60px; }
+  /* manifesto: one sentence that fills in word by word, pinned while the work sheet slides over it */
+  .manifesto { position: sticky; top: 0; min-height: 100svh; display: flex; align-items: center; z-index: 0; }
+  .manifesto > .wrap { width: min(100% - 32px, 1240px); }
   .say { font-size: clamp(2rem, 1rem + 4.4vw, 5.2rem); font-weight: 600; letter-spacing: -0.045em; line-height: 1.04; margin: 0; max-width: 18ch; }
   /* unlit words stay readable (3:1 for large text); lighting them is emphasis, not disclosure */
   .say span { color: color-mix(in srgb, var(--ink) 50%, var(--bg)); transition: color 0.25s; }
@@ -151,6 +156,11 @@ const demos = [
   .c { color: var(--accent); font-weight: 500; }
   @keyframes tick { to { transform: translateX(-50%); } }
 
+  /* the sheet: everything after the manifesto rises over it like a page being pulled up */
+  .sheet { position: relative; z-index: 2; background: var(--bg); border-radius: 40px 40px 0 0; box-shadow: 0 -30px 80px rgb(0 0 0 / 0.55), inset 0 1px 0 var(--line-2); padding-top: 28px; margin-top: 10vh; }
+  .mega { overflow: hidden; padding: 18px 0 8px; border-bottom: 1px solid var(--line); }
+  .mega-track { display: flex; width: max-content; will-change: transform; }
+  .mega-track span { font-size: clamp(3rem, 1.5rem + 7vw, 8.5rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 35%, transparent); padding-right: 0.4em; }
   .section { position: relative; z-index: 1; padding-top: 72px; }
   .head { align-items: baseline; margin-bottom: 18px; }
   .head h2 { grid-column: 1 / span 8; margin: 0; }

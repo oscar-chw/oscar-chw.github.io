@@ -25,7 +25,7 @@ async function frames(page: Page) {
 test("falls back to the bundled snapshot when Binance is unreachable", async ({ page }) => {
   await blockNetwork(page);
   await page.goto("/");
-  await expect(page.getByTestId("harbour").locator("canvas")).toBeVisible();
+  await expect(page.getByTestId("harbour").locator("canvas").first()).toBeVisible();
   await expect(page.getByTestId("book-badge")).toHaveText(/snapshot/i, { timeout: 8000 });
   await expect(page.getByTestId("book-badge")).toContainText("5 Oct");
 });

@@ -71,7 +71,7 @@ test("reconciliation: both series are drawn from the measured file", async ({ pa
 
 test("harbour demo page renders the interactive harbour", async ({ page }) => {
   await page.goto("/demos/harbour/");
-  await expect(page.getByTestId("harbour").locator("canvas")).toBeVisible();
+  await expect(page.getByTestId("harbour").locator("canvas").first()).toBeVisible();
 });
 
 test("fourier: the drawing animation can be paused", async ({ page }) => {
