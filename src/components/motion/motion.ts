@@ -133,7 +133,7 @@ const undismiss = (e: Event) => {
 document.addEventListener("pointerout", undismiss);
 document.addEventListener("focusout", undismiss);
 
-// ---------- background music: two tracks, off until asked for. The choice, the volume and on/off are
+// ---------- background music: two piano pieces from YouTube, off until asked for. The choice, the volume and on/off are
 // remembered; after a page change it resumes on the visitor's next tap or key (browsers allow sound only
 // after a gesture). Each player loads only when it is first needed.
 const musicBtn = document.querySelector<HTMLButtonElement>("[data-music-toggle]");
@@ -142,11 +142,10 @@ if (musicBtn) {
   const volIn = wrap.querySelector<HTMLInputElement>("[data-mus-vol]")!, volOut = wrap.querySelector<HTMLOutputElement>("[data-mus-vol-out]")!;
   const get = (k: string) => { try { return localStorage.getItem(k); } catch { return null; } };
   const put = (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* storage blocked */ } };
-  type Track = "nocturne" | "unlasting" | "rosalina";
-  const saved = get("music-track");
-  let track: Track = saved === "unlasting" || saved === "rosalina" ? saved : "nocturne";
+  type Track = "unlasting" | "rosalina";
+  let track: Track = get("music-track") === "rosalina" ? "rosalina" : "unlasting";
   let vol = Math.min(1, Math.max(0, Number(get("music-vol") ?? 0.6)));
-  let gen: typeof import("./music") | null = null, yt: typeof import("./youtube") | null = null;
+  let yt: typeof import("./youtube") | null = null;
   wrap.querySelector<HTMLInputElement>(`input[value="${track}"]`)!.checked = true;
   volIn.value = String(Math.round(vol * 100)); volOut.textContent = `${volIn.value}%`;
 
@@ -154,32 +153,28 @@ if (musicBtn) {
   const show = (on: boolean) => {
     musicBtn.setAttribute("aria-pressed", String(on));
     musicBtn.setAttribute("aria-label", on ? "Mute background music" : "Play background music");
-    document.documentElement.toggleAttribute("data-music", on && !!(gen?.playing() || yt?.playing()));
+    document.documentElement.toggleAttribute("data-music", on && !!yt?.playing());
     put("music", on ? "on" : "off");
     status();
   };
   const status = () => {
-    const i = track === "nocturne" ? gen?.info() : null;
-    now.textContent = !isOn() ? "off · press ♪ to play"
-      : track !== "nocturne" ? (yt?.nowPlaying() ? `▶ ${yt.nowPlaying()!.title} · ${yt.nowPlaying()!.credit}` : "on · tap anywhere to continue")
-      : i ? `▶ Harbour nocturne · pass ${i.pass} · bar ${i.bar} of 8 · ${i.chord}` : "on · tap anywhere to continue";
+    const np = yt?.nowPlaying();
+    now.textContent = !isOn() ? "off · press ♪ to play" : np ? `▶ ${np.title} · ${np.credit}` : "on · tap anywhere to continue";
   };
-  const stopAll = () => { gen?.stop(); yt?.stop(); };
   const play = async () => {
-    stopAll();
-    if (track !== "nocturne") { yt ??= await import("./youtube"); yt.start(track, vol, () => show(false)); }
-    else { gen ??= await import("./music"); await gen.start(vol); }
+    yt ??= await import("./youtube");
+    yt.start(track, vol, () => show(false));
     show(true);
   };
   // the button does what it shows: "on" (playing, or waiting for a tap after a page change) turns it off
-  musicBtn.addEventListener("click", () => { if (isOn()) { stopAll(); show(false); } else void play(); });
+  musicBtn.addEventListener("click", () => { if (isOn()) { yt?.stop(); show(false); } else void play(); });
   wrap.querySelectorAll<HTMLInputElement>('input[name="mus-track"]').forEach((r) => r.addEventListener("change", () => {
     track = r.value as Track; put("music-track", track);
     if (isOn()) void play(); else status();
   }));
   volIn.addEventListener("input", () => {
     vol = Number(volIn.value) / 100; volOut.textContent = `${volIn.value}%`; put("music-vol", String(vol));
-    gen?.setVolume(vol); yt?.setVolume(vol);
+    yt?.setVolume(vol);
   });
   // where there is no hover, a tap on the button also opens the panel; a tap elsewhere closes it
   if (matchMedia("(hover: none)").matches) {

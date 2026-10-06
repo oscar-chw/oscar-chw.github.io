@@ -202,6 +202,7 @@ test("one object: hovering a project row turns the pinned object into that proje
 });
 
 test("background music: off until asked for, toggles from the nav, and is remembered across pages", async ({ page }) => {
+  await page.route(/https:\/\/(www\.)?youtube(-nocookie)?\.com\//, (r) => r.abort());   // never contact YouTube from tests
   await page.goto("/about/");
   const btn = page.locator("[data-music-toggle]"), html = page.locator("html");
   await expect(btn).toHaveAttribute("aria-pressed", "false");
@@ -230,7 +231,8 @@ test("music panel: hover shows the tracks and the volume; a YouTube track plays 
   const btn = page.locator("[data-music-toggle]"), pop = page.locator(".mus-pop");
   await btn.hover();
   await expect(pop).toBeVisible();
-  await expect(pop.getByRole("radio")).toHaveCount(3);
+  await expect(pop.getByRole("radio")).toHaveCount(2);
+  await expect(pop.getByRole("radio", { name: /unlasting/ })).toBeChecked();         // the default
   await expect(pop.locator("[data-mus-now]")).toContainText("off");
   await pop.getByLabel("Music volume").fill("30");
   await expect(pop.locator("[data-mus-vol-out]")).toHaveText("30%");
