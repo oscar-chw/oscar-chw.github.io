@@ -2,6 +2,7 @@ import { defineConfig, fontProviders } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import rehypeNums from "./src/lib/rehype-nums.mjs";
+import rehypePartIds from "./src/lib/rehype-part-ids.mjs";
 
 // SITE_BASE=/next/ builds the preview that is served beside the old page until Oscar approves.
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
   base: process.env.SITE_BASE ?? "/",
   trailingSlash: "always",
   integrations: [mdx(), sitemap()],
-  markdown: { rehypePlugins: [rehypeNums] },
+  markdown: { rehypePlugins: [rehypeNums, rehypePartIds] },
   // projects grouped on 2026-10-06: every old page lands on its section of the group page
   redirects: Object.fromEntries(Object.entries({"point-in-time-research": "ai-quant-research-system", "factor-lab": "ai-quant-research-system", "market-making-lab": "ai-quant-research-system", "agent-harness": "ai-quant-research-system", "imc-prosperity-4": "competitions", "pokemon-tcg-ai": "competitions", "streaming-reconciliation": "supporting-work", "alpha-search": "supporting-work", "studyflow": "supporting-work"}).map(([old, group]) => [`/projects/${old}/`, `${(process.env.SITE_BASE ?? "/").replace(/\/$/, "")}/projects/${group}/#${old}`])),
   build: { inlineStylesheets: "always" },

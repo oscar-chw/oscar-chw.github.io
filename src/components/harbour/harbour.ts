@@ -213,6 +213,14 @@ export async function mountHarbour(wrap: HTMLElement) {
   const pauseBtn = wrap.querySelector<HTMLButtonElement>("[data-testid=book-pause]")!;
   const cx = canvas.getContext("2d")!;
   let base!: HTMLCanvasElement, market!: Market, geo!: Geo, rows!: Rows, kind: Kind = "switching", seed = 42, builds = 0;
+  // the picker (demo page) may already show a choice: a restored form after Back, or a click while loading
+  const picker = wrap.closest(".harbour")?.querySelector<HTMLFormElement>("[data-market]");
+  const chosen = (): [Kind, number] => {
+    if (!picker) return [kind, seed];
+    const f = new FormData(picker);
+    return [(f.get("regime") as Kind) ?? "switching", Math.max(1, Math.floor(Number(f.get("seed")) || 1))];
+  };
+  [kind, seed] = chosen();
   // paint the city off-screen, then show it whole: no half-drawn frames. Each build draws on its own
   // canvas and only the newest is kept, so quick picker changes cannot interleave two cities.
   async function build(): Promise<boolean> {
@@ -295,11 +303,9 @@ export async function mountHarbour(wrap: HTMLElement) {
   });
 
   // the market picker (demo page): another regime or seed rebuilds the city and restarts the water
-  const picker = wrap.closest(".harbour")?.querySelector<HTMLFormElement>("[data-market]");
   picker?.addEventListener("submit", (e) => { e.preventDefault(); picker.dispatchEvent(new Event("change")); });   // Enter in the seed field
   picker?.addEventListener("change", async () => {
-    const f = new FormData(picker);
-    const rk = (f.get("regime") as Kind) ?? "switching", sd = Math.max(1, Math.floor(Number(f.get("seed")) || 1));
+    const [rk, sd] = chosen();
     if (rk === kind && sd === seed) return;
     kind = rk; seed = sd;
     halt(); tip.hidden = true;
@@ -313,6 +319,7 @@ export async function mountHarbour(wrap: HTMLElement) {
   let water: ReturnType<typeof attachRipples> = null;
   paint(); setBadge();
   water = attachRipples(wrap, canvas, WL, W, H);
+  picker?.dispatchEvent(new Event("change"));   // a choice made while the first city was building
   if (!document.hidden) start();           // a page opened in a background tab waits until it is shown
 
   // ---------- read-outs: pointer and keyboard ----------

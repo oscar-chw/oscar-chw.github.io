@@ -35,6 +35,7 @@ const freqs = [261.63, 293.66, 329.63, 349.23, 392.0, 440.0, 493.88, 523.25];
   /* .hob-scoped selectors outrank the global .glass background */
   .hob .hpop { position: absolute; left: 50%; bottom: 100%; z-index: 30; display: none; margin-bottom: 10px; padding: 12px; border-radius: 18px; color: var(--ink); background-color: color-mix(in srgb, var(--bg-2) 94%, transparent); white-space: normal; font-size: 0.8rem; line-height: 1.4; cursor: default;
     opacity: 0; transform: translate(calc(-50% + var(--dx, 0px)), 10px) scale(0.92) rotate(-2deg); transform-origin: 50% 100%; transition: opacity 0.2s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), display 0.2s allow-discrete; }
+  .hob.x .hpop { display: none !important; }   /* Escape (WCAG 1.4.13): dismissed until the pointer or focus leaves */
   .hpop::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 14px; }
   /* closed it is display: none, so a card near the edge never widens the page on a phone */
   .hob:hover .hpop, .hob:focus-within .hpop { display: block; opacity: 1; transform: translate(calc(-50% + var(--dx, 0px)), 0) scale(1) rotate(0); }

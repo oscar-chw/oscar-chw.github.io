@@ -18,7 +18,13 @@ test("six grouped project pages exist and every write-up follows the problem →
   for (const h of hrefs) {
     await page.goto(h);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.locator("main").getByRole("heading", { name: /problem/i }).first()).toBeVisible();
+    // every write-up (a page, or each part of a grouped page) opens with the problem and closes with its limits
+    const problems = await page.locator("main").getByRole("heading", { name: /^the problem$/i }).count();
+    const limits = await page.locator("main").getByRole("heading", { name: /^limits$/i }).count();
+    const parts = await page.locator("main .part ~ * h3, main .body > h2").count();   // headings present at all
+    expect(parts).toBeGreaterThan(0);
+    expect(problems).toBeGreaterThan(0);
+    expect(limits).toBe(problems);
   }
 });
 
@@ -131,6 +137,43 @@ test("Enter pressed in the top bar while the console is still loading still runs
   await page.keyboard.type("whoami");
   await page.keyboard.press("Enter");                     // before console.js has arrived
   await expect(page.getByRole("dialog", { name: "Command palette" }).locator(".po")).toContainText("open to work", { timeout: 8000 });
+});
+
+test("a slow guard verdict never overwrites the output of a later command", async ({ page }) => {
+  await localPyodide(page);
+  await page.route(/\/lab\/guard\.py$/, async (r) => { await new Promise((res) => setTimeout(res, 2000)); await r.continue(); });
+  await page.goto("/projects/");
+  await page.locator("[data-term]").click();
+  await page.keyboard.type("git push --force origin main");
+  await page.keyboard.press("Enter");
+  const q = page.locator(".palette .pq"), out = page.locator(".palette .po");
+  await q.fill("whoami"); await q.press("Enter");
+  await expect(out).toContainText("open to work");
+  await page.waitForTimeout(3500);                               // the verdict has arrived by now
+  await expect(out).toContainText("open to work");
+});
+
+test("the piano never takes letters typed into a text field", async ({ page }) => {
+  await page.goto("/about/");
+  const piano = page.locator(".hob").filter({ hasText: "piano" }).first();
+  await piano.scrollIntoViewIfNeeded();
+  await piano.hover();
+  await page.locator("[data-term]").focus();
+  await page.keyboard.type("harbour");
+  await expect(page.locator(".palette .pq")).toHaveValue("harbour");
+});
+
+test("Escape closes an open definition without moving the pointer, and the pointer can rest on it", async ({ page }) => {
+  await page.goto("/projects/ai-quant-research-system/");
+  const term = page.locator(".def").first(), pop = term.locator(".pop");
+  await term.scrollIntoViewIfNeeded();
+  await term.hover();
+  await expect(pop).toBeVisible();
+  const box = (await pop.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 6 });
+  await expect(pop).toBeVisible();                               // hoverable (WCAG 1.4.13)
+  await page.keyboard.press("Escape");
+  await expect(pop).toBeHidden();                                // dismissible
 });
 
 test("one object: hovering a project row turns the pinned object into that project", async ({ page }) => {

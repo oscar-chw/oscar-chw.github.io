@@ -15,9 +15,9 @@ export const open = (text = "", go = false) => {
 const mail = (subject) => (location.href = `mailto:${d.dataset.mail}${subject ? `?subject=${encodeURIComponent(subject)}` : ""}`);
 const SHELL = new Set("rm rmdir git curl wget bash sh zsh sudo chmod chown dd mv cp find xargs echo cat rsync truncate shred python python3 perl node mkfs kill killall tar ln touch mkdir eval exec env npm pip docker".split(" "));
 const looksShell = (s, c) => SHELL.has(c) || /[|;&>`$]|^:\(/.test(s);
-let asked = 0;                                            // only the latest command's verdict is shown
+let asked = 0;                                            // bumped by every command: only the latest one's output is shown
 const judge = (cmd) => {
-  const n = ++asked;
+  const n = asked;
   say(`$ ${cmd}\nbooting the real guard (Python in WebAssembly)…`);
   import(new URL("lab/pyguard.js", new URL(d.dataset.js, location.href)).href).then((m) => m.loadGuard()).then((verdict) => {
     if (n !== asked) return;
@@ -26,6 +26,7 @@ const judge = (cmd) => {
   }, () => n === asked && say(`$ ${cmd}\ncould not load the Python runtime (offline?), so this was not judged`));
 };
 const run = (raw) => {
+  asked++;
   const s = raw.trim().toLowerCase(), [c, ...rest] = s.split(/\s+/), arg = rest.join(" ");
   const replies = {
     help: "ls · cd NAME · whoami · cv · email · theme · clear\nshell commands (git push, curl | sh…) go to the real guard\nor type anything to search",
@@ -54,6 +55,8 @@ const run = (raw) => {
 };
 // Shell keys: ↑/↓ (or Ctrl+P/N) walk history when the line is empty or already showing history, else move
 // through results; Tab completes; Ctrl+C cancels; Ctrl+L or ⌘K clears; Ctrl+U/K kill; Ctrl+A/E jump.
+// Off the Mac, Ctrl is the system modifier: Ctrl+A selects all and Ctrl+C with a selection copies, as usual.
+const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let hist = [];
 try { hist = JSON.parse(sessionStorage.getItem("hist:console") ?? "[]"); } catch { /* storage blocked */ }
 let hpos = hist.length;
@@ -71,11 +74,11 @@ q.addEventListener("keydown", (e) => {
     const hit = [...hist.slice().reverse(), ...WORDS].find((w) => w.startsWith(q.value) && w !== q.value);
     if (hit) { e.preventDefault(); setq(hit); } return;
   }
-  if (ctrl && k === "c") { e.preventDefault(); if (q.value) say(`$ ${q.value}^C`); setq(""); hpos = hist.length; return; }
+  if (ctrl && k === "c" && q.selectionStart === q.selectionEnd) { e.preventDefault(); if (q.value) say(`$ ${q.value}^C`); setq(""); hpos = hist.length; return; }
   if ((ctrl && k === "l") || (e.metaKey && k === "k")) { e.preventDefault(); e.stopPropagation(); say(""); setq(""); return; }
   if (ctrl && k === "u") { e.preventDefault(); setq(q.value.slice(q.selectionStart)); q.setSelectionRange(0, 0); return; }
   if (ctrl && k === "k") { e.preventDefault(); e.stopPropagation(); q.value = q.value.slice(0, q.selectionStart); filter(); return; }
-  if (ctrl && (k === "a" || k === "e")) { e.preventDefault(); const i = k === "a" ? 0 : q.value.length; q.setSelectionRange(i, i); return; }
+  if (MAC && ctrl && (k === "a" || k === "e")) { e.preventDefault(); const i = k === "a" ? 0 : q.value.length; q.setSelectionRange(i, i); return; }
   if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = (sel + (e.key === "ArrowDown" ? 1 : v.length - 1)) % Math.max(1, v.length); mark(); v[sel]?.scrollIntoView({ block: "nearest" }); }
   if (e.key === "Enter") { e.preventDefault(); remember(q.value.trim()); if (!run(q.value)) v[sel]?.querySelector("a").click(); }
 });

@@ -20,6 +20,8 @@ jobs:
         run: node scripts/js-budget.mjs
       - name: Never-publish scan (built-in rules; the private denylist runs locally)
         run: node scripts/scan-content.mjs
+      - name: No page repeats an element id
+        run: node scripts/dup-ids.mjs
       - name: Link check (internal and external)
         run: node scripts/link-check.mjs dist --external
       - name: Link check of the /next/ preview build (every internal link honours the base)

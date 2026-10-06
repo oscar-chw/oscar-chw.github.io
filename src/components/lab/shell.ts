@@ -2,7 +2,10 @@
 // session; Ctrl+P/N too), Tab completes from history and suggestions, Ctrl+C cancels the line, Ctrl+L or ⌘K
 // clears the screen, Ctrl+U/K kill before/after the cursor, Ctrl+A/E jump to start/end. Other keys keep
 // their native behaviour. Ctrl+K stops propagating so it does not also open the site console.
+// Off the Mac, Ctrl is the system modifier: Ctrl+A selects all and Ctrl+C with a selection copies, as usual.
 interface ShellOptions { run: (cmd: string) => void; clear: () => void; cancel?: (line: string) => void; history: string; suggest?: () => string[] }
+
+const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 
 export function attachShell(input: HTMLInputElement, o: ShellOptions) {
   const key = `hist:${o.history}`;
@@ -32,7 +35,7 @@ export function attachShell(input: HTMLInputElement, o: ShellOptions) {
       const pool = [...hist.slice().reverse(), ...(o.suggest?.() ?? [])];
       const hit = pool.find((c) => c.startsWith(input.value) && c !== input.value);
       if (hit) { e.preventDefault(); input.value = hit; }
-    } else if (ctrl && k === "c") {
+    } else if (ctrl && k === "c" && input.selectionStart === input.selectionEnd) {
       e.preventDefault();
       if (input.value) o.cancel?.(input.value);
       input.value = ""; pos = hist.length;
@@ -42,7 +45,7 @@ export function attachShell(input: HTMLInputElement, o: ShellOptions) {
       e.preventDefault(); input.value = input.value.slice(at); input.setSelectionRange(0, 0);
     } else if (ctrl && k === "k") {
       e.preventDefault(); e.stopPropagation(); input.value = input.value.slice(0, at);
-    } else if (ctrl && (k === "a" || k === "e")) {
+    } else if (MAC && ctrl && (k === "a" || k === "e")) {
       e.preventDefault(); const i = k === "a" ? 0 : input.value.length; input.setSelectionRange(i, i);
     }
   });

@@ -13,10 +13,11 @@ export function bind(py, src) {
   return (cmd) => { const r = verdict(cmd); return r == null ? null : String(r); };
 }
 
-let ready = null;
+let ready = null, attempt = 0;
 export function loadGuard() {
   ready ??= (async () => {
-    const { loadPyodide } = await import(`${PYODIDE}pyodide.mjs`);
+    // Chromium remembers a failed import() of a URL and never refetches it, so a retry needs a new URL
+    const { loadPyodide } = await import(`${PYODIDE}pyodide.mjs${attempt++ ? `?retry=${attempt}` : ""}`);
     const py = await loadPyodide({ indexURL: PYODIDE });
     return bind(py, await (await fetch(new URL("guard.py", import.meta.url))).text());
   })();

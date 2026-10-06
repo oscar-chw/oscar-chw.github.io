@@ -46,7 +46,8 @@ test("lab: the real guard.py blocks a home-directory wipe with its reason and al
   await expect(page.locator(".gt-log li").last()).toContainText("allowed");
   // shell keys: up recalls history, Ctrl+K kills to the end without opening the site console
   await input.press("ArrowUp"); await expect(input).toHaveValue("git status");
-  await input.press("Control+a"); await input.press("Control+k");
+  await input.evaluate((el: HTMLInputElement) => el.setSelectionRange(0, 0));   // cursor to the start (Home does not do this on macOS)
+  await input.press("Control+k");
   await expect(input).toHaveValue("");
   await expect(page.getByRole("dialog", { name: "Command palette" })).toBeHidden();
 });

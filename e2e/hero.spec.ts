@@ -89,6 +89,18 @@ test("the demo's market picker rebuilds the city for another regime and seed", a
   await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
 });
 
+test("the harbour draws the market the picker shows, including a choice restored by Back", async ({ page }) => {
+  await page.goto("/demos/harbour/");
+  await expect(page.getByTestId("harbour")).toHaveAttribute("data-ready", "1", { timeout: 8000 });
+  await page.getByText("Crash", { exact: true }).click();
+  await page.getByLabel("seed").fill("7"); await page.getByLabel("seed").press("Enter");
+  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
+  await page.goto("/about/");
+  await page.goBack();
+  await expect(page.getByLabel("seed")).toHaveValue("7");
+  await expect(page.getByTestId("book-badge")).toHaveText("live · seed 7", { timeout: 8000 });
+});
+
 test("hovering the blueprint towers after t = now explains look-ahead bias", async ({ page }) => {
   await page.goto("/");
   await ready(page);

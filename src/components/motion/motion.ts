@@ -97,7 +97,8 @@ const play = (key: HTMLElement) => {
 document.addEventListener("click", (e) => { const k = (e.target as HTMLElement).closest<HTMLElement>(".key[data-freq]"); if (k) play(k); });
 addEventListener("keydown", (e) => {
   const piano = document.querySelector<HTMLElement>(".hob:hover .piano, .hob:focus-within .piano");
-  if (!piano || e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target as HTMLElement;
+  if (!piano || e.metaKey || e.ctrlKey || e.altKey || t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
   const key = [...piano.querySelectorAll<HTMLElement>(".key")].find((k) => k.textContent?.trim() === e.key.toLowerCase());
   if (key) { e.preventDefault(); play(key); }
 });
@@ -119,3 +120,15 @@ const fitPop = (e: Event) => {
 };
 document.addEventListener("pointerover", fitPop);
 document.addEventListener("focusin", fitPop);
+
+// Escape dismisses an open pop-up without moving the pointer or focus (WCAG 1.4.13); it can open again
+// once the pointer or focus has left its term.
+addEventListener("keydown", (e) => {
+  if (e.key === "Escape") document.querySelectorAll(".def:hover, .def:focus, .hob:hover, .hob:focus-within").forEach((h) => h.classList.add("x"));
+});
+const undismiss = (e: Event) => {
+  const h = (e.target as HTMLElement).closest?.(".def.x, .hob.x");
+  if (h && !h.contains((e as FocusEvent).relatedTarget as Node | null)) h.classList.remove("x");
+};
+document.addEventListener("pointerout", undismiss);
+document.addEventListener("focusout", undismiss);
