@@ -24,8 +24,8 @@ test("lab: deep links open an experiment; the arrow keys walk the rail", async (
   await expect(page.locator('[data-panel="guard"]')).toBeHidden();
   await page.locator(".tree [role=listbox]").focus();
   await page.keyboard.press("ArrowDown");
-  await expect(page.locator('[data-panel="qubits"]')).toBeVisible();
-  await expect(page).toHaveURL(/#qubits$/);
+  await expect(page.locator('[data-panel="lostupdates"]')).toBeVisible();
+  await expect(page).toHaveURL(/#lostupdates$/);
 });
 
 test("lab: the real guard.py blocks a home-directory wipe with its reason and allows git status", async ({ page }) => {
@@ -211,4 +211,38 @@ test("lab: the candle timing audit flags every read when candles are stamped at 
   await expect(panel.locator(".ro")).toContainText("0 of");
   await panel.getByRole("radio", { name: "open" }).click();
   await expect(panel.locator(".ro")).toContainText(/(\d+) of \1 reads used a close not yet known/);
+});
+
+test("lab: the 3D option surface draws, turns with the keys, and its readout satisfies put–call parity", async ({ page }) => {
+  await page.goto("/demos/#options");
+  const panel = page.locator('[data-panel="options"]'), canvas = panel.locator("canvas.s3d");
+  await expect(canvas).toBeVisible();
+  const ink = () => canvas.evaluate((c: HTMLCanvasElement) => { const d = c.getContext("2d")!.getImageData(0, 0, c.width, c.height).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 0) n++; return n / (d.length / 4); });
+  await expect.poll(ink).toBeGreaterThan(0.1);                 // a real surface, not an empty canvas
+  await canvas.focus(); await page.keyboard.press("ArrowLeft");
+  await expect(panel.locator(".ro")).toContainText("put–call parity");
+  await expect(panel.locator(".ro")).toContainText(/= \de[+-]\d/);
+  await panel.getByRole("radio", { name: "implied vol" }).click();
+  await expect(panel.locator(".ro")).toContainText("ATM, 1y");
+});
+
+test("lab: lost updates — last-write-wins loses updates, compare-and-swap keeps them all", async ({ page }) => {
+  await page.goto("/demos/#lostupdates");
+  const panel = page.locator('[data-panel="lostupdates"]');
+  await expect(panel.locator(".lu-big .bad b")).not.toHaveText("0");
+  await panel.getByRole("radio", { name: "compare-and-swap" }).click();
+  await expect(panel.locator(".lu-big .good b")).toHaveText("0");
+  await expect(panel.locator(".lu-lane")).toHaveCount(6);       // the record plus five writers
+});
+
+test("lab: search answers from this site's own text, explains each score, and the links land on real sections", async ({ page }) => {
+  await page.goto("/demos/#search");
+  const panel = page.locator('[data-panel="search"]');
+  await expect(panel.locator(".sr li").first()).toContainText("BM25");
+  await panel.locator(".sr-in").fill("order book replay");
+  const first = panel.locator(".sr li a").first();
+  await expect(first).toContainText(/Point-in-time|order/i);
+  const href = await first.getAttribute("href");
+  await page.goto(href!);
+  await expect(page.locator(`#${href!.split("#")[1]}`)).toBeAttached();
 });

@@ -48,7 +48,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
           </header>
           {e.kind === "inline" ? (
             <div class="rig">
-              <div class="stage glass" data-stage><p class="loading mono">loading experiment…</p></div>
+              <div class="stage glass hud" data-stage data-hud={`${String(i + 1).padStart(2, "0")} / ${EXPERIMENTS.length} · ${e.file}`}><p class="loading mono">loading experiment…</p></div>
               <div class="panel" data-controls></div>
             </div>
           ) : (
@@ -66,6 +66,9 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
 <script>
   const LOAD: Record<string, () => Promise<{ mount: (s: HTMLElement, c: HTMLElement) => void }>> = {
     gatedbuild: () => import("../../components/lab/exp/gatedbuild"),
+    search: () => import("../../components/lab/exp/search"),
+    lostupdates: () => import("../../components/lab/exp/lostupdates"),
+    options: () => import("../../components/lab/exp/options"),
     candles: () => import("../../components/lab/exp/candles"),
     guard: () => import("../../components/lab/exp/guard"),
     qubits: () => import("../../components/lab/exp/qubits"),
