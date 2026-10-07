@@ -58,7 +58,7 @@ const caption = ({
       return <circle class="dot" cx={cx.toFixed(0)} cy={cy.toFixed(0)} r="4" style={`--dx:${(tx - cx).toFixed(0)}px;--dy:${(ty - cy).toFixed(0)}px;--d:${(rnd() * 0.8).toFixed(2)}s`} />;
     })}
     {kind === "tree" && (() => { const out: string[] = []; const br = (x: number, y: number, a: number, d: number) => { if (d > 6) return; const x2 = x + Math.cos(a) * (70 - d * 8), y2 = y - Math.sin(a) * (34 - d * 3); out.push(`M${x.toFixed(0)} ${y.toFixed(0)}L${x2.toFixed(0)} ${y2.toFixed(0)}`); br(x2, y2, a + 0.35 + rnd() * 0.3, d + 1); if (rnd() < 0.75) br(x2, y2, a - 0.35 - rnd() * 0.3, d + 1); }; br(W / 2, H - 14, Math.PI / 2, 0); return out.map((d, i) => <path class="br" d={d} pathLength="1" style={`--i:${i}`} />); })()}
-    {kind === "shell" && ["$ install --tools claude codex copilot cursor gemini", "✓ one rulebook → five tools", "✓ memory + transcript search over MCP", "$ rm -rf ~", "✗ blocked by the command guard (fails closed)"].map((l, i) => (
+    {kind === "shell" && ["$ install --tools claude codex copilot cursor gemini …", "✓ one rulebook → seven tools", "✓ memory + transcript search over MCP", "$ rm -rf ~", "✗ blocked by the command guard (fails closed)"].map((l, i) => (
       <text class={`ln${l.startsWith("✗") ? " bad" : ""}`} x="40" y={44 + i * 42} style={`--i:${i}`}>{l}</text>
     ))}
     {kind === "timetable" && range(5).flatMap((d) => range(6).map((h) => (
