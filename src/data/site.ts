@@ -6,5 +6,6 @@ export const SITE = {
   github: "https://github.com/oscar-chw",
   linkedin: "https://www.linkedin.com/in/oscar-chw/",
   instagram: "https://www.instagram.com/terrific_owl/",
+  discord: "moonchw",   // a username: Discord has no public profile URL without the numeric user id
   site: "https://oscar-chw.github.io",
 };

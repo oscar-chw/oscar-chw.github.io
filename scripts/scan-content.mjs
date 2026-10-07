@@ -39,7 +39,7 @@ const walk = (d) => readdirSync(d).flatMap((f) => {
   const p = join(d, f);
   return statSync(p).isDirectory() ? walk(p) : [p];
 });
-const files = TARGETS.filter(existsSync).flatMap(walk).filter((p) => /\.(html|md|mdx|astro|ts|js|json|txt|xml|svg)$/.test(p));
+const files = TARGETS.filter(existsSync).flatMap(walk).filter((p) => /\.(html|md|mdx|astro|ts|js|json|txt|xml|svg|vcf)$/.test(p));
 if (!files.some((f) => f.startsWith("dist/"))) { console.error("scan-content: no built site in dist/; build first"); process.exit(1); }
 
 // For HTML: visible text plus every attribute value (a phone number can hide in href="tel:…" or
@@ -56,6 +56,8 @@ for (const f of files) {
   const raw = readFileSync(f, "utf8");
   // embedded data: URIs (images, filter maps) are encoded bytes, not prose; their digit runs are not phone numbers
   const text = (f.endsWith(".html") ? visible(raw) : raw).replace(/data:[^"')\s]+/g, "data:…");
+  // a vCard must never carry a phone field at all, and its base64 photo (PHOTO plus folded lines) is not prose
+  if (f.endsWith(".vcf") && /^(TEL|item\d*\.TEL)[;:]/im.test(raw)) { console.error(`FAIL ${relative(".", f)}: vCard has a phone (TEL) field`); bad++; }
   const lines = text.split("\n");
   const isCode = /\.(ts|js|json|svg)$/.test(f) || f.startsWith("dist/") && !f.endsWith(".html");
   lines.forEach((line, i) => {

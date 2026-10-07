@@ -2,12 +2,12 @@
 // Inline SVG icons rendered at build time (no runtime JS): Lucide line icons (ISC) for UI,
 // Simple Icons (CC0) for GitHub and Instagram, and a drawn LinkedIn mark (Simple Icons no longer ships it).
 import * as lucide from "lucide";
-import { siGithub, siInstagram } from "simple-icons";
+import { siGithub, siInstagram, siDiscord } from "simple-icons";
 
 interface Props { name: string; size?: number; label?: string; class?: string }
 const { name, size = 18, label, class: cls } = Astro.props;
 type Node = [string, Record<string, string | number>];
-const brands: Record<string, string> = { github: siGithub.path, instagram: siInstagram.path };
+const brands: Record<string, string> = { github: siGithub.path, instagram: siInstagram.path, discord: siDiscord.path };
 const toPascal = (s: string) => s.replace(/(^|-)(\w)/g, (_, __, c: string) => c.toUpperCase());
 const nodes = (lucide as unknown as Record<string, Node[]>)[toPascal(name)];
 if (!brands[name] && name !== "linkedin" && !nodes) throw new Error(`Icon: unknown icon "${name}"`);

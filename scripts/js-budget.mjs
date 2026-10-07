@@ -1,9 +1,9 @@
 // Gate: the brief's JS budget, measured on the built site.
 //   - every non-demo page ships <= 50 KB of gzipped JS (external + inline);
-//   - text pages (everything but the home page and the demos) load no external JS except the
+//   - text pages (everything but the home page, the demos and the contact card) load no external JS except the
 //     shared site motion module (Base.astro's script: smooth scroll, cursor, reveals), stay under
 //     12 KB gzipped in total, have no inline event handlers, and their only inline scripts are the
-//     named, allowlisted ones (data-inline="theme" | "palette" | "print"), under 1.5 KB gzipped.
+//     named, allowlisted ones (data-inline="theme" | "palette"), under 1.5 KB gzipped.
 //     (Changed 2026-10-06 from "no external JS" after Oscar asked for an immersive site.)
 // Fails if dist/ is missing or holds no pages, so an absent build never passes.
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
@@ -15,7 +15,7 @@ const BUDGET = 50 * 1024;
 const INLINE_TEXT_BUDGET = 1536;
 const TEXT_BUDGET = 12 * 1024;
 const SHARED_MOTION = /\/_astro\/Base\.astro_astro_type_script_index_\d+_lang\.[\w-]+\.js$/;   // theme script + the console stub (the console itself loads on use)
-const ALLOWED_INLINE = new Set(["theme", "palette", "print"]);
+const ALLOWED_INLINE = new Set(["theme", "palette"]);   // "print" left with the old card page on 2026-10-07
 
 if (!existsSync(DIST)) { console.error(`js-budget: ${DIST}/ does not exist; build first`); process.exit(1); }
 
@@ -39,7 +39,8 @@ for (const page of pages) {
   const rel = relative(DIST, page);
   const html = readFileSync(page, "utf8");
   const isDemo = rel.startsWith("demos/");           // the lab (demos/index) and every demo page
-  const isText = !isDemo && rel !== "index.html";
+  // the contact card flips, shares and copies (2026-10-07), so like the home page it is interactive, not text
+  const isText = !isDemo && rel !== "index.html" && rel !== "card/index.html";
   const external = [...html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
   const preloads = [...html.matchAll(/<link[^>]*rel="modulepreload"[^>]*href="([^"]+)"/g)].map((m) => m[1]);
   const inline = [...html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*type="application\/(?:ld\+)?json")[^>]*>([\s\S]*?)<\/script>/g)].map((m) => m[1]);

@@ -269,3 +269,25 @@ test("the hobbies line reads with normal spacing", async ({ page }) => {
   });
   expect(line).toBe("Off the clock: piano, Pokémon TCG, a bit of gaming, and time with my partner.");
 });
+
+test("contact card: flips, copies the email, and the saved contact has email, links and Discord but no phone", async ({ page, context, browserName }) => {
+  if (browserName === "chromium") await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/card/");
+  const flip = page.locator("[data-flip]");
+  await page.locator("[data-card]").click();
+  await expect(flip).toHaveClass(/flipped/);
+  await page.getByRole("button", { name: "Flip", exact: true }).click();
+  await expect(flip).not.toHaveClass(/flipped/);
+  if (browserName === "chromium") {
+    await page.getByRole("button", { name: "Copy email" }).click();
+    await expect(page.getByRole("button", { name: "Email copied" })).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("choiheiwang@gmail.com");
+  }
+  const href = await page.getByRole("link", { name: "Save contact" }).getAttribute("href");
+  const vcf = await (await page.request.get(href!)).text();
+  expect(vcf).toMatch(/^BEGIN:VCARD/);
+  expect(vcf).toContain("EMAIL;TYPE=INTERNET:choiheiwang@gmail.com");
+  expect(vcf).toContain("moonchw");
+  expect(vcf).toMatch(/\nPHOTO;ENCODING=b;TYPE=JPEG:/);
+  expect(vcf).not.toMatch(/^(item\d*\.)?TEL[;:]/im);                   // never a phone number
+});

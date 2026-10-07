@@ -1,11 +1,14 @@
 ---
-// Career-fair card: prints on one A4/Letter page. QR codes are generated at build
-// time from SITE, so buying a domain only means changing SITE.site.
+// The contact card: a business card that tilts under the pointer and flips to its QR codes, with
+// share, save-contact (vCard), copy-email and print. QR codes are generated at build time from SITE.
+// Prints as a clean white two-sided card on one page.
 import QRCode from "qrcode";
 import { Picture } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
 import photo from "../assets/profile_photo.jpg";
 import { SITE } from "../data/site";
+import { url } from "../lib/url";
 
 const qr = (text: string) => QRCode.toString(text, { type: "svg", margin: 1, errorCorrectionLevel: "M", color: { dark: "#0a1022", light: "#ffffff" } });
 const codes = [
@@ -15,52 +18,132 @@ const codes = [
 const svgs = await Promise.all(codes.map((c) => qr(c.text)));
 const dataUri = (svg: string) => "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64");
 ---
-<Base title="Contact card" description="Oscar Choi's contact card with QR codes for the website and LinkedIn.">
-  <div class="wrap">
-    <article class="card">
-      <div class="who">
-        <Picture src={photo} alt="" width={120} height={120} formats={["avif", "webp"]} class="photo" />
-        <div>
-          <h1>Oscar Choi</h1>
-          <p>{SITE.fullName}</p>
-          <p class="role">Computer Science, CUHK · graduating 2027</p>
-          <p class="role">Quant developer · quant research · trading · software and AI engineering</p>
-          <p class="mail">{SITE.email}</p>
-        </div>
+<Base title="Contact card" description="Oscar Choi's contact card: share it, save the contact, or scan the QR codes for the website and LinkedIn.">
+  <div class="wrap cardpage">
+    <p class="comment intro">tap the card to flip it · share it, or save the contact to your phone</p>
+    <div class="scene" data-card tabindex="0" role="button" aria-label="Contact card: press to flip between the details and the QR codes">
+      <div class="flip" data-flip>
+        <article class="face front">
+          <div class="top mono"><span class="brand">oscar@chw</span><span class="open"><i></i>open to work</span></div>
+          <div class="who">
+            <Picture src={photo} alt="" width={120} height={120} formats={["avif", "webp"]} class="photo" />
+            <div>
+              <h1>Oscar Choi</h1>
+              <p class="full mono">CHOI Hei Wang</p>
+            </div>
+          </div>
+          <div class="lines">
+            <p>Computer Science, CUHK · graduating 2027</p>
+            <p class="muted">Quant developer · quant research · trading · software and AI engineering</p>
+          </div>
+          <p class="links mono"><span>{SITE.email}</span><span>{SITE.site.replace("https://", "")}</span><span>discord {SITE.discord}</span></p>
+          <span class="hint mono" aria-hidden="true">tap to flip ↻</span>
+        </article>
+        <article class="face back">
+          <div class="codes">
+            {codes.map((c, i) => (
+              <figure>
+                <img src={dataUri(svgs[i])} width="148" height="148" alt={`QR code: ${c.text}`} />
+                <figcaption><strong>{c.label}</strong><span>{c.shown}</span></figcaption>
+              </figure>
+            ))}
+          </div>
+          <span class="hint mono" aria-hidden="true">tap to flip back ↻</span>
+        </article>
       </div>
-      <div class="codes">
-        {codes.map((c, i) => (
-          <figure>
-            <img src={dataUri(svgs[i])} width="148" height="148" alt={`QR code: ${c.text}`} />
-            <figcaption><strong>{c.label}</strong><span>{c.shown}</span></figcaption>
-          </figure>
-        ))}
-      </div>
-    </article>
-    <p class="actions"><button type="button" id="print">Print this card</button></p>
-    <script is:inline data-inline="print">document.getElementById("print").addEventListener("click", () => window.print());</script>
+    </div>
+    <div class="actions" data-email={SITE.email} data-url={SITE.site + "/"} data-discord={SITE.discord}>
+      <button type="button" class="btn glass" id="share"><Icon name="share-2" size={16} /><span>Share</span></button>
+      <a class="btn glass" href={url("/oscar-choi.vcf")} download="Oscar Choi.vcf"><Icon name="contact" size={16} /><span>Save contact</span></a>
+      <button type="button" class="btn glass" id="copy"><Icon name="mail" size={16} /><span>Copy email</span></button>
+      <button type="button" class="btn glass" id="discord"><Icon name="discord" size={16} /><span>Copy Discord</span></button>
+      <button type="button" class="btn glass" id="flipbtn"><Icon name="refresh-cw" size={16} /><span>Flip</span></button>
+      <button type="button" class="btn glass" id="print"><Icon name="printer" size={16} /><span>Print</span></button>
+    </div>
+    <script>
+      // flip (tap, Enter/Space, or the button), a gentle tilt under a mouse, and share / copy / print
+      (() => {
+        const s = document.querySelector<HTMLElement>("[data-card]")!, f = document.querySelector<HTMLElement>("[data-flip]")!, a = document.querySelector<HTMLElement>(".actions")!;
+        const flip = () => f.classList.toggle("flipped");
+        s.addEventListener("click", (e) => { if (!(e.target as HTMLElement).closest("a")) flip(); });
+        s.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+        if (matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
+          s.addEventListener("pointermove", (e) => {
+            const r = s.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+            s.style.setProperty("--rx", `${(0.5 - y) * 10}deg`); s.style.setProperty("--ry", `${(x - 0.5) * 14}deg`);
+            s.style.setProperty("--mx", `${x * 100}%`); s.style.setProperty("--my", `${y * 100}%`);
+          });
+          s.addEventListener("pointerleave", () => { s.style.setProperty("--rx", "0deg"); s.style.setProperty("--ry", "0deg"); });
+        }
+        const say = (b: HTMLElement, m: string) => { const t = b.querySelector("span")!, o = t.textContent; t.textContent = m; setTimeout(() => (t.textContent = o), 1600); };
+        const copy = async (b: HTMLElement, text: string, m: string) => { try { await navigator.clipboard.writeText(text); say(b, m); } catch { say(b, text); } };
+        document.getElementById("share")!.addEventListener("click", async (e) => {
+          const b = e.currentTarget as HTMLElement;
+          if (navigator.share) { try { await navigator.share({ title: "Oscar Choi", text: "Oscar Choi: quant research infrastructure", url: a.dataset.url! }); } catch { /* cancelled */ } }
+          else copy(b, a.dataset.url!, "Link copied");
+        });
+        document.getElementById("copy")!.addEventListener("click", (e) => copy(e.currentTarget as HTMLElement, a.dataset.email!, "Email copied"));
+        document.getElementById("discord")!.addEventListener("click", (e) => copy(e.currentTarget as HTMLElement, a.dataset.discord!, "Discord copied"));
+        document.getElementById("flipbtn")!.addEventListener("click", flip);
+        document.getElementById("print")!.addEventListener("click", () => window.print());
+      })();
+    </script>
   </div>
 </Base>
 
 <style>
-  .wrap { padding-top: 32px; }
-  .card { background: #fff; color: #0a1022; border-radius: 12px; padding: 28px; max-width: 720px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: space-between; box-shadow: var(--shadow); }
-  .who { display: flex; gap: 20px; align-items: center; }
-  .photo { border-radius: 50%; width: 96px; height: 96px; object-fit: cover; }
-  h1 { font-size: 1.9rem; margin: 0; color: #0a1022; }
-  .card p { margin: 2px 0; }
-  .role { color: #44586b; font-size: 0.92rem; }
-  .mail { font-family: ui-monospace, Menlo, monospace; font-size: 0.9rem; color: #08665e; }
-  .codes { display: flex; gap: 22px; }
+  .cardpage { padding-top: 32px; display: flex; flex-direction: column; align-items: center; }
+  .intro { margin: 0 0 22px; text-align: center; }
+  .scene { --rx: 0deg; --ry: 0deg; --mx: 50%; --my: 30%; width: min(560px, 100%); aspect-ratio: 1.75; perspective: 1400px; cursor: pointer; border-radius: 22px; outline-offset: 6px; }
+  .flip { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); transform: rotateX(var(--rx)) rotateY(var(--ry)); }
+  .flip.flipped { transform: rotateX(var(--rx)) rotateY(calc(var(--ry) + 180deg)); }
+  .scene:hover .flip { transition: transform 0.25s ease-out; }
+  .face { position: absolute; inset: 0; border-radius: 22px; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; padding: clamp(16px, 4.5%, 28px); display: flex; flex-direction: column; box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.08) inset; }
+  /* front: a dark glass card with a moving sheen and a faint grid */
+  .front { color: #e6edf3; background:
+      radial-gradient(420px circle at var(--mx) var(--my), rgb(110 230 215 / 0.18), transparent 60%),
+      linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 100% 22px,
+      linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px) 0 0 / 22px 100%,
+      linear-gradient(135deg, #0b1324 0%, #0a1a2b 55%, #102a33 100%); }
+  .front::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.07) 45%, transparent 60%); background-size: 250% 100%; background-position: var(--mx) 0; }
+  .top { display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #8fb0bf; }
+  .brand { color: #6ee6d7; }
+  .open { display: inline-flex; align-items: center; gap: 6px; }
+  .open i { width: 7px; height: 7px; border-radius: 50%; background: #3fb950; box-shadow: 0 0 10px #3fb950; }
+  .who { display: flex; gap: 16px; align-items: center; margin-top: auto; }
+  .who :global(picture) { flex: none; display: block; line-height: 0; }
+  .photo { width: clamp(56px, 11vw, 84px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 2px solid rgb(110 230 215 / 0.5); }
+  h1 { margin: 0; font-size: clamp(1.4rem, 1rem + 2.4vw, 2.2rem); letter-spacing: -0.035em; color: #f4f8fb; line-height: 1; }
+  .full { margin: 6px 0 0; font-size: 0.78rem; color: #8fb0bf; }
+  .lines { margin-top: 12px; }
+  .lines p { margin: 2px 0; font-size: clamp(0.72rem, 0.6rem + 0.5vw, 0.9rem); }
+  .muted { color: #8fb0bf; }
+  .links { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: auto 0 0; padding: 10px 0 14px; font-size: clamp(0.68rem, 0.6rem + 0.35vw, 0.8rem); color: #6ee6d7; }
+  .hint { position: absolute; right: 18px; bottom: 12px; font-size: 0.66rem; color: rgb(143 176 191 / 0.7); }
+  /* back: the QR codes on white, so any phone camera reads them */
+  .back { transform: rotateY(180deg); background: #fff; color: #0a1022; justify-content: center; }
+  .back .hint { color: #7a8c99; }
+  .codes { display: flex; justify-content: space-around; align-items: center; gap: 12px; }
+  .codes img { width: clamp(96px, 26vw, 148px); height: auto; }
   figure { margin: 0; text-align: center; }
-  figcaption { display: flex; flex-direction: column; font-size: 0.8rem; color: #44586b; }
+  figcaption { display: flex; flex-direction: column; font-size: 0.78rem; color: #44586b; }
   figcaption strong { color: #0a1022; }
-  .actions { margin-top: 18px; }
-  button { font: inherit; background: none; color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+  .actions .btn { font-size: 0.9rem; }
+  /* phones: a taller card, so every line fits */
+  @media (max-width: 520px) { .scene { aspect-ratio: 1.15; } .who { margin-top: 18px; } }
+  @media (prefers-reduced-motion: reduce) { .flip { transition: none; } }
   @media print {
     @page { margin: 12mm; }
     :global(html), :global(body) { background: #fff !important; color-scheme: light !important; }
-    .card { box-shadow: none; border: 1px solid #c3d2db; }
-    .actions { display: none; }
+    :global(.site-header), :global(.site-footer), .intro, .actions, .hint { display: none !important; }
+    /* both sides, flat, one above the other */
+    .scene { aspect-ratio: auto; perspective: none; }
+    .flip, .flip.flipped { transform: none; display: flex; flex-direction: column; gap: 8mm; }
+    .face { position: relative; inset: auto; aspect-ratio: 1.75; transform: none; backface-visibility: visible; box-shadow: none; border: 1px solid #c3d2db; }
+    .front { background: #fff; color: #0a1022; }
+    .front::after { display: none; }
+    h1, .brand, .links { color: #0a1022; }
+    .top, .full, .muted { color: #44586b; }
   }
 </style>

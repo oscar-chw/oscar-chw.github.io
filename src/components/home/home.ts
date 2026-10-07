@@ -198,3 +198,12 @@ for (const band of document.querySelectorAll<HTMLElement>("[data-velocity]")) {
   };
   requestAnimationFrame(loop);
 }
+
+// ---------- copy buttons (Discord has no public profile link, so the button copies the username) ----------
+for (const b of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+  b.addEventListener("click", async () => {
+    const t = b.querySelector("span")!, was = t.textContent;
+    try { await navigator.clipboard.writeText(b.dataset.copy!); t.textContent = "Copied"; } catch { t.textContent = b.dataset.copy!; }
+    setTimeout(() => (t.textContent = was), 1600);
+  });
+}

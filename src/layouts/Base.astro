@@ -131,6 +131,7 @@ const commands: [string, string, string][] = [
         <li><a href={SITE.github} aria-label="GitHub" title="GitHub"><Icon name="github" size={17} /></a></li>
         <li><a href={SITE.linkedin} aria-label="LinkedIn" title="LinkedIn"><Icon name="linkedin" size={17} /></a></li>
         <li><a href={SITE.instagram} aria-label="Instagram" title="Instagram"><Icon name="instagram" size={17} /></a></li>
+        <li><span class="dc" title={`Discord: ${SITE.discord}`}><Icon name="discord" size={17} /><span class="mono">{SITE.discord}</span></span></li>
         <li><a href={url("/card/")}><Icon name="qr-code" size={15} />Contact card</a></li>
       </ul>
     </footer>
@@ -190,7 +191,8 @@ const commands: [string, string, string][] = [
   .kbtn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 999px; height: 34px; padding: 0 11px; cursor: pointer; flex: none; }
   .kbtn kbd { font-size: 0.72rem; }
   :global(html[data-theme="light"]) .theme :global(.i-dark), :global(html:not([data-theme="light"])) .theme :global(.i-light) { display: none; }
-  .site-footer a { display: inline-flex; align-items: center; gap: 7px; }
+  .site-footer a, .site-footer .dc { display: inline-flex; align-items: center; gap: 7px; }
+  .site-footer .dc { color: var(--muted); font-size: 0.85rem; }
   .kbtn:hover { color: var(--ink); border-color: var(--accent); }
   .palette { width: min(100% - 32px, 620px); margin: 14vh auto auto; padding: 0; border-radius: 22px; color: var(--ink); overflow: hidden; }
   .palette::backdrop { background: rgb(0 0 0 / 0.5); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
