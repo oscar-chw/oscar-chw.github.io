@@ -19,6 +19,7 @@ const BUILTIN = {
   "asof 0-of-120": /\b0[- ]of[- ]120\b|120 hypotheses/i,
   "researcher-only FYP": /32% violated|fine-tuned 4B/i,
   "finance minor or BBA (the minor is called Business)": /finance minor|minor in finance|\bBBA\b/i,
+  "English is \"fluent\", never native or near-native": /English\s*\((?:[^)]*\b)?(?:near-)?native\b/i,
   "tel link": /\btel:/i,
   // BRAIN rules forbid automation as a source of alpha ideas: no counts, no "-style", no companion framing.
   // "BRAIN"/"WorldQuant" may appear only in the experience entry on the about page (checked below).
