@@ -147,6 +147,7 @@
 .chart .ok { fill: var(--up); opacity: 0.7; } .chart .brk { fill: var(--down); }
 .chart .held { opacity: 0.18; }
 .chart .tau { stroke: var(--amber); stroke-width: 2; }
+.chart .gk-drift { fill: var(--accent); opacity: 0.1; } .chart .gk-hit { fill: var(--up); } .chart .gk-false { fill: var(--down); }
 
 /* guard: a terminal */
 .gt-status { font-size: 0.72rem; color: var(--amber); margin: 0 0 auto; padding-bottom: 10px; }

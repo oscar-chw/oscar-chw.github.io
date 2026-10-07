@@ -286,3 +286,76 @@ test("lab: an expanded file list scrolls with the mouse wheel inside it (smooth 
   await expect.poll(() => tree.evaluate((t) => t.scrollTop)).toBeGreaterThan(50);
   await expect(page.locator('[data-exp="reconciliation"]')).toBeVisible();
 });
+
+// The five Lab demos below had no behaviour test until 2026-10-07; each asserts the one claim its panel makes.
+const num = (s: string) => Number(s.replace(/[^\d.+-]/g, ""));
+
+test("lab: rank IC — the test column stays sealed until opened, and then only for the candidate chosen on validation", async ({ page }) => {
+  await page.goto("/demos/#factors");
+  const panel = page.locator('[data-panel="factors"]');
+  await expect(panel.locator(".icb.te.sealed")).toHaveCount(4);
+  await panel.getByRole("radio", { name: "open the chosen one" }).click();
+  await expect(panel.locator(".icb.te.sealed")).toHaveCount(3);
+  await expect(panel.locator(".ic-row.pick .icb.te b")).toHaveText(/^-?\d\.\d{3}$/);
+  await expect(panel.getByText("← chosen on validation")).toHaveCount(1);
+});
+
+test("lab: market making: a wider spread fills less, and skewing against inventory keeps it smaller", async ({ page }) => {
+  await page.goto("/demos/#marketmaking");
+  const panel = page.locator('[data-panel="marketmaking"]'), dd = panel.locator(".ro dd");
+  const fillsNarrow = num(await dd.nth(0).innerText());
+  await panel.getByRole("slider", { name: "spread" }).fill("1.5");
+  await expect.poll(async () => num(await dd.nth(0).innerText())).toBeLessThan(fillsNarrow);
+  await panel.getByRole("slider", { name: "inventory skew" }).fill("0");
+  const peakNoSkew = num(await dd.nth(1).innerText());
+  await panel.getByRole("slider", { name: "inventory skew" }).fill("0.12");
+  await expect.poll(async () => num(await dd.nth(1).innerText())).toBeLessThan(peakNoSkew);
+});
+
+test("lab: point-in-time reads hide versions published later, and show them once their day comes", async ({ page }) => {
+  await page.goto("/demos/#point-in-time");
+  const panel = page.locator('[data-panel="point-in-time"]'), row = (k: string) => panel.locator("tr", { hasText: k }).locator("td").nth(1);
+  await expect(row("close (Mon)")).toHaveText("10");             // the correction to 10.4 is published on Thursday
+  await expect(row("dividend (Wed)")).toHaveText("not known yet");
+  await expect(panel.locator(".future").first()).toBeVisible();
+  await panel.getByRole("slider", { name: "read as of" }).fill("6");
+  await expect(row("close (Mon)")).toHaveText("10.4");
+  await expect(row("split factor")).toHaveText("2");
+  await expect(panel.locator(".future")).toHaveCount(0);
+});
+
+test("lab: multiple testing — the best of many noise formulas looks good on train and not on test", async ({ page }) => {
+  await page.goto("/demos/#multitest");
+  const panel = page.locator('[data-panel="multitest"]'), dd = panel.locator(".ro dd");
+  await panel.getByRole("slider", { name: "random formulas searched" }).fill("1");
+  const bestOfOne = num(await dd.nth(1).innerText());
+  await panel.getByRole("slider", { name: "random formulas searched" }).fill("60");
+  await expect(dd.nth(0)).toHaveText("60");
+  const train = num(await dd.nth(1).innerText()), test_ = num(await dd.nth(2).innerText());
+  expect(train).toBeGreaterThan(bestOfOne);
+  expect(train).toBeGreaterThan(test_);
+});
+
+test("lab: decision gate — removing the gate lets more rule breaks through and abstains on nothing", async ({ page }) => {
+  await page.goto("/demos/#gate");
+  const panel = page.locator('[data-panel="gate"]'), dd = panel.locator(".ro dd");
+  const gated = num(await dd.nth(1).innerText());
+  expect(num(await dd.nth(2).innerText())).toBeGreaterThan(0);
+  await panel.getByRole("button", { name: "no gate (act on everything)" }).click();
+  await expect.poll(async () => num(await dd.nth(1).innerText())).toBeGreaterThan(gated);
+  await expect(dd.nth(2)).toHaveText("0.0%");
+});
+
+test("lab: kalman drift gate — heavy noise fools the fixed window far more often than the Kalman gate, which still catches the real drift", async ({ page }) => {
+  await page.goto("/demos/#imc");
+  const panel = page.locator('[data-panel="imc"]'), dd = panel.locator(".ro dd");
+  await expect(panel.locator(".gk-drift")).toHaveCount(1);
+  await panel.getByRole("slider", { name: "price noise" }).fill("1.2");
+  await expect(panel.locator("output")).toHaveText("1.20");
+  const fixedFalse = num(await dd.nth(0).innerText()), kalmanFalse = num(await dd.nth(2).innerText()), kalmanCaught = num(await dd.nth(3).innerText());
+  expect(fixedFalse).toBeGreaterThan(3 * kalmanFalse);
+  expect(kalmanCaught).toBeGreaterThan(0);
+  await expect(panel.locator(".gk-false").first()).toBeVisible();   // the fixed window's false calls are drawn
+  await panel.getByRole("button", { name: "new random market" }).click();
+  await expect(panel.locator(".gk-hit").first()).toBeVisible();
+});
