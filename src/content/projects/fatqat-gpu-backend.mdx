@@ -17,7 +17,7 @@ sources:
   - sources/fatqat-cuda/upstream-pr-52.txt
 links:
   - { label: "Repository: fatqat-cuda", href: "https://github.com/oscar-chw/fatqat-cuda" }
-  - { label: "Fix submitted upstream: spaceqat/fatqat#52", href: "https://github.com/spaceqat/fatqat/pull/52" }
+  - { label: "Merged upstream fix: spaceqat/fatqat#52 (process shot workers sized by the CPU affinity mask)", href: "https://github.com/spaceqat/fatqat/pull/52" }
   - { label: "Upstream: spaceqat/fatqat (Apache-2.0)", href: "https://github.com/spaceqat/fatqat" }
 ---
 import Flow from "../../components/Flow.astro";
@@ -34,7 +34,7 @@ import Term from "../../components/Term.astro";
 - **Exact shot branching**: shots that share a history are simulated once and split only where they differ, with identical counts.
 - **Exact circuit simplification**, and randomized differential checks that compare every "same result" claim against the reference.
 - **An Apple-GPU runtime** (`runtime="metal"`) that computes binary64 in software, bit-identical to the CPU engine, and `runtime="auto"`, which picks the faster runtime for each run.
-- A fork kept in sync with upstream FatQat, inspired by the course CENG5280, and **a fix submitted upstream** (spaceqat/fatqat#52: process shot workers sized by the CPU affinity mask).
+- A fork kept in sync with upstream FatQat, inspired by the course CENG5280, and **a fix merged upstream** (spaceqat/fatqat#52: process shot workers sized by the CPU affinity mask), which makes me a contributor to upstream FatQat.
 
 ## Result
 
