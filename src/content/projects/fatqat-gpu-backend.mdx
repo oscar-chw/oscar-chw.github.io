@@ -38,7 +38,7 @@ import Term from "../../components/Term.astro";
 
 ## Result
 
-With exact GPU arithmetic, the default, the GPU runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (6–7× with the full state copied back); the optional plain mode reaches 23–26×, and the r9 release ran 35–42× against its slower CPU engine of the time. In the default mode, results are within 2.9 machine epsilons of a 60-digit reference. Exact shot branching is up to 89× faster than running each shot alone on noiseless circuits with mid-circuit measurements, with identical counts, and 48,700 randomized differential checks found 0 failures. On an Apple-silicon Mac, the Metal runtime is 1.18–1.52× faster than the CPU engine at 24–26 qubits, bit-identical to it, and `runtime="auto"` picked the faster runtime at every measured size.
+With exact GPU arithmetic, the default, the GPU runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (6–7× with the full state copied back); the optional plain mode reaches 23–26×, and the r9 release ran 35–42×, before exact GPU arithmetic became the default and the CPU engine got faster. In the default mode, results are within 2.9 machine epsilons of a 60-digit reference. Exact shot branching is up to 89× faster than running each shot alone on noiseless circuits with mid-circuit measurements, with identical counts, and 48,700 randomized differential checks found 0 failures. On an Apple-silicon Mac, the Metal runtime is 1.18–1.52× faster than the CPU engine at 24–26 qubits, bit-identical to it, and `runtime="auto"` picked the faster runtime at every measured size.
 
 ## How it works
 
