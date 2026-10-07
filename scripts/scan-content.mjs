@@ -27,6 +27,8 @@ const BUILTIN = {
   // health probes and verification gates, not "health checks"; the relay claims below were never made.
   "QTS query time is under 0.2 s, never 0.09 s": /\b0\.09 s\b/,
   "QTS: health probes and verification gates, not health checks": /automated health checks/i,
+  // the relay's packet-loss figure waits on its 24-hour acceptance check (CONTENT.md); not shown until it passes
+  "QTS relay packet-loss claim pending acceptance": /packet loss/i,
   "QTS relay overclaims": /rewritten in Go|zero downtime|guaranteed no leaks/i,
   // streaming-reconciliation was retired on 2026-10-08 (replaced by crypto-trading-pipeline) and goes private.
   "retired repo streaming-reconciliation": /streaming[- ]reconciliation/i,

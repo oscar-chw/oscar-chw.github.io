@@ -48,7 +48,7 @@ export const EXPERIMENTS: Experiment[] = [
   { id: "gate", folder: "final-year-project", file: "decision-gate.sim", title: "Decision gate", kind: "inline", project: "final-year-project", code: SITE_SRC,
     blurb: "An agent proposes actions; the gate abstains on the risky ones. Set how many rule breaks you will tolerate and the threshold is calibrated to meet it.",
     data: "SYNTHETIC actions; a simplified illustration of the idea, not the project's model." },
-  { id: "cryptodesk", folder: "supporting-work", file: "crypto-desk.blueprint", title: "Crypto desk blueprint", kind: "page", href: "/demos/crypto-desk/", project: "supporting-work#crypto-desk-blueprint", code: "https://github.com/oscar-chw/crypto-desk-blueprint",
+  { id: "cryptodesk", folder: "ai-quant-research", file: "crypto-desk.blueprint", title: "Crypto desk blueprint", kind: "page", href: "/demos/crypto-desk/", project: "ai-quant-research-system#crypto-desk-blueprint", code: "https://github.com/oscar-chw/crypto-desk-blueprint",
     blurb: "Nine typed stages for building a crypto trading desk, each with a contract to pass, and three of the experiments behind its rules, each against a control.", data: "SYNTHETIC and public Binance data, from the repository's results files." },
   { id: "multitest", folder: "supporting-work", file: "many-formulas.lab", title: "The multiple-testing trap", kind: "inline", project: "supporting-work#alpha-search", code: "https://github.com/oscar-chw/alpha-gp-lab",
     blurb: "Search more random formulas and the best one looks better on the data you searched, and no better on data you did not. Why a search needs a sealed test and a random control.",
