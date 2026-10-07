@@ -1,6 +1,6 @@
 ---
 title: GPU Backend for FatQat
-summary: A fork of FatQat, an open-source quantum-circuit simulator, inspired by the course CENG5280. It adds CUDA (GPU) execution for all four simulation methods, keeping the simulator's interfaces and double precision, With today's exact-arithmetic code it runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (35–42× with the r9 engines).
+summary: A fork of FatQat, an open-source quantum-circuit simulator, inspired by the course CENG5280. It adds CUDA (GPU) execution for all four simulation methods, keeping the simulator's interfaces and double precision. With exact GPU arithmetic, the default, it runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (23–26× in the optional plain mode; 35–42× with the r9 engines).
 order: 2
 featured: true
 group: Engineering and AI
@@ -8,12 +8,16 @@ role: Author of the GPU fork (inspired by the course CENG5280); upstream simulat
 period: "2026"
 stack: [Python, CUDA, CuPy, Metal]
 metrics:
-  - { value: "≤ 2.9 ε", label: "from a 60-digit reference (machine epsilons, double precision)" }
-  - { value: "17–21×", label: "faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables, today's exact-arithmetic code (35–42× with the r9 engines)" }
-  - { value: "up to 89×", label: "faster with exact shot branching than running each shot alone, on noiseless measured circuits, identical counts" }
+  - { value: "≤ 2.9 ε", label: "from a 60-digit reference (machine epsilons, double precision), in the default exact mode" }
+  - { value: "17–21×", label: "faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables, with exact GPU arithmetic, the default (23–26× in the optional plain mode; 35–42× with the r9 engines)" }
+  - { value: "up to 89×", label: "faster with exact shot branching than running each shot alone, on noiseless circuits with mid-circuit measurements, identical counts" }
   - { value: "48,700", label: "randomized differential checks, 0 failures" }
+sources:
+  - sources/fatqat-cuda/README-b92e98e.md
+  - sources/fatqat-cuda/upstream-pr-52.txt
 links:
   - { label: "Repository: fatqat-cuda", href: "https://github.com/oscar-chw/fatqat-cuda" }
+  - { label: "Fix submitted upstream: spaceqat/fatqat#52", href: "https://github.com/spaceqat/fatqat/pull/52" }
   - { label: "Upstream: spaceqat/fatqat (Apache-2.0)", href: "https://github.com/spaceqat/fatqat" }
 ---
 import Flow from "../../components/Flow.astro";
@@ -30,15 +34,15 @@ import Term from "../../components/Term.astro";
 - **Exact shot branching**: shots that share a history are simulated once and split only where they differ, with identical counts.
 - **Exact circuit simplification**, and randomized differential checks that compare every "same result" claim against the reference.
 - **An Apple-GPU runtime** (`runtime="metal"`) that computes binary64 in software, bit-identical to the CPU engine, and `runtime="auto"`, which picks the faster runtime for each run.
-- A fork kept in sync with upstream FatQat, inspired by the course CENG5280.
+- A fork kept in sync with upstream FatQat, inspired by the course CENG5280, and **a fix submitted upstream** (spaceqat/fatqat#52: process shot workers sized by the CPU affinity mask).
 
 ## Result
 
-With today's exact-arithmetic code, the GPU runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (6–7× with the full state copied back); the r9 release ran 35–42× against its slower CPU engine of the time. Results are within 2.9 machine epsilons of a 60-digit reference. Exact shot branching is up to 89× faster than running each shot alone on noiseless measured circuits, with identical counts, and 48,700 randomized differential checks found 0 failures. On an Apple-silicon Mac, the Metal runtime is 1.18–1.52× faster than the CPU engine at 24–26 qubits, bit-identical to it, and `runtime="auto"` picked the faster runtime at every measured size.
+With exact GPU arithmetic, the default, the GPU runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (6–7× with the full state copied back); the optional plain mode reaches 23–26×, and the r9 release ran 35–42× against its slower CPU engine of the time. In the default mode, results are within 2.9 machine epsilons of a 60-digit reference. Exact shot branching is up to 89× faster than running each shot alone on noiseless circuits with mid-circuit measurements, with identical counts, and 48,700 randomized differential checks found 0 failures. On an Apple-silicon Mac, the Metal runtime is 1.18–1.52× faster than the CPU engine at 24–26 qubits, bit-identical to it, and `runtime="auto"` picked the faster runtime at every measured size.
 
 ## How it works
 
-<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (within 2.9 machine epsilons of a 60-digit reference)" steps={[
+<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (default mode: within 2.9 machine epsilons of a 60-digit reference)" steps={[
   { label: "Circuit", note: "FatQat's interface" },
   { label: "Engine choice", note: "CPU, CUDA or Metal" },
   { label: "GPU state vector", note: "double precision", accent: "accent" },
@@ -51,4 +55,4 @@ With today's exact-arithmetic code, the GPU runs 17–21× faster than the proje
 ## Limits
 
 - The 17–21× figure is for observables against a fixed 32-thread CPU setting, not every core, on 24–28 qubits; copying the full state back cuts it to 6–7×.
-- The branching speed-up applies to noiseless circuits with measurements; other circuits gain less.
+- The branching speed-up applies to noiseless circuits with mid-circuit measurements; noisy circuits gain far less.

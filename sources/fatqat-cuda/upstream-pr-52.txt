@@ -1,0 +1,6 @@
+spaceqat/fatqat pull request #52 (fetched 2026-10-07 from api.github.com)
+title: Size process shot workers by the CPU affinity mask
+state: open
+merged: false
+author: oscar-chw
+url: https://github.com/spaceqat/fatqat/pull/52

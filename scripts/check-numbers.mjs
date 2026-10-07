@@ -27,14 +27,14 @@ const files = walk(ROOT).filter((p) => /\.(md|mdx|json|ya?ml)$/.test(p));
 if (files.length === 0) { console.error(`check-numbers: no content files under ${ROOT}`); process.exit(1); }
 
 const approved = readFileSync(CONTENT_MD, "utf8");
-let bad = 0, checked = 0;
+let bad = 0, checked = 0, sourced = "";   // text of every source any entry lists, for the built-page pass
 for (const f of files) {
   const raw = readFileSync(f, "utf8");
   let srcText = approved;
   const listed = [...raw.matchAll(/^\s*-\s*"?(sources\/[^"\s]+)"?\s*$/gm)].map((m) => m[1]);
   for (const s of listed) {
     if (!existsSync(s)) { console.error(`FAIL ${f}: listed source ${s} missing`); bad++; continue; }
-    srcText += "\n" + readFileSync(s, "utf8");
+    srcText += "\n" + readFileSync(s, "utf8"); sourced += "\n" + readFileSync(s, "utf8");
   }
   const ok = nums(srcText);
   let inList = false;
@@ -65,7 +65,7 @@ const ALLOW = (n) => /^0\d$/.test(n) || n === "42" || n === "100.00";
 const textPages = ["index.html", "about/index.html", "projects/index.html", "cv/index.html", "card/index.html",
   ...readdirSync(join(DIST, "projects")).map((d) => `projects/${d}/index.html`)]
   .filter((p) => existsSync(join(DIST, p)) && !readFileSync(join(DIST, p), "utf8").startsWith("<!doctype html><title>Redirecting"));
-const okAll = nums(approved);
+const okAll = nums(approved + sourced);   // a built page may show what the approved wording or a listed public source holds
 let built = 0;
 const visible = (h) => h.replace(/<(script|style|svg|template)[\s\S]*?<\/\1>/g, " ").replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/g, " ");
 for (const p of textPages) {

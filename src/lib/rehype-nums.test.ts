@@ -11,6 +11,7 @@ describe("prose numbers", () => {
   });
   it("leaves codes and names alone", () => {
     expect(wrapNums("CSCI3100, Q4, H2 and v0.3 and gpt-4")).toBeNull();
+    expect(wrapNums("spaceqat/fatqat#52 and pull/52")).toBeNull();
   });
   it("keeps the text identical", () => {
     const s = "from 3 to 12.5% in 2027.";
