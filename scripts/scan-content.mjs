@@ -69,6 +69,11 @@ for (const f of files) {
       if (!ALLOWED_EMAIL.test(m[0]) && !/@(?:astrojs|example)\./.test(m[0])) { console.error(`FAIL ${relative(".", f)}:${i + 1}: email ${m[0].replace(/^[^@]+/, "***")}`); bad++; }
     }
   });
+  // FatQat's 35–42× is the r9 release's figure; the current code differs. Named failure: the figure
+  // shown as if it described the current code. Every occurrence needs "r9" close by.
+  for (const m of text.matchAll(/35\s*[–-]\s*42\s*×/g)) {
+    if (!/\br9\b/.test(text.slice(Math.max(0, m.index - 240), m.index + 280))) { console.error(`FAIL ${relative(".", f)}: "35–42×" without its r9 label nearby`); bad++; }
+  }
 }
 if (bad) { console.error(`scan-content: ${bad} finding(s)`); process.exit(1); }
 console.log(`scan-content: OK (${files.length} files, ${extra.length} denylist terms)`);
