@@ -15,6 +15,12 @@ metrics:
 sources:
   - sources/fatqat-cuda/README-b92e98e.md
   - sources/fatqat-cuda/upstream-pr-52.txt
+contribution:
+  heading: Merged into upstream FatQat
+  body: "On Python 3.12, a run pinned to a subset of cores (taskset or a container cpuset) sized FatQat's process shot workers to every core of the machine and oversubscribed them. The fix sizes them by the CPU affinity mask (os.sched_getaffinity) where os.process_cpu_count is unavailable, with a regression test. Merged by a maintainer on 2026-10-07."
+  label: "spaceqat/fatqat#52"
+  href: https://github.com/spaceqat/fatqat/pull/52
+  facts: "2 files, +32 −2 · merged by BoxiLi, 2026-10-07 08:48 UTC"
 links:
   - { label: "Repository: fatqat-cuda", href: "https://github.com/oscar-chw/fatqat-cuda" }
   - { label: "Merged upstream fix: spaceqat/fatqat#52 (process shot workers sized by the CPU affinity mask)", href: "https://github.com/spaceqat/fatqat/pull/52" }

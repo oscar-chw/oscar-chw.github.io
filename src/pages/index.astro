@@ -51,6 +51,7 @@ const portraitPath = portrait.pts.map(([x, y], i) => `${i === 0 || portrait.pen[
         <span class="run" aria-hidden={dup ? "true" : undefined}>
           <span><span data-ticker-label>ETH</span>/USDT <b class="c" data-ticker-mid>live</b></span>
           {featured.filter((p) => p.data.metrics[0]).map((p) => <span>{p.data.title.toUpperCase()} <b class="c">{p.data.metrics[0].value}</b></span>)}
+          <span>UPSTREAM CONTRIBUTOR · FATQAT <b class="c">#52 MERGED</b></span>
           <span>OPEN TO QUANT · SWE · AI ENGINEERING</span>
         </span>
       ))}

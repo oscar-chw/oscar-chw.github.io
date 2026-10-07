@@ -2,8 +2,12 @@ spaceqat/fatqat pull request #52 (fetched 2026-10-07 from api.github.com)
 title: Size process shot workers by the CPU affinity mask
 state: closed
 merged: true
-merged_at: 2026-10-07T08:48:42Z
+merged_at: 2026-10-07T08:48:42Z (2026-10-07 08:48 UTC)
 merged_by: BoxiLi
 merge_commit: fd735081c5769f2fa3f2bb96621fef4c6db9a427
 author: oscar-chw
 url: https://github.com/spaceqat/fatqat/pull/52
+changed_files: 2
+additions: 32
+deletions: 2
+description (excerpt): On Python 3.12 there is no os.process_cpu_count, so _process_worker_ceiling falls back to os.cpu_count(), which counts every core of the machine even when the process is pinned (taskset) or CPU-limited (a container cpuset); process shot workers were sized to every core of the machine and oversubscribed them. This change uses os.sched_getaffinity(0) where os.process_cpu_count is missing (Linux), and keeps os.cpu_count() elsewhere. Python 3.13+ is unchanged. The test resolves a process-shot policy with process_cpu_count absent and checks the worker limit follows the affinity mask.

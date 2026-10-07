@@ -18,6 +18,8 @@ const projects = defineCollection({
     metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
     sources: z.array(z.string()).default([]),
+    // a merged open-source contribution, shown as a callout under the summary
+    contribution: z.object({ heading: z.string(), body: z.string(), label: z.string(), href: z.url(), facts: z.string() }).optional(),
   }),
 });
 
