@@ -27,7 +27,7 @@ I study Computer Science at The Chinese University of Hong Kong and graduate in 
     - Designed its query service for researchers (Python, HTTP, SQL): a full stock-day loads in under 0.2 s, and a race test with 12 readers and 5 writers (4 appending, 1 rewriting a partition) kept all 23 of 23 commits.
     - Led data cleaning with the team: removed 500M+ duplicate rows and blocked look-ahead leaks into research data.
     - Administer the team's shared GPU research server: per-member data permissions (custom Linux PAM/eBPF modules in C), single sign-on without VPN, 40+ live health probes with transition-based alerting, and 200+ verification gates.
-    - Built a TLS-terminating, address-scrubbing HTTP/WebSocket relay in Go that carries ~300 Mbit/s of live market data (~850 concurrent connections) for the server's data collectors: ~60% less CPU than the Python prototype it replaced.
+    - Built a TLS-terminating, address-scrubbing HTTP/WebSocket relay in Go that carries ~300 Mbit/s of live market data (~850 concurrent connections) for the server's data collectors, moving it off the VPN: ~60% less CPU than the Python prototype it replaced, and remote-login drops cut from 23 in 3 hours to 0 in 24 hours.
     - Deployed per-person AI coding agents on the research server behind a destructive-command guard that blocks all 33 bypasses an independent review found.
   </div>
 </div>
