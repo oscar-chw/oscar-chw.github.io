@@ -6,10 +6,10 @@ featured: true
 group: Research platforms
 role: Lead Developer, Quant Research Team (sole developer)
 period: Jan 2026 – present
-stack: [Python, Apache Parquet, Apache Arrow, DuckDB, Polars, C]
+stack: [Python, Apache Parquet, Apache Arrow, DuckDB, Polars, C, Go]
 metrics:
   - { value: "700B+", label: "rows of A-share tick data (2017–2026), plus crypto and Polymarket order books" }
-  - { value: "0.09 s", label: "to load a full stock-day through the query service" }
+  - { value: "under 0.2 s", label: "to load a full stock-day through the query service" }
   - { value: "23 of 23", label: "commits kept in a race test with 12 readers and 5 writers" }
   - { value: "500M+", label: "duplicate rows removed in the cleaning work I led" }
 links:
@@ -28,12 +28,14 @@ The research team needed tick-level Chinese A-share and crypto data that they co
 - **A layered store.** Raw deliveries are kept byte-identical. A typed, <Term t="versioned Parquet">versioned Parquet layer</Term> sits above them, and a cleansed layer above that flags bad rows instead of dropping them.
 - **A query service for researchers** in Python over HTTP and SQL. It returns Apache Arrow, pins every read to a data version, and <Term t="look-ahead bias">refuses requests that would see the future</Term>.
 - **Data cleaning, led with the team:** exact duplicates removed, look-ahead leaks blocked before they reach research data.
-- **The shared research server**, which I administer: per-member data permissions through custom Linux PAM and eBPF modules in C, single sign-on without a VPN, and 200+ automated health checks.
+- **The shared research server**, which I administer: per-member data permissions through custom Linux PAM and eBPF modules in C, single sign-on without a VPN, 40+ live health probes with transition-based alerting, and 200+ verification gates.
+- **A market-data relay in Go** that terminates TLS and scrubs addresses for HTTP and WebSocket traffic, carrying ~300 Mbit/s of live market data over ~850 concurrent connections for every data collector on the server. It replaced a Python prototype at ~60% less CPU and cut VPN packet loss from 20–33% to 0%. It was tested with a property test (20,000 random inputs), a 22-case black-box suite, 13 caught mutants and two independent reviews.
+- **Per-person AI coding agents on the research server**, behind a destructive-command guard: deletions go to a bin with an approval step, and the guard blocks all 33 bypasses an independent review found.
 
 ## Result
 
 - 700B+ rows stored across A-share ticks (2017–2026), crypto market data and Polymarket order books.
-- A full stock-day loads in 0.09 s.
+- A full stock-day loads in under 0.2 s.
 - A race test with 12 readers and 5 writers (4 appending, 1 rewriting a partition) kept all 23 of 23 commits.
 - 500M+ duplicate rows removed.
 

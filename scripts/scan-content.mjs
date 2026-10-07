@@ -23,6 +23,11 @@ const BUILTIN = {
   "tel link": /\btel:/i,
   // FatQat's default GPU mode rounds its sums (within 2.9 eps), so it is "error-compensated", never "exact";
   // shot branching and the simplifier really are exact and keep the word.
+  // QTS: 0.09 s was a repeated read from a cache (first load 0.19 s); quote "under 0.2 s". The server has
+  // health probes and verification gates, not "health checks"; the relay claims below were never made.
+  "QTS query time is under 0.2 s, never 0.09 s": /\b0\.09 s\b/,
+  "QTS: health probes and verification gates, not health checks": /automated health checks/i,
+  "QTS relay overclaims": /rewritten in Go|zero downtime|guaranteed no leaks/i,
   "FatQat default mode is error-compensated, not exact": /exact[- ](?:GPU |arithmetic|mode\b)/i,
   // BRAIN rules forbid automation as a source of alpha ideas: no counts, no "-style", no companion framing.
   // "BRAIN"/"WorldQuant" may appear only in the experience entry on the about page (checked below).

@@ -32,7 +32,7 @@ const run = (raw) => {
     help: "ls · cd NAME · whoami · cv · email · theme · clear\nshell commands (git push, curl | sh…) go to the real guard\nor type anything to search",
     ls: "work/  demos/  about  cv  card\n" + items.filter((li) => li.textContent.startsWith("project")).map((li) => li.textContent.replace(/^project/, "  ")).join("\n"),
     whoami: "oscar choi · cs @ cuhk, class of 2027\nquant dev · quant research · swe · full-stack · ai engineering\nstatus: open to work",
-    ping: "pong · 0.09 s (one stock-day, cold)",
+    ping: "pong · under 0.2 s (one stock-day, first load)",
     exit: "there is no exit. only more projects.",
     vim: "you are in vim now. (relax: esc gets you out)",
     coffee: "418 i'm a teapot",
