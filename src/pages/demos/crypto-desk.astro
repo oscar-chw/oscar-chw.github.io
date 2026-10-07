@@ -1,0 +1,87 @@
+---
+import Demo from "../../layouts/Demo.astro";
+import { url } from "../../lib/url";
+// Every figure on this page is read from the blueprint's own results files, snapshotted at commit 2d82aed.
+import e08 from "../../../sources/crypto-desk-blueprint/EXP-08-1-2d82aed.json";
+import e06 from "../../../sources/crypto-desk-blueprint/EXP-06-1-2d82aed.json";
+import e04 from "../../../sources/crypto-desk-blueprint/EXP-04-1-2d82aed.json";
+
+const BP = "https://github.com/oscar-chw/crypto-desk-blueprint", CTP = "https://github.com/oscar-chw/crypto-trading-pipeline";
+const code = [
+  { label: "crypto-desk-blueprint (the template, experiments and results)", href: BP },
+  { label: "crypto-trading-pipeline (a worked example)", href: CTP },
+];
+const pct = (v: number) => `${Math.round(v * 100)}%`;
+const STAGES = [
+  ["00", "infrastructure", "One UTC clock, a point-in-time store and a kill switch that every other stage shares."],
+  ["01", "data", "Bars and funding are stored with the time they became available, not just their own timestamp."],
+  ["02", "features", "A feature's value at time t may use only data available at t; the store refuses future reads."],
+  ["03", "strategy", "Turns features into a score between −1 and 1."],
+  ["04", "pricing", "A fair value from carry, and a no-arbitrage band for funding against the futures basis."],
+  ["05", "risk", "A volatility forecast and hard limits; a breach trips the kill switch and flattens."],
+  ["06", "portfolio", "Sizes positions with capped half-Kelly, then clips them to the risk limits."],
+  ["07", "execution", "Turns target weights into orders and fills, charging a fee and slippage model."],
+  ["08", "validation", "Purged cross-validation, deflated Sharpe and paper reconciliation: the acceptance tests for the stages above."],
+];
+const CARDS = [
+  { id: "EXP-08-1", img: "EXP-08-1.png", title: "Shuffled cross-validation finds skill in noise",
+    verdict: `On pure noise, shuffled k-fold scores ${e08.treatment.accuracy.toFixed(3)} accuracy where the truth is 0.5; purged k-fold scores ${e08.control.accuracy.toFixed(3)}. The false skill comes from shuffling: contiguous folds without purging score ${e08.treatment.contiguous_unpurged.accuracy.toFixed(3)}, so purging adds nothing measurable in this setup.`, data: "synthetic random walk" },
+  { id: "EXP-06-1", img: "EXP-06-1.png", title: "Half-Kelly keeps most of the growth",
+    verdict: `With the true edge, half-Kelly cuts the 95th-percentile drawdown from ${pct(e06.control.true.max_dd_p95)} to ${pct(e06.treatment.true.max_dd_p95)} and keeps ${pct(e06.effect.by_input.true.growth_ratio_half_over_full)} of full Kelly's median growth.`, data: "synthetic bets, 10,000 paths" },
+  { id: "EXP-04-1", img: "EXP-04-1.png", title: "Funding tracks the futures basis",
+    verdict: `On public Binance data for 2025, annualised funding and basis correlate at ${e04.treatment.btc.corr.toFixed(2)} for BTC, against 0.17 at the 95th percentile when funding is shifted at random.`, data: "public Binance data, 2025" },
+];
+---
+<Demo code={code} title="Crypto desk blueprint" description="A template for building a crypto trading desk from scratch, where each stage has a contract it must pass and each rule is backed by a runnable experiment with a control.">
+  <Fragment slot="instructions">Pick a stage to read the rule it must pass. Below are three of the experiments behind the rules, each measured against its own control.</Fragment>
+
+  <p class="measure">The <a href={BP}>blueprint</a> splits a trading desk into nine typed stages. Each stage ships with conformance tests that any implementation must pass, and each test has a deliberately broken version it must catch. My <a href={CTP}>crypto trading pipeline</a> is a worked example: its data, feature, strategy and execution stages pass the blueprint's conformance tests, and its risk and sizing stages do not yet.</p>
+
+  <div class="stages" role="tablist" aria-label="Pipeline stages">
+    {STAGES.map(([n, name], i) => <button type="button" role="tab" class="st mono" aria-selected={i === 0 ? "true" : "false"} data-stage={i}><b>{n}</b>{name}</button>)}
+  </div>
+  <p class="rule measure" aria-live="polite" data-testid="stage-rule"><strong>{STAGES[0][0]} {STAGES[0][1]}:</strong> {STAGES[0][2]}</p>
+
+  <div class="cards">
+    {CARDS.map((c) => (
+      <figure class="card" data-testid={`card-${c.id}`}>
+        <img src={url(`/demos/crypto-desk/${c.img}`)} width="770" height="330" loading="lazy" alt={`${c.id}: ${c.title}`} />
+        <figcaption><strong>{c.title}</strong><span>{c.verdict}</span><span class="comment">{c.id} · {c.data} · supports its rule</span></figcaption>
+      </figure>
+    ))}
+  </div>
+  <p class="measure">16 of 20 experiments support their rule. The four that do not are reported in the repository's EVIDENCE.md. The thresholds were committed together with the first results, so they are not a pre-registration.</p>
+
+  <Fragment slot="source">
+    <strong>Data: SYNTHETIC for two experiments, public Binance data for one.</strong> Figures and numbers come from <code>results/*.json</code> and <code>docs/figures/</code> in <a href={BP}>crypto-desk-blueprint</a> at commit 2d82aed. No trading profit is claimed. Built with AI coding agents under my design and review.
+  </Fragment>
+</Demo>
+
+<script>
+  // the stage list is a small tablist: click or arrow keys pick a stage and show its rule
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>(".stages .st")];
+  const rule = document.querySelector<HTMLElement>("[data-testid=stage-rule]")!;
+  const data = JSON.parse(document.querySelector<HTMLElement>("[data-stages]")!.dataset.stages!) as string[][];
+  const pick = (i: number) => {
+    tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
+    rule.innerHTML = `<strong>${data[i][0]} ${data[i][1]}:</strong> `; rule.append(data[i][2]);
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => pick(i));
+    t.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { const j = (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length; tabs[j].focus(); pick(j); } });
+  });
+</script>
+<div hidden data-stages={JSON.stringify(STAGES)}></div>
+
+<style>
+  .stages { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 10px; }
+  .st { display: inline-flex; gap: 6px; align-items: baseline; padding: 7px 11px; border-radius: 10px; border: 1px solid var(--line-2); background: transparent; color: var(--muted); font-size: 0.8rem; cursor: pointer; }
+  .st b { color: var(--accent); font-weight: 600; }
+  .st[aria-selected="true"] { color: var(--ink); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .rule { min-height: 3em; }
+  .cards { display: grid; gap: 18px; margin: 24px 0; }
+  .card { margin: 0; border: 1px solid var(--line-2); border-radius: 16px; overflow: hidden; background: #fff; }
+  .card img { display: block; width: 100%; height: auto; }
+  .card figcaption { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; background: var(--bg-2); color: var(--ink); line-height: 1.5; }
+  .card figcaption .comment { font-size: 0.75rem; }
+</style>

@@ -7,7 +7,7 @@ import { offsite } from "./site";
 // wider than a 320px phone.
 const PAGES = ["/", "/projects/", "/projects/ai-quant-research-system/", "/projects/competitions/", "/projects/supporting-work/",
   "/projects/qts-research-platform/", "/projects/fatqat-gpu-backend/", "/projects/final-year-project/",
-  "/demos/", "/demos/harbour/", "/demos/order-book/", "/demos/fourier/", "/demos/reconciliation/", "/about/", "/cv/", "/card/"];
+  "/demos/", "/demos/harbour/", "/demos/order-book/", "/demos/fourier/", "/demos/crypto-desk/", "/about/", "/cv/", "/card/"];
 const SIZES = [
   { name: "small phone", width: 320, height: 640, touch: true },
   { name: "phone", width: 390, height: 844, touch: true },

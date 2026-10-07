@@ -1,0 +1,43 @@
+---
+sources:
+  - sources/crypto-trading-pipeline/README-235e0ac.md
+---
+import Flow from "../../components/Flow.astro";
+
+### The problem
+
+A trading bot is mostly plumbing: fetching prices, turning them into a decision, protecting the position, sending orders and confirming fills, and keeping a record that adds up. If a fill is assumed instead of confirmed, or the backtest runs different code from the live loop, nothing the bot reports can be trusted.
+
+### What I built
+
+After the WQT 2025 hackathon I rebuilt my competition bot into a general, exchange-agnostic pipeline, adapted to the crypto desk blueprint:
+
+- **Market data** from Binance through ccxt, with a fallback source.
+- **Signals:** MACD, RSI, Bollinger bands, volume, engulfing candles and order-book imbalance, combined into one entry decision. The strategy is a simple, swappable example; the point is the pipeline around it.
+- **Risk limits** before every order: a −2% stop, a tiered exit ladder up to +5%, a per-coin daily loss cap, a 72-hour holding limit and a 10% drawdown guard.
+- **Market orders through a broker you choose:** paper trading by default, or any exchange ccxt supports. A position opens or closes only on a confirmed fill.
+- **Records:** every order and close in JSONL with a CSV mirror, and a daily P&L file that counts each close once.
+- **A backtester that runs the same decision code** as the live loop.
+
+### Result
+
+- The live loop and the backtest make the same entry decision on all 130 checked bars.
+- 56 tests in three tiers, and 58 blueprint conformance tests for its data, feature, strategy and execution stages. Its risk and sizing stages do not pass the blueprint's tests yet.
+
+### How it works
+
+<Flow title="Crypto trading pipeline" caption="the backtester calls the same decision code as the live loop" steps={[
+  { label: "Market data", note: "Binance via ccxt" },
+  { label: "Signals", note: "one entry decision" },
+  { label: "Risk limits", note: "stop, exit ladder, drawdown", accent: "amber" },
+  { label: "Broker", note: "paper by default, or ccxt", accent: "accent" },
+  { label: "Records", note: "JSONL, CSV, daily P&L" },
+]} />
+
+<p class="comment">designed and verified by Oscar, implemented with AI coding agents (Claude Code, Codex)</p>
+
+### Limits
+
+- The strategy is a simple example. This page makes no claim about its returns.
+- Orders are market orders, so every trade pays the spread.
+- Live and backtest agreement was checked on 130 bars, not on every bar the bot saw.

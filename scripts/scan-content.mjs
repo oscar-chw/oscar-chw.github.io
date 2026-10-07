@@ -28,6 +28,10 @@ const BUILTIN = {
   "QTS query time is under 0.2 s, never 0.09 s": /\b0\.09 s\b/,
   "QTS: health probes and verification gates, not health checks": /automated health checks/i,
   "QTS relay overclaims": /rewritten in Go|zero downtime|guaranteed no leaks/i,
+  // streaming-reconciliation was retired on 2026-10-08 (replaced by crypto-trading-pipeline) and goes private.
+  "retired repo streaming-reconciliation": /streaming[- ]reconciliation/i,
+  // Oscar 2026-10-08: the pipeline is exchange-agnostic; never name the hackathon's exchange.
+  "hackathon exchange named": /Roostoo/i,
   "FatQat default mode is error-compensated, not exact": /exact[- ](?:GPU |arithmetic|mode\b)/i,
   // BRAIN rules forbid automation as a source of alpha ideas: no counts, no "-style", no companion framing.
   // "BRAIN"/"WorldQuant" may appear only in the experience entry on the about page (checked below).

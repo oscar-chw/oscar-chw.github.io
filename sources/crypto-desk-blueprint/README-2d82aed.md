@@ -1,0 +1,156 @@
+# Crypto Desk Blueprint
+[![ci](https://github.com/oscar-chw/crypto-desk-blueprint/actions/workflows/ci.yml/badge.svg)](https://github.com/oscar-chw/crypto-desk-blueprint/actions/workflows/ci.yml) [![lint](https://github.com/oscar-chw/crypto-desk-blueprint/actions/workflows/lint.yml/badge.svg)](https://github.com/oscar-chw/crypto-desk-blueprint/actions/workflows/lint.yml) [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+A template for building a crypto trading system from scratch, whether you are a person or an AI agent. It
+gives you: a defined interface for each stage of the system, tested building blocks, acceptance tests that
+each have a deliberately broken version they must catch, a scaffold for adding new parts, and short docs
+that say why each rule exists. A worked example is a separate repo,
+[crypto-trading-pipeline](https://github.com/oscar-chw/crypto-trading-pipeline): a hackathon trading bot written
+before this template and adapted to it afterwards; its data, feature, strategy and execution stages pass the
+conformance tests, and its risk and sizing stages do not yet.
+
+Where in the code: contracts in [`pipeline/protocols.py`](pipeline/protocols.py), building blocks in
+[`pipeline/`](pipeline), acceptance tests in [`conformance/`](conformance), the reasoning in
+[`blueprint/`](blueprint).
+
+```mermaid
+flowchart TB
+  subgraph infra["00 infrastructure"]
+    clock["Clock<br/>UTC ns"]
+    store[("Point-in-time<br/>store")]
+    kill["Kill switch"]
+  end
+  data["01 data<br/>bars, funding"] -->|"append with available_at"| store
+  store -->|"view as of t"| feat["02 features<br/>value at t uses ≤ t"]
+  feat -->|"feature values"| strat["03 strategy<br/>score in -1..1"]
+  strat -->|"signals"| price["04 pricing<br/>carry, funding band"]
+  price -->|"signal + fair value"| risk["05 risk<br/>vol forecast, limits"]
+  risk -->|"vol, limits"| port["06 portfolio<br/>half-Kelly, caps"]
+  port -->|"target weights"| gate{"risk gate"}
+  gate -->|"clipped target"| exec["07 execution<br/>orders, fills"]
+  kill -.->|"trips: flatten"| gate
+  exec -->|"fills, P&L"| store
+  val["08 validation<br/>purged CV, deflated Sharpe,<br/>paper reconciliation"]
+  val -.->|"acceptance tests"| feat
+  val -.->|"acceptance tests"| strat
+  val -.->|"acceptance tests"| exec
+  classDef data fill:#dbeafe,stroke:#1d4ed8,color:#0b1220
+  classDef step fill:#f1f5f9,stroke:#475569,color:#0b1220
+  classDef gate fill:#fef3c7,stroke:#b45309,color:#0b1220
+  classDef key fill:#ede9fe,stroke:#6d28d9,color:#0b1220,stroke-width:2px
+  class store,data data
+  class feat,strat,price,risk,port,exec,clock step
+  class gate,kill,val gate
+```
+
+## Why this exists
+
+A trading desk fails in quiet ways: a feature that peeks at the future, a backtest that fills for free, a
+risk limit that only logs. Writing the pieces is the easy part; knowing when a piece is correct is hard,
+and an AI agent building one has no instinct for it. This repo makes "correct" a command that can fail:
+each stage has a contract and a conformance suite, and a stage is done when its suite passes.
+
+## Approach
+
+- **Nine stages**, 00 to 08: infrastructure, data, features, strategy, pricing, risk, portfolio,
+  execution, validation. Each has a typed `Protocol` in `pipeline/protocols.py`.
+- **Building blocks** in `pipeline/`: clock, point-in-time store, costs, purged cross-validation,
+  pricing, risk engine with kill switch, sizing, statistics. Unit-tested in `tests/`.
+- **Conformance suites** in `conformance/stages/`, one per stage, run against any implementation module.
+- **Caught mutants** in `conformance/mutants/`: each is a copy of the toy broken in one specific way, and
+  the mutant suite fails if any conformance test does not catch its mutant.
+- **Scaffold**: `make new-<stage> name=X` creates a stub that reuses the toy for every other stage, so it
+  is a complete implementation from the first minute and its own suite fails until you implement it.
+- **Docs**: [blueprint/FOUNDATIONS.md](blueprint/FOUNDATIONS.md) holds the ideas every stage rests on;
+  [blueprint/README.md](blueprint/README.md) indexes the stage files; [AGENTS.md](AGENTS.md) is the
+  working protocol for an AI agent.
+
+## Results
+
+What is verified today, by command:
+
+| Claim | Command | Evidence |
+|---|---|---|
+| 9 stages each have a protocol and a conformance suite | `make conformance` | [conformance/stages](conformance/stages) |
+| 20 deliberately broken implementations are each caught by the suite | `make mutants` | [conformance/mutants](conformance/mutants) |
+| Building blocks behave as specified | `pytest tests` | [tests/test_blocks.py](tests/test_blocks.py) |
+| An offline toy runs end to end | `bash scripts/demo.sh` | [scripts/demo.py](scripts/demo.py) |
+| Lint and tests pass together | `bash scripts/check.sh` | [ci.yml](.github/workflows/ci.yml) |
+| 20 evidence experiments run, each with a control arm and a verdict rule in its docstring | `python scripts/run_experiments.py` | [blueprint/EVIDENCE.md](blueprint/EVIDENCE.md), [results/](results) |
+
+**Evidence experiments.** Each design rule that matters is tested by an experiment with a control arm
+in the same run, fixed seeds, a standard error and a falsification condition. The thresholds were committed together with
+the first results, so they are not a pre-registration.
+<!-- results:start -->
+16 of 20 experiments support their rule. Not supported: EXP-01-2, EXP-03-1, EXP-03-2, EXP-07-1. Experiments on public Binance data: EXP-04-1, EXP-05-1, EXP-07-1; the rest use synthetic data with a stated generating process. Full table: [blueprint/EVIDENCE.md](blueprint/EVIDENCE.md).
+<!-- results:end -->
+
+![Shuffled vs contiguous vs purged k-fold on pure noise: the false skill comes from shuffling](docs/figures/EXP-08-1.png)
+
+![Full vs half Kelly drawdown distribution](docs/figures/EXP-06-1.png)
+
+![Annualised funding vs quarterly basis, BTC 2025](docs/figures/EXP-04-1.png)
+
+## Quick start
+
+```bash
+pip install -e ".[dev]"            # Python 3.11+ (dev includes the experiment dependencies)
+make test                          # ruff + mypy + unit tests + conformance + mutants
+bash scripts/demo.sh               # offline toy: data to execution, prints a short summary
+python scripts/run_experiments.py  # all 20 experiments (a few minutes), rewrites the results tables
+make new-strategy name=X           # scaffold implementations/X, then make it pass its suite
+make conformance impl=implementations.X
+```
+
+You should see all tests pass and the demo print its step, order and breach counts.
+
+## Project structure
+
+```
+blueprint/     why: FOUNDATIONS.md, one file per stage (rules, failure modes, sources), EVIDENCE.md
+pipeline/      contracts (protocols.py) and shared building blocks
+conformance/   stage suites, the toy implementation, and the mutants that prove the suites can fail
+tests/         unit tests of the building blocks
+experiments/   evidence experiments EXP-*.py; results/ holds their JSON, data/ the public extract
+scripts/       new_stage.py scaffold, check.sh, demo.sh, run_experiments.py, fetch_data.py
+```
+
+## Design decisions and trade-offs
+
+- **Contracts as Protocols, not base classes.** Any object with the right methods conforms, so an
+  implementation can wrap an existing library. The cost is that conformance is checked by tests, not by
+  the type system alone.
+- **Conformance suite is the definition of done.** AGENTS.md instructs agents never to edit a test and
+  the code it judges in one change (a rule, not enforced by CI), and the conformance mutants prove the tests can fail. This slows a quick fix and targets the failure where the test is bent to fit the code.
+- **Mutants prove the tests can fail.** A test no mutant can fail proves nothing. The cost is one small file per
+  mutant, which keeps the suite honest as it grows.
+- **Toy implementation for every stage.** A scaffolded stage is complete from minute one. The toy
+  strategy is a placeholder and makes no claim about returns.
+- **Paper mode by default.** Nothing here touches a live endpoint; [AGENTS.md](AGENTS.md) lists the
+  actions an agent must hand to a human.
+- **Cited, not asserted.** Stage files cite the author, year, title and venue of their sources.
+
+## Limits
+
+- Most experiments use synthetic data with a stated generating process; they show that a rule does what
+  it claims under that process, not that the effect has the same size on a live market.
+- The public-data experiments use one year (2025) of Binance hourly data for two coins, plus BTC daily
+  closes since 2018; the funding-basis band uses assumed borrow and lend rates.
+- EXP-02-1's measurement was revised after review on 2026-10-08 because the original control was biased; its verdict changed from "does not support" to "supports" (see git history).
+- Some experiments do not support their rule as specified; they are kept and named under Results.
+- The toy strategy is a placeholder; this repo makes no claim that any strategy makes money.
+- Only a paper venue exists; a live exchange adapter is not included.
+- Conformance covers the contracts listed in the stage files, not every way a desk can fail.
+- Source citations give author, year, title and venue only; check the originals before relying on them.
+
+## What I learned
+
+- A test is only worth keeping once a deliberately broken implementation has been shown to fail it.
+- Writing "done" as a command makes it possible to hand a stage to an AI agent and check the result.
+- Keeping the reasons (blueprint) apart from the contracts (code) keeps both short.
+
+## Credits and licence
+
+MIT licence, see [LICENSE](LICENSE). The worked example is
+[crypto-trading-pipeline](https://github.com/oscar-chw/crypto-trading-pipeline). Sources are cited in
+`blueprint/`. Implemented with AI coding agents under Oscar's design and review.

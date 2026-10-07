@@ -9,16 +9,15 @@ const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
 const range = (n: number) => Array.from({ length: n }, (_, i) => i);
 const kind = ({
   "fatqat-gpu-backend": "amplitudes", "qts-research-platform": "lanes", "point-in-time-research": "sweep",
-  "streaming-reconciliation": "memory", "imc-prosperity-4": "ladder", "pokemon-tcg-ai": "cards",
+  "crypto-trading-pipeline": "gate", "imc-prosperity-4": "ladder", "pokemon-tcg-ai": "cards",
   "market-making-lab": "quotes", "factor-lab": "ranks", "alpha-search": "tree", "agent-harness": "shell",
   "studyflow": "timetable", "final-year-project": "gate",
-  "ai-quant-research-system": "shell", "competitions": "ladder", "supporting-work": "memory", "coursework": "timetable",
+  "ai-quant-research-system": "shell", "competitions": "ladder", "supporting-work": "tree", "coursework": "timetable",
 } as Record<string, string>)[slug] ?? "sweep";
 const caption = ({
   amplitudes: "state-vector amplitudes, updated in parallel on the GPU",
   lanes: "three layers, each rebuilt from the one above: raw (kept as delivered), typed, cleansed",
   sweep: "t = now sweeps forward; nothing to its right is ever read",
-  memory: "in memory, the working set climbs; streamed, it stays flat",
   ladder: "quotes around a fair value, re-priced as it drifts",
   cards: "a policy scores each legal option; the best one lights up",
   quotes: "inventory-aware quotes follow the mid",
@@ -43,10 +42,6 @@ const caption = ({
       <line class="rule" x1="0" x2={W} y1={H * 0.62} y2={H * 0.62} />
       {range(60).map((i) => <circle class="pt" cx={20 + i * 20} cy={H * 0.62 - 8 - rnd() * H * 0.4} r="3.2" style={`--i:${i}`} />)}
       <g class="now"><line x1="0" x2="0" y1="10" y2={H - 10} /><text x="8" y="26">t = now</text></g>
-    </>)}
-    {kind === "memory" && (<>
-      <path class="grow" d={`M0 ${H - 20} L${W} 24`} pathLength="1" />
-      <path class="flat" d={`M0 ${H - 40} ${range(40).map((i) => `L${(i + 1) * (W / 40)} ${H - 40 - (i % 2 ? 26 : 8)}`).join(" ")}`} pathLength="1" />
     </>)}
     {(kind === "ladder" || kind === "quotes") && (<>
       <path class="mid" d={`M0 ${H / 2} ${range(30).map((i) => `L${(i + 1) * 40} ${(H / 2 + Math.sin(i * 0.7) * 30 + (rnd() - 0.5) * 16).toFixed(0)}`).join(" ")}`} pathLength="1" />

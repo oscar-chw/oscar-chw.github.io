@@ -15,7 +15,6 @@ const shots = [
   ["/about/", "about", 1280, 900, "light"],
   ["/demos/fourier/", "fourier", 1280, 900, "dark"],
   ["/demos/order-book/", "order-book", 1280, 900, "dark"],
-  ["/demos/reconciliation/", "reconciliation", 1280, 900, "dark"],
   ["/card/", "card", 1280, 700, "dark"],
 ];
 const browser = await chromium.launch();

@@ -1,33 +1,46 @@
 ---
 title: Supporting work
-summary: 'Smaller, standalone projects: a streaming rewrite of a trade-reconciliation step, and a genetic-programming alpha search with pre-registered splits.'
+summary: 'Smaller, standalone projects: a template for building a crypto trading desk, the exchange-agnostic trading pipeline I rebuilt on it, and a genetic-programming alpha search with pre-registered splits.'
 order: 5
 featured: true
 group: Engineering and AI
 role: Designer and author
 stack:
 - Python
-- Decimal
-- external sort
+- ccxt
 - SQLite
 - genetic programming
+sources:
+  - sources/crypto-desk-blueprint/README-2d82aed.md
+  - sources/crypto-desk-blueprint/EXP-08-1-2d82aed.json
+  - sources/crypto-desk-blueprint/EXP-06-1-2d82aed.json
+  - sources/crypto-desk-blueprint/EXP-04-1-2d82aed.json
+  - sources/crypto-trading-pipeline/README-235e0ac.md
 links:
-- label: 'Repository: streaming-reconciliation'
-  href: https://github.com/oscar-chw/streaming-reconciliation
+- label: 'Repository: crypto-desk-blueprint'
+  href: https://github.com/oscar-chw/crypto-desk-blueprint
+- label: 'Repository: crypto-trading-pipeline'
+  href: https://github.com/oscar-chw/crypto-trading-pipeline
 - label: 'Repository: alpha-gp-lab'
   href: https://github.com/oscar-chw/alpha-gp-lab
 ---
 import Part from "../../components/Part.astro";
-import P_streaming_reconciliation from "./_streaming-reconciliation.mdx";
+import P_crypto_trading_pipeline from "./_crypto-trading-pipeline.mdx";
 import P_alpha_search from "./_alpha-search.mdx";
 
 
 
-## Streaming reconciliation
+## Crypto Desk Blueprint
 
-<Part role="Designer and sole author of the reconciliation layer" stack={["Python", "Decimal", "external sort"]} metrics={[{"value": "−96%", "label": "peak memory on a 225k-row synthetic benchmark (684 MB to under 30 MB)"}, {"value": "−12%", "label": "time versus the in-memory reader, with identical output"}]} links={[{"label": "Repository: streaming-reconciliation", "href": "https://github.com/oscar-chw/streaming-reconciliation"}]} />
+<Part role="Designer; implemented with AI coding agents under my design and review" stack={["Python", "typed Protocols", "conformance tests"]} metrics={[{"value": "16 of 20", "label": "experiments, each with a control arm, support their rule; the other four are reported"}, {"value": "20", "label": "deliberately broken implementations, each caught by the conformance suite"}]} links={[{"label": "Repository: crypto-desk-blueprint", "href": "https://github.com/oscar-chw/crypto-desk-blueprint"}, {"label": "Demo: the blueprint and three of its experiments", "href": "/demos/crypto-desk/"}]} />
 
-<P_streaming_reconciliation />
+A template for building a crypto trading desk from scratch, for a person or an AI agent. It splits the desk into nine typed stages, from data and features through pricing, risk and portfolio sizing to execution and validation. Each stage has conformance tests that any implementation must pass, and tested building blocks: a point-in-time store that refuses future reads, a fee and slippage model, risk limits with a kill switch, purged cross-validation, deflated Sharpe and capped half-Kelly. No trading profit is claimed.
+
+## Crypto Trading Pipeline
+
+<Part role="Author; rebuilt after the WQT 2025 hackathon, with the public cleanup and tests done with AI coding agents under my design and review" stack={["Python", "ccxt"]} metrics={[{"value": "130 of 130", "label": "checked bars where the live loop and the backtest make the same entry decision"}, {"value": "58", "label": "blueprint conformance tests passed (data, features, strategy, execution)"}]} links={[{"label": "Repository: crypto-trading-pipeline", "href": "https://github.com/oscar-chw/crypto-trading-pipeline"}]} />
+
+<P_crypto_trading_pipeline />
 
 ## Formulaic Alpha Search (GP)
 

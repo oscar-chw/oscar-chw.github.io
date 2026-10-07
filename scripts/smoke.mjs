@@ -12,7 +12,6 @@ const pages = [
   ["/projects/qts-research-platform/", ".figs dt"],
   ["/demos/fourier/", "[data-testid=fourier-error][data-value]:not([data-value=''])"],
   ["/demos/order-book/", "[data-testid=replay-step]"],
-  ["/demos/reconciliation/", "[data-testid=series-streaming]"],
   ["/demos/harbour/", "[data-testid=book-badge]"],
   ["/about/", "main img"],
   ["/cv/", "a[download]"],

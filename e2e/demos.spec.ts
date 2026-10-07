@@ -5,7 +5,7 @@ import { localPyodide } from "./pyodide";
 const DEMOS = [
   ["/demos/fourier/", /photo|path/i],
   ["/demos/order-book/", /synthetic/i],
-  ["/demos/reconciliation/", /synthetic/i],
+  ["/demos/crypto-desk/", /synthetic/i],
   ["/demos/harbour/", /synthetic/i],
 ] as const;
 
@@ -131,14 +131,6 @@ test("order-book replay: play advances the tape and the book stays uncrossed", a
   expect(bid).toBeLessThan(ask);
 });
 
-test("reconciliation: both series are drawn from the measured file", async ({ page }) => {
-  await page.goto("/demos/reconciliation/");
-  await expect(page.getByTestId("series-inmemory")).toBeVisible();
-  await expect(page.getByTestId("series-streaming")).toBeVisible();
-  await page.getByTestId("recon-play").click();
-  await expect.poll(async () => Number(await page.getByTestId("recon-progress").getAttribute("data-value")), { timeout: 8000 }).toBeGreaterThan(0);
-});
-
 test("harbour demo page renders the interactive harbour", async ({ page }) => {
   await page.goto("/demos/harbour/");
   await expect(page.getByTestId("harbour").locator("canvas").first()).toBeVisible();
@@ -260,7 +252,7 @@ test("lab: the DNA channel reads a clean strand back exactly and one deletion ga
 });
 
 test("lab: the file list always fits its box; folders fold only when needed and open on click", async ({ page }) => {
-  for (const [w, h] of [[1920, 1080], [1366, 768]]) {
+  for (const [w, h] of [[1920, 1080], [1366, 700]]) {
     await page.setViewportSize({ width: w, height: h });
     await page.goto("/demos/");
     const fits = await page.locator(".tree").evaluate((t) => t.scrollHeight <= t.clientHeight + 4);
@@ -284,7 +276,7 @@ test("lab: an expanded file list scrolls with the mouse wheel inside it (smooth 
   await tree.hover();
   await page.mouse.wheel(0, 400);
   await expect.poll(() => tree.evaluate((t) => t.scrollTop)).toBeGreaterThan(50);
-  await expect(page.locator('[data-exp="reconciliation"]')).toBeVisible();
+  await expect(page.locator('[data-exp="multitest"]')).toBeVisible();
 });
 
 // The five Lab demos below had no behaviour test until 2026-10-07; each asserts the one claim its panel makes.
