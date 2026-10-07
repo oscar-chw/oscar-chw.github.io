@@ -2,6 +2,7 @@
 // One component of a grouped project page: an anchor under its old page's slug (old URLs redirect
 // here), then its role, stack, headline figures and repository, above its own write-up.
 import Icon from "./Icon.astro";
+import { url } from "../lib/url";
 interface Props {
   id?: string;                 // only where the heading's own slug differs from the old page's
   role: string; stack?: string[]; period?: string;
@@ -16,8 +17,11 @@ const { id, role, stack = [], period, metrics = [], links = [] } = Astro.props;
       {metrics.map((m) => <div><dt class="mono">{m.value}</dt><dd>{m.label}</dd></div>)}
     </dl>
   )}
+  {/* a site-internal link (a demo) goes through url() so it honours the base, and is marked as a Lab link */}
   {links.length > 0 && (
-    <p class="pl">{links.map((l) => <a href={l.href}><Icon name="github" size={14} />{l.label}<Icon name="arrow-up-right" size={12} /></a>)}</p>
+    <p class="pl">{links.map((l) => l.href.startsWith("/")
+      ? <a href={url(l.href)}><Icon name="flask-conical" size={14} />{l.label}</a>
+      : <a href={l.href}><Icon name="github" size={14} />{l.label}<Icon name="arrow-up-right" size={12} /></a>)}</p>
   )}
 </div>
 
