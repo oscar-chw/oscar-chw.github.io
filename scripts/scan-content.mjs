@@ -75,6 +75,10 @@ for (const f of files) {
       if (!ALLOWED_EMAIL.test(m[0]) && !/@(?:astrojs|example)\./.test(m[0])) { console.error(`FAIL ${relative(".", f)}:${i + 1}: email ${m[0].replace(/^[^@]+/, "***")}`); bad++; }
     }
   });
+  // FatQat was inspired by CENG5280 but is not coursework. Named failure: the two in one sentence.
+  // Tested on the raw file, with the window stopped at a tag or string boundary: on flattened HTML,
+  // nav and list items with no full stop between them would read as one long "sentence".
+  if (/(?:fatqat|CENG\s?5280)[^.<>"\n]{0,200}coursework|coursework[^.<>"\n]{0,200}(?:fatqat|CENG\s?5280)/i.test(raw)) { console.error(`FAIL ${relative(".", f)}: FatQat or CENG5280 called coursework`); bad++; }
   // FatQat's 35–42× is the r9 release's figure; the current code differs. Named failure: the figure
   // shown as if it described the current code. Every occurrence needs "r9" close by.
   for (const m of text.matchAll(/35\s*[–-]\s*42\s*×/g)) {
