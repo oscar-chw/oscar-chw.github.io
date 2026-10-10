@@ -74,7 +74,8 @@ a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thicknes
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 img, svg, canvas { max-width: 100%; }
-code, kbd, .mono { font-family: var(--font-mono), ui-monospace, Menlo, monospace; font-size: 0.86em; }
+/* monospace keeps its relative size but never drops under the 14 px floor (W05) */
+code, kbd, .mono { font-family: var(--font-mono), ui-monospace, Menlo, monospace; font-size: max(0.875rem, 0.86em); }
 ::selection { background: var(--accent); color: var(--bg); }
 
 /* the "code comment" label, the site's typographic signature */
@@ -190,7 +191,7 @@ input[type="range"] { min-height: 28px; }   /* the thumb is a comfortable tap ta
 
 /* the "unlasting" mini-player: visible and credited while it plays, as YouTube's rules require */
 .ytmini { position: fixed; right: 16px; bottom: 16px; z-index: 45; width: min(372px, calc(100vw - 24px)); padding: 8px; border-radius: 16px; touch-action: none; }
-.ytmini p { display: flex; align-items: center; gap: 4px; margin: 0 4px 6px; font-size: 0.7rem; cursor: grab; }
+.ytmini p { display: flex; align-items: center; gap: 4px; margin: 0 4px 6px; font-size: 0.875rem; cursor: grab; }
 .ytmini p:active { cursor: grabbing; }
 .ytmini a { flex: 1; min-width: 0; }
 .ytmini a { color: var(--ink); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -1,0 +1,1138 @@
+{
+ "base": "http://localhost:4340",
+ "tag": "after",
+ "when": "2026-10-10T00:14:34.392Z",
+ "routes": {
+  "/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "11.2px figcaption.mono: hover: the same face, as one line",
+     "13.12px p.status.mono: open to work · CS @ CUHK, class of 2027 ",
+     "13.12px time.: 08:14",
+     "13.12px span.: ETH",
+     "13.12px b.: live",
+     "12px span.badge.mono: live · ETH/USDT",
+     "12px button.pause.mono: Pause",
+     "13.6px p.mono.why: the rule behind point-in-time research, ",
+     "13.6px a.: point-in-time research",
+     "12.48px span.tag.mono: claude code · python",
+     "12.48px span.tag.mono: python · cuda",
+     "12.48px span.tag.mono: python · apache parquet",
+     "12.48px span.tag.mono: bayesian scoring · conformal risk contro",
+     "12.48px span.tag.mono: python · kalman filter",
+     "12.48px span.tag.mono: python · sqlite",
+     "12.8px span.d: A gated build",
+     "12.8px span.d: Command guard",
+     "12.8px span.d: Search this site",
+     "12.8px span.d: Look-ahead bias",
+     "12.8px span.d: Order-book replay",
+     "12.8px span.d: Choose on validation",
+     "12.8px span.d: Market making",
+     "12.8px span.d: Candle timing audit",
+     "12.8px span.d: Point-in-time reads",
+     "12.8px span.d: Lost updates",
+     "12.8px span.d: Compensated products",
+     "12.8px span.d: Qubit sandbox",
+     "12.8px span.d: Kalman drift gate",
+     "12.8px span.d: Legal-move masking",
+     "12.8px span.d: Decision gate",
+     "12.8px span.d: Crypto desk blueprint",
+     "12.8px span.d: The multiple-testing trap",
+     "12.8px span.d: DNA channel",
+     "12.8px span.d: Timetable clashes",
+     "12.8px span.d: Option surface in 3D",
+     "12.8px span.d: Fourier portrait",
+     "12.8px span.d: The harbour"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-home-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "13.12px p.status.mono: open to work · CS @ CUHK, class of 2027 ",
+     "13.12px time.: 08:15",
+     "13.12px span.: ETH",
+     "13.12px b.: live",
+     "12px span.badge.mono: live · ETH/USDT",
+     "12px button.pause.mono: Pause",
+     "13.6px p.mono.why: the rule behind point-in-time research, ",
+     "13.6px a.: point-in-time research",
+     "12.48px span.tag.mono: claude code · python",
+     "12.48px span.tag.mono: python · cuda",
+     "12.48px span.tag.mono: python · apache parquet",
+     "12.48px span.tag.mono: bayesian scoring · conformal risk contro",
+     "12.48px span.tag.mono: python · kalman filter",
+     "12.48px span.tag.mono: python · sqlite",
+     "12.8px span.d: A gated build",
+     "12.8px span.d: Command guard",
+     "12.8px span.d: Search this site",
+     "12.8px span.d: Look-ahead bias",
+     "12.8px span.d: Order-book replay",
+     "12.8px span.d: Choose on validation",
+     "12.8px span.d: in the Lab"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-home-phone.png"
+   }
+  },
+  "/about/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "12.6px span.num: 2023",
+     "12.6px span.num: 2027",
+     "12.6px span.num: 2026",
+     "12.6px span.num: 2025"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-about-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "12.6px span.num: 2023",
+     "12.6px span.num: 2027",
+     "12.6px span.num: 2026",
+     "12.6px span.num: 2025"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-about-phone.png"
+   }
+  },
+  "/card/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "12.48px span.brand: oscar@chw",
+     "12.48px span.open: open to work",
+     "12.48px p.full.mono: CHOI Hei Wang",
+     "12.8px span.: choiheiwang@gmail.com",
+     "12.8px span.: oscar-chw.github.io",
+     "12.8px span.: discord moonchw",
+     "12.48px strong.: Website",
+     "12.48px span.: oscar-chw.github.io",
+     "12.48px strong.: LinkedIn",
+     "12.48px span.: linkedin.com/in/oscar-chw"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-card-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "12.48px span.brand: oscar@chw",
+     "12.48px span.open: open to work",
+     "12.48px p.full.mono: CHOI Hei Wang",
+     "11.52px p.: Computer Science, CUHK · graduating 2027",
+     "11.52px p.muted: Quant developer · quant research · tradi",
+     "10.9125px span.: choiheiwang@gmail.com",
+     "10.9125px span.: oscar-chw.github.io",
+     "10.9125px span.: discord moonchw",
+     "12.48px strong.: Website",
+     "12.48px span.: oscar-chw.github.io",
+     "12.48px strong.: LinkedIn",
+     "12.48px span.: linkedin.com/in/oscar-chw"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-card-phone.png"
+   }
+  },
+  "/cv/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-cv-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-cv-phone.png"
+   }
+  },
+  "/demos/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos-phone.png"
+   }
+  },
+  "/demos/crypto-desk/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_crypto-desk-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_crypto-desk-phone.png"
+   }
+  },
+  "/demos/fourier/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "13.6px p.privacy: Your photo stays on your device. It is t"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_fourier-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "13.6px p.privacy: Your photo stays on your device. It is t"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_fourier-phone.png"
+   }
+  },
+  "/demos/harbour/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "12px span.badge.mono: live · ETH/USDT",
+     "12px button.pause.mono: Pause",
+     "12.8px legend.: market",
+     "12.8px label.: Regime-switching",
+     "12.8px label.: Calm",
+     "12.8px label.: Trending",
+     "12.8px label.: Mean-reverting",
+     "12.8px label.: Volatile",
+     "12.8px label.: Crash",
+     "12.8px label.seed: seed",
+     "12.8px legend.: water",
+     "12.8px label.: ETH/USDT live",
+     "12.8px label.: BTC/USDT live",
+     "12.8px label.: SOL/USDT live",
+     "12.8px label.: Simulated"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_harbour-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "12px span.badge.mono: live · ETH/USDT",
+     "12px button.pause.mono: Pause",
+     "12.8px legend.: market",
+     "12.8px label.: Regime-switching",
+     "12.8px label.: Calm",
+     "12.8px label.: Trending",
+     "12.8px label.: Mean-reverting",
+     "12.8px label.: Volatile",
+     "12.8px label.: Crash",
+     "12.8px label.seed: seed",
+     "12.8px legend.: water",
+     "12.8px label.: ETH/USDT live",
+     "12.8px label.: BTC/USDT live",
+     "12.8px label.: SOL/USDT live",
+     "12.8px label.: Simulated"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_harbour-phone.png"
+   }
+  },
+  "/demos/order-book/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [
+     "12.8px dt.: event",
+     "12.8px dt.: best bid",
+     "12.8px dt.: best ask",
+     "12.8px dt.: trades",
+     "12.48px th.: bid size",
+     "12.48px th.: price",
+     "12.48px th.: ask size"
+    ],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_order-book-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [
+     "12.8px dt.: event",
+     "12.8px dt.: best bid",
+     "12.8px dt.: best ask",
+     "12.8px dt.: trades",
+     "12.48px th.: bid size",
+     "12.48px th.: price",
+     "12.48px th.: ask size"
+    ],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos_order-book-phone.png"
+   }
+  },
+  "/projects/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects-phone.png"
+   }
+  },
+  "/projects/ai-quant-research-system/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_ai-quant-research-system-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_ai-quant-research-system-phone.png"
+   }
+  },
+  "/projects/competitions/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_competitions-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_competitions-phone.png"
+   }
+  },
+  "/projects/coursework/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_coursework-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_coursework-phone.png"
+   }
+  },
+  "/projects/fatqat-gpu-backend/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_fatqat-gpu-backend-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_fatqat-gpu-backend-phone.png"
+   }
+  },
+  "/projects/final-year-project/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_final-year-project-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_final-year-project-phone.png"
+   }
+  },
+  "/projects/qts-research-platform/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_qts-research-platform-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_qts-research-platform-phone.png"
+   }
+  },
+  "/projects/supporting-work/": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_supporting-work-desktop.png"
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-projects_supporting-work-phone.png"
+   }
+  }
+ },
+ "experiments": {
+  "gatedbuild": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__gatedbuild-desktop.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__gatedbuild-phone.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "guard": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__guard-desktop.png",
+    "controls": 12,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__guard-phone.png",
+    "controls": 12,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "search": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__search-desktop.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__search-phone.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "lookahead": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__lookahead-desktop.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__lookahead-phone.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "factors": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__factors-desktop.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__factors-phone.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "marketmaking": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__marketmaking-desktop.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__marketmaking-phone.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "candles": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__candles-desktop.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__candles-phone.png",
+    "controls": 4,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "point-in-time": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__point-in-time-desktop.png",
+    "controls": 2,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__point-in-time-phone.png",
+    "controls": 2,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "lostupdates": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__lostupdates-desktop.png",
+    "controls": 6,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__lostupdates-phone.png",
+    "controls": 6,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "compensated": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__compensated-desktop.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__compensated-phone.png",
+    "controls": 9,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "qubits": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__qubits-desktop.png",
+    "controls": 14,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__qubits-phone.png",
+    "controls": 14,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "imc": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__imc-desktop.png",
+    "controls": 3,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__imc-phone.png",
+    "controls": 3,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "policy": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__policy-desktop.png",
+    "controls": 10,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__policy-phone.png",
+    "controls": 10,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "gate": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__gate-desktop.png",
+    "controls": 3,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__gate-phone.png",
+    "controls": 3,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "multitest": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__multitest-desktop.png",
+    "controls": 2,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__multitest-phone.png",
+    "controls": 2,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "dna": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__dna-desktop.png",
+    "controls": 6,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__dna-phone.png",
+    "controls": 6,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "timetable": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__timetable-desktop.png",
+    "controls": 7,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__timetable-phone.png",
+    "controls": 7,
+    "reset": true,
+    "readout": true
+   }
+  },
+  "options": {
+   "desktop": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__options-desktop.png",
+    "controls": 10,
+    "reset": true,
+    "readout": true
+   },
+   "phone": {
+    "overflow": 0,
+    "small": [],
+    "clipped": [
+     "span.sr-only: home",
+     "span.lbl: Work",
+     "span.lbl: Demos",
+     "span.lbl: About"
+    ],
+    "focusVisible": true,
+    "errors": [],
+    "shot": "docs/showcase/shots/after-demos__options-phone.png",
+    "controls": 10,
+    "reset": true,
+    "readout": true
+   }
+  }
+ }
+}

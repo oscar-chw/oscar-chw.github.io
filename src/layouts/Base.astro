@@ -185,27 +185,27 @@ const commands: [string, string, string][] = [
   /* the input draws no box of its own, so keyboard focus gets a visible ring (WCAG 2.4.7; it had none before W05) */
   .cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
   .cmd::placeholder { color: color-mix(in srgb, var(--muted) 70%, transparent); }
-  .po { margin: 0; padding: 12px 20px; border-bottom: 1px solid var(--glass-edge); color: var(--accent); font-size: 0.82rem; white-space: pre-wrap; }
+  .po { margin: 0; padding: 12px 20px; border-bottom: 1px solid var(--glass-edge); color: var(--accent); font-size: 0.875rem; white-space: pre-wrap; }
   nav ul, .site-footer ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; flex-wrap: wrap; }
   nav a { display: flex; align-items: center; gap: 7px; color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 6px 12px; border-radius: 999px; }
   nav a:hover { color: var(--ink); }
   nav a[aria-current="page"] { color: var(--ink); background: var(--glass-bg); box-shadow: inset 0 0 0 1px var(--glass-edge); }
   .kbtn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 999px; height: 34px; padding: 0 11px; cursor: pointer; flex: none; }
-  .kbtn kbd { font-size: 0.72rem; }
+  .kbtn kbd { font-size: 0.875rem; }
   :global(html[data-theme="light"]) .theme :global(.i-dark), :global(html:not([data-theme="light"])) .theme :global(.i-light) { display: none; }
   .site-footer a, .site-footer .dc { display: inline-flex; align-items: center; gap: 7px; }
-  .site-footer .dc { color: var(--muted); font-size: 0.85rem; }
+  .site-footer .dc { color: var(--muted); font-size: 0.875rem; }
   .kbtn:hover { color: var(--ink); border-color: var(--accent); }
   .palette { width: min(100% - 32px, 620px); margin: 14vh auto auto; padding: 0; border-radius: 22px; color: var(--ink); overflow: hidden; }
   .palette::backdrop { background: rgb(0 0 0 / 0.5); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
   .pf { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--glass-edge); }
   .prompt { color: var(--accent); }
   .pq { flex: 1; background: none; border: 0; outline: 0; color: var(--ink); font-size: 1rem; }
-  .esc { font-size: 0.7rem; color: var(--muted); border: 1px solid var(--glass-edge); border-radius: 6px; padding: 1px 6px; }
+  .esc { font-size: 0.875rem; color: var(--muted); border: 1px solid var(--glass-edge); border-radius: 6px; padding: 1px 6px; }
   .pl { list-style: none; margin: 0; padding: 8px; max-height: 52vh; overflow: auto; }
   .pl a { display: flex; gap: 14px; align-items: baseline; padding: 9px 12px; border-radius: 12px; color: var(--ink); text-decoration: none; }
   .pl li[aria-selected] a, .pl a:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
-  .k { width: 56px; flex: none; font-size: 0.72rem; color: var(--muted); }
+  .k { width: 56px; flex: none; font-size: 0.875rem; color: var(--muted); }
   .theme { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; flex: none; }
   .theme:hover { color: var(--ink); }
   .music { background: none; border: 1px solid var(--glass-edge); color: var(--muted); border-radius: 50%; width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer; flex: none; }
@@ -218,7 +218,7 @@ const commands: [string, string, string][] = [
   .mus-pop { position: absolute; top: calc(100% + 12px); right: -54px; width: min(300px, calc(100vw - 32px)); padding: 14px; border-radius: 18px; display: none; z-index: 40; color: var(--ink); background-color: color-mix(in srgb, var(--bg-2) 94%, transparent); }
   .mus-pop::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 14px; }
   .mus:hover .mus-pop, .mus:focus-within .mus-pop, .mus.open .mus-pop { display: block; }
-  .mus-h { margin: 0 0 8px; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .mus-h { margin: 0 0 8px; font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
   .mus-tracks { display: flex; flex-direction: column; gap: 4px; }
   .mus-tracks label { display: flex; gap: 10px; align-items: flex-start; padding: 7px 8px; border-radius: 10px; cursor: pointer; }
   .mus-tracks label:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
@@ -226,9 +226,9 @@ const commands: [string, string, string][] = [
   .mus-tracks input { accent-color: var(--accent); margin-top: 3px; }
   .mus-tracks span { display: flex; flex-direction: column; gap: 1px; }
   .mus-tracks b { font-weight: 600; font-size: 0.9rem; }
-  .mus-tracks i { font-style: normal; font-size: 0.74rem; color: var(--muted); }
-  .mus-now { margin: 10px 2px 6px; font-size: 0.72rem; color: var(--accent); }
-  .mus-vol { display: flex; align-items: center; gap: 10px; font-size: 0.72rem; color: var(--muted); }
+  .mus-tracks i { font-style: normal; font-size: 0.875rem; color: var(--muted); }
+  .mus-now { margin: 10px 2px 6px; font-size: 0.875rem; color: var(--accent); }
+  .mus-vol { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--muted); }
   .mus-vol input { flex: 1; accent-color: var(--accent); }
   .mus-vol output { min-width: 4ch; text-align: right; }
   @media (max-width: 700px) { .mus-pop { position: fixed; top: 84px; right: 16px; } }
