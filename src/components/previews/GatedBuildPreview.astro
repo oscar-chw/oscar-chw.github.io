@@ -1,0 +1,33 @@
+---
+// The AI quant research system's build-computed result: the Lab's own gated work graph, run once with a planted bug.
+import g from "../../../sources/site-experiments/gated-build-preview.json";
+import LiveCta from "./LiveCta.astro";
+import "./preview.css";
+---
+<figure class="pv" aria-labelledby="gb-cap">
+  <p class="pv-tag mono" id="gb-cap"><b>BUILD-COMPUTED</b> by the Lab's own code when this page was built · a SYNTHETIC five-task chain, not the build's real tasks</p>
+  <ol class="gbp">
+    {g.tasks.map((t) => (
+      <li class={t.state}>
+        <span class="gbp-n mono">{t.id.padStart(2, "0")}</span>
+        <span class="gbp-t"><b>{t.title}</b><small>gate: {t.gate}</small>{t.evidence.map((e) => <small class="ev">evidence: {e}</small>)}</span>
+        <span class="gbp-s mono">{t.state === "done" ? "done" : g.ready.includes(t.id) ? "pending · ready" : "pending · blocked"}</span>
+      </li>
+    ))}
+  </ol>
+  <ol class="gbp-log mono">{g.log.map((l) => <li>{l}</li>)}</ol>
+  <LiveCta id="gatedbuild" what="run the gates yourself, plant the bug, then claim the task is done" />
+</figure>
+
+<style>
+  .gbp { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .gbp li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line-2); }
+  .gbp-n { font-size: 0.875rem; color: var(--muted); }
+  .gbp-t { display: flex; flex-direction: column; gap: 2px; } .gbp-t b { font-size: 1rem; } .gbp-t small { font-size: 0.875rem; color: var(--muted); }
+  .gbp-t small.ev { color: var(--down); }
+  .gbp-s { font-size: 0.875rem; color: var(--muted); }
+  .gbp li.done .gbp-s { color: var(--up); }
+  .gbp li.pending:has(.ev) { border-color: color-mix(in srgb, var(--down) 50%, var(--line-2)); }
+  .gbp-log { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 0.875rem; color: var(--muted); }
+  @media (max-width: 640px) { .gbp li { grid-template-columns: auto minmax(0, 1fr); } .gbp-s { grid-column: 2; } }
+</style>

@@ -27,6 +27,24 @@ sources:
   - sources/crypto-desk-blueprint/EXP-06-1-2d82aed.json
   - sources/crypto-desk-blueprint/EXP-04-1-2d82aed.json
   - sources/crypto-trading-pipeline/README-235e0ac.md
+  - sources/site-experiments/gated-build-preview.json
+casestudy:
+  problem: "AI agents can turn a quant textbook into code quickly, but an agent saying \"done\" is not evidence. Across hundreds of tasks, one unchecked claim compounds."
+  constraints:
+    - "Every claim is paraphrased and cited, never copied."
+    - "A task is done only when its gate command exits 0, not when it looks done."
+    - "Measured results are kept as cited, version-controlled notes."
+  experiment: gatedbuild
+  result: "A planted bug sends its task back to pending with dated evidence; claiming it is done changes nothing, and the next task cannot start. The real build ended with 1,400+ extracted claims verified by passing tests (773 tests, 0 failing)."
+  tradeoff:
+    chose: "a gate per task: a command that can fail is the only way to mark work done"
+    over: "trusting an agent's report, or a reviewer reading its summary"
+    why: "an exit code is evidence and a confident summary is not, and agents write confident summaries"
+    cost: "every task needs its check written before the work, and a wrong check has to be fixed openly, never routed around"
+  contribution: "The orchestration, the gated work graph, the vault and the agent harness, designed and written by me; the AI agents implemented the tasks under those gates."
+  evidence:
+    - { label: "agentic-quant-research: the build, its tests and its gates", href: "https://github.com/oscar-chw/agentic-quant-research" }
+    - { label: "agent-harness: the rulebook, memory and command guard", href: "https://github.com/oscar-chw/agent-harness" }
 links:
 - label: 'Repository: agentic-quant-research'
   href: https://github.com/oscar-chw/agentic-quant-research

@@ -5,8 +5,8 @@ import { Shuffle } from "lucide";
 const CANDS = [["momentum 5d", momentum(5)], ["momentum 20d", momentum(20)], ["momentum 60d", momentum(60)], ["reversal 5d", reversal(5)]] as const;
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
-  const grid = h("div", { class: "ics" });
-  stage.append(grid);
+  const grid = h("div", { class: "ics" }), res = h("p", { class: "lab-result", "aria-live": "polite" });
+  stage.append(grid, res);
   let seed = 4, reveal = "hidden";
   const draw = () => {
     const p = panel(seed);
@@ -14,6 +14,9 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     const pick = rows.reduce((b, r) => (r.va > b.va ? r : b));
     const max = Math.max(...rows.flatMap((r) => [Math.abs(r.tr), Math.abs(r.va), Math.abs(r.te)]), 1e-6);
     const bar = (v: number, cls: string, hidden = false) => h("span", { class: `icb ${cls}${hidden ? " sealed" : ""}`, style: `--w:${((Math.abs(v) / max) * 50).toFixed(1)}%;--s:${v < 0 ? -1 : 1}` }, h("b", { class: "mono" }, hidden ? "sealed" : v.toFixed(3)));
+    res.textContent = reveal === "hidden"
+      ? `Chosen on validation: ${pick.name}. Its test score stays sealed until you open it, so the choice cannot peek at it.`
+      : `Chosen on validation: ${pick.name}; its one test score is ${pick.te.toFixed(3)}${pick.te < pick.va ? ", lower than on validation, as an honest test usually is" : ""}.`;
     grid.replaceChildren(
       h("div", { class: "ic-head mono" }, h("span", {}, "candidate"), h("span", {}, "train"), h("span", {}, "validation"), h("span", {}, "test")),
       ...rows.map((r) => h("div", { class: `ic-row${r === pick ? " pick" : ""}` }, h("span", { class: "mono" }, r.name + (r === pick ? "  ← chosen on validation" : "")), bar(r.tr, "tr"), bar(r.va, "va"), bar(r.te, "te", reveal === "hidden" || r !== pick))),

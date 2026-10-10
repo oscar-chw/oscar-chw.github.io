@@ -3,10 +3,12 @@
 // try, what that shows, the tradeoff that was made, and what I built, with evidence. Every line comes from the project's
 // frontmatter (`casestudy:`), so check-numbers holds it to the same sources as the rest of the page.
 import CompensatedPreview from "./previews/CompensatedPreview.astro";
+import PointInTimePreview from "./previews/PointInTimePreview.astro";
+import GatedBuildPreview from "./previews/GatedBuildPreview.astro";
 import Icon from "./Icon.astro";
 
 // each flagship's experiment has a build-computed preview here; the live experiment runs in the Lab (no script on this page)
-const PREVIEWS: Record<string, typeof CompensatedPreview> = { compensated: CompensatedPreview };
+const PREVIEWS: Record<string, typeof CompensatedPreview> = { compensated: CompensatedPreview, "point-in-time": PointInTimePreview, gatedbuild: GatedBuildPreview };
 
 interface Props { cs: {
   problem: string; constraints: string[]; experiment: string; result: string;

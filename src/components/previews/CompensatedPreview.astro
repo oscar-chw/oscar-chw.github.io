@@ -2,7 +2,8 @@
 // FatQat's build-computed result: no script on the page. The figures come from the stored preview, which a unit test
 // recomputes with the Lab's own code, and the call to action opens the same experiment live in the Lab.
 import p from "../../../sources/site-experiments/compensated-preview.json";
-import { url } from "../../lib/url";
+import LiveCta from "./LiveCta.astro";
+import "./preview.css";
 
 const rows = [
   { cls: "exact", name: "exact", note: "BigInt reference, rounded once", value: p.case.exact, ulp: "reference", digits: 16 },
@@ -29,15 +30,10 @@ const sw = [["nearly cancelling", p.sweeps.cancelling], ["typical amplitudes", p
     <thead><tr><th scope="col">inputs</th><th scope="col">plain, median</th><th scope="col">plain, worst</th><th scope="col">compensated, median</th><th scope="col">compensated, worst</th></tr></thead>
     <tbody>{sw.map(([k, s]) => <tr><th scope="row">{k}</th><td>{s.plainMedian}</td><td class="bad">{s.plainWorst}</td><td>{s.compensatedMedian}</td><td class="ok">{s.compensatedWorst}</td></tr>)}</tbody>
   </table>
-  <a class="pv-cta" href={url("/demos/#compensated")} data-testid="open-live">
-    <span><b>Try it live</b> change a, b, c and d, switch input kinds, run your own sweep</span>
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-  </a>
+  <LiveCta id="compensated" what="change a, b, c and d, switch input kinds, run your own sweep" />
 </figure>
 
 <style>
-  .pv { margin: 0; padding: 22px; border-radius: 22px; border: 1px solid var(--line-2); background: var(--bg-2); }
-  .pv-tag { margin: 0 0 10px; font-size: 0.875rem; color: var(--muted); } .pv-tag b { color: var(--amber); margin-right: 6px; }
   .pv-formula { margin: 0 0 16px; font-size: clamp(1.3rem, 1rem + 1.2vw, 1.8rem); color: var(--ink); }
   .pv-formula span { display: block; margin-top: 4px; font-size: 0.875rem; color: var(--muted); overflow-wrap: anywhere; }
   .pv-rows { display: grid; gap: 10px; }
@@ -54,15 +50,8 @@ const sw = [["nearly cancelling", p.sweeps.cancelling], ["typical amplitudes", p
   .pv-sweep th[scope="row"], .pv-sweep thead th:first-child { text-align: left; font-family: inherit; }
   .pv-sweep thead th { font-weight: 500; color: var(--muted); font-size: 0.875rem; }
   .pv-sweep .bad { color: var(--down); } .pv-sweep .ok { color: var(--up); }
-  .pv-cta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); text-decoration: none; transition: background 0.2s, transform 0.2s; }
-  .pv-cta span { font-size: 0.95rem; color: var(--muted); } .pv-cta b { display: block; font-size: 1.15rem; color: var(--ink); }
-  .pv-cta svg { color: var(--accent); flex: none; transition: transform 0.2s; }
-  .pv-cta:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); } .pv-cta:hover svg { transform: translateX(4px); }
-  .pv-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   @media (max-width: 640px) {
-    .pv { padding: 16px; }
     .pv-row { grid-template-columns: 1fr auto; grid-template-areas: "name err" "num num" "bar bar"; }
     .pv-sweep { display: block; overflow-x: auto; }
   }
-  @media (prefers-reduced-motion: reduce) { .pv-cta, .pv-cta svg { transition: none; } }
 </style>

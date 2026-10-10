@@ -1,15 +1,5 @@
-import { asOf, type Version } from "../../../lib/lab/asof";
+import { asOf, STORE, KEYS, DAYS } from "../../../lib/lab/asof";
 import { h, slider } from "../ui";
-
-// SYNTHETIC: a few fields of one stock, with corrections and late arrivals published on later days.
-const STORE: Version[] = [
-  { key: "close (Mon)", value: 10.0, known: 1 }, { key: "close (Mon)", value: 10.4, known: 4 },
-  { key: "volume (Mon)", value: 1200, known: 1 }, { key: "volume (Mon)", value: 1350, known: 2 },
-  { key: "split factor", value: 1, known: 0 }, { key: "split factor", value: 2, known: 6 },
-  { key: "close (Tue)", value: 10.9, known: 2 }, { key: "dividend (Wed)", value: 0.3, known: 5 },
-];
-const KEYS = [...new Set(STORE.map((v) => v.key))];
-const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const table = h("table", { class: "asof mono" });

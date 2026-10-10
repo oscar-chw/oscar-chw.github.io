@@ -5,7 +5,8 @@ import { Sparkles, RotateCcw } from "lucide";
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   let n = 3, target = 0, gates: Gate[] = [];
   const bars = h("div", { class: "amps" }), circuit = h("ol", { class: "circuit mono", "aria-label": "Circuit so far" });
-  stage.append(bars, circuit);
+  const res = h("p", { class: "lab-result", "aria-live": "polite" });
+  stage.append(bars, circuit, res);
   const draw = () => {
     const s = run(n, gates), p = probs(s);
     bars.replaceChildren(...p.map((v, i) => {
@@ -17,6 +18,11 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     }));
     circuit.replaceChildren(...(gates.length ? gates : []).map((g) => h("li", {}, g.g === "CNOT" ? `CNOT ${g.c}→${g.t}` : `${g.g} q${g.q}`)));
     if (!gates.length) circuit.append(h("li", { class: "empty" }, "|0…0⟩: add a gate"));
+    // the result in words, and the scale it stands for: FatQat's GPU does this for 2^24 to 2^28 amplitudes per gate
+    const amps = 2 ** n;
+    res.textContent = gates.length
+      ? `${gates.length} gate${gates.length > 1 ? "s" : ""} × ${amps} amplitudes = ${(gates.length * amps).toLocaleString("en-US")} amplitude updates. At 24–28 qubits the same circuit updates ${(2 ** 24).toLocaleString("en-US")}–${(2 ** 28).toLocaleString("en-US")} amplitudes per gate, which is what the GPU backend is for.`
+      : `${amps} amplitudes, all in |${"0".repeat(n)}⟩. Every gate you add updates every one of them.`;
   };
   const add = (g: Gate) => { if (gates.length < 24) { gates.push(g); draw(); } };
   const tgt = h("div");

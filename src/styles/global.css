@@ -78,7 +78,7 @@ code, kbd, .mono { font-family: var(--font-mono), ui-monospace, Menlo, monospace
 ::selection { background: var(--accent); color: var(--bg); }
 
 /* the "code comment" label, the site's typographic signature */
-.comment { font-family: var(--font-mono), ui-monospace, monospace; font-size: 0.8rem; color: var(--muted); letter-spacing: 0; }
+.comment { font-family: var(--font-mono), ui-monospace, monospace; font-size: 0.875rem; color: var(--muted); letter-spacing: 0; }
 .comment::before { content: "// "; color: var(--accent); }
 
 .wrap { width: min(100% - 32px, 1240px); margin-inline: auto; }

@@ -181,7 +181,9 @@ const commands: [string, string, string][] = [
   /* the prompt is a real input: typing here opens the console with what was typed */
   .term { display: flex; align-items: center; gap: 6px; margin-right: auto; min-width: 0; flex: 1; cursor: text; }
   .tilde { color: var(--accent); font-size: 0.92rem; }
-  .cmd { flex: 1; min-width: 0; width: 100%; background: none; border: 0; outline: 0; color: var(--ink); font-size: 0.86rem; caret-color: var(--accent); }
+  .cmd { flex: 1; min-width: 0; width: 100%; background: none; border: 0; outline: 0; color: var(--ink); font-size: 0.875rem; caret-color: var(--accent); }
+  /* the input draws no box of its own, so keyboard focus gets a visible ring (WCAG 2.4.7; it had none before W05) */
+  .cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
   .cmd::placeholder { color: color-mix(in srgb, var(--muted) 70%, transparent); }
   .po { margin: 0; padding: 12px 20px; border-bottom: 1px solid var(--glass-edge); color: var(--accent); font-size: 0.82rem; white-space: pre-wrap; }
   nav ul, .site-footer ul { list-style: none; display: flex; gap: 4px; margin: 0; padding: 0; flex-wrap: wrap; }

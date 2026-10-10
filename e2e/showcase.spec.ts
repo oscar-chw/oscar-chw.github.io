@@ -59,3 +59,67 @@ test("the Lab leads back to the case study it came from", async ({ page }) => {
   await page.goto("/demos/#compensated");
   await expect(page.locator('[data-panel="compensated"] a', { hasText: "the project" })).toHaveAttribute("href", /\/projects\/fatqat-gpu-backend\/#engineering$/);
 });
+
+// W05 node 38: the same standard across the remaining surfaces.
+const INLINE = ["gatedbuild", "guard", "search", "lookahead", "factors", "marketmaking", "candles", "point-in-time", "lostupdates", "compensated", "qubits", "imc", "policy", "gate", "multitest", "dna", "timetable", "options"];
+
+test("every Lab experiment offers a reset, and the shared reset replays the experiment from its start", async ({ page }) => {
+  for (const id of INLINE) {
+    await page.goto(`/demos/#${id}`);
+    const panel = page.locator(`[data-panel="${id}"]`);
+    await expect(panel.locator("[data-controls] button").filter({ hasText: /reset|start over|replay/i }).first(), id).toBeVisible();
+  }
+  await page.goto("/demos/#multitest");                    // a shared-reset experiment: change it, reset, compare
+  const panel = page.locator('[data-panel="multitest"]'), dd = panel.locator(".ro dd").first();
+  const start = await dd.innerText();
+  await panel.getByRole("slider", { name: "random formulas searched" }).fill("60");
+  await expect(dd).not.toHaveText(start);
+  await panel.locator("[data-reset]").click();
+  await expect(dd).toHaveText(start);
+});
+
+test("the rank-IC and qubit experiments say what their result means", async ({ page }) => {
+  await page.goto("/demos/#factors");
+  const f = page.locator('[data-panel="factors"] .lab-result');
+  await expect(f).toContainText("stays sealed");
+  await page.locator('[data-panel="factors"]').getByRole("radio", { name: "open the chosen one" }).click();
+  await expect(f).toContainText(/its one test score is -?\d\.\d{3}/);
+  await page.goto("/demos/#qubits");
+  const q = page.locator('[data-panel="qubits"] .lab-result');
+  await expect(q).toContainText("8 amplitudes");
+  await page.locator('[data-panel="qubits"]').getByRole("button", { name: "Bell state" }).click();
+  await expect(q).toContainText("2 gates × 8 amplitudes = 16 amplitude updates");
+});
+
+for (const [slug, id] of [["qts-research-platform", "point-in-time"], ["ai-quant-research-system", "gatedbuild"]] as const) {
+  test(`${slug}: case study with a labelled build-computed result and one click to its live experiment`, async ({ page }) => {
+    await page.goto(`/projects/${slug}/`);
+    const cs = page.locator("#engineering");
+    await expect(cs.getByText("BUILD-COMPUTED")).toBeVisible();
+    await expect(cs.locator("#the-tradeoff dt")).toHaveText(["chose", "over", "because", "cost"]);
+    await cs.getByTestId("open-live").click();
+    await expect(page).toHaveURL(new RegExp(`/demos/#${id}$`));
+    await expect(page.locator(`[data-panel="${id}"] [data-controls] button, [data-panel="${id}"] [data-controls] input`).first()).toBeVisible();
+  });
+}
+
+test("keyboard focus is visible on the nav's command input", async ({ page }) => {
+  await page.goto("/projects/");
+  await page.locator(".cmd").focus();
+  await page.keyboard.press("Shift+Tab"); await page.keyboard.press("Tab");
+  const ring = await page.locator(".cmd").evaluate((el) => { const cs = getComputedStyle(el); return cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) >= 2; });
+  expect(ring).toBe(true);
+});
+
+test("no meaningful Lab text is under 14 px", async ({ page }) => {
+  for (const id of ["compensated", "gatedbuild", "factors"]) {
+    await page.goto(`/demos/#${id}`);
+    await page.locator(`[data-panel="${id}"] [data-controls] button`).first().waitFor();
+    const small = await page.locator(".lab").evaluate((root) => [...root.querySelectorAll("*")].filter((el) => {
+      if (el.closest("svg, canvas, [aria-hidden=true], [hidden]")) return false;
+      const own = [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? "").trim().length > 2);
+      return own && el.getBoundingClientRect().width > 0 && parseFloat(getComputedStyle(el).fontSize) < 14;
+    }).map((el) => `${el.className}: ${(el.textContent ?? "").trim().slice(0, 30)}`));
+    expect(small, id).toEqual([]);
+  }
+});

@@ -100,6 +100,8 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   });
   // a deep link opens its experiment; otherwise the first one in the list, the one the page shows without JS
   open(location.hash.slice(1) && panels.has(location.hash.slice(1)) ? location.hash.slice(1) : opts[0].dataset.exp!, false);
+  // a link to another experiment from this page (the command menu, search, a typed hash) changes only the hash: open it too
+  addEventListener("hashchange", () => { const id = location.hash.slice(1); if (panels.has(id)) open(id, false); });
   // folders: click to fold; if the list is taller than its box, fold every folder but the open file's
   const tree = lab.querySelector<HTMLElement>(".tree")!, dirs = [...lab.querySelectorAll<HTMLElement>(".tree .dir")];
   for (const d of dirs) d.querySelector("[data-dir]")!.addEventListener("click", () => d.classList.toggle("shut"));

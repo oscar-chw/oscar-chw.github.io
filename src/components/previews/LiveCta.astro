@@ -1,0 +1,19 @@
+---
+// The one-click way from a flagship's build-computed result to the same experiment, live, in the Lab.
+import { url } from "../../lib/url";
+interface Props { id: string; what: string }
+const { id, what } = Astro.props;
+---
+<a class="pv-cta" href={url(`/demos/#${id}`)} data-testid="open-live">
+  <span><b>Try it live</b>{what}</span>
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+</a>
+
+<style>
+  .pv-cta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); text-decoration: none; transition: background 0.2s; }
+  .pv-cta span { font-size: 0.95rem; color: var(--muted); } .pv-cta b { display: block; font-size: 1.15rem; color: var(--ink); }
+  .pv-cta svg { color: var(--accent); flex: none; transition: transform 0.2s; }
+  .pv-cta:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); } .pv-cta:hover svg { transform: translateX(4px); }
+  .pv-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .pv-cta, .pv-cta svg { transition: none; } }
+</style>

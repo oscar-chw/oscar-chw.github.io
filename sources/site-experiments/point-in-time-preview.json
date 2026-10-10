@@ -1,0 +1,36 @@
+{
+  "early": "Mon",
+  "late": "Sat",
+  "rows": [
+    {
+      "field": "close (Mon)",
+      "early": "10",
+      "late": "10.4",
+      "hiddenEarly": "1"
+    },
+    {
+      "field": "volume (Mon)",
+      "early": "1200",
+      "late": "1350",
+      "hiddenEarly": "1"
+    },
+    {
+      "field": "split factor",
+      "early": "1",
+      "late": "2",
+      "hiddenEarly": "1"
+    },
+    {
+      "field": "close (Tue)",
+      "early": "not known yet",
+      "late": "10.9",
+      "hiddenEarly": "1"
+    },
+    {
+      "field": "dividend (Wed)",
+      "early": "not known yet",
+      "late": "0.3",
+      "hiddenEarly": "1"
+    }
+  ]
+}

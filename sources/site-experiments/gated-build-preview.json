@@ -1,0 +1,50 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Read the chapter",
+      "gate": "notes cite every page they use",
+      "state": "done",
+      "evidence": []
+    },
+    {
+      "id": "2",
+      "title": "Extract claims",
+      "gate": "each claim paraphrased and cited",
+      "state": "done",
+      "evidence": []
+    },
+    {
+      "id": "3",
+      "title": "Write a test per claim",
+      "gate": "tests collected, none empty",
+      "state": "done",
+      "evidence": []
+    },
+    {
+      "id": "4",
+      "title": "Implement the function",
+      "gate": "pytest -q exits 0",
+      "state": "pending",
+      "evidence": [
+        "pytest -q exited 1: a planted bug in the function"
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Review",
+      "gate": "a fresh reviewer finds nothing",
+      "state": "pending",
+      "evidence": []
+    }
+  ],
+  "ready": [
+    "4"
+  ],
+  "log": [
+    "gates 1, 2 and 3 pass: those tasks are done",
+    "task 4's gate fails: dated evidence is recorded and the task returns to pending",
+    "task 4 stays pending: a claim is not evidence, run its gate",
+    "task 5 is not ready: its dependencies are not done"
+  ]
+}

@@ -1,0 +1,28 @@
+---
+// QTS's build-computed result: the same SYNTHETIC store read as of two days, by the Lab's own asOf().
+import p from "../../../sources/site-experiments/point-in-time-preview.json";
+import LiveCta from "./LiveCta.astro";
+import "./preview.css";
+---
+<figure class="pv" aria-labelledby="pit-cap">
+  <p class="pv-tag mono" id="pit-cap"><b>BUILD-COMPUTED</b> by the Lab's own code when this page was built · a SYNTHETIC stock whose corrections arrive on later days</p>
+  <table class="pit">
+    <thead><tr><th scope="col">field</th><th scope="col">read as of {p.early}</th><th scope="col">read as of {p.late}</th><th scope="col">versions hidden on {p.early}</th></tr></thead>
+    <tbody>{p.rows.map((r) => (
+      <tr class={r.early !== r.late ? "moved" : ""}><th scope="row">{r.field}</th><td class={r.early === "not known yet" ? "none" : ""}>{r.early}</td><td>{r.late}</td><td>{r.hiddenEarly}</td></tr>
+    ))}</tbody>
+  </table>
+  <p class="pit-note">A study run on {p.early} sees only what was known on {p.early}. Rerun it later, pinned to the same version, and it gets exactly the same rows; the corrections stay out of the past.</p>
+  <LiveCta id="point-in-time" what="move the read date and watch which versions become visible" />
+</figure>
+
+<style>
+  .pit { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .pit th, .pit td { padding: 10px 12px; border-bottom: 1px solid var(--line-2); text-align: right; font-family: var(--font-mono), monospace; }
+  .pit th[scope="row"], .pit thead th:first-child { text-align: left; font-family: inherit; }
+  .pit thead th { font-weight: 500; font-size: 0.875rem; color: var(--muted); }
+  .pit tr.moved td:nth-child(3) { color: var(--amber); }
+  .pit td.none { color: var(--muted); }
+  .pit-note { margin: 16px 0 0; font-size: 0.95rem; line-height: 1.55; color: var(--muted); max-width: 70ch; }
+  @media (max-width: 640px) { .pit { display: block; overflow-x: auto; } }
+</style>

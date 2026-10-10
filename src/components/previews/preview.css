@@ -1,0 +1,5 @@
+/* The frame every build-computed preview shares: a quiet opaque panel, a label saying what was computed and when. */
+.pv { margin: 0; padding: 22px; border-radius: 22px; border: 1px solid var(--line-2); background: var(--bg-2); }
+.pv-tag { margin: 0 0 14px; font-size: 0.875rem; color: var(--muted); }
+.pv-tag b { color: var(--amber); margin-right: 6px; }
+@media (max-width: 640px) { .pv { padding: 16px; } }

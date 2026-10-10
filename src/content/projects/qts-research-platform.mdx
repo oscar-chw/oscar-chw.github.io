@@ -12,6 +12,25 @@ metrics:
   - { value: "under 0.2 s", label: "to load a full stock-day through the query service" }
   - { value: "23 of 23", label: "commits kept in a race test with 12 readers and 5 writers" }
   - { value: "500M+", label: "duplicate rows removed in the cleaning work I led" }
+sources:
+  - sources/site-experiments/point-in-time-preview.json
+casestudy:
+  problem: "The research team needed tick-level A-share and crypto data they could trust, query in seconds and reproduce later on exactly the same rows. It arrived as compressed vendor archives, each with its own quirks."
+  constraints:
+    - "Raw deliveries are kept byte-identical; nothing upstream is edited in place."
+    - "Every read is pinned to a data version and may never see the future."
+    - "One developer, so every cleansing rule has to stay visible and auditable."
+  experiment: point-in-time
+  result: "A read as of Monday sees only what was known on Monday; a correction published later appears only for later reads, so a study rerun later returns the same rows. On the real platform, a race test with 12 readers and 5 writers kept all 23 of 23 commits."
+  tradeoff:
+    chose: "a query interface with pinned versions, explicit errors and no look-ahead"
+    over: "hand-written DuckDB SQL straight on the files"
+    why: "a study rerun later must return exactly the same rows, and a look-ahead leak must be impossible, not merely unlikely"
+    cost: "it is deliberately slower than raw SQL; raw DuckDB stays available for anyone who wants the speed"
+  contribution: "As the team's sole developer: the layered store, the versioned query service, the data cleaning I led with the team, and administration of the shared GPU research server."
+  evidence:
+    - { label: "qts-platform-showcase: the public write-up", href: "https://github.com/oscar-chw/qts-platform-showcase" }
+    - { label: "qts-platform-demo: a runnable stand-in on synthetic data", href: "https://github.com/oscar-chw/qts-platform-demo" }
 links:
   - { label: "Public write-up: qts-platform-showcase", href: "https://github.com/oscar-chw/qts-platform-showcase" }
   - { label: "Runnable stand-in on synthetic data: qts-platform-demo", href: "https://github.com/oscar-chw/qts-platform-demo" }

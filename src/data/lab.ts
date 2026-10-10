@@ -7,7 +7,7 @@ export interface Experiment {
 const SITE_SRC = "https://github.com/oscar-chw/oscar-chw.github.io";
 
 export const EXPERIMENTS: Experiment[] = [
-  { id: "gatedbuild", folder: "ai-quant-research", file: "work-graph.plan", title: "A gated build", kind: "inline", project: "ai-quant-research-system#the-centrepiece-build", code: "https://github.com/oscar-chw/agentic-quant-research",
+  { id: "gatedbuild", folder: "ai-quant-research", file: "work-graph.plan", title: "A gated build", kind: "inline", project: "ai-quant-research-system#engineering", code: "https://github.com/oscar-chw/agentic-quant-research",
     blurb: "The centrepiece build's rule: a task is done when its gate passes, not when an agent says so. Run the gates in order, plant a bug in task 4 and watch its gate send it back with evidence while the review waits.",
     data: "SYNTHETIC five-task chain; a simplified illustration of the work graph, not its code." },
   { id: "guard", folder: "ai-quant-research", file: "guard.sh", title: "Command guard", kind: "inline", project: "ai-quant-research-system#agent-harness", code: "https://github.com/oscar-chw/agent-harness",
@@ -30,7 +30,7 @@ export const EXPERIMENTS: Experiment[] = [
   { id: "candles", folder: "ai-quant-research", file: "candle-timing.audit", title: "Candle timing audit", kind: "inline", project: "ai-quant-research-system#polymarket-crypto-5min", code: "https://github.com/oscar-chw/Polymarket-Crypto-5min",
     blurb: "A 5-minute candle's close is only known when the candle ends. Stamp candles at their open instead and a rule that reads the latest candle reads the future. The availability audit checks every read against when its data was really known.",
     data: "SYNTHETIC candles; the idea of the earlier experiment's audit, not its code or data." },
-  { id: "point-in-time", folder: "qts-platform", file: "point-in-time.read", title: "Point-in-time reads", kind: "inline", project: "qts-research-platform", code: "https://github.com/oscar-chw/qts-platform-demo",
+  { id: "point-in-time", folder: "qts-platform", file: "point-in-time.read", title: "Point-in-time reads", kind: "inline", project: "qts-research-platform#engineering", code: "https://github.com/oscar-chw/qts-platform-demo",
     blurb: "Every version of a value carries the day it became known. Move the read date: corrections and late data published afterwards stay invisible.",
     data: "SYNTHETIC store of a few invented fields." },
   { id: "lostupdates", folder: "qts-platform", file: "race.commit", title: "Lost updates", kind: "inline", project: "qts-research-platform", code: "https://github.com/oscar-chw/qts-platform-demo",
