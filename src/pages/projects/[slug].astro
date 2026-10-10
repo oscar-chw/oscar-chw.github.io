@@ -7,6 +7,7 @@ import Base from "../../layouts/Base.astro";
 import { url } from "../../lib/url";
 import Icon from "../../components/Icon.astro";
 import ProjectArt from "../../components/ProjectArt.astro";
+import CaseStudy from "../../components/CaseStudy.astro";
 
 export async function getStaticPaths() {
   const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
@@ -33,7 +34,7 @@ const sections = headings.filter((h) => h.depth === 2);
       )}
     </header>
 
-    <div class="wrap visual"><ProjectArt slug={entry.id} /></div>
+    {d.casestudy ? <CaseStudy cs={d.casestudy} /> : <div class="wrap visual"><ProjectArt slug={entry.id} /></div>}
 
     {d.metrics.length > 0 && (
       <section class="wrap figs" aria-label="Headline results">

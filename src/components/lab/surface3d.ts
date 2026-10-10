@@ -132,7 +132,8 @@ export function surface(aria: string) {
   }
 
   // the slow spin runs only while it is on, the tab is visible and the panel is shown; it ends for good once touched
-  const loop = () => { if (!spin) return; if (!document.hidden && canvas.offsetParent) { yaw += 0.0025; draw(); } requestAnimationFrame(loop); };
+  const loop = () => { if (!spin || !canvas.isConnected) return;   // a reset remounts the experiment: a detached canvas ends its loop
+ if (!document.hidden && canvas.offsetParent) { yaw += 0.0025; draw(); } requestAnimationFrame(loop); };
   let drag: { x: number; y: number } | null = null;
   canvas.addEventListener("pointerdown", (e) => { drag = { x: e.clientX, y: e.clientY }; spin = false; hover = null; canvas.setPointerCapture(e.pointerId); });
   canvas.addEventListener("pointermove", (e) => {

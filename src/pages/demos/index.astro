@@ -64,25 +64,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
 </Base>
 
 <script>
-  const LOAD: Record<string, () => Promise<{ mount: (s: HTMLElement, c: HTMLElement) => void }>> = {
-    gatedbuild: () => import("../../components/lab/exp/gatedbuild"),
-    search: () => import("../../components/lab/exp/search"),
-    lostupdates: () => import("../../components/lab/exp/lostupdates"),
-    options: () => import("../../components/lab/exp/options"),
-    dna: () => import("../../components/lab/exp/dna"),
-    candles: () => import("../../components/lab/exp/candles"),
-    guard: () => import("../../components/lab/exp/guard"),
-    qubits: () => import("../../components/lab/exp/qubits"),
-    "point-in-time": () => import("../../components/lab/exp/asof"),
-    lookahead: () => import("../../components/lab/exp/lookahead"),
-    marketmaking: () => import("../../components/lab/exp/marketmaking"),
-    imc: () => import("../../components/lab/exp/imc"),
-    factors: () => import("../../components/lab/exp/factors"),
-    multitest: () => import("../../components/lab/exp/multitest"),
-    policy: () => import("../../components/lab/exp/policy"),
-    timetable: () => import("../../components/lab/exp/timetable"),
-    gate: () => import("../../components/lab/exp/gate"),
-  };
+  import { mountExperiment, LOAD } from "../../components/lab/registry";
   const lab = document.querySelector<HTMLElement>("[data-lab]")!;
   const opts = [...lab.querySelectorAll<HTMLElement>("[data-exp]")];
   const panels = new Map([...lab.querySelectorAll<HTMLElement>("[data-panel]")].map((p) => [p.dataset.panel!, p]));
@@ -102,8 +84,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     if (LOAD[id] && !mounted.has(id)) {
       mounted.add(id);
       const stage = panel.querySelector<HTMLElement>("[data-stage]")!, controls = panel.querySelector<HTMLElement>("[data-controls]")!;
-      const m = await LOAD[id]();
-      stage.replaceChildren(); m.mount(stage, controls);
+      await mountExperiment(id, stage, controls);
     }
   }
   // every rail entry opens in the bench; full-page demos show a launch panel there

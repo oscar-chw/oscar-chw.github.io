@@ -15,12 +15,30 @@ metrics:
 sources:
   - sources/fatqat-cuda/README-b92e98e.md
   - sources/fatqat-cuda/upstream-pr-52.txt
+  - sources/site-experiments/compensated-preview.json
 contribution:
   heading: Merged into upstream FatQat
   body: "On Python 3.12, a run pinned to a subset of cores (taskset or a container cpuset) sized FatQat's process shot workers to every core of the machine and oversubscribed them. The fix sizes them by the CPU affinity mask (os.sched_getaffinity) where os.process_cpu_count is unavailable, with a regression test. Merged by a maintainer on 2026-10-07."
   label: "spaceqat/fatqat#52"
   href: https://github.com/spaceqat/fatqat/pull/52
   facts: "2 files, +32 −2 · merged by BoxiLi, 2026-10-07 08:48 UTC"
+casestudy:
+  problem: "A state-vector simulator updates every amplitude for every gate, and the state doubles with each qubit. At 24–28 qubits the project's own optimized 32-thread CPU engine is the bottleneck."
+  constraints:
+    - "Keep the simulator's interfaces: a circuit runs unchanged on either engine."
+    - "Keep double precision, and accuracy equal to the CPU engines, measured against a 60-digit reference."
+    - "Every faster path must give the same results, checked by randomized differential tests."
+  experiment: compensated
+  result: "When the two products nearly cancel, plain rounding can lose every digit while Kahan's algorithm stays within 2 ulp. Even on typical amplitudes plain products occasionally lose several digits. Across the full suite of real circuits, the default mode stays within 2.9 machine epsilons of a 60-digit reference."
+  tradeoff:
+    chose: "error-compensated GPU products, Kahan's algorithm for each part of a complex product, as the default"
+    over: "plain products, which round as the CPU engines do"
+    why: "they stay within 2 ulp even under cancellation, so accuracy never depends on which circuit is run"
+    cost: "about 1.5× in GPU speed: 17–21× over the CPU engine instead of 23–26× in the optional plain mode, which stays available because across 110 real circuits the two differ by only +0.03 ± 0.03 eps on average"
+  contribution: "The GPU fork: CUDA execution for all four simulation methods, the compensated arithmetic, exact shot branching and circuit simplification, the randomized differential checks, and a fix merged upstream."
+  evidence:
+    - { label: "fatqat-cuda: README, results and experiments", href: "https://github.com/oscar-chw/fatqat-cuda" }
+    - { label: "Merged upstream: spaceqat/fatqat#52", href: "https://github.com/spaceqat/fatqat/pull/52" }
 links:
   - { label: "Repository: fatqat-cuda", href: "https://github.com/oscar-chw/fatqat-cuda" }
   - { label: "Merged upstream fix: spaceqat/fatqat#52 (process shot workers sized by the CPU affinity mask)", href: "https://github.com/spaceqat/fatqat/pull/52" }

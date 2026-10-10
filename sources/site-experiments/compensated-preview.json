@@ -1,0 +1,37 @@
+{
+  "case": {
+    "inputs": [
+      "0.61822776263579726",
+      "0.68463533686008304",
+      "0.61822776263636192",
+      "0.68463533685945777"
+    ],
+    "exact": "-2.1822999229039414e-17",
+    "plain": {
+      "value": "0",
+      "ulp": "7.1e+15",
+      "digits": "0"
+    },
+    "compensated": {
+      "value": "-2.1822999229039414e-17",
+      "ulp": "0.00",
+      "digits": "16"
+    }
+  },
+  "sweeps": {
+    "cancelling": {
+      "cases": "2,000",
+      "plainMedian": "6.3e+15",
+      "plainWorst": "2.8e+17",
+      "compensatedMedian": "0.00",
+      "compensatedWorst": "0.00"
+    },
+    "typical": {
+      "cases": "2,000",
+      "plainMedian": "0.36",
+      "plainWorst": "7.1e+2",
+      "compensatedMedian": "0.28",
+      "compensatedWorst": "0.98"
+    }
+  }
+}

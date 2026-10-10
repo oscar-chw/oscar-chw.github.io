@@ -1,0 +1,70 @@
+---
+// A flagship's engineering in the order a visitor needs it: the problem and its constraints, the project's own experiment to
+// try, what that shows, the tradeoff that was made, and what I built, with evidence. Every line comes from the project's
+// frontmatter (`casestudy:`), so check-numbers holds it to the same sources as the rest of the page.
+import CompensatedPreview from "./previews/CompensatedPreview.astro";
+import Icon from "./Icon.astro";
+
+// each flagship's experiment has a build-computed preview here; the live experiment runs in the Lab (no script on this page)
+const PREVIEWS: Record<string, typeof CompensatedPreview> = { compensated: CompensatedPreview };
+
+interface Props { cs: {
+  problem: string; constraints: string[]; experiment: string; result: string;
+  tradeoff: { chose: string; over: string; why: string; cost: string };
+  contribution: string; evidence: { label: string; href: string }[];
+} }
+const { cs } = Astro.props;
+const Preview = PREVIEWS[cs.experiment];
+if (!Preview) throw new Error(`CaseStudy: no preview for experiment "${cs.experiment}"`);
+---
+<section class="wrap cs" id="engineering" aria-labelledby="cs-h">
+  <p class="cs-k mono" id="cs-h">the engineering</p>
+  <div class="cs-top">
+    <p class="cs-problem">{cs.problem}</p>
+    <ul class="cs-con" aria-label="Constraints">{cs.constraints.map((c) => <li>{c}</li>)}</ul>
+  </div>
+
+  <h3 class="cs-h">The result, computed</h3>
+  <Preview />
+
+  <div class="cs-cards">
+    <div class="cs-card">
+      <h3 class="cs-h">What it shows</h3>
+      <p>{cs.result}</p>
+    </div>
+    <div class="cs-card" id="the-tradeoff">
+      <h3 class="cs-h">The tradeoff</h3>
+      <dl class="cs-to">
+        <dt>chose</dt><dd>{cs.tradeoff.chose}</dd>
+        <dt>over</dt><dd>{cs.tradeoff.over}</dd>
+        <dt>because</dt><dd>{cs.tradeoff.why}</dd>
+        <dt>cost</dt><dd>{cs.tradeoff.cost}</dd>
+      </dl>
+    </div>
+    <div class="cs-card">
+      <h3 class="cs-h">What I built</h3>
+      <p>{cs.contribution}</p>
+      <ul class="cs-ev">{cs.evidence.map((e) => <li><a href={e.href}><Icon name="arrow-up-right" size={14} />{e.label}</a></li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cs { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line-2); scroll-margin-top: 110px; }
+  .cs-k { margin: 0 0 14px; font-size: 0.875rem; color: var(--accent); letter-spacing: 0.04em; }
+  .cs-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px 40px; margin-bottom: 36px; }
+  .cs-problem { margin: 0; font-size: clamp(1.15rem, 1rem + 0.5vw, 1.4rem); line-height: 1.5; color: var(--ink); }
+  .cs-con { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .cs-con li { position: relative; padding-left: 18px; font-size: 0.95rem; line-height: 1.5; color: var(--muted); }
+  .cs-con li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 2px; background: var(--accent); }
+  .cs-h { margin: 0 0 12px; font-size: 1rem; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+  .cs-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .cs-card { padding: 18px 20px; border-radius: 18px; border: 1px solid var(--line-2); background: var(--bg-2); }
+  .cs-card p { margin: 0; font-size: 0.95rem; line-height: 1.55; color: var(--muted); }
+  .cs-to { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; }
+  .cs-to dt { font-family: var(--font-mono), monospace; font-size: 0.875rem; color: var(--accent); }
+  .cs-to dd { margin: 0; font-size: 0.95rem; line-height: 1.5; color: var(--muted); }
+  .cs-ev { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .cs-ev a { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+  @media (max-width: 900px) { .cs-top, .cs-cards { grid-template-columns: minmax(0, 1fr); } }
+</style>

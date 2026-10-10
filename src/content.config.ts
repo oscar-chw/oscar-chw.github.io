@@ -18,6 +18,12 @@ const projects = defineCollection({
     metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
     sources: z.array(z.string()).default([]),
+    // a flagship's engineering case study (CaseStudy.astro), shown in place of the decorative project graphic
+    casestudy: z.object({
+      problem: z.string(), constraints: z.array(z.string()).min(1), experiment: z.string(), result: z.string(),
+      tradeoff: z.object({ chose: z.string(), over: z.string(), why: z.string(), cost: z.string() }),
+      contribution: z.string(), evidence: z.array(z.object({ label: z.string(), href: z.url() })).min(1),
+    }).optional(),
     // a merged open-source contribution, shown as a callout under the summary
     contribution: z.object({ heading: z.string(), body: z.string(), label: z.string(), href: z.url(), facts: z.string() }).optional(),
   }),

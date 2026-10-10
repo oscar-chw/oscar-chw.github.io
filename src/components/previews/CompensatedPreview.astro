@@ -1,0 +1,68 @@
+---
+// FatQat's build-computed result: no script on the page. The figures come from the stored preview, which a unit test
+// recomputes with the Lab's own code, and the call to action opens the same experiment live in the Lab.
+import p from "../../../sources/site-experiments/compensated-preview.json";
+import { url } from "../../lib/url";
+
+const rows = [
+  { cls: "exact", name: "exact", note: "BigInt reference, rounded once", value: p.case.exact, ulp: "reference", digits: 16 },
+  { cls: "plain", name: "plain", note: "round each product, then subtract", value: p.case.plain.value, ulp: `${p.case.plain.ulp} ulp`, digits: Number(p.case.plain.digits) },
+  { cls: "kahan", name: "compensated", note: "Kahan's algorithm (the default)", value: p.case.compensated.value, ulp: `${p.case.compensated.ulp} ulp`, digits: Number(p.case.compensated.digits) },
+];
+const sw = [["nearly cancelling", p.sweeps.cancelling], ["typical amplitudes", p.sweeps.typical]] as const;
+---
+<figure class="pv" aria-labelledby="pv-cap">
+  <p class="pv-tag mono" id="pv-cap"><b>BUILD-COMPUTED</b> by the Lab's own code when this page was built · one nearly cancelling case, then 2,000-case sweeps</p>
+  <p class="pv-formula mono">a·b − c·d <span>with a, b, c, d = {p.case.inputs.join(", ")}</span></p>
+  <div class="pv-rows" role="table" aria-label="a·b − c·d by three methods">
+    {rows.map((r) => (
+      <div class={`pv-row ${r.cls}`} role="row">
+        <span class="pv-name" role="cell"><b>{r.name}</b><small>{r.note}</small></span>
+        <span class="pv-num mono" role="cell">{r.value}</span>
+        <span class="pv-err mono" role="cell">{r.ulp}</span>
+        <span class="pv-bar" role="cell" aria-label={`about ${r.digits} of 16 digits correct`}>{Array.from({ length: 16 }, (_, i) => <i class={i < r.digits ? "on" : ""} />)}</span>
+      </div>
+    ))}
+  </div>
+  <table class="pv-sweep">
+    <caption class="mono">error in ulp of the exact value, over {p.sweeps.cancelling.cases} seeded cases each</caption>
+    <thead><tr><th scope="col">inputs</th><th scope="col">plain, median</th><th scope="col">plain, worst</th><th scope="col">compensated, median</th><th scope="col">compensated, worst</th></tr></thead>
+    <tbody>{sw.map(([k, s]) => <tr><th scope="row">{k}</th><td>{s.plainMedian}</td><td class="bad">{s.plainWorst}</td><td>{s.compensatedMedian}</td><td class="ok">{s.compensatedWorst}</td></tr>)}</tbody>
+  </table>
+  <a class="pv-cta" href={url("/demos/#compensated")} data-testid="open-live">
+    <span><b>Try it live</b> change a, b, c and d, switch input kinds, run your own sweep</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</figure>
+
+<style>
+  .pv { margin: 0; padding: 22px; border-radius: 22px; border: 1px solid var(--line-2); background: var(--bg-2); }
+  .pv-tag { margin: 0 0 10px; font-size: 0.875rem; color: var(--muted); } .pv-tag b { color: var(--amber); margin-right: 6px; }
+  .pv-formula { margin: 0 0 16px; font-size: clamp(1.3rem, 1rem + 1.2vw, 1.8rem); color: var(--ink); }
+  .pv-formula span { display: block; margin-top: 4px; font-size: 0.875rem; color: var(--muted); overflow-wrap: anywhere; }
+  .pv-rows { display: grid; gap: 10px; }
+  .pv-row { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr) auto; grid-template-areas: "name num err" "name bar bar"; gap: 4px 16px; align-items: center; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line-2); }
+  .pv-row > :nth-child(1) { grid-area: name; } .pv-row > :nth-child(2) { grid-area: num; } .pv-row > :nth-child(3) { grid-area: err; } .pv-row > :nth-child(4) { grid-area: bar; }
+  .pv-name { display: flex; flex-direction: column; gap: 2px; } .pv-name b { font-size: 1rem; } .pv-name small { font-size: 0.875rem; color: var(--muted); }
+  .pv-num { font-size: 0.95rem; overflow-wrap: anywhere; color: var(--ink); }
+  .pv-row.plain .pv-num { color: var(--down); }
+  .pv-err { font-size: 0.9rem; text-align: right; color: var(--muted); } .pv-row.plain .pv-err { color: var(--down); } .pv-row.kahan .pv-err { color: var(--up); }
+  .pv-bar { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; } .pv-bar i { height: 6px; border-radius: 3px; background: var(--line-2); } .pv-bar i.on { background: var(--accent); }
+  .pv-sweep { width: 100%; margin: 20px 0 0; border-collapse: collapse; font-size: 0.9rem; }
+  .pv-sweep caption { text-align: left; margin-bottom: 8px; font-size: 0.875rem; color: var(--muted); }
+  .pv-sweep th, .pv-sweep td { padding: 8px 10px; border-bottom: 1px solid var(--line-2); text-align: right; font-family: var(--font-mono), monospace; }
+  .pv-sweep th[scope="row"], .pv-sweep thead th:first-child { text-align: left; font-family: inherit; }
+  .pv-sweep thead th { font-weight: 500; color: var(--muted); font-size: 0.875rem; }
+  .pv-sweep .bad { color: var(--down); } .pv-sweep .ok { color: var(--up); }
+  .pv-cta { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 20px; padding: 16px 20px; border-radius: 16px; border: 1px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); text-decoration: none; transition: background 0.2s, transform 0.2s; }
+  .pv-cta span { font-size: 0.95rem; color: var(--muted); } .pv-cta b { display: block; font-size: 1.15rem; color: var(--ink); }
+  .pv-cta svg { color: var(--accent); flex: none; transition: transform 0.2s; }
+  .pv-cta:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); } .pv-cta:hover svg { transform: translateX(4px); }
+  .pv-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 640px) {
+    .pv { padding: 16px; }
+    .pv-row { grid-template-columns: 1fr auto; grid-template-areas: "name err" "num num" "bar bar"; }
+    .pv-sweep { display: block; overflow-x: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .pv-cta, .pv-cta svg { transition: none; } }
+</style>
