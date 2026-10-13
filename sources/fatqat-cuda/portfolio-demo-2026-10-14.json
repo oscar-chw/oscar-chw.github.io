@@ -1,0 +1,252 @@
+{
+  "purpose": "Source-backed interactive benchmark explainer; historical data, not live browser/GPU benchmarking",
+  "scope": {
+    "representation": "complex128 statevector",
+    "qubits": [
+      24,
+      26,
+      28
+    ],
+    "warm_calls_per_median": 5,
+    "simplify": false,
+    "circuit": "two RY/RZ layers plus nearest-neighbour CX",
+    "observable": "three Pauli terms",
+    "timed": "warm public call including synchronisation and requested host output",
+    "excluded": "imports, construction, first-call compilation",
+    "baseline": "compiled Numba, fixed32threads; not all-core",
+    "cross_mode_comparison": "Separate recorded runs with their own CPU baselines; do not present as a same-run head-to-head comparison",
+    "iqr": "sample interquartile range, not confidence interval"
+  },
+  "sources": [
+    {
+      "mode": "compensated",
+      "url": "https://github.com/oscar-chw/fatqat-cuda/blob/b92e98e/results/scaling-r14.json",
+      "sha256": "428c01f50d63ed0729d9c4931a9671cb52b6bb1ea749adf9105222846fa071e4",
+      "measured_code_revision": "e59f771",
+      "date": "2026-10-07"
+    },
+    {
+      "mode": "plain",
+      "url": "https://github.com/oscar-chw/fatqat-cuda/blob/b92e98e/results/scaling-r15-plain.json",
+      "sha256": "c7dcf6c42ee9c5dd152864999a583aa4599e51df9e5dd84d8aa39852783863da",
+      "measured_code_revision": "5156dbb",
+      "date": "2026-10-07"
+    }
+  ],
+  "rows": [
+    {
+      "mode": "compensated",
+      "output": "observable",
+      "qubits": 24,
+      "cpu_threads": 32,
+      "cpu_median_ms": 621.269745985046,
+      "gpu_median_ms": 33.19082409143448,
+      "cpu_iqr_ms": [
+        616.6913809720427,
+        626.6887739766389
+      ],
+      "gpu_iqr_ms": [
+        32.56922913715243,
+        38.18384604528546
+      ],
+      "speedup": 18.718117521685052
+    },
+    {
+      "mode": "compensated",
+      "output": "observable",
+      "qubits": 26,
+      "cpu_threads": 32,
+      "cpu_median_ms": 2678.430558182299,
+      "gpu_median_ms": 129.23818896524608,
+      "cpu_iqr_ms": [
+        2484.554264927283,
+        2724.811387946829
+      ],
+      "gpu_iqr_ms": [
+        127.80308909714222,
+        131.212939042598
+      ],
+      "speedup": 20.724760843736103
+    },
+    {
+      "mode": "compensated",
+      "output": "observable",
+      "qubits": 28,
+      "cpu_threads": 32,
+      "cpu_median_ms": 9305.915471166372,
+      "gpu_median_ms": 536.2342419102788,
+      "cpu_iqr_ms": [
+        9184.0171511285,
+        9435.222580097616
+      ],
+      "gpu_iqr_ms": [
+        535.0997860077769,
+        537.0632039848715
+      ],
+      "speedup": 17.35419848985215
+    },
+    {
+      "mode": "compensated",
+      "output": "full_state",
+      "qubits": 24,
+      "cpu_threads": 32,
+      "cpu_median_ms": 504.6014431864023,
+      "gpu_median_ms": 75.66890399903059,
+      "cpu_iqr_ms": [
+        497.3458740860224,
+        540.175223024562
+      ],
+      "gpu_iqr_ms": [
+        71.95709203369915,
+        76.78722287528217
+      ],
+      "speedup": 6.6685443625940035
+    },
+    {
+      "mode": "compensated",
+      "output": "full_state",
+      "qubits": 26,
+      "cpu_threads": 32,
+      "cpu_median_ms": 1746.385807869956,
+      "gpu_median_ms": 288.4078419301659,
+      "cpu_iqr_ms": [
+        1731.959599070251,
+        1852.2447880823165
+      ],
+      "gpu_iqr_ms": [
+        284.7136678174138,
+        289.57154299132526
+      ],
+      "speedup": 6.055264642536384
+    },
+    {
+      "mode": "compensated",
+      "output": "full_state",
+      "qubits": 28,
+      "cpu_threads": 32,
+      "cpu_median_ms": 7589.971376117319,
+      "gpu_median_ms": 1133.90948693268,
+      "cpu_iqr_ms": [
+        7108.464852906764,
+        7760.952786076814
+      ],
+      "gpu_iqr_ms": [
+        1130.711562000215,
+        1184.4856590032578
+      ],
+      "speedup": 6.6936307206043635
+    },
+    {
+      "mode": "plain",
+      "output": "observable",
+      "qubits": 24,
+      "cpu_threads": 32,
+      "cpu_median_ms": 592.5251499284059,
+      "gpu_median_ms": 23.9932460244745,
+      "cpu_iqr_ms": [
+        587.0755880605429,
+        593.3381770737469
+      ],
+      "gpu_iqr_ms": [
+        23.65265297703445,
+        24.20964208431542
+      ],
+      "speedup": 24.695497613119787
+    },
+    {
+      "mode": "plain",
+      "output": "observable",
+      "qubits": 26,
+      "cpu_threads": 32,
+      "cpu_median_ms": 2210.7618919108063,
+      "gpu_median_ms": 83.60542613081634,
+      "cpu_iqr_ms": [
+        2193.395703099668,
+        2606.5343571826816
+      ],
+      "gpu_iqr_ms": [
+        83.42010714113712,
+        84.50164599344134
+      ],
+      "speedup": 26.442803944945577
+    },
+    {
+      "mode": "plain",
+      "output": "observable",
+      "qubits": 28,
+      "cpu_threads": 32,
+      "cpu_median_ms": 8376.646621152759,
+      "gpu_median_ms": 366.05863319709897,
+      "cpu_iqr_ms": [
+        8205.505032092333,
+        8489.367611939088
+      ],
+      "gpu_iqr_ms": [
+        365.8407651819289,
+        366.59871600568295
+      ],
+      "speedup": 22.88334671413821
+    },
+    {
+      "mode": "plain",
+      "output": "full_state",
+      "qubits": 24,
+      "cpu_threads": 32,
+      "cpu_median_ms": 465.799919096753,
+      "gpu_median_ms": 56.11927807331085,
+      "cpu_iqr_ms": [
+        441.9406249653548,
+        485.46435800381005
+      ],
+      "gpu_iqr_ms": [
+        55.944605031982064,
+        61.418473022058606
+      ],
+      "speedup": 8.300176607551151
+    },
+    {
+      "mode": "plain",
+      "output": "full_state",
+      "qubits": 26,
+      "cpu_threads": 32,
+      "cpu_median_ms": 1664.5170820411295,
+      "gpu_median_ms": 216.58456488512456,
+      "cpu_iqr_ms": [
+        1596.7935870867223,
+        1687.8132880665362
+      ],
+      "gpu_iqr_ms": [
+        215.26259393431246,
+        221.62019205279648
+      ],
+      "speedup": 7.685298732732785
+    },
+    {
+      "mode": "plain",
+      "output": "full_state",
+      "qubits": 28,
+      "cpu_threads": 32,
+      "cpu_median_ms": 6635.7721840031445,
+      "gpu_median_ms": 860.8927940949798,
+      "cpu_iqr_ms": [
+        6611.061570933089,
+        6763.329707784578
+      ],
+      "gpu_iqr_ms": [
+        860.1972369942814,
+        867.0006168540567
+      ],
+      "speedup": 7.70801222814166
+    }
+  ],
+  "documentation_release": {
+    "commit": "4ca46c410eb300a12c9c0a0e6fe68a4592c83dfb",
+    "pr": "https://github.com/oscar-chw/fatqat-cuda/pull/7",
+    "readme": "https://github.com/oscar-chw/fatqat-cuda/blob/4ca46c410eb300a12c9c0a0e6fe68a4592c83dfb/README.md",
+    "numerical_source_and_results_unchanged": true
+  },
+  "extraction": {
+    "source_artifact_sha256": "0c306169ae3d881a096c0974b418b42a396f5c8919bf5f42487e800d3b9ab4b8",
+    "omitted": "Hardware inventory and unrelated result families are excluded."
+  }
+}

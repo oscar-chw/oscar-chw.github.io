@@ -1,0 +1,218 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 320,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 375,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-375-fatqat-bench.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 375,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-375-point-in-time.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 375,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-375-search.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 768,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 768,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 768,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-1280-fatqat-bench.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-1280-point-in-time.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/chromium-1280-search.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-375-fatqat-bench.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-375-point-in-time.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-375-search.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 768,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 768,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 768,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": null
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-1280-fatqat-bench.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "id": "point-in-time",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-1280-point-in-time.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "id": "search",
+    "overflow": 0,
+    "small": [],
+    "errors": [],
+    "shot": "docs/demo-focus/webkit-1280-search.png"
+  }
+]

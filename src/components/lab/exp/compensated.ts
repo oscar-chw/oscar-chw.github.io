@@ -1,5 +1,5 @@
 import { exactDet, toDouble, plain, kahan, ulpError, digitsKept, typical, cancelling, sweep } from "../../../lib/lab/kahan";
-import { h, button, segmented, readout } from "../ui";
+import { h, button, segmented, selectSegment, readout } from "../ui";
 import { Shuffle, RotateCcw, Play } from "lucide";
 
 // FatQat's default GPU products, computed live: a·b − c·d plainly and with Kahan's algorithm, each measured in ulps
@@ -77,7 +77,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
       sweepOut.replaceChildren(h("p", { class: "ctl-l mono" }, `${s.n.toLocaleString("en-US")} ${kind} cases, worst error in ulp`),
         readout([["plain: median", f(s.plain.median)], ["plain: worst", f(s.plain.max)], ["compensated: median", f(s.kahan.median)], ["compensated: worst", f(s.kahan.max)]]));
     }, "", Play),
-    button("reset", () => { kind = "nearly cancelling"; seed = 1; [a, b, c, d] = KINDS[kind](seed); sweepOut.replaceChildren(); controls.querySelectorAll<HTMLButtonElement>(".seg button").forEach((x) => x.setAttribute("aria-checked", String(x.textContent === kind))); draw(); }, "", RotateCcw),
+    button("reset", () => { kind = "nearly cancelling"; seed = 1; [a, b, c, d] = KINDS[kind](seed); sweepOut.replaceChildren(); selectSegment(controls, kind); draw(); }, "", RotateCcw),
   );
   draw();
 }

@@ -1,0 +1,10 @@
+{
+  "reviewer": "independent harness-review subagent",
+  "base": "7bba358e088231a6a0a1048705782288191e8bd5",
+  "scope": "Final uncommitted source diff, new components and fixture",
+  "finding": "Radio controls lacked arrow navigation and roving focus",
+  "reproduction": "New one-tab-stop Playwright case failed before repair",
+  "repair": "Shared segmented helper and all manual resets keep aria-checked and tabindex aligned",
+  "rereview": "No remaining concrete semantic issue; source rows, loading/error recovery and final delta reviewed",
+  "main_verification": "All builds, browser checks, mutation probes and gates run by the accountable main session"
+}

@@ -14,6 +14,7 @@ sources:
   - sources/fatqat-cuda/README-b92e98e.md
   - sources/fatqat-cuda/upstream-pr-52.txt
   - sources/site-experiments/compensated-preview.json
+  - sources/fatqat-cuda/portfolio-demo-2026-10-14.json
 contribution:
   heading: Merged into upstream FatQat
   body: "On Python 3.12, a run pinned to a subset of cores (taskset or a container cpuset) sized FatQat's process shot workers to every core of the machine and oversubscribed them. The fix sizes them by the CPU affinity mask (os.sched_getaffinity) where os.process_cpu_count is unavailable, with a regression test. Merged by a maintainer on 2026-10-07."
@@ -44,6 +45,7 @@ links:
 ---
 import Flow from "../../components/Flow.astro";
 import Term from "../../components/Term.astro";
+import { url as siteUrl } from "../../lib/url";
 
 ## The problem
 
@@ -59,6 +61,8 @@ import Term from "../../components/Term.astro";
 - A fork kept in sync with upstream FatQat, inspired by the course CENG5280, and **a fix merged upstream** (spaceqat/fatqat#52: process shot workers sized by the CPU affinity mask), which makes me a contributor to upstream FatQat.
 
 ## Result
+
+<a href={siteUrl("/demos/#fatqat-bench")}>Explore the recorded timings in the Lab</a>: change the requested output, state size and product mode, then inspect the source run behind each CPU/GPU comparison.
 
 **Speed, on the archived timing workloads.** Warm complex128 observable calls on 24–28 qubits ran 17–21× faster than the project's own optimized 32-thread CPU engine with default error-compensated GPU products and simplification off (6–7× with the full state copied back). Synchronisation and requested host output are included; imports, construction and first-call compilation are excluded. Optional plain mode reached 23–26×. The r9 engines recorded 35–42×, before compensated products became the default and the CPU engine got faster.
 

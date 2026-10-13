@@ -1,0 +1,58 @@
+[
+  {
+    "engine": "chromium",
+    "width": 375,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "controlFirst": true
+  },
+  {
+    "engine": "chromium",
+    "width": 375,
+    "id": "point-in-time",
+    "overflow": 0,
+    "controlFirst": true
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "controlFirst": false
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "id": "point-in-time",
+    "overflow": 0,
+    "controlFirst": false
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "controlFirst": true
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "id": "point-in-time",
+    "overflow": 0,
+    "controlFirst": true
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "id": "fatqat-bench",
+    "overflow": 0,
+    "controlFirst": false
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "id": "point-in-time",
+    "overflow": 0,
+    "controlFirst": false
+  }
+]

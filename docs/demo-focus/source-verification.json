@@ -1,0 +1,35 @@
+{
+  "rows_verified": 12,
+  "result": "PASS",
+  "checks": [
+    "two raw upstream SHA256 hashes",
+    "unique workload/method/qubit row per selection",
+    "CPU and GPU medians equal source values",
+    "CPU and GPU IQR bounds equal source quartiles",
+    "ratio equals the selected row CPU median divided by GPU median"
+  ],
+  "snapshot_sha256": "c3b4e2afb7c511e91e24684a73e46607f3107d58bd3ce48d8a0f6a7f6a06d202",
+  "sources": [
+    {
+      "mode": "compensated",
+      "url": "https://github.com/oscar-chw/fatqat-cuda/blob/b92e98e/results/scaling-r14.json",
+      "sha256": "428c01f50d63ed0729d9c4931a9671cb52b6bb1ea749adf9105222846fa071e4",
+      "measured_code_revision": "e59f771",
+      "date": "2026-10-07"
+    },
+    {
+      "mode": "plain",
+      "url": "https://github.com/oscar-chw/fatqat-cuda/blob/b92e98e/results/scaling-r15-plain.json",
+      "sha256": "c7dcf6c42ee9c5dd152864999a583aa4599e51df9e5dd84d8aa39852783863da",
+      "measured_code_revision": "5156dbb",
+      "date": "2026-10-07"
+    }
+  ],
+  "documentation_release": {
+    "commit": "4ca46c410eb300a12c9c0a0e6fe68a4592c83dfb",
+    "pr": "https://github.com/oscar-chw/fatqat-cuda/pull/7",
+    "readme": "https://github.com/oscar-chw/fatqat-cuda/blob/4ca46c410eb300a12c9c0a0e6fe68a4592c83dfb/README.md",
+    "numerical_source_and_results_unchanged": true
+  },
+  "scope": "Recorded historical rows; no upstream benchmark rerun, hardware inventory omitted."
+}

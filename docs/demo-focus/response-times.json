@@ -1,0 +1,117 @@
+{
+  "purpose": "Informative local rendering diagnostic, no universal latency or before/after speed claim; two animation frames after each selector click. First sample reselects the default; subsequent samples alternate inputs.",
+  "report": [
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "fatqat-bench",
+      "headingTop": 121.859375,
+      "navBottom": 117.09375,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 32.575,
+        "stderr": 0.7793004573311474,
+        "max": 34.30000019073486
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "point-in-time",
+      "headingTop": 122.3125,
+      "navBottom": 117.09375,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 32.90499999523163,
+        "stderr": 0.43161111952725195,
+        "max": 34.799999713897705
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "fatqat-bench",
+      "headingTop": 345.09375,
+      "navBottom": 76.28125,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 33.23499999046326,
+        "stderr": 0.16706049489709843,
+        "max": 34.40000009536743
+      }
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "point-in-time",
+      "headingTop": 345.09375,
+      "navBottom": 76.28125,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 33.18999998569488,
+        "stderr": 0.13915157487752502,
+        "max": 33.59999990463257
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "fatqat-bench",
+      "headingTop": 121.59375,
+      "navBottom": 117.09375,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 19.5,
+        "stderr": 0.35909242322980395,
+        "max": 21
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "point-in-time",
+      "headingTop": 122.25,
+      "navBottom": 117.09375,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 19.2,
+        "stderr": 0.596480908063461,
+        "max": 21
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "fatqat-bench",
+      "headingTop": 345.0625,
+      "navBottom": 76.28125,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 19.65,
+        "stderr": 0.3718729267965209,
+        "max": 21
+      }
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "point-in-time",
+      "headingTop": 345.0625,
+      "navBottom": 76.28125,
+      "overflow": 0,
+      "clickToNextPaintMs": {
+        "n": 20,
+        "mean": 19.8,
+        "stderr": 0.2675424216239754,
+        "max": 21
+      }
+    }
+  ]
+}

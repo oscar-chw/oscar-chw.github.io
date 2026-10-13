@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:37135) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/demo-focus.spec.ts:114:1 › point-in-time comparison makes future revisions explicit and resets (8.1s)
+
+
+  1) [chromium] › e2e/demo-focus.spec.ts:114:1 › point-in-time comparison makes future revisions explicit and resets
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('[data-panel="point-in-time"]').locator('tr').filter({ hasText: 'close (Mon)' }).locator('td').nth(1)
+    Expected: "10.4"
+    Received: "999"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('[data-panel="point-in-time"]').locator('tr').filter({ hasText: 'close (Mon)' }).locator('td').nth(1) with timeout 5000ms
+      - waiting for locator('[data-panel="point-in-time"]').locator('tr').filter({ hasText: 'close (Mon)' }).locator('td').nth(1)
+        14 × locator resolved to <td class="now">999</td>
+           - unexpected value "999"
+
+
+      118 |   await expect(row.locator("td").nth(1)).toHaveText("10");
+      119 |   await panel.getByRole("radio", { name: "latest available", exact: true }).click();
+    > 120 |   await expect(row.locator("td").nth(1)).toHaveText("10.4");
+          |                                          ^
+      121 |   await expect(row).toContainText(/future|later|leak/i);
+      122 |   await panel.getByRole("button", { name: "late correction", exact: true }).click();
+      123 |   await expect(panel.getByRole("slider", { name: "read as of", exact: true })).toHaveValue("4");
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/demo-focus.spec.ts:120:42
+
+    Error Context: ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-point-in-time-c-07ed5-visions-explicit-and-resets-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-point-in-time-c-07ed5-visions-explicit-and-resets-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-point-in-time-c-07ed5-visions-explicit-and-resets-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/demo-focus.spec.ts:114:1 › point-in-time comparison makes future revisions explicit and resets

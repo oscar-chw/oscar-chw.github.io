@@ -19,6 +19,7 @@
 .tree [role=listbox]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 8px; }
 
 .bench { min-width: 0; }
+.exp { scroll-margin-top: 100px; }
 .exp.enter { animation: exp-in 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
 /* switching experiments: the title rises out of a mask, the path types in, the stage's frame draws its corners */
 @media (prefers-reduced-motion: no-preference) {
@@ -40,6 +41,9 @@
     linear-gradient(var(--c) 0 0) bottom right / 14px 1.5px, linear-gradient(var(--c) 0 0) bottom right / 1.5px 14px;
   background-repeat: no-repeat; }
 .hud::after { content: "● live · " attr(data-hud); display: block; margin-top: 16px; text-align: right; overflow-wrap: anywhere; pointer-events: none; font: 500 0.875rem var(--font-mono), monospace; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--accent) 80%, var(--muted)); opacity: 0.8; }
+.hud[data-computation="recorded"]::after { content: "recorded · " attr(data-hud); }
+.hud[data-load-state="loading"]::after { content: "loading · " attr(data-hud); }
+.hud[data-load-state="error"]::after { content: "unavailable · " attr(data-hud); color: var(--amber); }
 @keyframes exp-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }
 .eh .path { color: var(--muted); font-size: 0.875rem; margin: 0 0 6px; }
 .eh .path b { color: var(--accent); font-weight: 500; }
@@ -59,6 +63,9 @@
 .launch .lt { display: inline-flex; align-items: center; gap: 14px; font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem); font-weight: 600; letter-spacing: -0.03em; }
 .launch:hover .lt { color: var(--accent); }
 @media (max-width: 1000px) { .rig { grid-template-columns: minmax(0, 1fr); } .panel { position: static; } }
+@media (max-width: 1000px) {
+  .exp[data-panel="fatqat-bench"] .panel, .exp[data-panel="point-in-time"] .panel { order: -1; }
+}
 @media (max-width: 800px) { .lab { grid-template-columns: minmax(0, 1fr); } .tree { position: static; max-height: none; }
   .tree [role=listbox] { max-height: 34vh; overflow-y: auto; overscroll-behavior: contain; mask-image: linear-gradient(#000 85%, transparent); } }
 

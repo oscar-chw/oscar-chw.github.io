@@ -16,11 +16,28 @@ export function slider(label: string, min: number, max: number, step: number, va
   return h("label", { class: "ctl" }, h("span", { class: "ctl-l mono" }, label), input, out);
 }
 
+export function selectSegment(group: HTMLElement, value: string) {
+  group.querySelectorAll<HTMLButtonElement>('[role="radio"]').forEach((b) => {
+    const selected = b.textContent === value;
+    b.setAttribute("aria-checked", String(selected));
+    b.tabIndex = selected ? 0 : -1;
+  });
+}
+
 export function segmented(label: string, options: string[], value: string, on: (v: string) => void) {
   const wrap = h("div", { class: "seg", role: "radiogroup", "aria-label": label });
   for (const o of options) {
-    const b = h("button", { type: "button", role: "radio", "aria-checked": String(o === value) }, o);
-    b.addEventListener("click", () => { wrap.querySelectorAll("button").forEach((x) => x.setAttribute("aria-checked", String(x === b))); on(o); });
+    const b = h("button", { type: "button", role: "radio", "aria-checked": String(o === value), tabindex: o === value ? "0" : "-1" }, o);
+    b.addEventListener("click", () => { selectSegment(wrap, o); on(o); });
+    b.addEventListener("keydown", (e) => {
+      const radios = [...wrap.querySelectorAll<HTMLButtonElement>('[role="radio"]')];
+      const i = radios.indexOf(b);
+      const next = e.key === "Home" ? 0 : e.key === "End" ? radios.length - 1
+        : e.key === "ArrowRight" || e.key === "ArrowDown" ? (i + 1) % radios.length
+        : e.key === "ArrowLeft" || e.key === "ArrowUp" ? (i + radios.length - 1) % radios.length : -1;
+      if (next < 0) return;
+      e.preventDefault(); radios[next].focus(); radios[next].click();
+    });
     wrap.append(b);
   }
   return h("div", { class: "ctl" }, h("span", { class: "ctl-l mono" }, label), wrap);

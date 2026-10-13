@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:35066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/demo-focus.spec.ts:4:1 › recorded benchmarks select all source rows, explain the scope and reset (6.4s)
+
+
+  1) [chromium] › e2e/demo-focus.spec.ts:4:1 › recorded benchmarks select all source rows, explain the scope and reset
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-panel="fatqat-bench"]').locator('.fb-value').first()
+    Expected substring: "621 ms"
+    Received string:    "1.00 msIQR 617–627 ms"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('[data-panel="fatqat-bench"]').locator('.fb-value').first() with timeout 5000ms
+      - waiting for locator('[data-panel="fatqat-bench"]').locator('.fb-value').first()
+        14 × locator resolved to <span class="fb-value mono">…</span>
+           - unexpected value "1.00 msIQR 617–627 ms"
+
+
+      12 |     await panel.getByRole("radio", { name: row.mode, exact: true }).click();
+      13 |     const fmt = (n: number) => n >= 100 ? n.toLocaleString("en-US", { maximumFractionDigits: 0 }) : n.toFixed(2);
+    > 14 |     await expect(panel.locator(".fb-value").nth(0)).toContainText(`${fmt(row.cpu_median_ms)} ms`);
+         |                                                     ^
+      15 |     await expect(panel.locator(".fb-value").nth(1)).toContainText(`${fmt(row.gpu_median_ms)} ms`);
+      16 |     await expect(panel.locator(".ro dd")).toHaveText(`${row.speedup.toFixed(2)}×`);
+      17 |     await expect(panel.getByRole("link", { name: `recorded source (${row.mode}) ↗` })).toHaveAttribute("href", benchmark.sources.find((s) => s.mode === row.mode)!.url);
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/demo-focus.spec.ts:14:53
+
+    Error Context: ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-recorded-benchm-925cb-explain-the-scope-and-reset-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-recorded-benchm-925cb-explain-the-scope-and-reset-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../var/folders/3z/qg67zkkn0m5325qx65hvgh580000gn/T/demo-focus-mutation-iaj4j7bp/test-output/demo-focus-recorded-benchm-925cb-explain-the-scope-and-reset-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/demo-focus.spec.ts:4:1 › recorded benchmarks select all source rows, explain the scope and reset

@@ -1,0 +1,26 @@
+[
+  {
+    "case": "mutation-control",
+    "exit": 0,
+    "expected_failure": false,
+    "caught": true
+  },
+  {
+    "case": "mutated-recorded-baseline",
+    "exit": 1,
+    "expected_failure": true,
+    "caught": true
+  },
+  {
+    "case": "mutated-late-revision",
+    "exit": 1,
+    "expected_failure": true,
+    "caught": true
+  },
+  {
+    "case": "restored-control",
+    "exit": 0,
+    "expected_failure": false,
+    "caught": true
+  }
+]

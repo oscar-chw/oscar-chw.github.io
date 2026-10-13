@@ -1,0 +1,15 @@
+.asof-wrap { max-width: 100%; overflow-x: auto; }
+.asof-hint { display: none; }
+@media (max-width: 800px) { .asof-hint { display: block; } }
+.asof { min-width: 570px; }
+.asof-status { border-left: 2px solid var(--accent); padding: 8px 12px; color: var(--ink); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.asof-mark { font-size: 0.875rem; }
+.asof-mark.known { color: var(--up); }
+.asof-mark.changed { color: var(--accent); font-weight: 600; }
+.asof-mark.withheld, .asof-mark.unavailable { color: var(--amber); }
+.asof-mark.later { color: var(--down); font-weight: 600; }
+.asof-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+@media (max-width: 560px) {
+  .asof-actions { align-items: stretch; }
+  .asof-actions .lab-btn { justify-content: center; }
+}

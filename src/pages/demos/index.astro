@@ -48,7 +48,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
           </header>
           {e.kind === "inline" ? (
             <div class="rig">
-              <div class="stage glass hud" data-stage data-hud={`${String(i + 1).padStart(2, "0")} / ${EXPERIMENTS.length} · ${e.file}`}><p class="loading mono">loading experiment…</p></div>
+              <div class="stage glass hud" data-stage data-load-state="loading" aria-busy="true" data-hud={`${String(i + 1).padStart(2, "0")} / ${EXPERIMENTS.length} · ${e.file}`}><p class="loading mono" role="status">loading experiment…</p></div>
               <div class="panel" data-controls></div>
             </div>
           ) : (
@@ -90,9 +90,12 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   // every rail entry opens in the bench; full-page demos show a launch panel there
   // on a phone the bench sits below the file tree: bring the chosen experiment into view
   const narrow = matchMedia("(max-width: 800px)");
+  const reveal = (id: string, smooth = false) => {
+    if (narrow.matches) panels.get(id)?.scrollIntoView({ behavior: smooth && !matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "instant", block: "start" });
+  };
   for (const o of opts) o.querySelector("a")!.addEventListener("click", (e) => {
     e.preventDefault(); open(o.dataset.exp!);
-    if (narrow.matches) panels.get(o.dataset.exp!)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    reveal(o.dataset.exp!, true);
   });
   list.addEventListener("keydown", (e) => {
     const cur = opts.findIndex((o) => o.getAttribute("aria-selected") === "true");
@@ -101,7 +104,7 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   // a deep link opens its experiment; otherwise the first one in the list, the one the page shows without JS
   open(location.hash.slice(1) && panels.has(location.hash.slice(1)) ? location.hash.slice(1) : opts[0].dataset.exp!, false);
   // a link to another experiment from this page (the command menu, search, a typed hash) changes only the hash: open it too
-  addEventListener("hashchange", () => { const id = location.hash.slice(1); if (panels.has(id)) open(id, false); });
+  addEventListener("hashchange", () => { const id = location.hash.slice(1); if (panels.has(id)) { open(id, false); reveal(id); } });
   // folders: click to fold; if the list is taller than its box, fold every folder but the open file's
   const tree = lab.querySelector<HTMLElement>(".tree")!, dirs = [...lab.querySelectorAll<HTMLElement>(".tree .dir")];
   for (const d of dirs) d.querySelector("[data-dir]")!.addEventListener("click", () => d.classList.toggle("shut"));
@@ -113,4 +116,5 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
     for (const d of order) { if (box.scrollHeight <= box.clientHeight + 4) break; d.classList.add("shut"); }
   };
   fit(); addEventListener("resize", fit);
+  if (panels.has(location.hash.slice(1))) reveal(location.hash.slice(1));
 </script>
