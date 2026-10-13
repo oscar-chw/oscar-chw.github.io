@@ -1,0 +1,653 @@
+{
+  "checkedAt": "2026-10-13T11:13:50.933Z",
+  "records": [
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "gatedbuild",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "guard",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "search",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "lookahead",
+      "overflow": 0,
+      "footerClearance": 201.609375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "factors",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "marketmaking",
+      "overflow": 0,
+      "footerClearance": 73.203125,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "candles",
+      "overflow": 0,
+      "footerClearance": 201.609375,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "point-in-time",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "lostupdates",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "compensated",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "qubits",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "imc",
+      "overflow": 0,
+      "footerClearance": 57.90625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "policy",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "gate",
+      "overflow": 0,
+      "footerClearance": 134.96875,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "multitest",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "dna",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "timetable",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "id": "options",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "gatedbuild",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "guard",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "search",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "lookahead",
+      "overflow": 0,
+      "footerClearance": 79.640625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "factors",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "marketmaking",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "candles",
+      "overflow": 0,
+      "footerClearance": 79.640625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "point-in-time",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "lostupdates",
+      "overflow": 0,
+      "footerClearance": 49.703125,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "compensated",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "qubits",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "imc",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "policy",
+      "overflow": 0,
+      "footerClearance": 58.9375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "gate",
+      "overflow": 0,
+      "footerClearance": 88.890625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "multitest",
+      "overflow": 0,
+      "footerClearance": 44.9375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "dna",
+      "overflow": 0,
+      "footerClearance": 79.515625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "timetable",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "id": "options",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "gatedbuild",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "guard",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "search",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "lookahead",
+      "overflow": 0,
+      "footerClearance": 201.609375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "factors",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "marketmaking",
+      "overflow": 0,
+      "footerClearance": 73.203125,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "candles",
+      "overflow": 0,
+      "footerClearance": 201.609375,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "point-in-time",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "lostupdates",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "compensated",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "qubits",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "imc",
+      "overflow": 0,
+      "footerClearance": 57.90625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "policy",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "gate",
+      "overflow": 0,
+      "footerClearance": 134.96875,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "multitest",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "dna",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "timetable",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "id": "options",
+      "overflow": 0,
+      "footerClearance": 52,
+      "footerHeight": 36,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "gatedbuild",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "guard",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "search",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "lookahead",
+      "overflow": 0,
+      "footerClearance": 79.640625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "factors",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "marketmaking",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "candles",
+      "overflow": 0,
+      "footerClearance": 79.640625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "point-in-time",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "lostupdates",
+      "overflow": 0,
+      "footerClearance": 49.75,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "compensated",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "qubits",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "imc",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "policy",
+      "overflow": 0,
+      "footerClearance": 56.9375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "gate",
+      "overflow": 0,
+      "footerClearance": 88.890625,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "multitest",
+      "overflow": 0,
+      "footerClearance": 44.9375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "dna",
+      "overflow": 0,
+      "footerClearance": 79.734375,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "timetable",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "id": "options",
+      "overflow": 0,
+      "footerClearance": 34,
+      "footerHeight": 18,
+      "errors": []
+    }
+  ]
+}

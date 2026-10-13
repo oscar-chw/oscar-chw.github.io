@@ -113,6 +113,7 @@ export function surface(aria: string) {
   // switching data morphs the shown grid into the new one over about half a second
   let morph = 0;
   function set(s: SurfaceSpec) {
+    const id = ++morph; // Even an immediate update must invalidate older queued frames.
     const from = shown.length === s.z.length && shown[0]?.length === s.z[0].length ? shown.map((r) => r.slice()) : null;
     const lo0 = spec ? Math.min(...spec.z.flat()) : 0, hi0 = spec ? Math.max(...spec.z.flat()) : 1;
     spec = s;
@@ -120,7 +121,7 @@ export function surface(aria: string) {
     if (!from || reduce()) { shown = s.z.map((r) => r.slice()); draw(); return; }
     // morph in normalised height, so a price surface can become a gamma surface without a jump in scale
     const norm0 = from.map((r) => r.map((v) => (v - lo0) / (hi0 - lo0 || 1)));
-    const t0 = performance.now(), id = ++morph;
+    const t0 = performance.now();
     const step = (now: number) => {
       if (id !== morph) return;
       const t = Math.min(1, (now - t0) / 520), e = 1 - Math.pow(1 - t, 3);

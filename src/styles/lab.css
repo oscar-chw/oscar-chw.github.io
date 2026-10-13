@@ -39,7 +39,7 @@
     linear-gradient(var(--c) 0 0) bottom left / 14px 1.5px, linear-gradient(var(--c) 0 0) bottom left / 1.5px 14px,
     linear-gradient(var(--c) 0 0) bottom right / 14px 1.5px, linear-gradient(var(--c) 0 0) bottom right / 1.5px 14px;
   background-repeat: no-repeat; }
-.hud::after { content: "● live · " attr(data-hud); position: absolute; right: 22px; bottom: 12px; pointer-events: none; font: 500 0.875rem var(--font-mono), monospace; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--accent) 80%, var(--muted)); opacity: 0.8; }
+.hud::after { content: "● live · " attr(data-hud); display: block; margin-top: 16px; text-align: right; overflow-wrap: anywhere; pointer-events: none; font: 500 0.875rem var(--font-mono), monospace; letter-spacing: 0.08em; text-transform: uppercase; color: color-mix(in srgb, var(--accent) 80%, var(--muted)); opacity: 0.8; }
 @keyframes exp-in { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } }
 .eh .path { color: var(--muted); font-size: 0.875rem; margin: 0 0 6px; }
 .eh .path b { color: var(--accent); font-weight: 500; }
