@@ -1,0 +1,101 @@
+[
+  {
+    "url": "http://localhost:4340/demos/",
+    "fetchTime": "2026-10-13T23:18:35.671Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.0019156096255484516
+  },
+  {
+    "url": "http://localhost:4340/demos/",
+    "fetchTime": "2026-10-13T23:18:25.427Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.001833055560779451
+  },
+  {
+    "url": "http://localhost:4340/demos/",
+    "fetchTime": "2026-10-13T23:18:14.917Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.0019156096255484516
+  },
+  {
+    "url": "http://localhost:4340/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T23:18:04.667Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  },
+  {
+    "url": "http://localhost:4340/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T23:17:53.932Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  },
+  {
+    "url": "http://localhost:4340/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T23:17:43.491Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  },
+  {
+    "url": "http://localhost:4340/",
+    "fetchTime": "2026-10-13T23:17:33.109Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 4.9817324293809865e-05
+  },
+  {
+    "url": "http://localhost:4340/",
+    "fetchTime": "2026-10-13T23:17:22.742Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 4.9817324293809865e-05
+  },
+  {
+    "url": "http://localhost:4340/",
+    "fetchTime": "2026-10-13T23:17:12.108Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 4.9817324293809865e-05
+  }
+]

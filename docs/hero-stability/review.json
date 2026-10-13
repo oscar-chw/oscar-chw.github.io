@@ -1,0 +1,20 @@
+{
+  "reviewer": "harness-review / Helmholtz",
+  "agent_id": "01a13792-0030-7522-8d62-ba16d954f959",
+  "scope": "Read-only source review of hero CSS and regression test; no reviewer execution",
+  "source_sha256": {
+    "src/pages/index.astro": "a8912511d87e4541d077053e072c1c7b77bf658a39a53ea02f87c5942ece7f47",
+    "e2e/hero-stability.spec.ts": "33c788bea7ac80c5a6e155651a8297b045e9e8dbe11f8dbcbd1a58ed09ebb84c"
+  },
+  "findings": [
+    {
+      "finding": "Overflow observed only after restoring text",
+      "resolution": "Collect every intermediate state and assert maximum; node57 rerun passed 66 browser checks"
+    },
+    {
+      "finding": "Transient random glyphs can be cropped",
+      "resolution": "Intentional decorative viewport; static accessible label and fully visible final name; main inspected all eight renders"
+    }
+  ],
+  "final_verdict": "No correctness or accessibility blocker found in current source diff. Overflow sampling includes every generated state. Transient clipping treated as documented design choice."
+}
