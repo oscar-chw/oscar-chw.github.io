@@ -1,6 +1,6 @@
 {
   "parent_commit": "b06a7296cc97610f30663ec400464e88f38e5b44",
-  "state": "Final programme, accuracy, StudyFlow withdrawal, blueprint scope and DNA input snapshot",
+  "state": "Runtime unchanged from independently checked abd226b; two school-project prose bounds corrected",
   "sha256": {
     "e2e/data-workbench.spec.ts": "8f667b19562f9f75b365de720c154b5a464e427e249847a37f2a3f3b55fc0571",
     "e2e/demo-focus.spec.ts": "fc68102ff2d199be79a1f788ca05095ed128278ba3a1e4a6fde901749d261081",
@@ -29,7 +29,9 @@
     "src/lib/terminal.test.ts": "8202e205887475e10e545aa6e6f6b69981c62011530ea9ce06f9581d35b59663",
     "src/pages/about.astro": "63e6e501218b329b143be42843b59728b40ba8c8f517c84b8679578834d9761f",
     "src/pages/demos/crypto-desk.astro": "7acdb63a626187d29cfd2665d02e4d89d779b73eb84b225b4150d8d5ce388648",
-    "src/styles/lab.css": "35b290cfaa097a51f6c18de5f644407438ce705bf85368ffa1cfbe38250aad2a"
+    "src/styles/lab.css": "35b290cfaa097a51f6c18de5f644407438ce705bf85368ffa1cfbe38250aad2a",
+    "src/content/projects/_dna-storage.mdx": "2fe2ec672e6f99b99edc252e78b21f837eeebf9a72084db091b394865d595246",
+    "src/content/projects/_compiler.mdx": "39b55b0e2e1d45c8460b68cd30d018f249f55d46de6715ad8bc1c5ec3526bae6"
   },
   "approved_content_sha256": "a1533eff4e7f7f183d0af30140b321171e8f732014b45be1f1bfe6f1f576054e",
   "cv_source": "../website-content/cv/Oscar_Choi_CV.pdf",
