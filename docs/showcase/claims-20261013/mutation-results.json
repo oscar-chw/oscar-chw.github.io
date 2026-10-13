@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-10-13T13:11:21.791Z",
+  "control": {
+    "exit": 0,
+    "output": "check-claim-scopes: OK (81 assertions; 27 built pages, hidden UI claims and public CV)\n"
+  },
+  "records": [
+    {
+      "name": "withdrawn-latency",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "missing-snapshot",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "wrong-fixture",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "unbounded-speed",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "unbounded-precision",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "missing-replay-boundary",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "unscoped-cpp-paragraph",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "missing-synthetic-fixture",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "wrong-python-caller",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "unscoped-fyp",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "missing-qts-page",
+      "exit": 1,
+      "caught": true
+    },
+    {
+      "name": "old-public-cv",
+      "exit": 1,
+      "caught": true
+    }
+  ],
+  "restored": {
+    "exit": 0,
+    "output": "check-claim-scopes: OK (81 assertions; 27 built pages, hidden UI claims and public CV)\n"
+  }
+}

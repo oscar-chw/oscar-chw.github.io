@@ -352,7 +352,7 @@ export async function mountHarbour(wrap: HTMLElement) {
   const site = wrap.dataset.base ?? "/";
   function readout(x: number, y: number): string {
     if (Math.hypot(x - geo.hub[0], y - geo.hub[1]) < 34)
-      return `<b>Data platform race test</b><br>12 readers and 5 writers at once (4 appending, 1 rewriting a partition)<br>23 of 23 commits kept<br><a href="${site}projects/qts-research-platform/">The platform →</a>`;
+      return `<b>Data platform race test</b><br>Separate 420,000-row concurrency fixture: 12 readers and 5 writers (4 appending, 1 rewriting a partition)<br>23 of 23 commits kept<br><a href="${site}projects/qts-research-platform/">The platform →</a>`;
     if (x > XT + 4 && y < WL)
       return `<b>After t = now: no look-ahead</b><br>Look-ahead bias is using data that was not yet known at decision time, which makes a backtest look better than anything that could have traded.<br>These towers stay unlit blueprints. <a href="${site}projects/ai-quant-research-system/#point-in-time-research">Point-in-time research →</a>`;
     if (y > WL + 6 && y < WL + 12 + ROWS * ROW_H && Math.abs(x - XT) < 200) {

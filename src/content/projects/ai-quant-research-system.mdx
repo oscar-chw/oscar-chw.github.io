@@ -12,16 +12,9 @@ stack:
 - SQLite
 - ChromaDB
 - Model Context Protocol
-metrics:
-- value: 1,805
-  label: paraphrased, cited claims from one quant textbook
-- value: 1,400+
-  label: extracted claims verified by passing tests
-- value: '773'
-  label: tests, 0 failing
-- value: '266'
-  label: gated tasks across the whole project, with about 140 AI subagents
 sources:
+  - sources/agentic-quant-research/replay-f8c4825.md
+  - sources/agentic-quant-research/build-evidence-f8c4825.md
   - sources/crypto-desk-blueprint/README-2d82aed.md
   - sources/crypto-desk-blueprint/EXP-08-1-2d82aed.json
   - sources/crypto-desk-blueprint/EXP-06-1-2d82aed.json
@@ -35,7 +28,7 @@ casestudy:
     - "A task is done only when its gate command exits 0, not when it looks done."
     - "Measured results are kept as cited, version-controlled notes."
   experiment: gatedbuild
-  result: "A planted bug sends its task back to pending with dated evidence; claiming it is done changes nothing, and the next task cannot start. The real build ended with 1,400+ extracted claims verified by passing tests (773 tests, 0 failing)."
+  result: "A planted bug sends its task back to pending with dated evidence; claiming it is done changes nothing, and the next task cannot start. The real build links library implementations to cited textbook claims and reproducible checks in a versioned vault."
   tradeoff:
     chose: "a gate per task: a command that can fail is the only way to mark work done"
     over: "trusting an agent's report, or a reviewer reading its summary"
@@ -71,9 +64,9 @@ import P_crypto_trading_pipeline from "./_crypto-trading-pipeline.mdx";
 
 ## The centrepiece build
 
-Its centrepiece is one complete build: over about four days in September 2026, a Claude Code orchestrator and its subagents turned López de Prado's *Advances in Financial Machine Learning* into 1,805 paraphrased, cited claims and a tested Python library. The result in [this repository](https://github.com/oscar-chw/agentic-quant-research): **1,400+ extracted claims verified by passing tests** (773 tests, 0 failing).
+Its centrepiece is a Python quant-research library built from López de Prado's *Advances in Financial Machine Learning*, using AI coding agents. The versioned vault links implementations to paraphrased, cited source claims and reproducible tests. The contribution is the reviewable connection from a claim to code and evidence, rather than an agent's assertion that it has finished.
 
-Across the whole project, the orchestrator and about 140 AI subagents (per private session logs) completed 266 gated tasks.
+The repository's dated build record lists 1,805 claims and 1,417 with all named tests passing at that revision. These are historical inventory counts, not a measure of research quality. The [evidence record](https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/docs/evidence.md) explains coverage and limits.
 
 <Flow title="The centrepiece build" caption="a task is done when its gate command exits 0, not when it looks done" steps={[
   { label: "One book", note: "read by agents" },
@@ -86,7 +79,7 @@ The vault in this build keeps book notes and measured results as cited, version-
 
 ## Point-in-time research platform
 
-<Part id="point-in-time-research" role="Designer and sole author" stack={["Python", "C++20", "pybind11", "pandas", "pytest", "hypothesis"]} metrics={[{"value": "25×", "label": "C++20 order-book replay vs an optimized Python batch path, byte-identical output"}, {"value": "2.3×", "label": "end-to-end when the native replay is called from Python"}, {"value": "47", "label": "tests on the native replay"}]} links={[{"label": "Code: the point-in-time research platform (platform/)", "href": "https://github.com/oscar-chw/agentic-quant-research/tree/main/platform"}]} />
+<Part id="point-in-time-research" role="Designer and sole author" stack={["Python", "C++20", "pybind11", "pandas", "pytest", "hypothesis"]} metrics={[{"value": "2.3×", "label": "Python API-call speed vs Python batch, including conversion; preloaded synthetic 100k-message / 64-query fixture; loading and answer checking excluded"}]} links={[{"label": "Code: the point-in-time research platform (platform/)", "href": "https://github.com/oscar-chw/agentic-quant-research/tree/main/platform"}]} />
 
 <P_point_in_time_research />
 

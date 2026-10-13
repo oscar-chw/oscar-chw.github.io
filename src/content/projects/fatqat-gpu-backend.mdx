@@ -1,6 +1,6 @@
 ---
 title: GPU Backend for FatQat
-summary: A fork of FatQat, an open-source quantum-circuit simulator, inspired by the course CENG5280. It adds CUDA (GPU) execution for all four simulation methods, keeping the simulator's interfaces and double precision. With error-compensated GPU products, the default, it runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables.
+summary: A fork of FatQat, an open-source quantum-circuit simulator, inspired by the course CENG5280. It adds CUDA execution for all four simulation methods, keeping the interfaces and double precision. Archived warm complex128 calls on 24–28-qubit observables ran 17–21× faster than the project's own optimized 32-thread CPU engine, using default error-compensated GPU products.
 order: 1
 featured: true
 group: Engineering and AI
@@ -8,10 +8,8 @@ role: Author of the GPU fork (inspired by the course CENG5280); upstream simulat
 period: "2026"
 stack: [Python, CUDA, CuPy, Metal]
 metrics:
-  - { value: "≤ 2.9 ε", label: "from a 60-digit reference (machine epsilons, double precision), in the default compensated mode" }
-  - { value: "17–21×", label: "faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables, with error-compensated GPU products, the default" }
-  - { value: "up to 89×", label: "faster with exact shot branching than running each shot alone, on noiseless circuits with mid-circuit measurements, identical counts" }
-  - { value: "48,700", label: "randomized differential checks, 0 failures" }
+  - { value: "17–21×", label: "archived warm complex128 observable calls, 24–28 qubits, vs the project's own optimized 32-thread CPU; default compensated products, simplification off" }
+  - { value: "≤ 2.9 ε", label: "separate accuracy experiment: 110 small circuits, up to 5 qubit/qutrit subsystems; maximum component error vs a 60-digit oracle of stored complex128 coefficients, default compensated mode" }
 sources:
   - sources/fatqat-cuda/README-b92e98e.md
   - sources/fatqat-cuda/upstream-pr-52.txt
@@ -26,15 +24,15 @@ casestudy:
   problem: "A state-vector simulator updates every amplitude for every gate, and the state doubles with each qubit. At 24–28 qubits the project's own optimized 32-thread CPU engine is the bottleneck."
   constraints:
     - "Keep the simulator's interfaces: a circuit runs unchanged on either engine."
-    - "Keep double precision, and accuracy equal to the CPU engines, measured against a 60-digit reference."
+    - "Keep double precision; check numerical error against a 60-digit reference on small circuits."
     - "Every faster path must give the same results, checked by randomized differential tests."
   experiment: compensated
-  result: "When the two products nearly cancel, plain rounding can lose every digit while Kahan's algorithm stays within 2 ulp. Even on typical amplitudes plain products occasionally lose several digits. Across the full suite of real circuits, the default mode stays within 2.9 machine epsilons of a 60-digit reference."
+  result: "The browser experiment isolates cancellation in one difference of products. Separately, the archived GPU accuracy experiment covered 110 small circuits, up to 5 qubit/qutrit subsystems: default-mode maximum component error stayed within 2.9 machine epsilons of a 60-digit oracle evolving the stored complex128 coefficients."
   tradeoff:
     chose: "error-compensated GPU products, Kahan's algorithm for each part of a complex product, as the default"
     over: "plain products, which round as the CPU engines do"
-    why: "they stay within 2 ulp even under cancellation, so accuracy never depends on which circuit is run"
-    cost: "about 1.5× in GPU speed: 17–21× over the CPU engine instead of 23–26× in the optional plain mode, which stays available because across 110 real circuits the two differ by only +0.03 ± 0.03 eps on average"
+    why: "compensation recovers product-rounding error before subtraction; it reduces cancellation error in each complex product, while the circuit's sums still round"
+    cost: "extra arithmetic: archived warm complex128 observable calls on 24–28 qubits ran 17–21× over the 32-thread CPU baseline, versus 23–26× in optional plain mode. The small-circuit accuracy study is a separate experiment."
   contribution: "The GPU fork: CUDA execution for all four simulation methods, the compensated arithmetic, exact shot branching and circuit simplification, the randomized differential checks, and a fix merged upstream."
   evidence:
     - { label: "fatqat-cuda: README, results and experiments", href: "https://github.com/oscar-chw/fatqat-cuda" }
@@ -62,11 +60,15 @@ import Term from "../../components/Term.astro";
 
 ## Result
 
-With error-compensated GPU products, the default, the GPU runs 17–21× faster than the project's own optimized 32-thread CPU engine on 24–28-qubit observables (6–7× with the full state copied back); the optional plain mode reaches 23–26×, and the r9 release ran 35–42×, before error-compensated GPU products became the default and the CPU engine got faster. In the default mode, results are within 2.9 machine epsilons of a 60-digit reference. Exact shot branching is up to 89× faster than running each shot alone on noiseless circuits with mid-circuit measurements, with identical counts, and 48,700 randomized differential checks found 0 failures. On an Apple-silicon Mac, the Metal runtime is 1.18–1.52× faster than the CPU engine at 24–26 qubits, bit-identical to it, and `runtime="auto"` picked the faster runtime at every measured size.
+**Speed, on the archived timing workloads.** Warm complex128 observable calls on 24–28 qubits ran 17–21× faster than the project's own optimized 32-thread CPU engine with default error-compensated GPU products and simplification off (6–7× with the full state copied back). Synchronisation and requested host output are included; imports, construction and first-call compilation are excluded. Optional plain mode reached 23–26×. The r9 engines recorded 35–42×, before compensated products became the default and the CPU engine got faster.
+
+**Accuracy, on a separate small-circuit study.** On 110 small circuits, up to 5 qubit/qutrit subsystems, the default mode's maximum component error was within 2.9 machine epsilons of a 60-digit oracle evolving stored complex128 coefficients. That is a measured result for these cases, not an error bound for the larger timing workloads or ideal gates.
+
+**Other archived checks.** Exact shot branching was up to 89× faster than running each shot alone on noiseless circuits with mid-circuit measurements, with identical counts. Randomized differential runs checked results against the reference. On an Apple-silicon Mac, the adaptive CPU-plus-Metal runtime recorded 1.18–1.52× over the CPU reference at 24–26 qubits, with bit-identical output in the measured cases; this is an adaptive-runtime result, not GPU-only acceleration.
 
 ## How it works
 
-<Flow title="FatQat GPU backend" caption="same interface in, same amplitudes out (default mode: within 2.9 machine epsilons of a 60-digit reference)" steps={[
+<Flow title="FatQat GPU backend" caption="the existing circuit interface, with separate numerical-error and performance checks" steps={[
   { label: "Circuit", note: "FatQat's interface" },
   { label: "Engine choice", note: "CPU, CUDA or Metal" },
   { label: "GPU state vector", note: "double precision", accent: "accent" },
@@ -78,5 +80,6 @@ With error-compensated GPU products, the default, the GPU runs 17–21× faster 
 
 ## Limits
 
-- The 17–21× figure is for observables against a fixed 32-thread CPU setting, not every core, on 24–28 qubits; copying the full state back cuts it to 6–7×.
+- The 17–21× figure measures warm complex128 observable calls on 24–28 qubits against a fixed 32-thread CPU baseline; copying the full state back cuts it to 6–7×. It is not whole-program acceleration or a fresh benchmark of today's version.
+- The precision experiment uses small circuits and the stored coefficients as its oracle input. It does not measure the numerical error of the larger speed-test workloads.
 - The branching speed-up applies to noiseless circuits with mid-circuit measurements; noisy circuits gain far less.

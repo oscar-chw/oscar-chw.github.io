@@ -129,8 +129,8 @@ if (boot && !still) {
     const log = boot.querySelector("[data-boot-log]")!;
     const lines = [
       "<span class=ac>oscar@chw</span> boot v2026.10",
-      "[<span class=ok> OK </span>] mounting market data ............ 700B+ rows",
-      "[<span class=ok> OK </span>] c++20 order-book replay ......... 25×",
+      "[<span class=ok> OK </span>] data snapshot 2026-10-05 ........ 700B+ rows stored",
+      "[<span class=ok> OK </span>] c++20 order-book replay ......... ready",
       "[<span class=ok> OK </span>] cuda state vector ............... double precision",
       "[<span class=ok> OK </span>] look-ahead guard ................ armed",
       "[<span class=ok> OK </span>] matching engine ................. seed 42",

@@ -10,7 +10,7 @@ In this card game, the set of legal moves changes at every prompt and half the b
 - **Policy learning** on 89,048 decisions from 926 games. The split is by game, so positions from a validation game never leak into training.
 - **A set-transformer policy** that scores each legal option from typed board tokens, served with NumPy at inference so it does not depend on PyTorch.
 - **Parity and packaging gates** that test the built package itself, not the training code.
-- **A batched Rust/GPU simulator prototype** of a simplified game loop at about 110M steps/s, with the GPU output checked against a CPU reference.
+- **A batched Rust/GPU simulator prototype** of a simplified game loop, with the GPU output checked against a CPU reference.
 
 ### How it works
 

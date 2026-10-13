@@ -1,3 +1,7 @@
+---
+sources:
+  - sources/qts-platform-showcase/results-b819463.md
+---
 import Hobbies from "../../components/Hobbies.astro";
 
 I study Computer Science at The Chinese University of Hong Kong and graduate in 2027. Most of my work is quant research infrastructure: data platforms researchers can trust, and research tools where AI can propose and critique but never decides what counts as a result. I am looking for quant developer, quant research, trading, software engineering, full-stack and AI engineering roles, and I am interested in quantum computing software: I wrote the GPU backend for an open-source quantum simulator.
@@ -10,7 +14,7 @@ I study Computer Science at The Chinese University of Hong Kong and graduate in 
     **The Chinese University of Hong Kong**<br />
     B.Sc. in Computer Science; Minors in Data Analytics and Informatics, and Business
 
-    Final-year project (Prof. XU Hong): built a decision layer that makes small local LLM agents safer; on held-out tasks it cut rule violations by 80% versus a prompted agent (Bayesian scoring + conformal risk control).
+    Final-year project (Prof. XU Hong): co-developed Bayesian scoring and conformal risk control for a 4B LLM; reduced tasks with rule violations by about 80% versus a prompted agent on a held-out synthetic tool-use testbed.
 
     Relevant courses: Compiler Construction (A), Operating Systems, Algorithms, Data Structures, Computer Organization, Software Engineering, Formal Languages & Automata, Programming Languages, Probability, Statistics, Linear Algebra. Currently: Quantitative Methods for Financial Derivatives; Quantum Computer Systems (postgraduate).
   </div>
@@ -23,12 +27,12 @@ I study Computer Science at The Chinese University of Hong Kong and graduate in 
   <div>
     **Lead Developer, Quant Research Team, CUHK Quant Trading Society**, Hong Kong
 
-    - As the team's sole developer, architected its market-data platform, holding 700B+ rows of Chinese A-share tick data (2017–2026), crypto market data and Polymarket order books.
-    - Designed its query service for researchers (Python, HTTP, SQL): a full stock-day loads in under 0.2 s, and a race test with 12 readers and 5 writers (4 appending, 1 rewriting a partition) kept all 23 of 23 commits.
-    - Led data cleaning with the team: removed 500M+ duplicate rows and blocked look-ahead leaks into research data.
-    - Administer the team's shared GPU research server: per-member data permissions (custom Linux PAM/eBPF modules in C), single sign-on without VPN, and live health monitoring with transition-based alerting.
-    - Built a TLS-terminating, address-scrubbing HTTP/WebSocket relay in Go that carries ~300 Mbit/s of live market data (~850 concurrent connections) for the server's data collectors, moving it off the VPN: ~60% less CPU than the Python prototype it replaced, and remote-login drops cut from 23 in 3 hours to 0 in 24 hours.
-    - Deployed per-person AI coding agents on the research server behind a destructive-command guard that blocks all 33 bypasses an independent review found.
+    - As the team's sole developer, architected its market-data platform: 700B+ stored A-share and crypto rows in the 2026-10-05 snapshot, not a unique-row count. The platform also supports Polymarket, outside that sum.
+    - Built its Python/HTTP/SQL query service with version-pinned reads and point-in-time checks. A separate 420,000-row concurrency fixture kept all 23 of 23 commits with 12 readers and 5 writers.
+    - Led implementation of the team's data-quality work: duplicate cleanup and checks that prevent look-ahead leakage into research data.
+    - Built access controls in C, monitoring, alerts and operator documentation for shared research infrastructure.
+    - Built a Go HTTP/WebSocket relay with request validation, TLS termination and address scrubbing.
+    - Built guarded AI coding agents with recoverable deletion and approvals; tested the guard against independently identified bypass cases.
   </div>
 </div>
 
@@ -37,17 +41,17 @@ I study Computer Science at The Chinese University of Hong Kong and graduate in 
   <div>
     **BRAIN Research Consultant (Gold level), WorldQuant**, remote, part-time
 
-    - Researched and submitted 11 equity alphas, with a best out-of-sample Sharpe of 2.18.
+    - Researched and submitted 11 equity alphas in July 2025; the 5 October 2026 snapshot records a best individual out-of-sample Sharpe of 2.18 in BRAIN simulation.
     - Built Python tooling that manages simulation runs (concurrency limits, checkpoint/resume).
   </div>
 </div>
 
 <div class="row">
-  <div class="when now">Sep 2023 – present</div>
+  <div class="when">Teaching</div>
   <div>
     **STEAM Programming Tutor, Christian Alliance S. C. Chan Memorial College**, part-time
 
-    - Teach programming and STEAM projects to junior students (50+ taught so far), design curriculum materials and hands-on coding activities, and mentor student teams for programming competitions (two awards).
+    - Taught programming and STEAM projects to 50+ students, designed curriculum materials and hands-on coding activities, and mentored student teams that won two programming awards.
     - Also Head of Discipline & Tutor at Advanced Learning Centre (2023–).
   </div>
 </div>

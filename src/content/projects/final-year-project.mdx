@@ -1,13 +1,13 @@
 ---
 title: Final-year project
-summary: A decision layer that makes small local LLM agents safer, supervised by Prof. XU Hong.
+summary: Joint research on Bayesian scoring and conformal risk control for a small LLM, evaluated on a held-out synthetic tool-use testbed under Prof. XU Hong.
 order: 3
 featured: true
 group: Engineering and AI
-role: Final-year project, CUHK
+role: Joint final-year research, CUHK
 stack: [Bayesian scoring, conformal risk control, local LLMs]
 metrics:
-  - { value: "−80%", label: "rule violations on held-out tasks versus a prompted agent" }
+  - { value: "≈80%", label: "fewer tasks with rule violations vs a prompted 4B LLM, on a held-out synthetic tool-use testbed" }
 ---
 import Term from "../../components/Term.astro";
 
@@ -17,16 +17,16 @@ Small LLM agents that run locally are cheap and private, but they break the rule
 
 ## What I built
 
-Final-year project (Prof. XU Hong): built a decision layer that makes small local LLM agents safer; on held-out tasks it cut rule violations by 80% versus a prompted agent (Bayesian scoring + conformal risk control).
+Final-year project (Prof. XU Hong): co-developed Bayesian scoring and conformal risk control for a 4B LLM, evaluated on a held-out synthetic tool-use testbed.
 
 ## Result
 
-On held-out tasks, rule violations fell by 80% versus a prompted agent.
+On that held-out synthetic testbed, tasks with rule violations fell by about 80% versus the prompted-agent baseline.
 
 ## How it works
 
-The layer sits between the agent and its actions. It <Term t="conformal risk control">combines Bayesian scoring with conformal risk control</Term> to decide when an agent's action is safe to take.
+The layer sits between the agent and its actions. It <Term t="conformal risk control">combines Bayesian scoring with conformal risk control</Term> to decide whether an action passes the configured decision rule.
 
 ## Limits
 
-- The research is unpublished, so this page is an overview only, with no code link.
+- The joint research is unpublished, so this page is an overview only, with no code link. The measured reduction is specific to the synthetic testbed; it is not a deployment benefit or general safety guarantee.

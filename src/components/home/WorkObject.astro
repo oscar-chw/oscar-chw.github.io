@@ -2,7 +2,7 @@
 // "One object": the project list scrolls on the left while a single glass object stays pinned on
 // the right and transforms into whichever project is in view (or hovered/focused). Scrolling picks
 // the project; it never drives a number. Without JS the object shows the first project and every
-// row is still a plain link. On phones the object steps aside and rows carry their own figure.
+// row is still a plain link. On phones the object steps aside; scoped figures live on the project page.
 import type { CollectionEntry } from "astro:content";
 import ProjectArt from "../ProjectArt.astro";
 import Icon from "../Icon.astro";
@@ -20,7 +20,7 @@ const pad = (n: number) => String(n + 1).padStart(2, "0");
           <span class="n mono">{pad(i)}</span>
           <span class="t" style={`view-transition-name: p-${p.id}`}>{p.data.title}</span>
           <span class="tag mono">{p.data.stack.slice(0, 2).join(" · ").toLowerCase()}</span>
-          {p.data.metrics[0] && <span class="f mono">{p.data.metrics[0].value}</span>}
+          <span class="f mono" aria-hidden="true">↗</span>
         </a>
       </li>
     ))}

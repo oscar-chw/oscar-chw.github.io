@@ -1,3 +1,7 @@
+---
+sources:
+  - sources/agentic-quant-research/replay-f8c4825.md
+---
 import Flow from "../../components/Flow.astro";
 import Term from "../../components/Term.astro";
 
@@ -15,7 +19,7 @@ A backtest is only as honest as its inputs and its process. Data that was not ye
 
 ### Result
 
-On a synthetic 100k-message benchmark, the C++20 replay is 25× faster than an optimized Python batch path, with byte-identical output and 47 tests. Called from Python, the whole path is 2.3× faster end to end.
+On a **preloaded synthetic 100k-message, 64-query fixture**, the native replay's Python API call is **2.3× faster** than the optimized Python batch path, including conversion into C++ and back. A C++ caller is **25× faster** than that Python baseline on the same fixture. Workload loading and answer checking are excluded from both timings. Output matches byte for byte; the native replay had 47 tests at the recorded revision.
 
 ### How it works
 
@@ -36,6 +40,6 @@ On a synthetic 100k-message benchmark, the C++20 replay is 25× faster than an o
 
 ### Limits
 
-- The replay benchmark is synthetic: one instrument and a shallow book. When the replay is called from Python, most of the time goes to the Python side and crossing the binding.
+- The archived replay benchmark is synthetic: one instrument and a shallow book. Neither ratio measures whole-platform speed. When called from Python, most of the time goes to preparation and crossing the binding.
 - No model has run the full loop yet: the LLM steps so far replay hand-written responses, so the loop is tested but the AI arm is not yet measured.
 - Execution is idealized (flat cost, no slippage, borrow or funding), and the universe is a single market.

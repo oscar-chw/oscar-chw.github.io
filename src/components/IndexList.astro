@@ -1,5 +1,5 @@
 ---
-// Projects as one aligned list: number, title, stack, headline figure, on the 12-column grid.
+// Projects as one aligned list: number, title, stack and link cue, on the 12-column grid.
 // The title morphs into the project page's heading through a shared view-transition name.
 import type { CollectionEntry } from "astro:content";
 import { url } from "../lib/url";
@@ -16,7 +16,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
           <span class="n mono">{pad(start + i)}</span>
           <span class="t" style={`view-transition-name: p-${p.id}`}>{p.data.title}</span>
           <span class="s mono">{p.data.stack.slice(0, 2).join(" · ").toLowerCase()}</span>
-          <span class="f mono">{p.data.metrics[0]?.value ?? ""}</span>
+          <span class="f mono" aria-hidden="true">↗</span>
         </a>
       </li>
     ))}

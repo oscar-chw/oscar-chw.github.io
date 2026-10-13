@@ -19,7 +19,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     h("p", { class: "cp-tag mono" }, h("b", {}, "LIVE"), " computed in your browser now, with a BigInt reference"),
     h("p", { class: "cp-formula mono", "aria-hidden": "true" }, "a·b − c·d"),
     rows, result,
-    h("p", { class: "cp-why" }, "Every complex multiply in a state-vector simulator computes this. FatQat's default GPU products pay about 1.5× in GPU speed for the compensated result; plain mode is an opt-in, because across 110 real circuits the two differ by only +0.03 ± 0.03 machine epsilons on average (one circuit 1.5 worse)."),
+    h("p", { class: "cp-why" }, "Every complex multiply in a state-vector simulator computes this. FatQat compensates product-rounding error before subtraction, paying for extra arithmetic. This browser experiment isolates that tradeoff; the project page separates the archived GPU timing workloads from the small-circuit accuracy study."),
     sweepOut,
   );
 
