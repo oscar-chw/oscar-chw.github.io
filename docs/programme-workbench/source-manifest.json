@@ -1,0 +1,39 @@
+{
+  "parent_commit": "b06a7296cc97610f30663ec400464e88f38e5b44",
+  "state": "Final programme, accuracy, StudyFlow withdrawal, blueprint scope and DNA input snapshot",
+  "sha256": {
+    "e2e/data-workbench.spec.ts": "8f667b19562f9f75b365de720c154b5a464e427e249847a37f2a3f3b55fc0571",
+    "e2e/demo-focus.spec.ts": "fc68102ff2d199be79a1f788ca05095ed128278ba3a1e4a6fde901749d261081",
+    "e2e/dna-input.spec.ts": "920e920525688e3057bd29c4f44b9f6706e71e3646b62088f787088d7262869c",
+    "e2e/terminal-workbench.spec.ts": "cfa45b9842490547b71ac16d5e7fb0b3b06765bf95c9db2308742195135bc6db",
+    "public/console.js": "72071c85a27fcc82dafe01cb36fe263cf587e721af3cc016358bcbf65603284f",
+    "public/cv/Oscar_Choi_CV.pdf": "8b4341bda24a347854da7143ba464a827017ff3bca36518af8992c1f03160873",
+    "public/terminal/shell.js": "a306a2fabc050b65a5df562dbb6b20fe9725c2ccb979a58f7c24316d7aeba879",
+    "src/components/ProjectArt.astro": "243152b839c0c8cfaf3c3b53e4d0921c0d236ed19e167750ce3aa8a2b36176e5",
+    "src/components/lab/exp/data-workbench.css": "eb6220d814faa346bd97007c2895aca9c19ed2940678df0b3ca4a833f96b81c6",
+    "src/components/lab/exp/data-workbench.ts": "b2d6763b579d5e71967911042932bf2b87922505dbd3b372e9559a4252fc9709",
+    "src/components/lab/exp/dna.ts": "47d9f508db42de77e4a5dae78438b76ca8460c6bbbafa1a7035293d1e5a303d9",
+    "src/components/lab/registry.ts": "a96a9196810b5c2af29a2c1fcb9d4dfa1452a88ae067e103bdd1099e408ac226",
+    "src/content/pages/about.mdx": "6dd0b3f90bfed6a7edcf8e5b65ceb68bb779b34ae33a711c382fc772c9077588",
+    "src/content/projects/_imc-prosperity-4.mdx": "c0f0b4e4e841f9e90eb355545e21d42ea5e8be2bd070883038abddfbd01f28ce",
+    "src/content/projects/ai-quant-research-system.mdx": "9395f753e254943392df28382eb36b81f60c58bd2231ed91372f86d28e489feb",
+    "src/content/projects/competitions.mdx": "7dfac479a1783b78b2bb07e4dae571f2756056787fc5bb1a0b8ec4b4c0bab679",
+    "src/content/projects/coursework.mdx": "2cecdd7269c7425de97a6e3686de766d893caa1ac859b52083ac86c19cfa09c5",
+    "src/data/lab.ts": "9e9ea5d31e7bdf658ed914fb148741b8ed275fdf7bb602aa1d11202a53609608",
+    "src/layouts/Base.astro": "b289eea00e97fb2c86840c68862bb03aa03d5310d3908cad4f485bbfba6999ae",
+    "src/lib/lab/data-workbench.test.ts": "8e6eb0f5d65d3b6509c9b7e8eaf77d929577abf5ac09d2cb8df9239213735344",
+    "src/lib/lab/data-workbench.ts": "356668d70239d8dcf7190c490d2ce87b542ed410b45710cd6fee0cc79f82d775",
+    "src/lib/lab/dna.test.ts": "a88923c786336e43e4fe19b825f712fb352730ccfff8ec6723e50e1632bfbd64",
+    "src/lib/lab/dna.ts": "b124dc54fce0bfddb6e2dc09076c9dea2d88a1501a8558df9192e33ab4fae75e",
+    "src/lib/lab/timetable.ts": "a1560306b2638bd9a70b7281f7ff4e29979ef98475b917be9db1557f9165a345",
+    "src/lib/terminal.test.ts": "8202e205887475e10e545aa6e6f6b69981c62011530ea9ce06f9581d35b59663",
+    "src/pages/about.astro": "63e6e501218b329b143be42843b59728b40ba8c8f517c84b8679578834d9761f",
+    "src/pages/demos/crypto-desk.astro": "7acdb63a626187d29cfd2665d02e4d89d779b73eb84b225b4150d8d5ce388648",
+    "src/styles/lab.css": "35b290cfaa097a51f6c18de5f644407438ce705bf85368ffa1cfbe38250aad2a"
+  },
+  "approved_content_sha256": "a1533eff4e7f7f183d0af30140b321171e8f732014b45be1f1bfe6f1f576054e",
+  "cv_source": "../website-content/cv/Oscar_Choi_CV.pdf",
+  "removed_files": [
+    "src/content/projects/_studyflow.mdx"
+  ]
+}

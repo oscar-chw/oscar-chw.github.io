@@ -1,0 +1,92 @@
+[
+  {
+    "url": "http://localhost:58705/demos/",
+    "fetchTime": "2026-10-13T22:31:18.040Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/demos/",
+    "fetchTime": "2026-10-13T22:31:07.840Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/demos/",
+    "fetchTime": "2026-10-13T22:30:57.629Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T22:30:47.427Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T22:30:37.221Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-13T22:30:26.999Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/",
+    "fetchTime": "2026-10-13T22:30:16.662Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/",
+    "fetchTime": "2026-10-13T22:30:06.217Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:58705/",
+    "fetchTime": "2026-10-13T22:29:55.545Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  }
+]

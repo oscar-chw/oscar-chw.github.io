@@ -101,11 +101,11 @@ The vault in this build keeps book notes and measured results as cited, version-
 
 <P_agent_harness />
 
-## Crypto Desk Blueprint
+<h2 id="crypto-desk-blueprint">Quant-system blueprint</h2>
 
 <Part role="Designer; implemented with AI coding agents under my design and review" stack={["Python", "typed Protocols", "conformance tests"]} metrics={[{"value": "16 of 20", "label": "experiments, each with a control arm, support their rule; the other four are reported"}, {"value": "20", "label": "deliberately broken implementations, each caught by the conformance suite"}]} links={[{"label": "Repository: crypto-desk-blueprint", "href": "https://github.com/oscar-chw/crypto-desk-blueprint"}, {"label": "Demo: the blueprint and three of its experiments", "href": "/demos/crypto-desk/"}]} />
 
-A template for building a crypto trading desk from scratch, for a person or an AI agent. It splits the desk into nine typed stages, from data and features through pricing, risk and portfolio sizing to execution and validation. Each stage has conformance tests that any implementation must pass, and tested building blocks: a point-in-time store that refuses future reads, a fee and slippage model, risk limits with a kill switch, purged cross-validation, deflated Sharpe and capped half-Kelly. No trading profit is claimed.
+An asset-agnostic architecture for a quantitative research and trading system, for a person or an AI agent. The repository's current worked example uses crypto; it does not establish implementations for other asset classes. It splits the system into nine typed stages, from data and features through pricing, risk and portfolio sizing to execution and validation. Each stage has conformance tests that any implementation must pass, and tested building blocks: a point-in-time store that refuses future reads, a fee and slippage model, risk limits with a kill switch, purged cross-validation, deflated Sharpe and capped half-Kelly. No trading profit is claimed.
 
 ## Crypto Trading Pipeline
 

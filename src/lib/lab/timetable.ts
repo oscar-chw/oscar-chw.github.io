@@ -1,4 +1,4 @@
-// StudyFlow's core check, at toy size: a section meets in weekly slots; adding one that overlaps
+// Independent interval-overlap exercise: a section meets in weekly slots; adding one that overlaps
 // a slot already on the timetable is refused, and the clash is named.
 export interface Slot { day: number; start: number; end: number }     // minutes from midnight
 export interface Section { code: string; slots: Slot[] }

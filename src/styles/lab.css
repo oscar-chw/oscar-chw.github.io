@@ -64,7 +64,7 @@
 .launch:hover .lt { color: var(--accent); }
 @media (max-width: 1000px) { .rig { grid-template-columns: minmax(0, 1fr); } .panel { position: static; } }
 @media (max-width: 1000px) {
-  .exp[data-panel="fatqat-bench"] .panel, .exp[data-panel="point-in-time"] .panel { order: -1; }
+  .exp[data-panel="fatqat-bench"] .panel, .exp[data-panel="point-in-time"] .panel, .exp[data-panel="dna"] .panel { order: -1; }
 }
 @media (max-width: 800px) { .lab { grid-template-columns: minmax(0, 1fr); } .tree { position: static; max-height: none; }
   .tree [role=listbox] { max-height: 34vh; overflow-y: auto; overscroll-behavior: contain; mask-image: linear-gradient(#000 85%, transparent); } }
@@ -93,6 +93,7 @@
 .dna .del { color: var(--down); font-weight: 700; }
 .dna-back { margin: 0 0 10px; font-size: 1rem; word-break: break-all; }
 .dna-back .bad { color: var(--down); text-decoration: underline wavy; text-underline-offset: 3px; }
+.exp[data-panel="dna"] .sr-in { scroll-margin-top: 140px; }
 /* lost updates */
 .lu-big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; margin-bottom: 16px; font-size: 0.875rem; color: var(--muted); }
 .lu-big span { display: inline-flex; align-items: baseline; gap: 6px; }
@@ -232,6 +233,7 @@
 @media (prefers-reduced-motion: reduce) { .exp.enter, .gt-log li, .tt-blk, .tt.shake { animation: none; } .chart .ln { stroke-dashoffset: 0; animation: none; } }
 
 .exp { scroll-margin-top: 92px; }   /* below the sticky nav when a phone scrolls to it */
+@media (max-width: 800px) { .exp { scroll-margin-top: 132px; } } /* the phone header has two rows */
 
 /* type floor (W05, 2026-10-10): no Lab label, control, readout or note under 14 px (0.875rem) */
 /* compensated products (FatQat): three methods, digits that agree with the exact value bright, the rest dim */

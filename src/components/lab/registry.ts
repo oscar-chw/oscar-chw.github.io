@@ -21,6 +21,7 @@ export const LOAD: Record<string, () => Promise<Exp>> = {
     gate: () => import("./exp/gate"),
   compensated: () => import("./exp/compensated"),
   "fatqat-bench": () => import("./exp/fatqat-bench"),
+  "data-workbench": () => import("./exp/data-workbench"),
 };
 
 const RESET = /reset|start over|replay/i;

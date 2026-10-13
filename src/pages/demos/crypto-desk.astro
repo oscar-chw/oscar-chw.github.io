@@ -32,10 +32,10 @@ const CARDS = [
     verdict: `On public Binance data for 2025, annualised funding and basis correlate at ${e04.treatment.btc.corr.toFixed(2)} for BTC, against 0.17 at the 95th percentile when funding is shifted at random.`, data: "public Binance data, 2025" },
 ];
 ---
-<Demo code={code} title="Crypto desk blueprint" description="A template for building a crypto trading desk from scratch, where each stage has a contract it must pass and each rule is backed by a runnable experiment with a control.">
+<Demo code={code} title="Quant-system blueprint" description="An asset-agnostic architecture illustrated with a crypto worked example: each stage has a contract to pass, and each rule is backed by a runnable experiment with a control.">
   <Fragment slot="instructions">Pick a stage to read the rule it must pass. Below are three of the experiments behind the rules, each measured against its own control.</Fragment>
 
-  <p class="measure">The <a href={BP}>blueprint</a> splits a trading desk into nine typed stages. Each stage ships with conformance tests that any implementation must pass, and each test has a deliberately broken version it must catch. My <a href={CTP}>crypto trading pipeline</a> is a worked example: its data, feature, strategy and execution stages pass the blueprint's conformance tests, and its risk and sizing stages do not yet.</p>
+  <p class="measure">The <a href={BP}>blueprint</a> splits a quantitative research and trading system into nine typed stages. The architecture is asset-agnostic; this page demonstrates its crypto worked example. Each stage ships with conformance tests that any implementation must pass, and each test has a deliberately broken version it must catch. My <a href={CTP}>crypto trading pipeline</a> is a worked example: its data, feature, strategy and execution stages pass the blueprint's conformance tests, and its risk and sizing stages do not yet. Other asset classes are not implemented or validated by this demonstration.</p>
 
   <div class="stages" role="tablist" aria-label="Pipeline stages">
     {STAGES.map(([n, name], i) => <button type="button" role="tab" class="st mono" aria-selected={i === 0 ? "true" : "false"} data-stage={i}><b>{n}</b>{name}</button>)}

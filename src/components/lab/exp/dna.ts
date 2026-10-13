@@ -10,28 +10,30 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   const strandEl = h("p", { class: "dna mono", "aria-label": "The damaged DNA strand" });
   const backEl = h("p", { class: "dna-back mono", "aria-live": "polite" });
   const ro = h("div", {});
-  stage.append(input, h("p", { class: "ctl-l mono" }, "the strand after the channel"), strandEl, h("p", { class: "ctl-l mono" }, "read back, no correction"), backEl,
+  stage.append(h("p", { class: "ctl-l mono" }, "the strand after the channel"), strandEl, h("p", { class: "ctl-l mono" }, "read back, no correction"), backEl,
     h("p", { class: "lab-note mono" }, "red: substituted letter · amber: inserted letter · | : a letter was deleted here"));
 
   const draw = () => {
-    const msg = input.value || " ", clean = encode(msg), { out, events } = channel(clean, seed, subs, ins, dels), back = decode(out);
+    const msg = input.value, chars = [...msg], clean = encode(msg), { out, events } = channel(clean, seed, subs, ins, dels), back = decode(out);
     // mark the final strand: substitutions and insertions by position, deletions as a bar before the next letter
     const mark = new Map<number, Event["kind"]>();
     for (const e of events) mark.set(e.pos, e.kind);
-    strandEl.replaceChildren(...[...out].slice(0, 220).map((c, i) => {
+    strandEl.replaceChildren(...[...out].map((c, i) => {
       const k = mark.get(i);
       return k === "del" ? h("span", { class: "del" }, "|", h("i", { class: `b ${c}` }, c)) : h("i", { class: `b ${c} ${k ?? ""}` }, c);
     }));
-    backEl.replaceChildren(...[...back].map((c, i) => h("span", { class: c === msg[i] ? "ok" : "bad" }, c)));
+    backEl.replaceChildren(...[...back].map((c, i) => h("span", { class: c === chars[i] ? "ok" : "bad" }, c)));
+    if (!msg) backEl.textContent = "Enter a message to encode.";
     const kept = intact(msg, back);
     ro.replaceChildren(readout([
-      ["characters intact", `${kept} of ${msg.length}`],
+      ["characters intact", `${kept} of ${chars.length}`],
       ["GC content", `${(gc(clean) * 100).toFixed(0)}%`],
       ["longest run", `${longestRun(clean)} letters`],
     ]));
   };
   input.addEventListener("input", draw);
   controls.append(
+    h("label", { class: "ctl" }, h("span", { class: "ctl-l mono" }, "message to encode (UTF-8)"), input),
     slider("substitutions", 0, 6, 1, subs, String, (v) => { subs = v; draw(); }),
     slider("insertions", 0, 3, 1, ins, String, (v) => { ins = v; draw(); }),
     slider("deletions", 0, 3, 1, dels, String, (v) => { dels = v; draw(); }),

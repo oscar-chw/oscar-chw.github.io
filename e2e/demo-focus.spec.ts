@@ -1,23 +1,55 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Locator } from "@playwright/test";
 import benchmark from "../sources/fatqat-cuda/portfolio-demo-2026-10-14.json" with { type: "json" };
 
-test("recorded benchmarks select all source rows, explain the scope and reset", async ({ page }) => {
+type RecordedRow = typeof benchmark.rows[number];
+
+async function selectRecordedRow(panel: Locator, row: RecordedRow) {
+  await panel.getByRole("radiogroup", { name: "qubits", exact: true }).getByRole("radio", { name: String(row.qubits), exact: true }).click();
+  await panel.getByRole("radio", { name: row.output === "observable" ? "observable" : "full state", exact: true }).click();
+  await panel.getByRole("radio", { name: row.mode, exact: true }).click();
+}
+
+async function expectRecordedRow(panel: Locator, row: RecordedRow) {
+  const fmt = (n: number) => n >= 100 ? n.toLocaleString("en-US", { maximumFractionDigits: 0 }) : n.toFixed(2);
+  await expect(panel.locator(".fb-value").nth(0)).toContainText(`${fmt(row.cpu_median_ms)} ms`);
+  await expect(panel.locator(".fb-value").nth(1)).toContainText(`${fmt(row.gpu_median_ms)} ms`);
+  await expect(panel.locator(".ro dd")).toHaveText(`${row.speedup.toFixed(2)}×`);
+  await expect(panel.getByRole("link", { name: `recorded source (${row.mode}) ↗` })).toHaveAttribute("href", benchmark.sources.find((s) => s.mode === row.mode)!.url);
+  const bars = await panel.locator(".fb-bar").evaluateAll((es) => es.map((e) => e.getBoundingClientRect().width));
+  expect(bars[0] / bars[1]).toBeCloseTo(row.speedup, 0);
+}
+
+// Keep every adjacent transition from the original same-panel loop. A new case
+// first establishes the preceding row, then changes the same mounted panel.
+for (const [index, row] of benchmark.rows.entries()) {
+  test(`recorded benchmark transition ${index}: ${row.mode}/${row.output}/${row.qubits}`, async ({ page }) => {
+    await page.goto("/demos/#fatqat-bench");
+    const panel = page.locator('[data-panel="fatqat-bench"]');
+    await expect(panel.locator(".fb-tag")).toContainText(/precomputed.*historical/i);
+    expect(await panel.locator("[data-stage]").evaluate((e) => getComputedStyle(e, "::after").content)).toMatch(/recorded/i);
+    if (index > 0) {
+      await selectRecordedRow(panel, benchmark.rows[index - 1]);
+      await expectRecordedRow(panel, benchmark.rows[index - 1]);
+    }
+    await selectRecordedRow(panel, row);
+    await expectRecordedRow(panel, row);
+  });
+}
+
+test("recorded benchmarks preserve chained input changes, explain scope and reset", async ({ page }) => {
   await page.goto("/demos/#fatqat-bench");
   const panel = page.locator('[data-panel="fatqat-bench"]');
   await expect(panel.locator(".fb-tag")).toContainText(/precomputed.*historical/i);
   expect(await panel.locator("[data-stage]").evaluate((e) => getComputedStyle(e, "::after").content)).toMatch(/recorded/i);
-  for (const row of benchmark.rows) {
-    await panel.getByRole("radiogroup", { name: "qubits", exact: true }).getByRole("radio", { name: String(row.qubits), exact: true }).click();
-    await panel.getByRole("radio", { name: row.output === "observable" ? "observable" : "full state", exact: true }).click();
-    await panel.getByRole("radio", { name: row.mode, exact: true }).click();
-    const fmt = (n: number) => n >= 100 ? n.toLocaleString("en-US", { maximumFractionDigits: 0 }) : n.toFixed(2);
-    await expect(panel.locator(".fb-value").nth(0)).toContainText(`${fmt(row.cpu_median_ms)} ms`);
-    await expect(panel.locator(".fb-value").nth(1)).toContainText(`${fmt(row.gpu_median_ms)} ms`);
-    await expect(panel.locator(".ro dd")).toHaveText(`${row.speedup.toFixed(2)}×`);
-    await expect(panel.getByRole("link", { name: `recorded source (${row.mode}) ↗` })).toHaveAttribute("href", benchmark.sources.find((s) => s.mode === row.mode)!.url);
-    const bars = await panel.locator(".fb-bar").evaluateAll((es) => es.map((e) => e.getBoundingClientRect().width));
-    expect(bars[0] / bars[1]).toBeCloseTo(row.speedup, 0);
-  }
+  const rowAt = (mode: string, output: string, qubits: number) => benchmark.rows.find((row) => row.mode === mode && row.output === output && row.qubits === qubits)!;
+  await selectRecordedRow(panel, rowAt("plain", "full_state", 28));
+  await expectRecordedRow(panel, rowAt("plain", "full_state", 28));
+  await panel.getByRole("radio", { name: "26", exact: true }).click();
+  await expectRecordedRow(panel, rowAt("plain", "full_state", 26));
+  await panel.getByRole("radio", { name: "observable", exact: true }).click();
+  await expectRecordedRow(panel, rowAt("plain", "observable", 26));
+  await panel.getByRole("radio", { name: "compensated", exact: true }).click();
+  await expectRecordedRow(panel, rowAt("compensated", "observable", 26));
   await panel.getByText("Measurement method and limits", { exact: true }).click();
   await expect(panel.locator(".fb-method")).toContainText(/not a confidence interval/);
   await expect(panel.locator(".fb-result")).toContainText(/own recorded CPU baseline/);
@@ -26,6 +58,7 @@ test("recorded benchmarks select all source rows, explain the scope and reset", 
   await expect(panel.getByRole("radio", { name: "observable", exact: true })).toHaveAttribute("aria-checked", "true");
   await expect(panel.getByRole("radio", { name: "compensated", exact: true })).toHaveAttribute("aria-checked", "true");
   await expect(panel.locator(".ro dd")).toHaveText("18.72×");
+  await expectRecordedRow(panel, rowAt("compensated", "observable", 24));
 });
 
 test("mobile deep links reveal the chosen experiment and allow keyboard input", async ({ page }) => {

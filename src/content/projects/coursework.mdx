@@ -1,10 +1,10 @@
 ---
 title: Coursework
-summary: 'Course projects worth showing: a DNA data-storage simulator built alone in a group-based course, a compiler from a subset of C to LLVM IR, and a CUHK course planner built by a team of 6.'
+summary: 'Course projects worth showing: a DNA data-storage simulator built alone in a group-based course and a compiler from a subset of C to LLVM IR.'
 order: 6
 featured: false
 group: Coursework
-role: Author and team lead
+role: Sole author of both projects
 stack:
 - Python
 - NumPy
@@ -12,10 +12,6 @@ stack:
 - Java
 - ANTLR4
 - LLVM
-- React
-- TypeScript
-- Express
-- Prisma
 links:
 - label: 'Repository: dna-storage-simulation'
   href: https://github.com/Oscar-Codespace/dna-storage-simulation
@@ -23,7 +19,9 @@ links:
 import Part from "../../components/Part.astro";
 import P_dna_storage from "./_dna-storage.mdx";
 import P_compiler from "./_compiler.mdx";
-import P_studyflow from "./_studyflow.mdx";
+
+{/* Preserve the retired project URL's landing target without presenting its case study. */}
+<span id="studyflow" aria-hidden="true"></span>
 
 ## DNA data-storage simulator
 
@@ -36,9 +34,3 @@ import P_studyflow from "./_studyflow.mdx";
 <Part id="compiler" role="Sole author (individual coursework; code private under course rules)" stack={["Java", "ANTLR4", "LLVM"]} />
 
 <P_compiler />
-
-## StudyFlow: CUHK course planner
-
-<Part id="studyflow" role="Initiator and architecture lead, team of 6" period="Feb – May 2025 (CSCI3100)" stack={["React", "TypeScript", "Express", "Prisma"]} />
-
-<P_studyflow />
