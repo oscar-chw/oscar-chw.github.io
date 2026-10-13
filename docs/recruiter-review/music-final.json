@@ -1,0 +1,40 @@
+[
+  {
+    "engine": "chromium",
+    "viewport": {
+      "width": 568,
+      "height": 320
+    },
+    "panel": {
+      "x": 255,
+      "y": 78,
+      "width": 300,
+      "height": 224
+    },
+    "slider": {
+      "x": 296,
+      "y": 257.09375,
+      "width": 198.40625,
+      "height": 28
+    }
+  },
+  {
+    "engine": "webkit",
+    "viewport": {
+      "width": 568,
+      "height": 320
+    },
+    "panel": {
+      "x": 255,
+      "y": 78,
+      "width": 300,
+      "height": 224
+    },
+    "slider": {
+      "x": 296,
+      "y": 257.03125,
+      "width": 198.40625,
+      "height": 28
+    }
+  }
+]

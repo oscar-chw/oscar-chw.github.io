@@ -1,0 +1,893 @@
+{
+  "checkedAt": "2026-10-13T17:53:44.658Z",
+  "records": [
+    {
+      "engine": "chromium",
+      "width": 320,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 320,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 320,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 641,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 641,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 641,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.359375,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.796875,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 687.015625,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.28125,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.359375,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.796875,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 687.015625,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.28125,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.359375,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.796875,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 687.015625,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.28125,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 320,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 95,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 161,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 227,
+          "y": 70,
+          "width": 64,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 108.75,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 188.5,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 268.25,
+          "y": 70,
+          "width": 77.75,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 641,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 641,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 641,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 29,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "Demos",
+          "x": 175.25,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "About",
+          "x": 321.5,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        },
+        {
+          "name": "CV",
+          "x": 467.75,
+          "y": 70,
+          "width": 144.25,
+          "height": 39.09375
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "route": "/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.140625,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.578125,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 686.796875,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.0625,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "route": "/demos/#compensated",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.140625,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.578125,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 686.796875,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.0625,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "route": "/cv/",
+      "overflow": 0,
+      "nav": [
+        {
+          "name": "Work",
+          "x": 502.140625,
+          "y": 32,
+          "width": 82.4375,
+          "height": 36.28125
+        },
+        {
+          "name": "Demos",
+          "x": 588.578125,
+          "y": 32,
+          "width": 94.21875,
+          "height": 36.28125
+        },
+        {
+          "name": "About",
+          "x": 686.796875,
+          "y": 32,
+          "width": 87.265625,
+          "height": 36.28125
+        },
+        {
+          "name": "CV",
+          "x": 778.0625,
+          "y": 32,
+          "width": 66.875,
+          "height": 36.28125
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -93,7 +93,7 @@ const commands: [string, string, string][] = [
           <button class="music" type="button" data-music-toggle aria-pressed="false" aria-label="Play background music" aria-describedby="mus-pop">
             <Icon name="music" size={15} class="i-off" /><Icon name="volume-2" size={15} class="i-on" />
           </button>
-          <div class="mus-pop glass" id="mus-pop" role="group" aria-label="Background music">
+          <div class="mus-pop glass" id="mus-pop" role="group" aria-label="Background music" data-lenis-prevent>
             <p class="mus-h mono">background music</p>
             <div class="mus-tracks" role="radiogroup" aria-label="Track">
               <label><input type="radio" name="mus-track" value="unlasting" checked /><span><b>unlasting</b><i>LiSA · piano arr. Animenz · plays from YouTube</i></span></label>
@@ -231,19 +231,27 @@ const commands: [string, string, string][] = [
   .mus-vol { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--muted); }
   .mus-vol input { flex: 1; accent-color: var(--accent); }
   .mus-vol output { min-width: 4ch; text-align: right; }
-  @media (max-width: 700px) { .mus-pop { position: fixed; top: 84px; right: 16px; } }
+  @media (max-width: 760px) {
+    /* Keep a hover bridge on the parent: a scrolling panel clips its own outside bridge. */
+    .mus { padding-bottom: 12px; margin-bottom: -12px; }
+    .mus-pop { top: 100%; max-height: calc(100dvh - 96px); overflow: auto; overscroll-behavior: contain; }
+  }
   main { outline: none; }
   .site-footer { border-top: 1px solid var(--line-2); margin-top: 120px; padding-block: 28px 44px; align-items: baseline; row-gap: 12px; }
   .site-footer p { margin: 0; grid-column: 1 / span 5; }
   .site-footer ul { grid-column: 6 / -1; justify-content: flex-end; gap: 22px; }
   .site-footer a { color: var(--muted); font-size: 0.9rem; }
-  @media (max-width: 640px) {
-    .bar { gap: 6px; padding-left: 14px; }
+  @media (max-width: 760px) {
+    /* Give destinations their own row: flex shrinking stacked them four high at 320px. */
+    .bar { display: grid; grid-template-columns: minmax(0, 1fr) repeat(3, auto); gap: 4px; padding: 7px 12px; border-radius: 24px; }
     .term, .kbtn kbd { display: none; }
     .brand { margin-right: auto; }
-    .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    nav a { padding: 8px 9px; }
-    .bar { gap: 2px; }
+    nav { grid-column: 1 / -1; grid-row: 2; }
+    nav ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; }
+    nav a { justify-content: center; gap: 4px; padding: 8px 2px; font-size: 0.875rem; }
+    nav :global(svg) { width: 14px; height: 14px; }
+  }
+  @media (max-width: 640px) {
     .site-footer p, .site-footer ul { grid-column: 1 / -1; justify-content: flex-start; }
   }
   @media print { .site-header, .site-footer, .skip { display: none; } }
