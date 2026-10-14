@@ -1,0 +1,37 @@
+{
+  "repo": "oscar-chw/agentic-quant-research",
+  "commit": "f8c48256e12b96523807ba8f59c04b798517e04e",
+  "license": "MIT",
+  "files": {
+    "replay/admission.py": {
+      "path": "platform/packages/marketdata/replay/admission.py",
+      "sha256": "7e49917eabfbb2be0e9e63fd3b799398d1fbfed0fbe52c636a65d13c04197d65",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/admission.py"
+    },
+    "replay/feed.py": {
+      "path": "platform/packages/marketdata/replay/feed.py",
+      "sha256": "78c1ac3de74165df5d4f5e43f57126d1de9870bded4303849224711794aa7c44",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/feed.py"
+    },
+    "replay/book.py": {
+      "path": "platform/packages/marketdata/replay/book.py",
+      "sha256": "ba6826b0108f300fb9fb6202eade34c30e3cbd4d1a01f3c3931e01b66d8fab64",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/book.py"
+    },
+    "replay/__init__.py": {
+      "path": "platform/packages/marketdata/replay/__init__.py",
+      "sha256": "3839909468489b4c28ccbecd3542f3ec792646b00d92b8d6b7ae7dd2242f430c",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/__init__.py"
+    },
+    "LICENSE": {
+      "path": "platform/LICENSE",
+      "sha256": "2d1c8e580804b10228b67107fdd763aa20ac216aceecb5d7d261c280f471bca1",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/LICENSE"
+    },
+    "test_admission.py": {
+      "path": "platform/packages/marketdata/tests/test_admission.py",
+      "sha256": "a6d087294ff652b160bffab74011219c1e3aaf03df446a7f65b45b80f0719918",
+      "url": "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/tests/test_admission.py"
+    }
+  }
+}

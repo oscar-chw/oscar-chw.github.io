@@ -7,9 +7,9 @@ export interface Experiment {
 const SITE_SRC = "https://github.com/oscar-chw/oscar-chw.github.io";
 
 export const EXPERIMENTS: Experiment[] = [
-  { id: "gatedbuild", folder: "ai-quant-research", file: "work-graph.plan", title: "A gated build", kind: "inline", project: "ai-quant-research-system#engineering", code: "https://github.com/oscar-chw/agentic-quant-research",
-    blurb: "The centrepiece build's rule: a task is done when its gate passes, not when an agent says so. Run the gates in order, plant a bug in task 4 and watch its gate send it back with evidence while the review waits.",
-    data: "SYNTHETIC five-task chain; a simplified illustration of the work graph, not its code." },
+  { id: "gatedbuild", folder: "ai-quant-research", file: "feed-admission.py", title: "Would you trust this feed?", kind: "inline", project: "ai-quant-research-system#engineering", code: "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/admission.py",
+    blurb: "A timestamp says the data was available before it arrived. Inspect the records, execute the project's Python validator, then correct the input and compare the actual returned book.",
+    data: "REAL Python execution in your browser, using unmodified public source. SYNTHETIC editable test records; supplied clocks are not authenticated." },
   { id: "guard", folder: "ai-quant-research", file: "guard.sh", title: "Command guard", kind: "inline", project: "ai-quant-research-system#agent-harness", code: "https://github.com/oscar-chw/agent-harness",
     blurb: "Type a shell command. The guard parses it like a shell would and blocks the destructive shapes; anything it cannot parse is blocked too, because it fails closed.",
     data: "Your input only, judged by the unmodified guard.py from agent-harness, running in your browser as Python compiled to WebAssembly." },
