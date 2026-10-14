@@ -1,0 +1,1243 @@
+{
+  "kind": "diagnostic, not acceptance",
+  "revision": "4a7c0b9c0535496dc46e3677cfe793d313bae4cf",
+  "platform": "linux",
+  "results": [
+    {
+      "engine": "chromium",
+      "name": "plain-control",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1012.4000000000117,
+        "ticks": [
+          12.400000000011644,
+          29.100000000011647,
+          45.800000000011636,
+          62.40000000001163,
+          79.10000000001165,
+          95.70000000001164,
+          112.40000000001163,
+          129.10000000001165,
+          145.80000000001164,
+          162.40000000001163,
+          179.10000000001165,
+          195.70000000001164,
+          212.40000000001163,
+          229.10000000001162,
+          245.70000000001164,
+          262.50000000001165,
+          279.1000000000116,
+          295.80000000001166,
+          312.40000000001163,
+          329.1000000000116,
+          345.80000000001166,
+          362.40000000001163,
+          379.1000000000116,
+          395.70000000001164,
+          412.50000000001165,
+          429.1000000000116,
+          445.80000000001166,
+          462.4000000000117,
+          479.1000000000116,
+          495.80000000001166,
+          512.4000000000117,
+          529.1000000000116,
+          545.7000000000116,
+          562.4000000000117,
+          579.1000000000116,
+          595.8000000000117,
+          612.5000000000116,
+          629.1000000000116,
+          645.7000000000116,
+          662.4000000000117,
+          679.1000000000116,
+          695.8000000000117,
+          712.5000000000116,
+          729.1000000000116,
+          745.8000000000117,
+          762.4000000000117,
+          779.1000000000116,
+          795.8000000000117,
+          812.4000000000117,
+          829.1000000000116,
+          845.8000000000117,
+          862.4000000000117,
+          879.0000000000116,
+          895.8000000000117,
+          912.4000000000117,
+          929.1000000000116,
+          945.8000000000117,
+          962.5000000000116,
+          979.0000000000116,
+          995.7000000000116,
+          1012.4000000000117
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        41.42102900000009,
+        30.28476099999989,
+        31.834506000000147,
+        33.65828099999999,
+        33.09664699999985,
+        33.54425900000024
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 1
+      },
+      "finalCount": "6"
+    },
+    {
+      "engine": "chromium",
+      "name": "qubits-traced",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1013.9999999999884,
+        "ticks": [
+          -2.600000000011647,
+          30.79999999998836,
+          64.09999999998837,
+          80.69999999998834,
+          114.09999999998837,
+          130.69999999998834,
+          147.39999999998838,
+          164.09999999998837,
+          180.69999999998834,
+          197.39999999998838,
+          214.09999999998837,
+          230.69999999998834,
+          247.39999999998838,
+          264.09999999998837,
+          280.79999999998836,
+          314.0999999999883,
+          330.79999999998836,
+          347.3999999999884,
+          364.0999999999883,
+          380.69999999998834,
+          397.3999999999884,
+          430.79999999998836,
+          447.4999999999884,
+          464.0999999999883,
+          480.79999999998836,
+          497.3999999999884,
+          513.9999999999884,
+          530.6999999999883,
+          547.3999999999884,
+          564.0999999999883,
+          580.6999999999883,
+          597.3999999999884,
+          614.0999999999883,
+          630.7999999999884,
+          647.3999999999884,
+          663.9999999999884,
+          680.6999999999883,
+          697.3999999999884,
+          713.9999999999884,
+          730.6999999999883,
+          747.3999999999884,
+          764.0999999999883,
+          780.6999999999883,
+          797.3999999999884,
+          814.0999999999883,
+          830.6999999999884,
+          847.3999999999883,
+          864.0999999999883,
+          880.6999999999884,
+          897.3999999999883,
+          914.0999999999883,
+          930.6999999999884,
+          947.3999999999883,
+          963.9999999999884,
+          980.6999999999884,
+          997.3999999999883,
+          1013.9999999999884
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        61.282680999999684,
+        405.06849599999987,
+        44.56373299999996,
+        54.311838999999964,
+        62.414152000000286,
+        48.60597400000006
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 1
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "chromium",
+      "name": "qubits-untraced",
+      "traced": false,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1011.5999999999883,
+        "ticks": [
+          11.699999999988364,
+          28.399999999988353,
+          45.09999999998837,
+          61.699999999988364,
+          78.29999999998836,
+          94.99999999998835,
+          111.69999999998836,
+          128.29999999998836,
+          144.99999999998835,
+          161.69999999998834,
+          178.39999999998838,
+          194.99999999998835,
+          211.69999999998834,
+          228.29999999998836,
+          244.99999999998835,
+          261.69999999998834,
+          278.3999999999884,
+          294.99999999998835,
+          311.69999999998834,
+          328.3999999999884,
+          344.99999999998835,
+          361.69999999998834,
+          378.3999999999884,
+          394.9999999999884,
+          411.69999999998834,
+          428.29999999998836,
+          444.9999999999884,
+          461.69999999998834,
+          478.29999999998836,
+          494.9999999999884,
+          511.69999999998834,
+          528.2999999999884,
+          544.9999999999884,
+          561.6999999999883,
+          578.3999999999884,
+          594.9999999999884,
+          611.5999999999883,
+          628.2999999999884,
+          644.9999999999884,
+          661.5999999999883,
+          678.2999999999884,
+          694.9999999999884,
+          711.5999999999883,
+          728.2999999999884,
+          744.9999999999884,
+          761.6999999999883,
+          778.2999999999884,
+          794.9999999999884,
+          811.5999999999883,
+          828.2999999999884,
+          844.9999999999884,
+          861.6999999999883,
+          878.2999999999884,
+          894.9999999999884,
+          911.6999999999884,
+          928.3999999999883,
+          944.9999999999884,
+          961.6999999999884,
+          978.2999999999884,
+          994.9999999999884,
+          1011.5999999999883
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        51.89566599999944,
+        386.54701399999976,
+        33.585393999999724,
+        33.9411540000001,
+        33.31283600000006,
+        35.21293400000013
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 1
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "chromium",
+      "name": "qubits-reduced-motion",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1015.0999999999826,
+        "ticks": [
+          15.099999999982543,
+          31.899999999982526,
+          48.49999999998255,
+          65.19999999998254,
+          81.79999999998256,
+          98.39999999998253,
+          115.19999999998254,
+          131.89999999998253,
+          148.49999999998255,
+          165.09999999998251,
+          181.79999999998256,
+          198.49999999998255,
+          215.19999999998254,
+          231.79999999998256,
+          248.39999999998253,
+          265.0999999999825,
+          281.79999999998256,
+          298.49999999998255,
+          315.0999999999825,
+          331.79999999998256,
+          348.3999999999826,
+          365.0999999999825,
+          381.79999999998256,
+          398.3999999999826,
+          415.19999999998254,
+          431.79999999998256,
+          448.3999999999826,
+          465.0999999999825,
+          481.69999999998254,
+          498.4999999999825,
+          515.1999999999825,
+          531.7999999999826,
+          548.4999999999825,
+          565.0999999999825,
+          581.7999999999826,
+          598.3999999999826,
+          615.1999999999825,
+          631.7999999999826,
+          648.3999999999826,
+          665.0999999999825,
+          681.7999999999826,
+          698.3999999999826,
+          715.0999999999825,
+          731.7999999999826,
+          748.3999999999826,
+          765.0999999999825,
+          781.7999999999826,
+          798.3999999999826,
+          815.0999999999825,
+          831.6999999999825,
+          848.4999999999825,
+          865.0999999999826,
+          881.6999999999825,
+          898.4999999999825,
+          915.0999999999826,
+          931.7999999999824,
+          948.3999999999826,
+          965.0999999999826,
+          981.7999999999824,
+          998.3999999999826,
+          1015.0999999999826
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        58.07656499999939,
+        41.95165199999974,
+        41.04811500000142,
+        49.883497999999236,
+        49.90433500000108,
+        49.78853700000036
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 1
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "chromium",
+      "name": "feed-cold-start",
+      "traced": true,
+      "pageErrors": [],
+      "requests": [
+        {
+          "path": "/lab/feed-runtime.js",
+          "completedAfterMs": 1152
+        },
+        {
+          "path": "/lab/feed-gate/manifest.json",
+          "completedAfterMs": 1159
+        },
+        {
+          "path": "/lab/feed-gate/replay/__init__.py",
+          "completedAfterMs": 1187
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.mjs",
+          "completedAfterMs": 1189
+        },
+        {
+          "path": "/lab/feed-gate/replay/book.py",
+          "completedAfterMs": 1189
+        },
+        {
+          "path": "/lab/feed-gate/replay/feed.py",
+          "completedAfterMs": 1190
+        },
+        {
+          "path": "/lab/feed-gate/replay/admission.py",
+          "completedAfterMs": 1190
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide-lock.json",
+          "completedAfterMs": 1254
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.asm.mjs",
+          "completedAfterMs": 1366
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/python_stdlib.zip",
+          "completedAfterMs": 1440
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.asm.wasm",
+          "completedAfterMs": 3483
+        }
+      ],
+      "clickMs": 1016,
+      "verdictAfterClickMs": 2529,
+      "verdict": "Rejected by admit · no book rows returned",
+      "wasm": [
+        {
+          "operation": "compile",
+          "start": 1181.1000000000058,
+          "duration": 3.2999999999883585
+        },
+        {
+          "operation": "instantiate",
+          "start": 1184.3999999999942,
+          "duration": 0.10000000000582077
+        },
+        {
+          "operation": "instantiateStreaming",
+          "start": 1370,
+          "duration": 226
+        }
+      ]
+    },
+    {
+      "engine": "webkit",
+      "name": "plain-control",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1001,
+        "ticks": [
+          302,
+          515,
+          517,
+          539,
+          551,
+          567,
+          583,
+          599,
+          615,
+          631,
+          647,
+          663,
+          679,
+          695,
+          711,
+          728,
+          744,
+          760,
+          776,
+          792,
+          808,
+          824,
+          840,
+          856,
+          873,
+          889,
+          905,
+          921,
+          937,
+          953,
+          969,
+          985,
+          1001
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        37.37415300000066,
+        59.61897200000021,
+        51.47295699999813,
+        34.31539300000077,
+        32.648558000000776,
+        32.942926000003354
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "finalCount": "6"
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-traced",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 2500,
+        "ticks": [],
+        "watchdog": true
+      },
+      "clicks": [
+        4746.285604000001,
+        1295.6561860000002,
+        567.0415959999991,
+        600.1160950000012,
+        571.1654650000019,
+        575.2203270000027
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-untraced",
+      "traced": false,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1834,
+        "ticks": [
+          314,
+          1834
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        781.7452899999989,
+        658.8850419999944,
+        539.0422150000013,
+        547.2561480000004,
+        544.6851230000029,
+        546.2106899999999
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-reduced-motion",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1011,
+        "ticks": [
+          281,
+          618,
+          836,
+          851,
+          867,
+          883,
+          899,
+          915,
+          931,
+          947,
+          963,
+          979,
+          995,
+          1011
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        67.95743400000356,
+        757.587689,
+        515.3714510000063,
+        514.559107999994,
+        521.6405149999991,
+        504.2485519999973
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-backdrop",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1599,
+        "ticks": [
+          233,
+          592,
+          925,
+          1599
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        111.7574639999948,
+        807.0860680000042,
+        634.567584999997,
+        579.2503159999978,
+        605.185596000003,
+        562.9721690000006
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-entrance",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1000,
+        "ticks": [
+          241,
+          537,
+          751,
+          912,
+          940,
+          952,
+          969,
+          983,
+          1000
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        110.48466599999665,
+        769.0076580000023,
+        587.4596429999947,
+        614.935924999998,
+        560.434365000001,
+        564.2133299999987
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-cursor",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1412,
+        "ticks": [
+          243,
+          581,
+          936,
+          1412
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        89.23919300000125,
+        730.8921929999997,
+        588.5285940000031,
+        485.09396600000036,
+        492.25916999999754,
+        496.65180800000235
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-composited-bar",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1307,
+        "ticks": [
+          247,
+          571,
+          925,
+          1307
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        89.47282399999676,
+        712.189910000001,
+        592.2265259999986,
+        603.3639309999926,
+        596.3682589999953,
+        548.4277659999934
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-shadows",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1007,
+        "ticks": [
+          224,
+          383,
+          495,
+          572,
+          635,
+          690,
+          736,
+          788,
+          820,
+          829,
+          846,
+          861,
+          877,
+          894,
+          910,
+          930,
+          942,
+          958,
+          974,
+          990,
+          1007
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        101.60857300000498,
+        553.3176400000084,
+        183.17997599999944,
+        125.43616700000712,
+        143.71768200000224,
+        189.3854890000075
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-grid",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1429,
+        "ticks": [
+          239,
+          518,
+          821,
+          1429
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        439.02339600000414,
+        1005.1151629999949,
+        955.0282710000029,
+        577.548345999996,
+        603.7068509999954,
+        501.7028900000005
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-paint-effects",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1006,
+        "ticks": [
+          235,
+          299,
+          394,
+          410,
+          426,
+          442,
+          458,
+          474,
+          490,
+          506,
+          523,
+          539,
+          555,
+          571,
+          587,
+          603,
+          619,
+          635,
+          651,
+          667,
+          683,
+          700,
+          716,
+          732,
+          748,
+          764,
+          780,
+          796,
+          812,
+          828,
+          845,
+          861,
+          877,
+          893,
+          909,
+          925,
+          941,
+          957,
+          973,
+          989,
+          1006
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        65.8868599999987,
+        146.25544900000386,
+        178.37103599999682,
+        132.18571900000097,
+        121.91537700001209,
+        107.3248409999942
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-system-font",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1137,
+        "ticks": [
+          198,
+          684,
+          1137
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        156.77012699999614,
+        806.1165599999949,
+        604.8898420000041,
+        525.681722999987,
+        588.1312150000012,
+        571.435347000006
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-shared-motion",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1358,
+        "ticks": [
+          292,
+          622,
+          975,
+          1358
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        79.05697099999816,
+        667.2924710000079,
+        502.8670839999977,
+        510.78559600000153,
+        553.1210469999933,
+        507.00097000000824
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 1,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-no-styles",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1008,
+        "ticks": [
+          186,
+          226,
+          252,
+          267,
+          283,
+          299,
+          315,
+          331,
+          348,
+          364,
+          380,
+          396,
+          412,
+          428,
+          444,
+          460,
+          476,
+          492,
+          508,
+          524,
+          541,
+          557,
+          573,
+          589,
+          605,
+          621,
+          637,
+          653,
+          669,
+          686,
+          702,
+          718,
+          734,
+          750,
+          766,
+          782,
+          798,
+          814,
+          831,
+          847,
+          863,
+          879,
+          895,
+          911,
+          927,
+          943,
+          960,
+          976,
+          992,
+          1008
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        45.40007399999013,
+        109.35591399999976,
+        83.65047300000151,
+        95.03304900000512,
+        93.55806599999778,
+        105.22921499999939
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-baseline-repeat1",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1335,
+        "ticks": [
+          264,
+          592,
+          942,
+          1335
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        107.30124200000137,
+        741.6615299999976,
+        601.6146270000027,
+        591.8454110000021,
+        555.4884190000012,
+        587.0864140000049
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-stage-rim",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1005,
+        "ticks": [
+          235,
+          471,
+          618,
+          705,
+          763,
+          850,
+          887,
+          903,
+          922,
+          935,
+          953,
+          968,
+          986,
+          1005
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        113.83982399999513,
+        563.4013560000021,
+        187.72608599999512,
+        216.02117000000726,
+        178.85042099999555,
+        194.98614100000123
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-baseline-repeat2",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1347,
+        "ticks": [
+          282,
+          612,
+          961,
+          1347
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        86.42290099999809,
+        746.4367229999916,
+        590.3146200000047,
+        608.5510789999971,
+        568.5174890000053,
+        564.9366230000014
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-stage-rim-repeat",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1008,
+        "ticks": [
+          236,
+          480,
+          623,
+          713,
+          770,
+          858,
+          890,
+          892,
+          908,
+          924,
+          941,
+          958,
+          974,
+          991,
+          1008
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        121.77578599999833,
+        417.32779299998947,
+        233.98574100001133,
+        243.06815199999255,
+        227.8816050000023,
+        241.2487320000073
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "qubits-bar-shadow-off",
+      "traced": true,
+      "pageErrors": [],
+      "frames": {
+        "elapsed": 1253,
+        "ticks": [
+          238,
+          508,
+          862,
+          1253
+        ],
+        "watchdog": false
+      },
+      "clicks": [
+        97.45445699999982,
+        686.7241399999912,
+        583.4805340000021,
+        617.3837039999926,
+        556.3958249999996,
+        565.9852519999986
+      ],
+      "state": {
+        "hidden": false,
+        "focus": true,
+        "dpr": 2
+      },
+      "suppressedMotion": 0,
+      "finalCount": "6 of 24 gates. Add a gate or undo the most recent one."
+    },
+    {
+      "engine": "webkit",
+      "name": "feed-cold-start",
+      "traced": true,
+      "pageErrors": [],
+      "requests": [
+        {
+          "path": "/lab/feed-runtime.js",
+          "completedAfterMs": 1889
+        },
+        {
+          "path": "/lab/feed-gate/manifest.json",
+          "completedAfterMs": 1923
+        },
+        {
+          "path": "/lab/feed-gate/replay/__init__.py",
+          "completedAfterMs": 1952
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.mjs",
+          "completedAfterMs": 1953
+        },
+        {
+          "path": "/lab/feed-gate/replay/feed.py",
+          "completedAfterMs": 1968
+        },
+        {
+          "path": "/lab/feed-gate/replay/book.py",
+          "completedAfterMs": 1968
+        },
+        {
+          "path": "/lab/feed-gate/replay/admission.py",
+          "completedAfterMs": 1968
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide-lock.json",
+          "completedAfterMs": 2017
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.asm.mjs",
+          "completedAfterMs": 2276
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/python_stdlib.zip",
+          "completedAfterMs": 2481
+        },
+        {
+          "path": "/pyodide/v314.0.7/full/pyodide.asm.wasm",
+          "completedAfterMs": 2625
+        }
+      ],
+      "clickMs": 1631,
+      "verdictAfterClickMs": 3357,
+      "verdict": "Rejected by admit · no book rows returned",
+      "wasm": [
+        {
+          "operation": "compile",
+          "start": 1937,
+          "duration": 3
+        },
+        {
+          "operation": "instantiate",
+          "start": 1941,
+          "duration": 0
+        },
+        {
+          "operation": "instantiateStreaming",
+          "start": 2199,
+          "duration": 747
+        }
+      ]
+    }
+  ]
+}

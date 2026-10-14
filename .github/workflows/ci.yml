@@ -6,25 +6,6 @@ on:
 permissions:
   contents: read
 jobs:
-  latency-profile:
-    # Temporary controlled observations for the Linux-only failure. The checks job below
-    # remains the acceptance gate, including its original workers, assertions and deadlines.
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: npm }
-      - run: npm ci
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium webkit
-      - run: node scripts/profile-ci-latency.mjs
-      - if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: latency-profile-${{ github.sha }}
-          path: ci-latency-report/
-          if-no-files-found: error
   checks:
     runs-on: ubuntu-latest
     steps:
