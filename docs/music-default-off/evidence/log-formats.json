@@ -6,7 +6,7 @@
   },
   "workflow-baseline.log": {
     "raw_sha256": "b61ed3d8ac5bca37efa64e155cd623716b93071547a799d641583c2ce77d04c9",
-    "readable_sha256": "b61ed3d8ac5bca37efa64e155cd623716b93071547a799d641583c2ce77d04c9",
+    "readable_sha256": "a287246bfaf8c4b9b2e4dfb53ea359a4a7ed159deb94d0887058ba79ea4d7ba2",
     "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
   },
   "affected-gate.log": {
@@ -21,7 +21,7 @@
   },
   "workflow-baseline-corrected.log": {
     "raw_sha256": "2a6967d2eee3a40f57e0ff7e8f2acd8b13b00ffd09f712f79d702bc56e201ffd",
-    "readable_sha256": "2a6967d2eee3a40f57e0ff7e8f2acd8b13b00ffd09f712f79d702bc56e201ffd",
+    "readable_sha256": "516f7316e481db1358aba7d7468db6b4fe8a7047927894f00aa44d5ca52bca94",
     "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
   },
   "music-final.log": {
@@ -46,7 +46,7 @@
   },
   "feed-unit.log": {
     "raw_sha256": "ee572bf45ff7cfa5218cdd04ddceba99f6f86a5fc23571b3aab562f36739858a",
-    "readable_sha256": "ee572bf45ff7cfa5218cdd04ddceba99f6f86a5fc23571b3aab562f36739858a",
+    "readable_sha256": "55d30c0abc6b43005cc6d677d970064da21628b6b0b69eecd399b6d6a8d49961",
     "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
   },
   "feed-status-expectation.log": {
