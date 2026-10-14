@@ -87,13 +87,27 @@ try {
         ['qubits-no-entrance', { css: '.exp.enter,.exp.enter .eh h2,.exp.enter .eh .path b,.exp.enter .hud::before { animation:none!important; }' }],
         ['qubits-no-cursor', { css: '.cur-ring,.cur-dot { display:none!important; }' }],
         ['qubits-composited-bar', { css: '.bar.glass { transform:translateZ(0); will-change:transform; }' }],
+        ['qubits-no-shadows', { css: '.glass { box-shadow:none!important; }' }],
+        ['qubits-no-grid', { css: 'body::before { display:none!important; }' }],
+        ['qubits-no-paint-effects', { css: '*,*::before,*::after { box-shadow:none!important; filter:none!important; backdrop-filter:none!important; -webkit-backdrop-filter:none!important; background-image:none!important; animation:none!important; transition:none!important; }' }],
+        ['qubits-system-font', { css: '* { font-family:Arial,sans-serif!important; }' }],
+        ['qubits-no-shared-motion', { noMotion: true }],
+        ['qubits-no-styles', { noStyles: true }],
       );
       for (const [name, options] of variants) {
         await scenario(browser, engine, name, options, async page => {
+          let suppressedMotion = 0;
+          if (options.noMotion) await page.route('**/_astro/Base.astro_astro_type_script_*.js', route => { suppressedMotion++; return route.fulfill({ contentType: 'text/javascript', body: '' }); });
           await page.goto(`${base}/demos/#qubits`);
+          if (options.noStyles) {
+            await page.locator('.qubit-status').waitFor({ state: 'visible' });
+            await page.evaluate(() => { for (const sheet of document.styleSheets) sheet.disabled = true; });
+            await page.addStyleTag({ content: '[hidden] {display:none!important}' });
+          }
           if (options.css) await page.addStyleTag({ content: options.css });
           const timing = await measure(page, '[data-panel="qubits"] button:text-is("H")');
-          return { ...timing, finalCount: await page.locator('.qubit-status').innerText() };
+          if (options.noMotion && suppressedMotion !== 1) throw new Error('Shared motion isolation did not intercept exactly one bundle');
+          return { ...timing, suppressedMotion, finalCount: await page.locator('.qubit-status').innerText() };
         });
       }
       await scenario(browser, engine, 'feed-cold-start', {}, async page => {

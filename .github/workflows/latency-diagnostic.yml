@@ -1,0 +1,24 @@
+name: Linux latency diagnosis
+on:
+  push:
+    branches: [codex/webkit-profile-20261015]
+permissions:
+  contents: read
+jobs:
+  profile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/profile-ci-latency.mjs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: latency-profile-${{ github.sha }}
+          path: ci-latency-report/
+          if-no-files-found: error
