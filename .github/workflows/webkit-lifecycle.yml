@@ -7,6 +7,10 @@ permissions:
 jobs:
   observe:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        playwright: ['1.63.0', '1.64.1']
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
@@ -24,18 +28,25 @@ jobs:
           Path('diagnostics/source.json').write_text(json.dumps({'application':'7a4f8e96e1c3b33649b369556bd42ca7506c975e','diagnostic_head':os.environ['GITHUB_SHA'],'source_hashes':actual,'scope':'Observation only; original browser assertions, matrix, retries and timeouts unchanged'},indent=2)+'\n')
           PY
       - run: npm ci
+      - name: Select the diagnostic browser release
+        run: npm install --no-save --package-lock=false @playwright/test@${{ matrix.playwright }}
       - run: npm run build
       - run: npx playwright install --with-deps chromium webkit
-      - name: Original browser suite with native-process logging and structured results
+      - name: Upstream filter crash control
+        continue-on-error: true
         env:
-          DEBUG: pw:browser
+          DEBUG: pw:browser,pw:protocol
+        run: node scripts/diagnose-webkit-filter.mjs 2> diagnostics/filter-protocol.log
+      - name: Original timetable test repeated with protocol and structured results
+        env:
+          DEBUG: pw:browser,pw:protocol
           PLAYWRIGHT_JSON_OUTPUT_FILE: diagnostics/report.json
-        run: npx playwright test --reporter=line,json 2> diagnostics/browser-stderr.log
+        run: npx playwright test e2e/decision-workbench.spec.ts --grep 'timetable accepts' --project=webkit --repeat-each=20 --reporter=line,json 2> diagnostics/browser-stderr.log
       - name: Retain first-attempt failures even when a retry passes
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lifecycle-${{ github.sha }}
+          name: browser-comparison-${{ matrix.playwright }}-${{ github.sha }}
           path: |
             diagnostics/
             test-results/
