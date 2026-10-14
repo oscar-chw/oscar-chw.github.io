@@ -154,6 +154,20 @@
 .fg-import-status { flex-basis: 100%; margin: 0; color: var(--amber); font-size: 0.875rem; }
 .fg-import-status:empty { display: none; }
 .fg-input-state { color: var(--muted); font-size: 0.875rem; }
+.tt-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.tt-form label { display:grid; gap:6px; font-size:0.9rem; min-width:0; }
+.tt-form label:first-child,.tt-form button { grid-column:1/-1; }
+.tt-form input,.tt-form select,.tw-scrub select { box-sizing:border-box; width:100%; min-width:0; min-height:44px; padding:8px; border:1px solid var(--line-2); border-radius:8px; background:var(--bg); color:var(--ink); font:inherit; }
+.tt-agenda { list-style:none; padding:0; display:grid; gap:10px; }
+.tt-agenda li { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--line-2); overflow-wrap:anywhere; }
+.tt-agenda button { min-height:44px; }
+.cards .nm { overflow-wrap:anywhere; }
+.lu-manual { border-bottom:1px solid var(--line-2); margin-bottom:20px; padding-bottom:16px; }
+.lu-manual .lab-btn { min-height:44px; }
+.lu-manual-result { padding:14px; border-left:3px solid var(--accent); background:var(--bg); line-height:1.7; }
+.lu-manual-log { max-height:220px; overflow:auto; line-height:1.8; font-size:0.9rem; }
+@media(max-width:1000px){.exp[data-panel=policy] .panel,.exp[data-panel=gate] .panel,.exp[data-panel=timetable] .panel{order:-1;}}
+@media(max-width:1000px){.exp[data-panel=marketmaking] .panel,.exp[data-panel=imc] .panel,.exp[data-panel=factors] .panel,.exp[data-panel=multitest] .panel,.exp[data-panel=lostupdates] .panel,.exp[data-panel=qubits] .panel{order:-1;}}
 .fg-clock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line-2); padding: 14px 0; gap: 10px; }
 .fg-clock div { display: grid; gap: 5px; }
 .fg-clock span { color: var(--muted); font-size: 0.875rem; }

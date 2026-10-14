@@ -1,0 +1,28 @@
+.dna-recovery{border-bottom:1px solid var(--line-2);padding-bottom:28px;margin-bottom:28px;}
+.dna-verdict{padding:16px;border-left:3px solid var(--accent);background:var(--bg);line-height:1.6;}
+.dna-group{display:flex;flex-wrap:wrap;gap:10px;border:1px solid var(--line-2);border-radius:12px;padding:16px;margin:16px 0;min-width:0;}
+.dna-group legend{font-size:.9rem;padding:0 8px;color:var(--muted);}
+.dna-fragment{flex:1 1 170px;min-width:0;padding:12px;border-radius:10px;background:var(--bg);border:1px solid var(--line-2);transition:border-color .2s,opacity .2s;}
+.dna-fragment.parity{border-style:dashed;}
+.dna-fragment[data-state=missing]{border-color:var(--down);background:color-mix(in srgb,var(--down) 8%,var(--bg));}
+.dna-fragment[data-state=damaged]{border-color:var(--amber);}
+.dna-fragment label{display:flex;align-items:center;gap:8px;min-height:44px;font-size:.9rem;cursor:pointer;}
+.dna-fragment input{accent-color:var(--accent);}
+.dna-fragment small,.dna-fragment code{display:block;overflow-wrap:anywhere;color:var(--muted);font-size:.875rem;}
+.dna-input{display:grid;gap:12px;border-bottom:1px solid var(--line-2);padding-bottom:24px;margin-bottom:24px;}
+.dna-input textarea{margin-top:8px;}
+.dna-input button,.dna-recovery button{min-height:44px;}
+.dna-restored,.dna-report{font-size:.9rem;white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;}
+.dna-recovery details{padding:12px 0;border-top:1px solid var(--line-2);font-size:.9rem;}
+.dna-recovery summary{cursor:pointer;color:var(--accent);}
+.dna-principle{line-height:1.65;}
+.dna-proof{border-left:3px solid var(--accent);padding:12px 18px;margin:18px 0;background:var(--bg);}
+.dna-proof label{display:grid;gap:8px;}
+.dna-proof input{width:100%;min-height:44px;accent-color:var(--accent);}
+.dna-xor{list-style:none;padding:0;}
+.dna-xor li{display:grid;grid-template-columns:minmax(90px,1fr) auto 3ch;gap:12px;padding:8px 0;font-size:.875rem;}
+.dna-xor b{letter-spacing:.12em;font-weight:500;}
+.dna-xor-result{border-top:1px solid var(--accent);color:var(--accent);}
+.dna-equation{overflow-wrap:anywhere;color:var(--accent);}
+@media(prefers-reduced-motion:reduce){.dna-fragment{transition:none;}}
+@media(max-width:1000px){[data-panel=dna] [data-controls]{order:-1;}}

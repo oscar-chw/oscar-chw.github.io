@@ -1,0 +1,28 @@
+[WebServer] (node:22352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22388) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+
+Running 6 tests using 6 workers
+
+(node:22398) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22395) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22393) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (4.8s)
+  ✓  5 [chromium] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (5.0s)
+  ✓  1 [webkit] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (5.5s)
+  ✓  4 [chromium] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (5.8s)
+  ✓  6 [webkit] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (5.9s)
+  ✓  3 [webkit] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (6.1s)
+
+  6 passed (7.9s)

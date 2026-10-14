@@ -1,5 +1,6 @@
 // Browser-only workspace. No eval, process execution, network, or host filesystem access.
-export const COMMANDS = ['help','man','pwd','ls','tree','cd','cat','head','tail','grep','sort','uniq','wc','echo','mkdir','touch','cp','mv','rm','rmdir','find','date','uname','whoami','which'];
+import {EXTRA_COMMANDS, MANUALS, textTool} from './text-tools.js';
+export const COMMANDS = ['help','man','pwd','ls','tree','cd','cat','head','tail','grep','sort','uniq','wc','echo','mkdir','touch','cp','mv','rm','rmdir','find','date','uname','whoami','which',...EXTRA_COMMANDS];
 const HOME = '/home/visitor', LIMIT = 65536;
 const fail = (s) => { throw new Error(s); };
 const lines = (s) => s ? s.replace(/\n$/, '').split('\n') : [];
@@ -70,18 +71,33 @@ export class WorkspaceShell {
     const slash=prefix.lastIndexOf('/'),base=slash<0?'':prefix.slice(0,slash+1),stem=prefix.slice(slash+1),dir=this.path(base||'.');
     return [...this.dirs,...this.files.keys()].filter(p=>p!=='/'&&this.parent(p)===dir&&p.split('/').at(-1).startsWith(stem)).map(p=>line.slice(0,at+1)+base+p.split('/').at(-1)+(this.dirs.has(p)?'/':''));
   }
+  snapshot() {
+    return {version:1,cwd:this.cwd,previous:this.previous,dirs:[...this.dirs].filter(p=>this.writable(p)),files:[...this.files].filter(([p])=>this.writable(p))};
+  }
+  restore(data) {
+    if(!data||data.version!==1||!Array.isArray(data.files)||!Array.isArray(data.dirs)||data.files.length+data.dirs.length>256)fail('Invalid saved workspace.');
+    // Validate in an isolated copy. A corrupt record must never erase the current scratch files.
+    const next=new WorkspaceShell();next.files=new Map([...this.files].filter(([p])=>!this.writable(p)));next.dirs=new Set([...this.dirs].filter(p=>!this.writable(p)));
+    const valid=p=>typeof p==='string'&&p.length<=4096&&this.path(p)===p&&this.writable(p);
+    const dirs=new Set(data.dirs);if(dirs.size!==data.dirs.length||data.dirs.some(p=>!valid(p)))fail('Invalid saved directory.');
+    for(const p of [...dirs].sort((a,b)=>a.length-b.length)){if(!next.dirs.has(next.parent(p)))fail('Saved directory has no parent.');next.dirs.add(p);}
+    const seen=new Set();for(const entry of data.files){if(!Array.isArray(entry)||entry.length!==2||!valid(entry[0])||typeof entry[1]!=='string'||seen.has(entry[0]))fail('Invalid saved file.');seen.add(entry[0]);next.write(entry[0],entry[1]);}
+    if(next.files.size+next.dirs.size>256)fail('Workspace file limit reached.');
+    if(typeof data.cwd!=='string'||typeof data.previous!=='string'||!next.dirs.has(data.cwd)||!next.dirs.has(data.previous))fail('Invalid saved working directory.');
+    this.files=next.files;this.dirs=next.dirs;this.cwd=data.cwd;this.previous=data.previous;
+  }
   execute(raw) {
     try {
-      const ts=tokens(raw);if(!ts.length)return {ok:true,output:''};
+      const ts=tokens(raw);if(!ts.length)return {ok:true,code:0,output:''};
       let redirect=null;const ix=ts.findIndex(t=>t.kind==='>'||t.kind==='>>');
       if(ix>=0){if(ix!==ts.length-2||ts[ix+1].kind!=='word')fail('Use > or >> followed by one filename at the end.');redirect={path:ts[ix+1].value,append:ts[ix].kind==='>>'};ts.splice(ix);}
       const commands=[[]];for(const t of ts){if(t.kind==='|')commands.push([]);else commands.at(-1).push(t.value);}
       if(commands.length>8||commands.some(c=>!c.length))fail('Use a non-empty pipeline of at most eight commands.');
       if(commands.length>1&&commands.some(c=>['cd','mkdir','touch','cp','mv','rm','rmdir'].includes(c[0])))fail('Filesystem changes cannot be piped; run them as separate commands.');
       let text='';for(const command of commands){text=this.command(command,text);if(new TextEncoder().encode(text).length>LIMIT)fail('Output exceeds 64 KB; narrow the input or use head.');}
-      if(redirect){this.write(redirect.path,text,redirect.append);return {ok:true,output:`Saved ${this.path(redirect.path)}\n`};}
-      return {ok:true,output:text};
-    }catch(error){return {ok:false,output:(error instanceof Error?error.message:String(error))+'\n'};}
+      if(redirect){this.write(redirect.path,text,redirect.append);return {ok:true,code:0,output:`Saved ${this.path(redirect.path)}\n`};}
+      return {ok:true,code:0,output:text};
+    }catch(error){return {ok:false,code:error.code||1,output:(error instanceof Error?error.message:String(error)).replace(/\n$/,'')+'\n'};}
   }
   command([cmd,...args],input) {
     const usage=(s)=>fail(`usage: ${s}`);
@@ -98,7 +114,9 @@ export class WorkspaceShell {
       }
       fail('sudo: elevated privileges are unavailable in this browser. No host command ran. Use supported commands without sudo; help lists them.');
     }
-    if(cmd==='help'||cmd==='man')return `Browser workspace · commands run in your browser, never your computer’s shell\n${COMMANDS.join(' · ')}\nnano / edit · history · clear · open · guard\n\nTry:\n  cat /README.md\n  ls /projects\n  cat /lab/versions.csv | head -n 4\n  nano notes.txt\n  echo "my idea" > notes.txt\n  cat notes.txt | wc -w\n  mkdir -p research/drafts\n  open data-workbench /lab/versions.csv\n\nQuotes, |, > and >> work. grep matches literal text (-i/-v/-n).\nNo expansions, network, package installs or host programs.\nSource paths are read-only. Scratch files under ~ and /tmp last until this page closes.\nUse open NAME for pages; guard COMMAND for a real policy check.\nPackage syntax and limitations: man apt (or help packages).\n`;
+    if((cmd==='help'||cmd==='man')&&args.length){if(args.length!==1)usage(`${cmd} [command]`);const manual=Object.hasOwn(MANUALS,args[0])?MANUALS[args[0]]:null;if(!manual)fail(`No manual for ${args[0]}; use help to see supported commands.`);return `${args[0]} · browser implementation\n\n  ${manual[0]}\n\n${manual[1]}\n`;}
+    if(cmd==='help'||cmd==='man')return `Browser workspace · commands run in your browser\n\nEXPLORE\n  pwd · ls · tree · cd · find · cat · head · tail\nWORK WITH TEXT\n  printf · echo · grep · cut · tr · sort · uniq · wc · seq · paste · diff\nMAKE & KEEP\n  mkdir · touch · cp · mv · rm · rmdir · nano · edit · download\nINSPECT\n  basename · dirname · stat · du · date · uname · which · neofetch\nSITE\n  open NAME · whoami · cv · email · theme · guard COMMAND\nSHELL\n  history · clear · exit · man COMMAND\n\nTry a real data pipeline:\n  cat /lab/versions.csv | tail -n 3 | cut -d , -f 1 | sort | uniq -c\n\nThen make it your own:\n  cp /lab/versions.csv versions.csv\n  nano versions.csv\n  open data-workbench versions.csv\n  download versions.csv\n\nQuotes, |, > and >> work. Pipelines stop on errors. No variable expansion, chaining or host programs.\nSource paths are read-only; ~ and /tmp are writable. Scratch files stay in this tab across site pages when session storage is available. Download to keep them.\nPackage syntax and limitations: man apt (or help packages).\n`;
+    if(EXTRA_COMMANDS.includes(cmd))return textTool(cmd,args,input,this);
     if(cmd==='pwd')return this.cwd+'\n';
     if(cmd==='cd'){if(args.length>1)usage('cd [directory]');const p=args[0]==='-'?this.previous:this.path(args[0]||HOME);if(!this.dirs.has(p))fail(`cd: ${args[0]}: No such directory`);this.previous=this.cwd;this.cwd=p;return '';}
     if(cmd==='date')return new Date().toISOString()+'\n';
@@ -109,7 +127,7 @@ export class WorkspaceShell {
       const flags=args.filter(a=>a.startsWith('-'));if(flags.some(f=>!/^-[alh]+$/.test(f)))usage('ls [-alh] [path]');
       const paths=args.filter(a=>!a.startsWith('-'));if(paths.length>1)usage('ls [path]');const p=this.path(paths[0]||'.');if(!exists(p))fail(`ls: ${p}: No such path`);
       if(this.files.has(p))return p.split('/').at(-1)+'\n';
-      const entries=[...this.dirs,...this.files.keys()].filter(k=>k!==p&&(cmd==='tree'?k.startsWith(p==='/'?'/':p+'/'):this.parent(k)===p)).sort();
+      const entries=[...this.dirs,...this.files.keys()].filter(k=>k!==p&&(cmd==='tree'?k.startsWith(p==='/'?'/':p+'/'):this.parent(k)===p)&&(flags.some(f=>f.includes('a'))||!k.split('/').at(-1).startsWith('.'))).sort();
       return output(entries.map(k=>{const name=cmd==='tree'?k.slice(p==='/'?1:p.length+1):k.split('/').at(-1);return (flags.some(f=>f.includes('l'))?(this.dirs.has(k)?'d':'-')+(this.writable(k)?'rw-':'r--')+'  ':'')+name+(this.dirs.has(k)?'/':'');}));
     }
     if(cmd==='cat')return source(args);
@@ -146,10 +164,10 @@ export class WorkspaceShell {
       if(!args.length)usage(`${cmd} path`);
       for(const raw of args){const p=this.path(raw);if(this.dirs.has(p)&&cmd==='rm'&&!recursive)fail(`rm: ${raw}: Is a directory`);if(!this.writable(p))fail(`${raw}: read-only source path`);if(!exists(p)){if(force)continue;fail(`${raw}: No such path`);}
         const children=[...this.files.keys(),...this.dirs].filter(k=>k.startsWith(p+'/'));if(this.dirs.has(p)&&children.length&&!recursive)fail(`${raw}: Directory not empty`);if(cmd==='rmdir'&&this.files.has(p))fail(`${raw}: Not a directory`);
-        for(const k of [p,...children]){this.files.delete(k);this.dirs.delete(k);}if(this.cwd===p||this.cwd.startsWith(p+'/'))this.cwd=HOME;
+        for(const k of [p,...children]){this.files.delete(k);this.dirs.delete(k);}if(this.cwd===p||this.cwd.startsWith(p+'/'))this.cwd=HOME;if(this.previous===p||this.previous.startsWith(p+'/'))this.previous=HOME;
       }return '';
     }
     if(cmd==='find'){const raw=args[0]&&!args[0].startsWith('-')?args.shift():'.',p=this.path(raw);if(!exists(p))fail(`${raw}: No such path`);let pattern='*';if(args.length){if(args[0]!=='-name'||args.length!==2)usage('find [path] [-name pattern]');pattern=args[1];}return output([...this.dirs,...this.files.keys()].filter(k=>(k===p||k.startsWith(p==='/'?'/':p+'/'))&&glob(pattern,k.split('/').at(-1))).sort());}
-    fail(`${cmd}: command not found · try help`);
+    const error=new Error(`${cmd}: command not found · try help`);error.code=127;throw error;
   }
 }

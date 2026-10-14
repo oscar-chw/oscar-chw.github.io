@@ -1,0 +1,594 @@
+{
+  "baseline": "69c63353efc301a23eacbbea22f558a5a5fa195d",
+  "scope": "Local registered-demo acceptance; compiler unavailable for public integration; independent review and publication held",
+  "demos": [
+    {
+      "id": "gatedbuild",
+      "execution": "Unmodified public Python admit runs in Pyodide",
+      "inputs": "Editable JSONL and local-file import",
+      "normal": "Correct archive returns reconstructed rows",
+      "boundary": "Bad clock, off-grid number, recording gap",
+      "repair": "Edit the named record and rerun Python",
+      "reset": "Start over clears input/results/history",
+      "provenance": "Pinned public source, synthetic fixtures, visitor input",
+      "journey": "Run bad clock; repair it; import correct template; inspect receipt",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/gatedbuild.ts",
+        "src/lib/lab/gatedbuild.ts"
+      ],
+      "status": "verified",
+      "principle": "Admission is a sequence of checks over immutable input bytes",
+      "intermediate": "Named gates, declared clocks, returned rows and the exact Python reason",
+      "tradeoff": "Reject bad metadata instead of inventing a usable book",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "guard",
+      "execution": "Unmodified public guard.py runs in Pyodide",
+      "inputs": "Typed command plus benign and blocked examples",
+      "normal": "Benign command returns actual policy verdict",
+      "boundary": "Dangerous or malformed command refused; runtime failure separate",
+      "repair": "Edit command and rerun; recover unavailable runtime",
+      "reset": "Shared reset rebuilds terminal; clear/history supported",
+      "provenance": "Pinned public guard, no host command execution",
+      "journey": "Type a benign command and a denied one; read actual reason",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/guard.ts"
+      ],
+      "status": "verified",
+      "principle": "Policy decisions explain which command patterns are permitted",
+      "intermediate": "Actual Python verdict and reason for the typed command",
+      "tradeoff": "A policy allowance is not command execution or a security guarantee",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "search",
+      "execution": "Implemented BM25 lexical ranking over site corpus",
+      "inputs": "Free query, example queries, BM25/count comparison",
+      "normal": "Matching passages show per-term score contributions",
+      "boundary": "No matching passage and unavailable corpus states",
+      "repair": "Change query or retry failed corpus load",
+      "reset": "Shared reset restores example query and ranking mode",
+      "provenance": "Own site text; independent lexical implementation, no vector claim",
+      "journey": "Search a term, compare count/BM25, inspect contribution and passage",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/search.ts"
+      ],
+      "status": "verified",
+      "principle": "Lexical relevance depends on term rarity and document length",
+      "intermediate": "BM25/count comparison and per-term score contributions",
+      "tradeoff": "Transparent ranking is inspectable but lacks semantic understanding",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "lookahead",
+      "execution": "Implemented log-return trend-rule simulation",
+      "inputs": "Editable numeric CSV, local import, correct/invalid templates and live parameters",
+      "normal": "Yesterday-based rule produces cumulative returns",
+      "boundary": "Invalid values and chronology, no prior signal, no available candle, delayed file import and reset are checked",
+      "repair": "Named physical-line validation errors; edit data, rerun and inspect the exact exported result",
+      "reset": "Shared reset restores seed and hidden leaky result",
+      "provenance": "Synthetic returns and independent teaching code",
+      "journey": "Bring returns; change signal availability; inspect a trade and repair leakage",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/lookahead.ts",
+        "src/lib/lab/lookahead.ts",
+        "src/lib/lab/timing.ts",
+        "src/components/lab/records-editor.ts"
+      ],
+      "status": "verified",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      },
+      "principle": "A decision may only use a return already available",
+      "intermediate": "Cursor links signal source, exposure, turnover cost and cumulative result",
+      "tradeoff": "Simplified log exposure illustrates leakage, not an executable strategy"
+    },
+    {
+      "id": "orderbook",
+      "execution": "Actual matching-engine fills, resting orders and cancellation; invalid quantity and seed rejected",
+      "inputs": "Visitor-authored limit/market orders, cancel, replay/hold-to-step and seed",
+      "normal": "Orders consume resting liquidity by price and time",
+      "boundary": "Empty/crossing book handled by real matching logic",
+      "repair": "No manual order or input validation surface at baseline",
+      "reset": "Seed change resets and warms a new tape",
+      "provenance": "Synthetic event tape; own matching engine, no live C++ claim",
+      "journey": "Place an order, inspect fills and remaining book, cancel/replay",
+      "gaps": [],
+      "sources": [
+        "src/pages/demos/order-book.astro",
+        "src/lib/replay-input.ts"
+      ],
+      "status": "verified",
+      "principle": "Price/time matching updates remaining quantities and trades",
+      "intermediate": "Visible order ladder, fill/remaining counts and cancel state",
+      "tradeoff": "An in-browser order model does not reproduce an exchange",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "factors",
+      "execution": "Validation selects one candidate; unopened test never changes choice or chart scale; edits reseal",
+      "inputs": "Editable horizon/direction candidates, seed, selected day and explicit open-test action",
+      "normal": "Candidate picked by validation; test shown only for chosen one",
+      "boundary": "Sealed test influences plot scale at baseline",
+      "repair": "No custom candidate windows; no inspectable daily pairs",
+      "reset": "Shared reset restores market and seals test",
+      "provenance": "Synthetic panel; independent scoring implementation",
+      "journey": "Choose candidate horizons, inspect day-wise ranks, freeze selection before test",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/factors.ts",
+        "src/lib/lab/factors.ts",
+        "src/lib/lab/studies.ts"
+      ],
+      "status": "verified",
+      "principle": "Candidate selection precedes access to the later audit window",
+      "intermediate": "Training/validation ranking and day-level asset ranks; only chosen test opens",
+      "tradeoff": "A later window loses its independence if the visitor keeps tuning on it",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "marketmaking",
+      "execution": "Actual quote, fill, cash and inventory ledger; worked two-fill case and input-error repair",
+      "inputs": "Editable/imported fair-value and taker-flow CSV, spread, skew and event cursor",
+      "normal": "Quotes trade with synthetic takers and update inventory/P&L",
+      "boundary": "Wide quotes and high inventory create visible tradeoffs",
+      "repair": "Cannot supply flow or inspect a fill computation at baseline",
+      "reset": "Shared reset restores spread/skew/seed",
+      "provenance": "Synthetic fair value and takers; no profitability claim",
+      "journey": "Edit a flow, replay takers, inspect quote/fill/cash identity",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/marketmaking.ts",
+        "src/lib/lab/marketmaking.ts"
+      ],
+      "status": "verified",
+      "principle": "Quotes trade spread capture against inventory exposure",
+      "intermediate": "Each taker event exposes quote, execution, inventory and marked cash",
+      "tradeoff": "Wider spread can reduce fills; skew alters exposure in the simplified flow model",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "candles",
+      "execution": "Implemented candle-stamp walk-forward audit",
+      "inputs": "Editable numeric CSV, local import, correct/invalid templates and live parameters",
+      "normal": "Close-stamped candles are only read after completion",
+      "boundary": "Invalid values and chronology, no prior signal, no available candle, delayed file import and reset are checked",
+      "repair": "Named physical-line validation errors; edit data, rerun and inspect the exact exported result",
+      "reset": "Shared reset restores close stamps and seed",
+      "provenance": "Synthetic five-minute candles; not upstream code/data",
+      "journey": "Edit available times, identify a leaking read, repair and rerun",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/candles.ts",
+        "src/lib/lab/candles.ts",
+        "src/lib/lab/timing.ts",
+        "src/components/lab/records-editor.ts"
+      ],
+      "status": "verified",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      },
+      "principle": "Publication availability and bar-close clocks are different",
+      "intermediate": "Decision cursor shows the specific candle used and its actual close",
+      "tradeoff": "Declared clocks can be inconsistent; no timestamp authentication is claimed"
+    },
+    {
+      "id": "point-in-time",
+      "execution": "Implemented historical version selection",
+      "inputs": "Cutoff, latest/as-of policy, three guided scenarios",
+      "normal": "Only versions known at cutoff are returned",
+      "boundary": "Before-data/late-correction cases show withheld/future values",
+      "repair": "Move cutoff or use historical policy to repair future reads",
+      "reset": "Dedicated reset restores historical policy and cutoff",
+      "provenance": "Synthetic version store; inspectable full revision history",
+      "journey": "Compare historical/latest reads and every source revision",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/asof.ts",
+        "src/lib/lab/asof.ts"
+      ],
+      "status": "verified",
+      "principle": "A historical query should only see versions already published",
+      "intermediate": "Version records and query-time result change together",
+      "tradeoff": "Late corrections must not rewrite what the query could know then",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "lostupdates",
+      "execution": "Compare-and-swap retries stale reads; last-write-wins exhibits the actual overwrite trace",
+      "inputs": "Manual writer read/commit steps and collision/serialized schedules",
+      "normal": "CAS retries stale writers until updates survive",
+      "boundary": "Last-write-wins overwrites concurrent updates",
+      "repair": "Protocol repairs loss but individual transitions lack an inspector",
+      "reset": "Shared reset restores initial race parameters",
+      "provenance": "Synthetic scheduler; illustrates concurrency, not private platform code",
+      "journey": "Replay a race step and inspect held/current version before commit",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/lostupdates.ts",
+        "src/lib/lab/lostupdates.ts"
+      ],
+      "status": "verified",
+      "principle": "A stale read can overwrite a completed write",
+      "intermediate": "Manual writer schedule and read/commit/version/retry trace",
+      "tradeoff": "Compare-and-swap preserves changes at the cost of retries",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "data-workbench",
+      "execution": "Implemented CSV parsing and historical version queries",
+      "inputs": "Editable/imported CSV, query cutoff and selectors",
+      "normal": "Query returns source lines and revision timeline",
+      "boundary": "Malformed/duplicate/future data is named and refused/withheld",
+      "repair": "Edit offending CSV line and rerun query",
+      "reset": "Dedicated reset restores input/query/results",
+      "provenance": "Visitor local input or synthetic template; independent public code",
+      "journey": "Import records, repair a named row, query and export provenance",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/data-workbench.ts",
+        "src/lib/lab/data-workbench.ts"
+      ],
+      "status": "verified",
+      "principle": "Version selection and memory retention are explicit policies",
+      "intermediate": "Editable records, visible query states and version-reclamation trace",
+      "tradeoff": "Retaining old versions uses memory; pruning can remove historical answers",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "fatqat-bench",
+      "execution": "Exact recorded input/measurement/source plus calculated ratio; no GPU run is implied",
+      "inputs": "Complete recorded-row comparison, selected row, mode, output, qubits and export",
+      "normal": "Comparable CPU/GPU medians and ratio from same row",
+      "boundary": "Full-state transfer and differing mode baselines explained",
+      "repair": "Constrained recorded selector; invalid arbitrary measurements not accepted",
+      "reset": "Dedicated reset restores recorded baseline row",
+      "provenance": "Historical pinned public JSON and methods; no live GPU execution",
+      "journey": "Compare observable/full-state rows and inspect source/method",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/fatqat-bench.ts"
+      ],
+      "status": "verified",
+      "principle": "Returning the whole state has a different data-transfer scope",
+      "intermediate": "Recorded paired medians, source/mode/output row and full-row comparison",
+      "tradeoff": "Source runs differ; speed ratio is not accuracy or whole-program performance",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "compensated",
+      "execution": "BigInt reference and implemented compensated products",
+      "inputs": "Four editable numbers, cancelling/typical cases, live sweep",
+      "normal": "Compares plain and compensated result to exact reference",
+      "boundary": "Cancellation and invalid/empty numeric input",
+      "repair": "Edit rejected field or restore typical inputs",
+      "reset": "Dedicated reset clears errors, sweep and current input",
+      "provenance": "Browser arithmetic, synthetic cases, scoped to product rounding",
+      "journey": "Change operands, inspect lost digits, reject malformed value, run sweep",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/compensated.ts"
+      ],
+      "status": "verified",
+      "principle": "Nearly cancelling products can lose meaningful floating-point digits",
+      "intermediate": "Operand controls, plain/compensated result and reference error",
+      "tradeoff": "Compensation reduces rounding error but does not make general arithmetic exact",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "qubits",
+      "execution": "Normalized complex state computed; gate limit explicitly disables additions and undo restores them",
+      "inputs": "Visitor gate sequence, undo, reset and circuit/state export",
+      "normal": "Bell state creates two equal-probability basis outcomes",
+      "boundary": "Circuit limit silently ignores further gates at baseline",
+      "repair": "No undo or explicit limit feedback at baseline",
+      "reset": "Reset clears circuit; qubit count rebuilds state",
+      "provenance": "Browser state-vector toy, not GPU performance/exact arithmetic proof",
+      "journey": "Build circuit, inspect phase/probability, undo and reach declared limit",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/qubits.ts",
+        "src/lib/lab/qubits.ts"
+      ],
+      "status": "verified",
+      "principle": "Each gate evolves complex state amplitudes",
+      "intermediate": "Gate sequence, probability/phase bars and normalization of actual state",
+      "tradeoff": "Browser state-vector growth is bounded; it is not a GPU timing run",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "imc",
+      "execution": "Kalman innovation/gain/uncertainty computed; custom data is not claimed to contain known planted truth",
+      "inputs": "Visitor observation/drift-label CSV, measurement noise and per-step cursor",
+      "normal": "Filter estimates fair value and flags planted drift",
+      "boundary": "Noise produces false calls; current prose overstates universal comparison",
+      "repair": "No supplied observation sequence or estimate/covariance inspector",
+      "reset": "Shared reset restores noise and seed",
+      "provenance": "Synthetic simplified filter; not unpublished competition code",
+      "journey": "Supply observed prices, inspect slope uncertainty and trigger decision",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/imc.ts",
+        "src/lib/lab/kalman.ts"
+      ],
+      "status": "verified",
+      "principle": "A filter balances prediction with uncertain observations",
+      "intermediate": "Observation cursor, innovation, gain, slope uncertainty and drift decisions",
+      "tradeoff": "Noise assumptions affect sensitivity; custom labels are not authenticated truth",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "policy",
+      "execution": "Implemented stable masked softmax",
+      "inputs": "Editable named action scores/legal flags, local JSON import, template, probability cards and temperature",
+      "normal": "Illegal moves receive zero probability",
+      "boundary": "All moves masked still assigns best decoration to first card",
+      "repair": "Named input validation, visible refusal, editable correction and reset; malformed input clears stale output",
+      "reset": "Shared reset restores initial options/temperature",
+      "provenance": "Invented logits, not a trained PTCG model or engine judgment",
+      "journey": "Edit action scores/legal flags, inspect normalization, handle no legal move",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/policy.ts",
+        "src/lib/lab/policy.ts"
+      ],
+      "status": "verified",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      },
+      "principle": "Mask illegal actions before normalizing probabilities",
+      "intermediate": "Editable scores/legal flags, normalized bars and all-masked abstention",
+      "tradeoff": "This is an independent scoring illustration, not the trained game agent"
+    },
+    {
+      "id": "gate",
+      "execution": "Implemented empirical risk threshold over synthetic actions",
+      "inputs": "Editable labelled calibration/evaluation JSON, target budget and per-action inspection",
+      "normal": "Calibration and fresh sample have separate outcomes",
+      "boundary": "Unconditional break rate confused with conformal guarantee",
+      "repair": "Named input validation, visible refusal, editable correction and reset; malformed input clears stale output",
+      "reset": "Shared reset restores target and generated actions",
+      "provenance": "Independent empirical calibration; not the project model and not a conformal guarantee",
+      "journey": "Edit labelled cases, calibrate threshold, inspect accepted rule breaks",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/gate.ts",
+        "src/lib/lab/gate.ts"
+      ],
+      "status": "verified",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      },
+      "principle": "Calibrated threshold trades abstention against accepted violations",
+      "intermediate": "Labelled calibration/evaluation cases and per-action threshold plot",
+      "tradeoff": "An empirical threshold is not a future-risk or conformal guarantee"
+    },
+    {
+      "id": "cryptodesk",
+      "execution": "Recorded figures and summaries only; absent paths are explained, not invented",
+      "inputs": "Recorded study, assumption and metric selection; paired curves and exact-record export",
+      "normal": "Recorded treatment/control figures have pinned sources",
+      "boundary": "Limitations and non-supporting results stated in copy",
+      "repair": "No record-level comparison/exploration controls",
+      "reset": "Reload initial stage; no explicit study reset at baseline",
+      "provenance": "Pinned recorded synthetic/public-data results; not live execution",
+      "journey": "Select recorded study and input assumption, compare control and evidence",
+      "gaps": [],
+      "sources": [
+        "src/pages/demos/crypto-desk.astro",
+        "src/components/lab/recorded-explorer.ts",
+        "src/lib/recorded-studies.ts"
+      ],
+      "status": "verified",
+      "principle": "Recorded controls distinguish an effect from a convenient headline",
+      "intermediate": "Study/assumption/metric comparisons, available archived paths and raw data",
+      "tradeoff": "Selecting evidence is not running a fresh experiment",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "multitest",
+      "execution": "Training winner receives a later-window audit; UI explicitly warns that repeated tuning is test leakage",
+      "inputs": "Candidate-seed offset, search count, full ranked candidate inspector and export",
+      "normal": "Chosen noise candidate fits search window by chance",
+      "boundary": "Later-window scores are visible, so changing search parameters is explicitly labelled repeated testing, never a sealed evaluation",
+      "repair": "No inspectable candidates or new independent seed control",
+      "reset": "Shared reset restores count and fixed data",
+      "provenance": "Synthetic candidates predict nothing by construction",
+      "journey": "Change candidate seeds; inspect training ranking and selected later-window result; export exact run and reset",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/multitest.ts"
+      ],
+      "status": "verified",
+      "principle": "Searching many noise candidates can inflate the best training score",
+      "intermediate": "Full training ranking, chosen candidate and later-window audit",
+      "tradeoff": "The audit remains visible; repeated tuning is explicitly not a sealed test",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "dna",
+      "execution": "Pinned licensed Python performs fragment and whole-file checks; one missing block recovers, two in the same group refuse",
+      "inputs": "Editable UTF-8 file, fragment removal/corruption, recovery/download; separate seeded raw channel",
+      "normal": "Encode Unicode; remove a data fragment and recover exact UTF-8 bytes",
+      "boundary": "Two data losses in one group refuse output; corrupt metadata and unavailable runtime stay explicit",
+      "repair": "Restore a fragment and recover; repair text and re-encode; runtime load failure can retry",
+      "reset": "Shared reset discards input, fragment selection and old output; edits invalidate old verdict",
+      "provenance": "Unmodified MIT Python codec at local candidate b8a7089 with source hashes; digital utility, no physical DNA claim",
+      "journey": "Enter text spanning two fragments; encode; remove one and verify recovery; remove another and observe refusal; restore and recover; edit invalidates output",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/dna.ts",
+        "src/lib/lab/dna.ts",
+        "src/components/lab/dna-recovery.ts",
+        "public/lab/dna-runtime.js",
+        "public/lab/dna-codec/codec.py",
+        "public/lab/dna-codec/fragments.py"
+      ],
+      "status": "verified",
+      "principle": "One XOR parity equation recovers one unavailable block per group",
+      "intermediate": "Actual fragment states, Python recovery indices, byte-level XOR inspector and verified digest",
+      "tradeoff": "Two unavailable blocks leave two unknowns; decoder refuses rather than guesses",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "timetable",
+      "execution": "Implemented interval overlap checker",
+      "inputs": "Custom named intervals, explicit weekday/time fields, sample catalogue, removal and schedule export",
+      "normal": "Non-overlapping sections can coexist",
+      "boundary": "Conflicting interval names its existing section",
+      "repair": "Named input validation, visible refusal, editable correction and reset; malformed input clears stale output",
+      "reset": "Shared reset clears selected schedule",
+      "provenance": "Invented course codes, independent scheduling exercise",
+      "journey": "Add custom interval, resolve exact conflict, remove and export",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/timetable.ts",
+        "src/lib/lab/timetable.ts"
+      ],
+      "status": "verified",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      },
+      "principle": "Intervals conflict when their occupied times overlap",
+      "intermediate": "Editable intervals, visible weekly placement and named conflict/agenda",
+      "tradeoff": "Half-open endpoints can touch without conflict; timetable is a synthetic model"
+    },
+    {
+      "id": "options",
+      "execution": "Implemented Black-Scholes/SSVI and 3D projection",
+      "inputs": "Plot mode, financial parameters and view rotation",
+      "normal": "Surface and point readouts change from calculated values",
+      "boundary": "Expiry/volatility/skew ranges show consequential shape changes",
+      "repair": "Constrained finite parameter controls; parity reported",
+      "reset": "Shared reset rebuilds original surface and parameters",
+      "provenance": "Model formulas, not calibrated market forecasts",
+      "journey": "Compare Greeks, change volatility, rotate by keyboard, inspect parity",
+      "gaps": [],
+      "sources": [
+        "src/components/lab/exp/options.ts",
+        "src/lib/lab/options.ts"
+      ],
+      "status": "verified",
+      "principle": "Price and sensitivities vary with model inputs",
+      "intermediate": "Computed option surface, selected point readout and put-call parity",
+      "tradeoff": "Black-Scholes assumptions and browser model outputs are not market quotes",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "fourier",
+      "execution": "Implemented Fourier transform and path reconstruction",
+      "inputs": "Draw own path or upload image; circles, speed, pause",
+      "normal": "Circles reconstruct visitor path and show approximation error",
+      "boundary": "Too little detail and invalid image/drawing inputs",
+      "repair": "Draw another path or choose a valid image",
+      "reset": "Reset source/path and animation controls",
+      "provenance": "Local photo/path data, no upload/storage claim",
+      "journey": "Draw a shape, change frequency budget, inspect reconstruction, replay",
+      "gaps": [],
+      "sources": [
+        "src/pages/demos/fourier.astro"
+      ],
+      "status": "verified",
+      "principle": "A path can be reconstructed by rotating frequency components",
+      "intermediate": "Actual sampled drawing/photo trace, epicycles and reconstructed path",
+      "tradeoff": "More components improve reconstruction at a higher drawing cost",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    },
+    {
+      "id": "harbour",
+      "execution": "Implemented synthetic book skyline and public live-feed water",
+      "inputs": "Market regime, seed, asset, pause, pointer/keyboard exploration",
+      "normal": "Simulation and live book separately labelled",
+      "boundary": "Unavailable feed falls back with labelled state",
+      "repair": "Change pair/retry feed; pause and inspect stable book",
+      "reset": "Controls rebuild simulation; page lifecycle stops feed",
+      "provenance": "Synthetic skyline; actual public exchange stream with fallback",
+      "journey": "Change market regime, pause data, inspect object and feed provenance",
+      "gaps": [],
+      "sources": [
+        "src/pages/demos/harbour.astro"
+      ],
+      "status": "verified",
+      "principle": "A book combines data arrival, matching state and displayed depth",
+      "intermediate": "Live or fallback source badge, depth layers, crosshair and pause",
+      "tradeoff": "A public snapshot/feed or simulated fallback does not establish execution quality",
+      "verification": {
+        "exit": 0,
+        "receipt": "docs/all-demo-audit/evidence/final-local.json"
+      }
+    }
+  ],
+  "requested_routes": [
+    {
+      "id": "compiler",
+      "route": "/projects/coursework/#compiler",
+      "status": "unavailable-private-source",
+      "receipt": "docs/all-demo-audit/COMPILER-DISPOSITION.md"
+    }
+  ],
+  "final_receipt": "docs/all-demo-audit/evidence/final-local.json"
+}

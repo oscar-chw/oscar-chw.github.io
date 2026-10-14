@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "badResponses": [],
+  "url": "http://localhost:4340/demos/#qubits",
+  "note": "Single missing view retried after the gate build and parallel browser work finished; no assertion or timeout changed."
+}

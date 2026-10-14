@@ -1,0 +1,63 @@
+{
+  "status": "FAIL_WITH_ACTIONABLE_FINDINGS",
+  "authority": "Root human message01a13b27-1c35-7461-8587-dbf3bd672696: eval first tho",
+  "baseline": "9 missing interaction contracts failed before implementation",
+  "commands": [
+    {
+      "command": "npm run check",
+      "exit": 0,
+      "errors": 0
+    },
+    {
+      "command": "npm run test:unit",
+      "exit": 0,
+      "tests": 152
+    },
+    {
+      "command": "plan gate website 69 --owner website-simulation-programmes",
+      "exit": 1,
+      "seconds": 53,
+      "browser_passed": 102,
+      "browser_failed": 4
+    }
+  ],
+  "findings": [
+    {
+      "id": "MM-DEFAULT",
+      "severity": "functional",
+      "evidence": "Both engines: widening the spread kept5fills instead of reducing fills. The new six-row default removed the existing seeded tradeoff example. Visitor-supplied two-row account calculation passed.",
+      "next_action": "Restore the original600-event seeded default while preserving custom input and a separate small worked example; do not change the test."
+    },
+    {
+      "id": "FATQAT-PENDING",
+      "severity": "incomplete",
+      "evidence": "Both engines: export/comparison controls absent, as expected before that planned slice.",
+      "next_action": "Implement after current-slice evaluation and repair."
+    },
+    {
+      "id": "MOBILE-ORDER",
+      "severity": "usability",
+      "evidence": "Inspected WebKit375 marketmaking render: parameter controls appear after the long result.",
+      "next_action": "Move the relevant new tool controls before the stage on narrow screens."
+    },
+    {
+      "id": "RECORDED-BUTTONS",
+      "severity": "visual",
+      "evidence": "Inspected Chromium1280 blueprint render: new action buttons use native light styling.",
+      "next_action": "Apply the existing dark rounded control language to the recorded workspace."
+    },
+    {
+      "id": "PROVENANCE-COPY",
+      "severity": "accuracy",
+      "evidence": "Registry copy for several changed simulations still says synthetic-only despite supporting visitor input.",
+      "next_action": "Update scoped labels and remove universal filter/precision wording."
+    }
+  ],
+  "render_capture": {
+    "status": "INCOMPLETE",
+    "cause": "WebKit1280 qubit panel failed to become visible in the broad run; no timeout changed; separate missing-view retry recorded in qubits-render-retry.json"
+  },
+  "source_pin_file": "docs/all-demo-audit/evidence/current-slice-eval-source.json",
+  "source_pins_match": true,
+  "acceptance": "NOT_ACCEPTED: repairs, remaining feature and final combined evaluation pending; independent review/release holds unchanged"
+}

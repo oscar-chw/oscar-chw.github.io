@@ -1,0 +1,14 @@
+[
+  {
+    "control": "missing DNA entry",
+    "exit": 1
+  },
+  {
+    "control": "stale source pin",
+    "exit": 1
+  },
+  {
+    "control": "missing compiler disposition",
+    "exit": 1
+  }
+]

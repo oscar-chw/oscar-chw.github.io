@@ -1,0 +1,38 @@
+[
+  {
+    "probe": "terminal-field-selection",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "src/lib/terminal-programme.test.ts"
+    ],
+    "exit": 1,
+    "caught": true,
+    "source_sha256": "c4549e033347e917b1065dedd96ac645e33aec6588cdb0eff875d0c43f700e81"
+  },
+  {
+    "probe": "race-stale-write",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "src/lib/lab/simulation-workbench.test.ts"
+    ],
+    "exit": 1,
+    "caught": true,
+    "source_sha256": "02b9e49b5eb9dcf9b67a154a75a037769915603d6f039d6f20f01d36e591bbcd"
+  },
+  {
+    "probe": "dna-real-result",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "src/lib/dna-runtime.test.ts"
+    ],
+    "exit": 1,
+    "caught": true,
+    "source_sha256": "2e223a9606b066047a911a78cab4c3a103301f7e98dc0750fcd31cf9e5dcb6e6"
+  }
+]

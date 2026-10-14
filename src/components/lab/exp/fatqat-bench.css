@@ -10,7 +10,7 @@
 .fb-value { font-size: 0.875rem; text-align: right; white-space: nowrap; }
 .fb-value small { display: block; color: var(--muted); font-size: 0.875rem; }
 .fb-note { color: var(--muted); font-size: 0.875rem; line-height: 1.55; }
-.fb-method summary { font-size: 0.875rem; cursor: pointer; }
+.fb-method summary,.fb-row summary { font-size: 0.875rem; cursor: pointer; }
 .fb-insight { border-left: 2px solid var(--accent); padding-left: 12px; }
 .fb-source a { color: var(--accent); }
 @media (max-width: 420px) {
@@ -18,3 +18,8 @@
   .fb-track { grid-column: 1 / -1; grid-row: 2; }
   .fb-value { grid-column: 2; grid-row: 1; }
 }
+.fb-compare { margin-top:18px; border-top:1px solid var(--line-2); padding-top:14px; }
+.fb-compare summary { color:var(--accent); cursor:pointer; }
+.fb-raw { max-height:320px; overflow:auto; padding:16px; border-radius:10px; background:var(--bg); font-size:0.9rem; }
+.fb-table tr[data-selected=true] { background:color-mix(in srgb,var(--accent) 10%,transparent); }
+.fb-table button { min-height:44px; white-space:nowrap; }

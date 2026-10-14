@@ -1,6 +1,8 @@
 import { encode, decode, channel, gc, longestRun, intact, type Event } from "../../../lib/lab/dna";
 import { h, slider, button, readout } from "../ui";
 import { Shuffle } from "lucide";
+import {mountRecovery} from '../dna-recovery';
+import '../records-editor.css';
 
 // Type a message, write it as DNA, damage the strand and read it back with no correction. The strand
 // shows each event where it landed; the read-back shows which characters survived.
@@ -42,4 +44,5 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     h("p", { class: "lab-note" }, "Try one deletion: everything after it shifts by a letter and the rest is unreadable. That is the case the simulator's beam-search decoder exists for."),
   );
   draw();
+  mountRecovery(stage,controls);
 }

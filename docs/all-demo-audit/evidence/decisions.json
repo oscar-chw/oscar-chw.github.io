@@ -1,0 +1,31 @@
+{
+  "scope": [
+    "policy",
+    "gate",
+    "timetable"
+  ],
+  "status": "IMPLEMENTED_WITH_TARGETED_CHECKS; final combined gate70 pending",
+  "command": "plan gate website 68 --owner website-decision-programmes",
+  "exit": 0,
+  "seconds": 39,
+  "unit": 144,
+  "browser": 92,
+  "baseline": "3 new browser contracts failed before implementation",
+  "retained_failure": "First gate failed four cases: removed readouts and ambiguous Day accessible name; source corrected without changing assertions",
+  "mutation": "Highest-safe-score threshold exclusion caught; source restored",
+  "render_receipt": "docs/all-demo-audit/decision-renders/renders.json",
+  "notes": [
+    "main inspected policy/gate desktop and timetable phone; corrected dark SVG axis labels into native HTML labels afterward",
+    "final cross-demo gate70 and current-source render pass still pending"
+  ],
+  "source_hashes": {
+    "src/components/lab/exp/policy.ts": "3718a7ecf3a6f82e5a8bcfafeeba2af7d2c241f25b36c2fb614b696cc121c738",
+    "src/components/lab/exp/gate.ts": "5172d8e74b3e23376684ff541b96550ac42c6948260a8ad9427660a588aa78cf",
+    "src/components/lab/exp/timetable.ts": "884b5b2be2b10f4c7ae41a9cea70482fd010ea988b3b8d655129b3b10027a087",
+    "src/lib/lab/decisions.ts": "182be479d02098a7895b2575276db7cd4c55726c8d010c68b61d0cb1e0743922",
+    "src/lib/lab/gate.ts": "0e3c0cad8f720eb9b25ff6f1dfaa122dc8d808451ea3937cb8d1823c63c1a351",
+    "src/lib/lab/timetable.ts": "62ffa8bf15355cfe40d60cc8300276fc952384fd572dba56e6d2e204493af5a5",
+    "src/lib/lab/decisions.test.ts": "43331e7606ebd57718298f0253b7b69e1b0a4104880008f06b22f08544db9edb",
+    "e2e/decision-workbench.spec.ts": "ce74539921d6d6fb1176849c5be75ee7bed140cdb76818e7bdea4b7bb0f44917"
+  }
+}

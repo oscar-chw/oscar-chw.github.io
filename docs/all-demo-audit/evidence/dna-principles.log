@@ -1,0 +1,248 @@
+$ cd oscar-chw.github.io && npm run check && npm run test:unit && npm run build && npx playwright test e2e/dna-principle.spec.ts e2e/dna-recovery.spec.ts e2e/timing-workbench.spec.ts e2e/simulation-workbench.spec.ts
+
+> check
+> astro check
+
+01:00:57 [content] Syncing content
+01:00:57 [content] Synced content
+01:00:57 [types] Generated 255ms
+01:00:57 [check] Getting diagnostics for Astro files in /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (179 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+
+> test:unit
+> vitest run
+
+
+ RUN  v5.0.3 /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io
+
+
+ Test Files  24 passed (24)
+      Tests  161 passed (161)
+   Start at  01:01:02
+   Duration  1.59s (tests 80%, transform 14%, import 5%, worker 1%)
+
+
+> build
+> astro build
+
+01:01:05 [content] Syncing content
+01:01:05 [content] Synced content
+01:01:05 [types] Generated 228ms
+01:01:05 [build] output: "static"
+01:01:05 [build] mode: "static"
+01:01:05 [build] directory: /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/dist/
+01:01:05 [build] Collecting build info...
+01:01:05 [build] ✓ Completed in 259ms.
+01:01:05 [build] Building static entrypoints...
+01:01:05 [assets] Copying fonts (2 files)...
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:01:05 [vite] ✓ built in 340ms
+01:01:05 [vite] ✓ built in 170ms
+01:01:05 [build] Rearranging server assets...
+
+ generating static routes
+01:01:05   ├─ /404.html (+25ms)
+01:01:05   ├─ /about/index.html (+51ms)
+01:01:05   ├─ /card/index.html (+27ms)
+01:01:05   ├─ /cv/index.html (+15ms)
+01:01:05   ├─ /demos/crypto-desk/index.html (+15ms)
+01:01:05   ├─ /demos/fourier/index.html (+14ms)
+01:01:05   ├─ /demos/harbour/index.html (+14ms)
+01:01:05   ├─ /demos/order-book/index.html (+14ms)
+01:01:05   ├─ /demos/reconciliation/index.html (+1ms)
+01:01:05   ├─ /demos/index.html (+15ms)
+01:01:05   ├─ /lab/corpus.json (+3ms)
+01:01:05   ├─ /oscar-choi.vcf (+24ms)
+01:01:06   ├─ /projects/agent-harness/index.html (+0ms)
+01:01:06   ├─ /projects/alpha-search/index.html (+0ms)
+01:01:06   ├─ /projects/factor-lab/index.html (+0ms)
+01:01:06   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+01:01:06   ├─ /projects/market-making-lab/index.html (+0ms)
+01:01:06   ├─ /projects/point-in-time-research/index.html (+0ms)
+01:01:06   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+01:01:06   ├─ /projects/studyflow/index.html (+0ms)
+01:01:06   ├─ /projects/ai-quant-research-system/index.html (+20ms)
+01:01:06   ├─ /projects/fatqat-gpu-backend/index.html (+15ms)
+01:01:06   ├─ /projects/qts-research-platform/index.html (+14ms)
+01:01:06   ├─ /projects/final-year-project/index.html (+14ms)
+01:01:06   ├─ /projects/competitions/index.html (+15ms)
+01:01:06   ├─ /projects/supporting-work/index.html (+14ms)
+01:01:06   ├─ /projects/coursework/index.html (+14ms)
+01:01:06   ├─ /projects/index.html (+14ms)
+01:01:06   ├─ /index.html (+18ms)
+01:01:06 ✓ Completed in 400ms.
+
+ generating optimized images
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+0ms) (1/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+0ms) (2/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+0ms) (3/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+0ms) (7/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+01:01:06   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+0ms) (9/9)
+01:01:06 ✓ Completed in 3ms.
+
+01:01:06 [build] ✓ Completed in 933ms.
+01:01:06 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+01:01:06 [build] 18 page(s) built in 1.21s
+01:01:06 [build] Complete!
+
+Running 38 tests using 6 workers
+
+  ✓   4 [chromium] › e2e/simulation-workbench.spec.ts:12:1 › market maker computes visitor flow and exposes fill, cash and inventory mechanics (1.4s)
+  ✓   2 [chromium] › e2e/simulation-workbench.spec.ts:21:1 › filter accepts observations and reports computation rather than an assumed planted truth (1.4s)
+  ✓   5 [chromium] › e2e/simulation-workbench.spec.ts:3:1 › circuit export contains parseable input and the computed normalized state (1.5s)
+  ✓   8 [chromium] › e2e/simulation-workbench.spec.ts:36:1 › noise search accepts a seed, identifies the chosen candidate and shows an inspectable ranking (2.1s)
+  ✓   7 [chromium] › e2e/simulation-workbench.spec.ts:28:1 › factor candidates are editable and changing the market reseals the test (2.2s)
+  ✓   3 [chromium] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (4.1s)
+  ✓  11 [chromium] › e2e/simulation-workbench.spec.ts:56:1 › order book accepts and cancels a visitor limit order and rejects invalid quantity (760ms)
+  ✓   1 [chromium] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (4.4s)
+  ✓  12 [chromium] › e2e/simulation-workbench.spec.ts:63:1 › blueprint explorer switches recorded assumptions and exports an explicitly recorded result (375ms)
+  ✓   6 [chromium] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (5.4s)
+  ✓  13 [chromium] › e2e/simulation-workbench.spec.ts:69:1 › FatQat recorded explorer exposes the full comparison and selected-row provenance (1.3s)
+  ✓  16 [chromium] › e2e/timing-workbench.spec.ts:19:1 › a delayed timing file import cannot replace newer visitor input (405ms)
+  ✓  14 [chromium] › e2e/simulation-workbench.spec.ts:77:1 › inspecting a different recorded row updates its controls and exported measurement together (1.5s)
+  ✓  15 [chromium] › e2e/timing-workbench.spec.ts:3:1 › timing workspace imports its downloadable template and refuses oversized or invalid UTF-8 files (1.5s)
+  ✓  10 [chromium] › e2e/simulation-workbench.spec.ts:50:1 › qubit circuit limit is explicit and undo restores a usable gate button (3.0s)
+  ✓  17 [chromium] › e2e/timing-workbench.spec.ts:35:1 › lookahead runs visitor returns and exports the actual delayed decisions (1.5s)
+  ✓   9 [chromium] › e2e/simulation-workbench.spec.ts:43:1 › visitors can schedule each writer and observe an actual overwrite or retry (5.9s)
+  ✓  19 [chromium] › e2e/timing-workbench.spec.ts:76:1 › candle audit reads supplied availability times and identifies the record to repair (1.7s)
+  ✓  18 [chromium] › e2e/timing-workbench.spec.ts:56:1 › timing input errors remove stale results and correct templates can be repaired and reset (2.6s)
+  ✓  23 [webkit] › e2e/simulation-workbench.spec.ts:3:1 › circuit export contains parseable input and the computed normalized state (1.7s)
+  ✓  20 [webkit] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (4.5s)
+  ✓  26 [webkit] › e2e/simulation-workbench.spec.ts:28:1 › factor candidates are editable and changing the market reseals the test (1.7s)
+  ✓  25 [webkit] › e2e/simulation-workbench.spec.ts:21:1 › filter accepts observations and reports computation rather than an assumed planted truth (2.7s)
+  ✓  21 [webkit] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (5.8s)
+  ✓  22 [webkit] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (5.2s)
+  ✓  27 [webkit] › e2e/simulation-workbench.spec.ts:36:1 › noise search accepts a seed, identifies the chosen candidate and shows an inspectable ranking (2.4s)
+  ✓  24 [webkit] › e2e/simulation-workbench.spec.ts:12:1 › market maker computes visitor flow and exposes fill, cash and inventory mechanics (5.6s)
+  ✓  31 [webkit] › e2e/simulation-workbench.spec.ts:63:1 › blueprint explorer switches recorded assumptions and exports an explicitly recorded result (948ms)
+  ✓  30 [webkit] › e2e/simulation-workbench.spec.ts:56:1 › order book accepts and cancels a visitor limit order and rejects invalid quantity (1.3s)
+  ✓  35 [webkit] › e2e/timing-workbench.spec.ts:19:1 › a delayed timing file import cannot replace newer visitor input (709ms)
+  ✓  32 [webkit] › e2e/simulation-workbench.spec.ts:69:1 › FatQat recorded explorer exposes the full comparison and selected-row provenance (1.7s)
+  ✓  33 [webkit] › e2e/simulation-workbench.spec.ts:77:1 › inspecting a different recorded row updates its controls and exported measurement together (2.1s)
+  ✓  34 [webkit] › e2e/timing-workbench.spec.ts:3:1 › timing workspace imports its downloadable template and refuses oversized or invalid UTF-8 files (1.9s)
+  ✓  36 [webkit] › e2e/timing-workbench.spec.ts:35:1 › lookahead runs visitor returns and exports the actual delayed decisions (1.3s)
+  ✓  29 [webkit] › e2e/simulation-workbench.spec.ts:50:1 › qubit circuit limit is explicit and undo restores a usable gate button (3.8s)
+  ✓  37 [webkit] › e2e/timing-workbench.spec.ts:56:1 › timing input errors remove stale results and correct templates can be repaired and reset (2.1s)
+  ✓  28 [webkit] › e2e/simulation-workbench.spec.ts:43:1 › visitors can schedule each writer and observe an actual overwrite or retry (6.4s)
+  ✓  38 [webkit] › e2e/timing-workbench.spec.ts:76:1 › candle audit reads supplied availability times and identifies the record to repair (2.3s)
+
+  38 passed (19.8s)
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:11813) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:11843) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+(node:11852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11850) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11849) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11995) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12010) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS 73 (exit 0, 29s)

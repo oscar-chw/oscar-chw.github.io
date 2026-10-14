@@ -23,7 +23,7 @@ export function cumulative(rets: number[]): number[] {
   return rets.map((x) => (s += x));
 }
 
-function ranks(xs: number[]): number[] {
+export function ranks(xs: number[]): number[] {
   const idx = xs.map((x, i) => [x, i] as const).sort((a, b) => a[0] - b[0]);
   const out = new Array<number>(xs.length);
   for (let i = 0; i < idx.length;) {
