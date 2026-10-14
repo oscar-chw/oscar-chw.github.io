@@ -93,6 +93,11 @@ try {
         ['qubits-system-font', { css: '* { font-family:Arial,sans-serif!important; }' }],
         ['qubits-no-shared-motion', { noMotion: true }],
         ['qubits-no-styles', { noStyles: true }],
+        ['qubits-baseline-repeat1', {}],
+        ['qubits-stage-rim', { css: '.lab .stage.glass { box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgb(255 255 255 / 0.14)!important; }' }],
+        ['qubits-baseline-repeat2', {}],
+        ['qubits-stage-rim-repeat', { css: '.lab .stage.glass { box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgb(255 255 255 / 0.14)!important; }' }],
+        ['qubits-bar-shadow-off', { css: '.bar.glass { box-shadow:none!important; }' }],
       );
       for (const [name, options] of variants) {
         await scenario(browser, engine, name, options, async page => {
