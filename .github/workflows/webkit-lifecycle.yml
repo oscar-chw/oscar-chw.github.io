@@ -1,0 +1,42 @@
+name: WebKit lifecycle diagnosis
+on:
+  push:
+    branches: [codex/webkit-lifecycle-20261015]
+permissions:
+  contents: read
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - name: Verify the frozen application before observation
+        run: |
+          mkdir -p diagnostics
+          python3 - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          pins=json.loads(Path('docs/shadow-performance/evidence.json').read_text())['source_hashes']
+          actual={p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in pins}
+          if actual!=pins: raise SystemExit('Application differs from the checked candidate')
+          Path('diagnostics/source.json').write_text(json.dumps({'application':'7a4f8e96e1c3b33649b369556bd42ca7506c975e','diagnostic_head':os.environ['GITHUB_SHA'],'source_hashes':actual,'scope':'Observation only; original browser assertions, matrix, retries and timeouts unchanged'},indent=2)+'\n')
+          PY
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Original browser suite with native-process logging and structured results
+        env:
+          DEBUG: pw:browser
+          PLAYWRIGHT_JSON_OUTPUT_FILE: diagnostics/report.json
+        run: npx playwright test --reporter=line,json 2> diagnostics/browser-stderr.log
+      - name: Retain first-attempt failures even when a retry passes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lifecycle-${{ github.sha }}
+          path: |
+            diagnostics/
+            test-results/
+          if-no-files-found: error
