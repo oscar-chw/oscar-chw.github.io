@@ -1,0 +1,46 @@
+[WebServer] (node:97934) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:97956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+
+Running 12 tests using 6 workers
+
+(node:98152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98149) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98143) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › e2e/feed-gate.spec.ts:52:1 › a local file that finishes reading late cannot overwrite a newer edit (2.5s)
+  ✓   4 [chromium] › e2e/feed-gate.spec.ts:110:1 › empty and malformed input cannot leave an accepted result; source and controls fit a phone (2.7s)
+  ✓   5 [chromium] › e2e/feed-gate.spec.ts:34:1 › an oversized local import invalidates the old result without replacing the visible input (5.2s)
+  ✓   6 [chromium] › e2e/feed-gate.spec.ts:74:1 › feed gate executes Python on the edited bytes, explains rejection and exports the corrected result (5.4s)
+(node:98397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › e2e/feed-gate.spec.ts:124:1 › unavailable runtime is an execution error, never a passing gate (5.6s)
+  ✓   3 [chromium] › e2e/feed-gate.spec.ts:4:1 › exploration cases run on editable input and a downloaded correct template can be imported (5.7s)
+(node:98606) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98680) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:98683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [webkit] › e2e/feed-gate.spec.ts:52:1 › a local file that finishes reading late cannot overwrite a newer edit (3.1s)
+  ✓  12 [webkit] › e2e/feed-gate.spec.ts:110:1 › empty and malformed input cannot leave an accepted result; source and controls fit a phone (3.0s)
+  ✓   7 [webkit] › e2e/feed-gate.spec.ts:34:1 › an oversized local import invalidates the old result without replacing the visible input (5.9s)
+  ✓  10 [webkit] › e2e/feed-gate.spec.ts:74:1 › feed gate executes Python on the edited bytes, explains rejection and exports the corrected result (5.7s)
+  ✓   8 [webkit] › e2e/feed-gate.spec.ts:4:1 › exploration cases run on editable input and a downloaded correct template can be imported (6.3s)
+  ✓  11 [webkit] › e2e/feed-gate.spec.ts:124:1 › unavailable runtime is an execution error, never a passing gate (5.8s)
+
+  12 passed (15.4s)

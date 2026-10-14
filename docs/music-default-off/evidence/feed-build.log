@@ -1,0 +1,139 @@
+
+> build
+> astro build
+
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+02:21:39 [content] Syncing content
+02:21:39 [content] Astro config changed
+02:21:39 [content] Clearing content store
+02:21:39 [content] Synced content
+02:21:39 [types] Generated 313ms
+02:21:39 [build] output: "static"
+02:21:39 [build] mode: "static"
+02:21:39 [build] directory: /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/dist/
+02:21:39 [build] Collecting build info...
+02:21:39 [build] ✓ Completed in 351ms.
+02:21:39 [build] Building static entrypoints...
+02:21:39 [assets] Copying fonts (2 files)...
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:21:39 [vite] ✓ built in 423ms
+02:21:39 [vite] ✓ built in 188ms
+02:21:39 [build] Rearranging server assets...
+
+ generating static routes
+02:21:39   ├─ /404.html (+41ms)
+02:21:39   ├─ /about/index.html (+56ms)
+02:21:39   ├─ /card/index.html (+46ms)
+02:21:39   ├─ /cv/index.html (+20ms)
+02:21:39   ├─ /demos/crypto-desk/index.html (+21ms)
+02:21:39   ├─ /demos/fourier/index.html (+20ms)
+02:21:39   ├─ /demos/harbour/index.html (+20ms)
+02:21:39   ├─ /demos/order-book/index.html (+20ms)
+02:21:39   ├─ /demos/reconciliation/index.html (+1ms)
+02:21:39   ├─ /demos/index.html (+26ms)
+02:21:39   ├─ /lab/corpus.json (+4ms)
+02:21:39   ├─ /oscar-choi.vcf (+64ms)
+02:21:40   ├─ /projects/agent-harness/index.html (+1ms)
+02:21:40   ├─ /projects/alpha-search/index.html (+0ms)
+02:21:40   ├─ /projects/factor-lab/index.html (+0ms)
+02:21:40   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+02:21:40   ├─ /projects/market-making-lab/index.html (+0ms)
+02:21:40   ├─ /projects/point-in-time-research/index.html (+0ms)
+02:21:40   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+02:21:40   ├─ /projects/studyflow/index.html (+0ms)
+02:21:40   ├─ /projects/ai-quant-research-system/index.html (+29ms)
+02:21:40   ├─ /projects/fatqat-gpu-backend/index.html (+22ms)
+02:21:40   ├─ /projects/qts-research-platform/index.html (+22ms)
+02:21:40   ├─ /projects/final-year-project/index.html (+22ms)
+02:21:40   ├─ /projects/competitions/index.html (+22ms)
+02:21:40   ├─ /projects/supporting-work/index.html (+22ms)
+02:21:40   ├─ /projects/coursework/index.html (+22ms)
+02:21:40   ├─ /projects/index.html (+22ms)
+02:21:40   ├─ /index.html (+25ms)
+02:21:40 ✓ Completed in 601ms.
+
+ generating optimized images
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+1ms) (1/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+1ms) (2/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+1ms) (3/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+0ms) (7/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+02:21:40   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+1ms) (9/9)
+02:21:40 ✓ Completed in 5ms.
+
+02:21:40 [build] ✓ Completed in 1.24s.
+02:21:40 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+02:21:40 [build] 18 page(s) built in 1.61s
+02:21:40 [build] Complete!

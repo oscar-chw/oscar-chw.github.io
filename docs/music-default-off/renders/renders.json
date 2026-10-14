@@ -1,0 +1,38 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "off": "false",
+    "overflow": 0,
+    "errors": [],
+    "silent": "docs/music-default-off/renders/chromium-320-off.png",
+    "playing": "docs/music-default-off/renders/chromium-320-play.png"
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "off": "false",
+    "overflow": 0,
+    "errors": [],
+    "silent": "docs/music-default-off/renders/chromium-1280-off.png",
+    "playing": "docs/music-default-off/renders/chromium-1280-play.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "off": "false",
+    "overflow": 0,
+    "errors": [],
+    "silent": "docs/music-default-off/renders/webkit-320-off.png",
+    "playing": "docs/music-default-off/renders/webkit-320-play.png"
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "off": "false",
+    "overflow": 0,
+    "errors": [],
+    "silent": "docs/music-default-off/renders/webkit-1280-off.png",
+    "playing": "docs/music-default-off/renders/webkit-1280-play.png"
+  }
+]

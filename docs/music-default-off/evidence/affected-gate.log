@@ -1,0 +1,292 @@
+$ cd oscar-chw.github.io && npm run check && npm run test:unit && npm run build && npx playwright test e2e/music-intent.spec.ts e2e/pages.spec.ts e2e/recruiter-journey.spec.ts
+
+> check
+> astro check
+
+02:02:38 [content] Syncing content
+02:02:38 [content] Astro config changed
+02:02:38 [content] Clearing content store
+02:02:38 [content] Synced content
+02:02:38 [types] Generated 317ms
+02:02:38 [check] Getting diagnostics for Astro files in /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (182 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+
+> test:unit
+> vitest run
+
+
+ RUN  v5.0.3 /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io
+
+
+ Test Files  24 passed (24)
+      Tests  161 passed (161)
+   Start at  02:02:44
+   Duration  3.29s (tests 84%, transform 10%, import 5%, worker 1%)
+
+
+> build
+> astro build
+
+02:02:49 [content] Syncing content
+02:02:49 [content] Synced content
+02:02:49 [types] Generated 397ms
+02:02:49 [build] output: "static"
+02:02:49 [build] mode: "static"
+02:02:49 [build] directory: /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/dist/
+02:02:49 [build] Collecting build info...
+02:02:49 [build] ✓ Completed in 453ms.
+02:02:49 [build] Building static entrypoints...
+02:02:50 [assets] Copying fonts (2 files)...
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+02:02:50 [vite] ✓ built in 456ms
+02:02:50 [vite] ✓ built in 268ms
+02:02:50 [build] Rearranging server assets...
+
+ generating static routes
+02:02:50   ├─ /404.html (+38ms)
+02:02:50   ├─ /about/index.html (+59ms)
+02:02:50   ├─ /card/index.html (+48ms)
+02:02:50   ├─ /cv/index.html (+18ms)
+02:02:50   ├─ /demos/crypto-desk/index.html (+18ms)
+02:02:50   ├─ /demos/fourier/index.html (+19ms)
+02:02:50   ├─ /demos/harbour/index.html (+17ms)
+02:02:50   ├─ /demos/order-book/index.html (+17ms)
+02:02:50   ├─ /demos/reconciliation/index.html (+1ms)
+02:02:50   ├─ /demos/index.html (+20ms)
+02:02:50   ├─ /lab/corpus.json (+4ms)
+02:02:50   ├─ /oscar-choi.vcf (+80ms)
+02:02:50   ├─ /projects/agent-harness/index.html (+1ms)
+02:02:50   ├─ /projects/alpha-search/index.html (+0ms)
+02:02:50   ├─ /projects/factor-lab/index.html (+0ms)
+02:02:50   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+02:02:50   ├─ /projects/market-making-lab/index.html (+1ms)
+02:02:50   ├─ /projects/point-in-time-research/index.html (+0ms)
+02:02:50   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+02:02:50   ├─ /projects/studyflow/index.html (+0ms)
+02:02:50   ├─ /projects/ai-quant-research-system/index.html (+25ms)
+02:02:50   ├─ /projects/fatqat-gpu-backend/index.html (+18ms)
+02:02:50   ├─ /projects/qts-research-platform/index.html (+19ms)
+02:02:50   ├─ /projects/final-year-project/index.html (+22ms)
+02:02:50   ├─ /projects/competitions/index.html (+19ms)
+02:02:51   ├─ /projects/supporting-work/index.html (+17ms)
+02:02:51   ├─ /projects/coursework/index.html (+17ms)
+02:02:51   ├─ /projects/index.html (+18ms)
+02:02:51   ├─ /index.html (+21ms)
+02:02:51 ✓ Completed in 597ms.
+
+ generating optimized images
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+1ms) (1/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+0ms) (2/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+0ms) (3/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+0ms) (7/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+02:02:51   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+1ms) (9/9)
+02:02:51 ✓ Completed in 5ms.
+
+02:02:51 [build] ✓ Completed in 1.37s.
+02:02:51 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+02:02:51 [build] 18 page(s) built in 1.84s
+02:02:51 [build] Complete!
+
+Running 80 tests using 6 workers
+
+  ✓   1 [chromium] › e2e/music-intent.spec.ts:119:1 › a page restored from the back-forward cache does not retain playback intent (1.8s)
+  ✓   4 [chromium] › e2e/music-intent.spec.ts:35:1 › legacy music-on state stays silent after unrelated clicks and keys (1.9s)
+  ✓   3 [chromium] › e2e/music-intent.spec.ts:50:1 › track and volume preferences persist without starting playback (2.1s)
+  ✓   6 [chromium] › e2e/music-intent.spec.ts:81:1 › visibility changes neither start muted music nor recreate an explicitly playing frame (2.3s)
+  ✓   2 [chromium] › e2e/music-intent.spec.ts:97:1 › cancelling Play while its module loads prevents late playback (2.6s)
+  ✓   9 [chromium] › e2e/pages.spec.ts:31:1 › old project URLs land on their section of the group page (932ms)
+  ✓  10 [chromium] › e2e/pages.spec.ts:39:1 › theme toggle switches and persists across pages (831ms)
+  ✓  11 [chromium] › e2e/pages.spec.ts:50:1 › skip link is the first tab stop and focus is visible (625ms)
+  ✓  12 [chromium] › e2e/pages.spec.ts:61:1 › about shows the photo and both confirmed minors (474ms)
+  ✓   5 [chromium] › e2e/music-intent.spec.ts:66:1 › navigation reload and Back require a fresh explicit Play action (3.8s)
+  ✓   8 [chromium] › e2e/pages.spec.ts:13:1 › seven grouped project pages exist and every write-up follows the problem → limits structure (2.0s)
+  ✓  15 [chromium] › e2e/pages.spec.ts:84:1 › unknown paths get the 404 page (479ms)
+  ✓  13 [chromium] › e2e/pages.spec.ts:67:1 › cv page offers the phone-free PDF (736ms)
+  ✓  14 [chromium] › e2e/pages.spec.ts:76:1 › card has both QR codes and prints on one page (687ms)
+  ✓  16 [chromium] › e2e/pages.spec.ts:90:1 › command palette: / opens it, typing filters, Enter navigates, Escape closes (1.2s)
+  ✓  20 [chromium] › e2e/pages.spec.ts:156:1 › the piano never takes letters typed into a text field (2.1s)
+  ✓  18 [chromium] › e2e/pages.spec.ts:133:1 › Enter pressed in the top bar while the console is still loading still runs the command (2.5s)
+  ✓   7 [chromium] › e2e/pages.spec.ts:4:1 › primary navigation reaches every section (5.8s)
+  ✓  21 [chromium] › e2e/pages.spec.ts:166:1 › Escape closes an open definition without moving the pointer, and the pointer can rest on it (2.4s)
+  ✓  17 [chromium] › e2e/pages.spec.ts:105:1 › typing in the top bar opens the console; commands answer, unknown ones say so (4.9s)
+  ✓  22 [chromium] › e2e/pages.spec.ts:179:1 › if the console's code fails to load once, the next keystroke tries again (2.7s)
+  ✓  26 [chromium] › e2e/pages.spec.ts:265:1 › the hobbies line reads with normal spacing (660ms)
+  ✓  23 [chromium] › e2e/pages.spec.ts:193:1 › one object: hovering a project row turns the pinned object into that project (3.3s)
+  ✓  24 [chromium] › e2e/pages.spec.ts:204:1 › background music: toggles from the nav and requires Play again on another page (2.9s)
+  ✓  25 [chromium] › e2e/pages.spec.ts:230:1 › music panel: hover shows the tracks and the volume; a YouTube track plays in a visible, credited mini-player (2.8s)
+  ✓  27 [chromium] › e2e/pages.spec.ts:275:1 › contact card: flips, copies the email, and the saved contact has email, links and Discord but no phone (1.5s)
+  ✓  28 [chromium] › e2e/recruiter-journey.spec.ts:3:1 › music controls stay reachable on a short landscape screen (1.1s)
+  ✓  29 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 320px (1.1s)
+  ✓  19 [chromium] › e2e/pages.spec.ts:142:1 › a slow guard verdict never overwrites the output of a later command (7.1s)
+  ✓  30 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 375px (1.0s)
+  ✓  31 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 640px (1.0s)
+  ✓  32 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 641px (1.1s)
+  ✓  34 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 701px (1.1s)
+  ✓  33 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 700px (1.6s)
+  ✓  35 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 760px (1.3s)
+  ✓  36 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 761px (1.5s)
+  ✓  37 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 768px (1.6s)
+  ✓  38 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 1280px (1.7s)
+  ✓  39 [chromium] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 320px (5.4s)
+  ✓  42 [webkit] › e2e/music-intent.spec.ts:50:1 › track and volume preferences persist without starting playback (3.3s)
+  ✓  41 [webkit] › e2e/music-intent.spec.ts:35:1 › legacy music-on state stays silent after unrelated clicks and keys (3.4s)
+  ✓  40 [chromium] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 1280px (6.5s)
+  ✓  44 [webkit] › e2e/music-intent.spec.ts:81:1 › visibility changes neither start muted music nor recreate an explicitly playing frame (3.7s)
+  ✓  45 [webkit] › e2e/music-intent.spec.ts:119:1 › a page restored from the back-forward cache does not retain playback intent (1.2s)
+  ✓  48 [webkit] › e2e/pages.spec.ts:31:1 › old project URLs land on their section of the group page (1.2s)
+  ✓  43 [webkit] › e2e/music-intent.spec.ts:66:1 › navigation reload and Back require a fresh explicit Play action (5.0s)
+  ✓  50 [webkit] › e2e/pages.spec.ts:39:1 › theme toggle switches and persists across pages (877ms)
+  ✓  51 [webkit] › e2e/pages.spec.ts:50:1 › skip link is the first tab stop and focus is visible (615ms)
+  ✓  52 [webkit] › e2e/pages.spec.ts:61:1 › about shows the photo and both confirmed minors (759ms)
+  ✓  46 [webkit] › e2e/music-intent.spec.ts:97:1 › cancelling Play while its module loads prevents late playback (2.4s)
+  ✓  53 [webkit] › e2e/pages.spec.ts:67:1 › cv page offers the phone-free PDF (672ms)
+  ✓  54 [webkit] › e2e/pages.spec.ts:76:1 › card has both QR codes and prints on one page (809ms)
+  ✓  55 [webkit] › e2e/pages.spec.ts:84:1 › unknown paths get the 404 page (787ms)
+  ✓  49 [webkit] › e2e/pages.spec.ts:13:1 › seven grouped project pages exist and every write-up follows the problem → limits structure (3.3s)
+  ✓  47 [webkit] › e2e/pages.spec.ts:4:1 › primary navigation reaches every section (4.6s)
+  ✓  56 [webkit] › e2e/pages.spec.ts:90:1 › command palette: / opens it, typing filters, Enter navigates, Escape closes (2.0s)
+  ✓  58 [webkit] › e2e/pages.spec.ts:133:1 › Enter pressed in the top bar while the console is still loading still runs the command (3.8s)
+  ✓  60 [webkit] › e2e/pages.spec.ts:156:1 › the piano never takes letters typed into a text field (2.7s)
+  ✓  62 [webkit] › e2e/pages.spec.ts:179:1 › if the console's code fails to load once, the next keystroke tries again (2.8s)
+  ✓  61 [webkit] › e2e/pages.spec.ts:166:1 › Escape closes an open definition without moving the pointer, and the pointer can rest on it (2.9s)
+  ✓  57 [webkit] › e2e/pages.spec.ts:105:1 › typing in the top bar opens the console; commands answer, unknown ones say so (5.7s)
+  ✓  66 [webkit] › e2e/pages.spec.ts:265:1 › the hobbies line reads with normal spacing (898ms)
+  ✓  63 [webkit] › e2e/pages.spec.ts:193:1 › one object: hovering a project row turns the pinned object into that project (1.7s)
+  ✓  64 [webkit] › e2e/pages.spec.ts:204:1 › background music: toggles from the nav and requires Play again on another page (2.2s)
+  ✓  67 [webkit] › e2e/pages.spec.ts:275:1 › contact card: flips, copies the email, and the saved contact has email, links and Discord but no phone (1.2s)
+  ✓  65 [webkit] › e2e/pages.spec.ts:230:1 › music panel: hover shows the tracks and the volume; a YouTube track plays in a visible, credited mini-player (2.1s)
+  ✓  68 [webkit] › e2e/recruiter-journey.spec.ts:3:1 › music controls stay reachable on a short landscape screen (1.2s)
+  ✓  69 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 320px (1.3s)
+  ✓  70 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 375px (1.3s)
+  ✓  72 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 641px (1.3s)
+  ✓  71 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 640px (1.4s)
+  ✓  74 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 701px (1.2s)
+  ✓  59 [webkit] › e2e/pages.spec.ts:142:1 › a slow guard verdict never overwrites the output of a later command (7.5s)
+  ✓  73 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 700px (1.6s)
+  ✓  75 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 760px (1.9s)
+  ✓  76 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 761px (1.9s)
+  ✓  77 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 768px (1.9s)
+  ✓  79 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 1280px (1.9s)
+  ✓  78 [webkit] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 320px (5.6s)
+  ✓  80 [webkit] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 1280px (5.7s)
+
+  80 passed (37.9s)
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:28307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:28328) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+(node:28338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28341) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28343) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28335) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33291) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS 75 (exit 0, 53s)

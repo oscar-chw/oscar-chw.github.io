@@ -1,0 +1,92 @@
+{
+  "browser-full.log": {
+    "raw_sha256": "718e9633da81efa8416293db0b29c446a7b3d4e59b0400f7a41a721c9814ee17",
+    "readable_sha256": "718e9633da81efa8416293db0b29c446a7b3d4e59b0400f7a41a721c9814ee17",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "workflow-baseline.log": {
+    "raw_sha256": "b61ed3d8ac5bca37efa64e155cd623716b93071547a799d641583c2ce77d04c9",
+    "readable_sha256": "b61ed3d8ac5bca37efa64e155cd623716b93071547a799d641583c2ce77d04c9",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "affected-gate.log": {
+    "raw_sha256": "2965d85e95cb2ed7dafd850addf5ed59e243e839fa042e32e31c87e058b409f4",
+    "readable_sha256": "e3cc25ea13441d941d526e639dbf9ac4043d85274afca8b00315327fb75b67d7",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "workflow-gate.log": {
+    "raw_sha256": "6ee2a53b4d6620c966893347c38901e02ee78bf47aa933811ea44cfb07b8ca9c",
+    "readable_sha256": "a0b407ced102b783ae418879bfd947bbb26c9f66e9a940a51a851ae46859d6f5",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "workflow-baseline-corrected.log": {
+    "raw_sha256": "2a6967d2eee3a40f57e0ff7e8f2acd8b13b00ffd09f712f79d702bc56e201ffd",
+    "readable_sha256": "2a6967d2eee3a40f57e0ff7e8f2acd8b13b00ffd09f712f79d702bc56e201ffd",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "music-final.log": {
+    "raw_sha256": "f285bd0d8727685e8b5f3a97280363f91b7e8f43695372f8729ae2f1ddbd9cfc",
+    "readable_sha256": "f285bd0d8727685e8b5f3a97280363f91b7e8f43695372f8729ae2f1ddbd9cfc",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "baseline.log": {
+    "raw_sha256": "a8f73fcb75737080b20fca9832c1a788cca1d15796a047910b6ee1bf54e53c92",
+    "readable_sha256": "b2787abdb8786ffd222c337820d56191574061e6e51902fb90d9b87a7e4782ad",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "browser-preflight-failed.log": {
+    "raw_sha256": "4682977a5b83b125eab872f1d6ac7c0a6223ddfb8fe19e88201f7087f20a16e5",
+    "readable_sha256": "27d59ea428e1ea5b59c4b5119be218ee29836df9418df90617554d25e94ad779",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "hero-recheck.log": {
+    "raw_sha256": "ebaeface721facdc0410b9e821c363f5433123f8c7f6c2416cb114c9fd5029eb",
+    "readable_sha256": "ebaeface721facdc0410b9e821c363f5433123f8c7f6c2416cb114c9fd5029eb",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in sibling gzip"
+  },
+  "feed-unit.log": {
+    "raw_sha256": "ee572bf45ff7cfa5218cdd04ddceba99f6f86a5fc23571b3aab562f36739858a",
+    "readable_sha256": "ee572bf45ff7cfa5218cdd04ddceba99f6f86a5fc23571b3aab562f36739858a",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-status-expectation.log": {
+    "raw_sha256": "9f6ad3822a751740fed8b6f5e5948fda8875f2e5c985bdb9eeea4bb3a823902a",
+    "readable_sha256": "b4e97abef91bbc702f6f53806244db766a9d92473a661763e753e80510f43ff2",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-isolated-baseline.log": {
+    "raw_sha256": "c8db781f0c2744a603a00ec78dd40d2e01945dd4e6e3e640f6b32208c3f05bc9",
+    "readable_sha256": "c8db781f0c2744a603a00ec78dd40d2e01945dd4e6e3e640f6b32208c3f05bc9",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "full-gate-first-failure.log": {
+    "raw_sha256": "cfb81b46eaec33e118c1798d8479ff8f8bc481d4f930acc215027c53458e25dd",
+    "readable_sha256": "1b1e1e1e453aefdbf97dd3487584dc2df43122ae5351f2547fad2f8d10cab448",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-serial-control.log": {
+    "raw_sha256": "56a28916fbf09e5f32d6105711b9c7fd2447bca9b26ecc084e91984cf6a6fe5d",
+    "readable_sha256": "dec8e290e5f88ebbdde1b8b063fa400fec0941948d46c45a2989b7b2ce2d7bba",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-recheck.log": {
+    "raw_sha256": "009537566f5d67dc4ac03a3df9c8d3995db9b5a3efa009574266a0bc043b1a5f",
+    "readable_sha256": "009537566f5d67dc4ac03a3df9c8d3995db9b5a3efa009574266a0bc043b1a5f",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-final.log": {
+    "raw_sha256": "332499f08fe87ee87d384067332ca046806e11e9c67a86c36e7b0f5e7faf9242",
+    "readable_sha256": "332499f08fe87ee87d384067332ca046806e11e9c67a86c36e7b0f5e7faf9242",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "feed-build.log": {
+    "raw_sha256": "c95f8c008032958d86dbe12ce6a2229672b6a1cd7dfb6c04b31821b78da45d03",
+    "readable_sha256": "de7422f34da8a3f5ae2310591c3c4390abbf046e3d0f191810324ffb075667ba",
+    "normalisation": "ANSI colours and trailing whitespace only; raw bytes retained in gzip"
+  },
+  "full-gate.log": {
+    "raw_sha256": "235edf9b6b32ac3d1cfa39d68f64fa49e68787c222ea01b1e2543ef0474d48fc",
+    "readable_sha256": "e0c78f411bdbf54bde8a5d31aabe6a383864370ac98458af58b80ec6e61e0192",
+    "normalisation": "ANSI colours and trailing whitespace only; original bytes in gzip"
+  }
+}

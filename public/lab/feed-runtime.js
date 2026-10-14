@@ -42,14 +42,17 @@ export function loadFeed(base) {
     };
     const source = JSON.parse(await get('manifest.json'));
     if (source.commit !== COMMIT) throw new Error('Python source revision does not match this demo.');
-    const sources = {};
-    for (const name of MODULES) {
+    // Fetch independent pinned files together while the trusted runtime boots. No source is
+    // written to Python until every checksum passes; serial downloads delay the first verdict.
+    const sources = Promise.all(MODULES.map(async (name) => {
       const text = await get(`replay/${name}`);
       if (await hash(new TextEncoder().encode(text)) !== source.files[`replay/${name}`].sha256) throw new Error(`Python source checksum mismatch: ${name}`);
-      sources[name] = text;
-    }
-    const {loadPyodide} = await import(`${PYODIDE}pyodide.mjs${attempt++ ? `?feed_retry=${attempt}` : ''}`);
-    return {run:bindFeed(await loadPyodide({indexURL:PYODIDE}), sources), source};
+      return [name, text];
+    }));
+    const runtime = import(`${PYODIDE}pyodide.mjs${attempt++ ? `?feed_retry=${attempt}` : ''}`)
+      .then(({loadPyodide}) => loadPyodide({indexURL:PYODIDE}));
+    const [entries, py] = await Promise.all([sources, runtime]);
+    return {run:bindFeed(py, Object.fromEntries(entries)), source};
   })();
   ready.catch(()=>{ready=null;});
   return ready;

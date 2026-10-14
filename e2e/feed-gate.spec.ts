@@ -1,6 +1,29 @@
 import { test, expect } from '@playwright/test';
 import { localPyodide } from './pyodide';
 
+test('runtime boot overlaps source downloads but corrupted source never reaches Python', async ({page}) => {
+  await localPyodide(page);
+  let release!:()=>void;
+  const held=new Promise<void>(resolve=>{release=resolve;});
+  let runtimeRequested=false;
+  page.on('request',r=>{if(r.url().includes('/pyodide.mjs'))runtimeRequested=true;});
+  await page.route('**/lab/feed-gate/replay/book.py',async r=>{
+    await held;await r.fulfill({body:'changed source bytes',contentType:'text/plain'});
+  });
+  await page.goto('/demos/#gatedbuild');
+  const p=page.locator('[data-panel="gatedbuild"]');
+  try {
+    await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+    await expect.poll(()=>runtimeRequested).toBe(true);
+    await expect(p.locator('.fg-verdict')).toContainText('Preparing Python');
+    await expect(p.getByRole('button',{name:'Download run receipt'})).toBeDisabled();
+  } finally {release();}
+  await expect(p.locator('.fg-verdict')).toContainText('Unavailable');
+  await expect(p.locator('.fg-result')).toContainText('checksum mismatch');
+  await expect(p.locator('.fg-output tbody tr')).toHaveCount(0);
+  await expect(p.getByRole('button',{name:'Download run receipt'})).toBeDisabled();
+});
+
 test('exploration cases run on editable input and a downloaded correct template can be imported',async({page})=>{
   await localPyodide(page);await page.goto('/demos/#gatedbuild');
   const p=page.locator('[data-panel="gatedbuild"]'),input=p.getByRole('textbox',{name:'Archive JSON lines'});

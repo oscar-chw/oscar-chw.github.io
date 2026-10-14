@@ -1,0 +1,44 @@
+[WebServer] (node:10460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+
+Running 1 test using 1 worker
+
+(node:10563) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/feed-gate.spec.ts:4:1 › runtime boot overlaps source downloads but corrupted source never reaches Python (6.2s)
+
+
+  1) [chromium] › e2e/feed-gate.spec.ts:4:1 › runtime boot overlaps source downloads but corrupted source never reaches Python
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      15 |   try {
+      16 |     await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+    > 17 |     await expect.poll(()=>runtimeRequested).toBe(true);
+         |                                             ^
+      18 |     await expect(p.locator('.fg-verdict')).toContainText('Preparing Python');
+      19 |     await expect(p.getByRole('button',{name:'Download run receipt'})).toBeDisabled();
+      20 |   } finally {release();}
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/feed-gate.spec.ts:17:45
+
+    Error Context: test-results/feed-gate-runtime-boot-ove-c0ac7-source-never-reaches-Python-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/feed-gate-runtime-boot-ove-c0ac7-source-never-reaches-Python-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/feed-gate-runtime-boot-ove-c0ac7-source-never-reaches-Python-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/feed-gate.spec.ts:4:1 › runtime boot overlaps source downloads but corrupted source never reaches Python

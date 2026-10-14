@@ -201,7 +201,7 @@ test("one object: hovering a project row turns the pinned object into that proje
   await expect(page.locator('[data-work-object] [data-state="0"]')).not.toHaveAttribute("data-active", "");
 });
 
-test("background music: off until asked for, toggles from the nav, and is remembered across pages", async ({ page }) => {
+test("background music: toggles from the nav and requires Play again on another page", async ({ page }) => {
   await page.route(/https:\/\/(www\.)?youtube(-nocookie)?\.com\//, (r) => r.abort());   // never contact YouTube from tests
   await page.goto("/about/");
   const btn = page.locator("[data-music-toggle]"), html = page.locator("html");
@@ -211,10 +211,12 @@ test("background music: off until asked for, toggles from the nav, and is rememb
   await expect(btn).toHaveAttribute("aria-pressed", "true");
   await expect(btn).toHaveAttribute("aria-label", "Mute background music");
   await expect(html).toHaveAttribute("data-music", "");
-  await page.goto("/projects/");                                     // a new page: remembered, waits for a gesture
-  await expect(btn).toHaveAttribute("aria-pressed", "true");
+  await page.goto("/projects/");                                     // a new page needs another explicit Play
+  await expect(btn).toHaveAttribute("aria-pressed", "false");
   await expect(html).not.toHaveAttribute("data-music", "");
   await page.keyboard.press("Shift");
+  await expect(html).not.toHaveAttribute("data-music", "");
+  await btn.click();                                                 // explicitly play, then mute
   await expect(html).toHaveAttribute("data-music", "");
   await btn.click();                                                 // mute
   await expect(btn).toHaveAttribute("aria-pressed", "false");
