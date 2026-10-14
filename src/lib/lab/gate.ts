@@ -1,7 +1,7 @@
 // A SYNTHETIC decision gate (the final-year project's idea, simplified): an agent proposes actions,
 // a model scores each one's risk of breaking a rule, and the gate abstains above a threshold.
-// Conformal calibration picks the threshold so that, on held-out calibration actions, the share
-// of rule-breaking actions that get through stays at or below a target alpha.
+// Empirical calibration picks a threshold using labelled calibration actions. The denominator is
+// all proposals, not only accepted actions; this is not a finite-sample conformal guarantee.
 import { rng, gauss } from "./series";
 
 export interface Action { risk: number; breaks: boolean }
@@ -25,9 +25,10 @@ export function evaluate(xs: Action[], threshold: number): Outcome {
   return { acted, abstained, violations, violationRate: xs.length ? violations / xs.length : 0, abstainRate: xs.length ? abstained / xs.length : 0 };
 }
 
-/** Largest threshold whose violation rate on the calibration set is <= alpha (conformal-style). */
+/** Largest boundary whose empirical violations / all calibration proposals is <= alpha. */
 export function calibrate(cal: Action[], alpha: number): number {
-  const cands = [...new Set(cal.map((a) => a.risk))].sort((a, b) => a - b);
+  if(!cal.length)return 0;
+  const cands = [...new Set([0,...cal.map((a) => a.risk),1+Number.EPSILON])].sort((a, b) => a - b);
   let best = 0;
   for (const t of cands) if (evaluate(cal, t).violationRate <= alpha) best = t; else break;
   return best;

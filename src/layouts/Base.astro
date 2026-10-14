@@ -113,12 +113,14 @@ const commands: [string, string, string][] = [
       <form method="dialog" class="pf">
         <span class="mono prompt" aria-hidden="true">~$</span>
         <input type="text" class="pq mono" placeholder="search, or a command (help)" aria-label="Search pages or run a command" autocomplete="off" spellcheck="false" />
-        <kbd class="mono esc">esc</kbd>
+        <button class="mono esc" aria-label="Close console" title="Close (Escape)">esc</button>
       </form>
       <div class="console-kit">
         <p class="workspace-state mono">Search pages, or explore a browser-only workspace. Try help.</p>
         <div class="console-examples">
           <button type="button" data-console-example="help">help</button>
+          <button type="button" data-console-example="neofetch">workspace</button>
+          <button type="button" data-console-example="man apt">package help</button>
           <button type="button" data-console-example="ls /projects">explore files</button>
           <button type="button" data-console-example="cat /lab/versions.csv | head -n 4">inspect data</button>
         </div>
@@ -129,6 +131,7 @@ const commands: [string, string, string][] = [
           <li role="option"><a href={href}><span class="mono k">{kind}</span><span>{label}</span></a></li>
         ))}
       </ul>
+      <div class="console-footer mono"><span data-command-status role="status">ready</span><span>↑ history · Tab complete · Ctrl+C cancel</span></div>
     </dialog>
     <main id="content" tabindex="-1">
       <slot />
@@ -206,6 +209,9 @@ const commands: [string, string, string][] = [
   .site-footer .dc { color: var(--muted); font-size: 0.875rem; }
   .kbtn:hover { color: var(--ink); border-color: var(--accent); }
   .palette { width: min(100% - 32px, 760px); margin: 6vh auto auto; max-height: 88dvh; padding: 0; border-radius: 22px; color: var(--ink); overflow: auto; }
+  .palette[open] { display: flex; flex-direction: column; overflow: hidden; }
+  .palette .pf,.palette .console-kit,.palette .console-footer { flex-shrink: 0; }
+  .palette .po,.palette .pl,:global(.terminal-editor) { min-height: 0; overflow: auto; }
   /* Keep the glass rim and sheen, with a solid reading surface over dense pages. */
   .palette.glass { background-color: var(--bg-2); }
   .palette::backdrop { background: rgb(0 0 0 / 0.5); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
@@ -215,16 +221,25 @@ const commands: [string, string, string][] = [
   .console-kit { padding: 10px 18px; border-bottom: 1px solid var(--glass-edge); }
   .workspace-state { margin: 0 0 8px; font-size: .875rem; color: var(--muted); }
   .console-examples { display: flex; gap: 8px; flex-wrap: wrap; }
-  .console-examples button { border: 1px solid var(--glass-edge); border-radius: 99px; padding: 5px 10px; background: transparent; color: var(--ink); font: .875rem var(--font-mono), monospace; cursor: pointer; }
+  .console-examples button { min-height: 44px; border: 1px solid var(--glass-edge); border-radius: 99px; padding: 5px 10px; background: transparent; color: var(--ink); font: .875rem var(--font-mono), monospace; cursor: pointer; }
   .console-examples button:hover { border-color: var(--accent); }
   :global(.terminal-editor) { display: grid; gap: 10px; padding: 14px 18px; }
   :global(.terminal-editor label) { display: grid; gap: 6px; font-size: .875rem; color: var(--muted); }
-  :global(.terminal-editor input), :global(.terminal-editor textarea) { box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid var(--glass-edge); border-radius: 8px; background: var(--bg); color: var(--ink); font: .875rem var(--font-mono), monospace; }
+  :global(.terminal-editor input), :global(.terminal-editor textarea) { box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid var(--glass-edge); border-radius: 8px; background: var(--bg); color: var(--ink); font: 1rem var(--font-mono), monospace; }
   :global(.terminal-editor textarea) { max-height: 32dvh; resize: vertical; }
   :global(.terminal-editor .edit-actions) { display: flex; flex-wrap: wrap; gap: 8px; }
   :global(.terminal-editor button) { padding: 7px 12px; border-radius: 99px; border: 1px solid var(--glass-edge); background: var(--bg-2); color: var(--ink); font: .875rem var(--font-mono), monospace; cursor: pointer; }
   :global(.terminal-editor [role="alert"]) { color: var(--down); font-size: .875rem; }
-  .esc { font-size: 0.875rem; color: var(--muted); border: 1px solid var(--glass-edge); border-radius: 6px; padding: 1px 6px; }
+  .esc { font-size: 0.875rem; color: var(--muted); background: var(--bg); border: 1px solid var(--glass-edge); border-radius: 8px; min-height: 44px; min-width: 44px; cursor: pointer; }
+  .console-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 12px 18px; font-size: .875rem; color: var(--muted); border-top: 1px solid var(--glass-edge); }
+  [data-command-status] { color: var(--accent); }
+  [data-command-status][data-failed="true"] { color: var(--down); }
+  @media(max-width:600px) {
+    .console-examples { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+    .console-examples button { flex: none; }
+    .console-footer { gap: 4px; padding-block: 8px; }
+    .workspace-state { line-height: 1.5; }
+  }
   .pl { list-style: none; margin: 0; padding: 8px; max-height: 52vh; overflow: auto; }
   .pl a { display: flex; gap: 14px; align-items: baseline; padding: 9px 12px; border-radius: 12px; color: var(--ink); text-decoration: none; }
   .pl li[aria-selected] a, .pl a:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }

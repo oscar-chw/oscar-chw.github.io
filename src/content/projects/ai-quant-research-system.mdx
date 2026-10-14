@@ -20,7 +20,7 @@ sources:
   - sources/crypto-desk-blueprint/EXP-06-1-2d82aed.json
   - sources/crypto-desk-blueprint/EXP-04-1-2d82aed.json
   - sources/crypto-trading-pipeline/README-235e0ac.md
-  - sources/site-experiments/gated-build-preview.json
+  - sources/site-experiments/feed-gate-preview.json
 casestudy:
   problem: "AI agents can turn a quant textbook into code quickly, but an agent saying \"done\" is not evidence. Across hundreds of tasks, one unchecked claim compounds."
   constraints:
@@ -28,7 +28,7 @@ casestudy:
     - "A task is done only when its gate command exits 0, not when it looks done."
     - "Measured results are kept as cited, version-controlled notes."
   experiment: gatedbuild
-  result: "A planted bug sends its task back to pending with dated evidence; claiming it is done changes nothing, and the next task cannot start. The real build links library implementations to cited textbook claims and reproducible checks in a versioned vault."
+  result: "Run the public archive validator on a visible timestamp defect. It refuses the invalid record; correcting the input produces inspectable book rows. This bounded example demonstrates an executable check, with exact source and input, rather than a claim that the whole research system has passed."
   tradeoff:
     chose: "a gate per task: a command that can fail is the only way to mark work done"
     over: "trusting an agent's report, or a reviewer reading its summary"

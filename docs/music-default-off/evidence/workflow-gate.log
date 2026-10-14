@@ -1,0 +1,36 @@
+$ cd oscar-chw.github.io && npx vitest run src/lib/workflow-release.test.ts && npm run check
+
+ RUN  v5.0.3 /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io
+
+
+ Test Files  1 passed (1)
+      Tests  13 passed (13)
+   Start at  02:08:25
+   Duration  270ms (import 63%, transform 28%, tests 7%, worker 3%)
+
+
+> check
+> astro check
+
+02:08:26 [vite] Re-optimizing dependencies because lockfile has changed
+02:08:27 [content] Syncing content
+02:08:27 [content] Synced content
+02:08:27 [types] Generated 337ms
+02:08:27 [check] Getting diagnostics for Astro files in /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (183 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+PASS 77 (exit 0, 8s)

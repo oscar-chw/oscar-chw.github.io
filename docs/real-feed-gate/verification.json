@@ -1,0 +1,40 @@
+{
+  "state": "CHECKED_LOCAL_PREVIEW_REVIEW_BLOCKED",
+  "base_revision": "14591ed867c511581142d130f7bb2918ee4c290e",
+  "branch": "codex/real-feed-gate-20261014",
+  "upstream_public_revision": "f8c48256e12b96523807ba8f59c04b798517e04e",
+  "gate59": {
+    "exit": 0,
+    "scope": "native Python rejects defect and reproduces independent control; source pins"
+  },
+  "gate60": {
+    "exit": 0,
+    "seconds": 41,
+    "unit_tests": 120,
+    "browser_tests": 92
+  },
+  "gate61": {
+    "exit": 0,
+    "seconds": 222,
+    "unit_tests": 120,
+    "browser_tests": 282,
+    "lighthouse_runs": 9
+  },
+  "supplemental_retry": {
+    "exit": 0,
+    "tests": 2,
+    "seconds": 6.2,
+    "scope": "stronger retry assertions added after full gate; production source unchanged"
+  },
+  "mutation": "Always-accept adapter rejected by tests; source restored byte-for-byte",
+  "render_scope": "Chromium/WebKit at375/1280, reduced motion; initial, rejection and corrected result; zero horizontal page overflow or uncaught errors",
+  "independent_review": "NOT_RUN: spawn_agent rejected by PreToolUse NETWORK BOUNDARY as scheduling/delegating network/VPN mutation. No child, retry or alternate delegation.",
+  "publication": "NOT_AUTHORISED_FOR_THIS_CANDIDATE; local preview only",
+  "not_run": [
+    "physical devices",
+    "screen-reader session",
+    "fresh production/exchange execution",
+    "GPU benchmark"
+  ],
+  "source_manifest": "source-manifest.json"
+}

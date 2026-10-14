@@ -1,0 +1,88 @@
+
+ RUN  v5.0.3 /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io
+
+ ❯ src/lib/workflow-release.test.ts (13 tests | 13 failed) 9ms
+   ❯ Pages deployment admission (12)
+     × is triggered only by completed CI on main and has no manual bypass 5ms
+     × admits successful same-repository main push CI 1ms
+     × rejects manual request 0ms
+     × rejects failed CI 0ms
+     × rejects cancelled CI 0ms
+     × rejects running CI 0ms
+     × rejects another workflow 0ms
+     × rejects pull-request CI 0ms
+     × rejects review branch 0ms
+     × rejects fork named main 0ms
+     × rejects missing revision 0ms
+     × checks out the exact successful CI revision, never the triggering workflow revision 0ms
+   × offers the checked site as a PR artifact only after all successful checks 0ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 13 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > is triggered only by completed CI on main and has no manual bypass
+AssertionError: expected [ 'workflow_run', 'workflow_dispatch' ] to deeply equal [ 'workflow_run' ]
+
+- Expected
++ Received
+
+  [
+    "workflow_run",
++   "workflow_dispatch",
+  ]
+
+ ❯ src/lib/workflow-release.test.ts:30:36
+     28| describe("Pages deployment admission", () => {
+     29|   it("is triggered only by completed CI on main and has no manual bypa…
+     30|     expect(Object.keys(deploy.on)).toEqual(["workflow_run"]);
+       |                                    ^
+     31|     expect(deploy.on.workflow_run).toEqual({ workflows: ["CI"], types:…
+     32|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/13]⎯
+
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > admits successful same-repository main push CI
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects manual request
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects failed CI
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects cancelled CI
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects running CI
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects another workflow
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects pull-request CI
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects review branch
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects fork named main
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > rejects missing revision
+ FAIL  src/lib/workflow-release.test.ts > Pages deployment admission > checks out the exact successful CI revision, never the triggering workflow revision
+TypeError: Cannot read properties of undefined (reading 'toLowerCase')
+ ❯ Dictionary.add node_modules/@actions/expressions/src/data/dictionary.ts:27:13
+ ❯ new Dictionary node_modules/@actions/expressions/src/data/dictionary.ts:10:12
+ ❯ value src/lib/workflow-release.test.ts:16:5
+     14| function value(input: string | Record<string, unknown>): data.Expressi…
+     15|   return typeof input === "string" ? new data.StringData(input) :
+     16|     new data.Dictionary(Object.entries(input).map(([key, item]) => ({ …
+       |     ^
+     17| }
+     18| function evaluate(expression: string, github: Record<string, unknown>)…
+ ❯ src/lib/workflow-release.test.ts:16:83
+ ❯ value src/lib/workflow-release.test.ts:16:47
+ ❯ src/lib/workflow-release.test.ts:16:83
+ ❯ value src/lib/workflow-release.test.ts:16:47
+ ❯ src/lib/workflow-release.test.ts:16:83
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/13]⎯
+
+ FAIL  src/lib/workflow-release.test.ts > offers the checked site as a PR artifact only after all successful checks
+AssertionError: expected -1 to be greater than 13
+ ❯ src/lib/workflow-release.test.ts:62:17
+     60|   const index = steps.findIndex((step: { uses?: string; with?: { name?…
+     61|     step.uses?.startsWith("actions/upload-artifact@") && step.with?.na…
+     62|   expect(index).toBeGreaterThan(steps.findIndex((step: { run?: string …
+       |                 ^
+     63|   expect(steps[index].if).toBe("success()");
+     64|   expect(steps[index].with.path).toBe("dist/");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/13]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  13 failed (13)
+   Start at  02:07:12
+   Duration  167ms (import 62%, transform 22%, tests 13%, worker 3%)

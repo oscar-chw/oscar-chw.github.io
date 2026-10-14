@@ -1,0 +1,23 @@
+{
+  "repository": "Oscar-Codespace/dna-storage-simulation",
+  "commit": "b8a7089416399179dd40851871e73ad1eadcefdd",
+  "status": "local candidate; publication held",
+  "files": {
+    "codec.py": {
+      "upstream_path": "src/codec.py",
+      "sha256": "6e779728def22b83e45ee2a844b7ef6731d29dc85e75290aa1c95cb342d9d599"
+    },
+    "fragments.py": {
+      "upstream_path": "src/fragments.py",
+      "sha256": "7ecd4df407fe0d8d98c0c66e611a68e43d6d225729bdd86e5a032c058c8816d9"
+    },
+    "__init__.py": {
+      "upstream_path": "src/__init__.py",
+      "sha256": "824352eb1be9a0f047c40658d32e16cd1c5586851a214e4c85b48a714116d572"
+    },
+    "LICENSE": {
+      "upstream_path": "LICENSE",
+      "sha256": "dc2238355ffdd38769bf2988c82ff00f27e680fb6e6b29c4090661f95aa8847f"
+    }
+  }
+}

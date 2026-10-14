@@ -1,0 +1,101 @@
+[
+  {
+    "url": "http://localhost:54587/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-14T11:52:03.750Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  },
+  {
+    "url": "http://localhost:54587/demos/",
+    "fetchTime": "2026-10-14T11:52:14.012Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.005401263519032147
+  },
+  {
+    "url": "http://localhost:54587/demos/",
+    "fetchTime": "2026-10-14T11:52:34.599Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.006802597491665114
+  },
+  {
+    "url": "http://localhost:54587/",
+    "fetchTime": "2026-10-14T11:51:32.875Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 3.3261718033027125e-05
+  },
+  {
+    "url": "http://localhost:54587/",
+    "fetchTime": "2026-10-14T11:51:22.392Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 3.3261718033027125e-05
+  },
+  {
+    "url": "http://localhost:54587/",
+    "fetchTime": "2026-10-14T11:51:11.700Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 4.9817324293809865e-05
+  },
+  {
+    "url": "http://localhost:54587/demos/",
+    "fetchTime": "2026-10-14T11:52:24.273Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0.006802597491665114
+  },
+  {
+    "url": "http://localhost:54587/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-14T11:51:53.519Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  },
+  {
+    "url": "http://localhost:54587/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-14T11:51:43.228Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "cls": 0
+  }
+]

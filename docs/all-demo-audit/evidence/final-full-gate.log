@@ -1,0 +1,758 @@
+$ cd oscar-chw.github.io && node scripts/check-demo-coverage.mjs --complete && npm run check && npm run test:unit && npm run build && node scripts/js-budget.mjs && node scripts/check-claim-scopes.mjs && node scripts/check-numbers.mjs && SCAN_DENYLIST=../tools/denylist.local.txt node scripts/scan-content.mjs && node scripts/dup-ids.mjs && node scripts/link-check.mjs dist --external && SITE_BASE=/next/ npx astro build --outDir dist-next && node scripts/link-check.mjs dist-next --base /next/ && npx playwright test && npx lhci autorun && node scripts/check-cv.mjs
+Coverage: 24 demos; 0 with outstanding gaps. Local interaction contract verified; private compiler unavailable, independent review and publication held.
+
+> check
+> astro check
+
+01:14:42 [content] Syncing content
+01:14:42 [content] Synced content
+01:14:42 [types] Generated 243ms
+01:14:42 [check] Getting diagnostics for Astro files in /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (181 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+
+> test:unit
+> vitest run
+
+
+ RUN  v5.0.3 /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io
+
+
+ Test Files  24 passed (24)
+      Tests  161 passed (161)
+   Start at  01:14:47
+   Duration  1.68s (tests 79%, transform 16%, import 4%, worker 1%)
+
+
+> build
+> astro build
+
+01:14:49 [content] Syncing content
+01:14:49 [content] Synced content
+01:14:49 [types] Generated 226ms
+01:14:49 [build] output: "static"
+01:14:49 [build] mode: "static"
+01:14:49 [build] directory: /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/dist/
+01:14:49 [build] Collecting build info...
+01:14:49 [build] ✓ Completed in 257ms.
+01:14:49 [build] Building static entrypoints...
+01:14:50 [assets] Copying fonts (2 files)...
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:50 [vite] ✓ built in 357ms
+01:14:50 [vite] ✓ built in 162ms
+01:14:50 [build] Rearranging server assets...
+
+ generating static routes
+01:14:50   ├─ /404.html (+21ms)
+01:14:50   ├─ /about/index.html (+47ms)
+01:14:50   ├─ /card/index.html (+34ms)
+01:14:50   ├─ /cv/index.html (+14ms)
+01:14:50   ├─ /demos/crypto-desk/index.html (+15ms)
+01:14:50   ├─ /demos/fourier/index.html (+14ms)
+01:14:50   ├─ /demos/harbour/index.html (+14ms)
+01:14:50   ├─ /demos/order-book/index.html (+14ms)
+01:14:50   ├─ /demos/reconciliation/index.html (+1ms)
+01:14:50   ├─ /demos/index.html (+15ms)
+01:14:50   ├─ /lab/corpus.json (+4ms)
+01:14:50   ├─ /oscar-choi.vcf (+31ms)
+01:14:50   ├─ /projects/agent-harness/index.html (+0ms)
+01:14:50   ├─ /projects/alpha-search/index.html (+0ms)
+01:14:50   ├─ /projects/factor-lab/index.html (+0ms)
+01:14:50   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+01:14:50   ├─ /projects/market-making-lab/index.html (+0ms)
+01:14:50   ├─ /projects/point-in-time-research/index.html (+0ms)
+01:14:50   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+01:14:50   ├─ /projects/studyflow/index.html (+0ms)
+01:14:50   ├─ /projects/ai-quant-research-system/index.html (+20ms)
+01:14:50   ├─ /projects/fatqat-gpu-backend/index.html (+15ms)
+01:14:50   ├─ /projects/qts-research-platform/index.html (+15ms)
+01:14:50   ├─ /projects/final-year-project/index.html (+14ms)
+01:14:50   ├─ /projects/competitions/index.html (+15ms)
+01:14:50   ├─ /projects/supporting-work/index.html (+14ms)
+01:14:50   ├─ /projects/coursework/index.html (+15ms)
+01:14:50   ├─ /projects/index.html (+14ms)
+01:14:50   ├─ /index.html (+18ms)
+01:14:50 ✓ Completed in 414ms.
+
+ generating optimized images
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+1ms) (1/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+0ms) (2/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+0ms) (3/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+0ms) (7/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+01:14:50   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+0ms) (9/9)
+01:14:50 ✓ Completed in 4ms.
+
+01:14:50 [build] ✓ Completed in 957ms.
+01:14:50 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+01:14:50 [build] 18 page(s) built in 1.23s
+01:14:50 [build] Complete!
+text    9074 B gz  404.html
+text    9074 B gz  about/index.html
+page    9784 B gz  card/index.html
+text    9074 B gz  cv/index.html
+demo   15041 B gz  demos/crypto-desk/index.html
+demo   23154 B gz  demos/fourier/index.html
+demo   18375 B gz  demos/harbour/index.html
+demo   11624 B gz  demos/index.html
+demo   11430 B gz  demos/order-book/index.html
+demo       0 B gz  demos/reconciliation/index.html
+page   21689 B gz  index.html
+text       0 B gz  projects/agent-harness/index.html
+text    9074 B gz  projects/ai-quant-research-system/index.html
+text       0 B gz  projects/alpha-search/index.html
+text    9074 B gz  projects/competitions/index.html
+text    9074 B gz  projects/coursework/index.html
+text       0 B gz  projects/factor-lab/index.html
+text    9074 B gz  projects/fatqat-gpu-backend/index.html
+text    9074 B gz  projects/final-year-project/index.html
+text       0 B gz  projects/imc-prosperity-4/index.html
+text    9074 B gz  projects/index.html
+text       0 B gz  projects/market-making-lab/index.html
+text       0 B gz  projects/point-in-time-research/index.html
+text       0 B gz  projects/pokemon-tcg-ai/index.html
+text    9074 B gz  projects/qts-research-platform/index.html
+text       0 B gz  projects/studyflow/index.html
+text    9074 B gz  projects/supporting-work/index.html
+js-budget: OK (27 pages)
+check-claim-scopes: OK (81 assertions; 27 built pages, hidden UI claims and public CV)
+check-numbers: OK (391 numbers in 18 files and 12 built pages)
+scan-content: OK (234 files, 10 denylist terms)
+dup-ids: OK (27 pages)
+note https://www.linkedin.com/in/oscar-chw/: 999 (bot wall, counted as exists)
+link-check: 28 external links fetched
+link-check: OK (27 pages)
+01:14:56 [content] Syncing content
+01:14:56 [content] Astro config changed
+01:14:56 [content] Clearing content store
+01:14:56 [content] Synced content
+01:14:56 [types] Generated 261ms
+01:14:56 [build] output: "static"
+01:14:56 [build] mode: "static"
+01:14:56 [build] directory: /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/dist-next/
+01:14:56 [build] Collecting build info...
+01:14:56 [build] ✓ Completed in 297ms.
+01:14:56 [build] Building static entrypoints...
+01:14:56 [assets] Copying fonts (2 files)...
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+01:14:56 [vite] ✓ built in 365ms
+01:14:56 [vite] ✓ built in 175ms
+01:14:56 [build] Rearranging server assets...
+
+ generating static routes
+01:14:56   ├─ /404.html (+25ms)
+01:14:56   ├─ /about/index.html (+48ms)
+01:14:56   ├─ /card/index.html (+28ms)
+01:14:56   ├─ /cv/index.html (+15ms)
+01:14:56   ├─ /demos/crypto-desk/index.html (+15ms)
+01:14:56   ├─ /demos/fourier/index.html (+15ms)
+01:14:56   ├─ /demos/harbour/index.html (+15ms)
+01:14:56   ├─ /demos/order-book/index.html (+15ms)
+01:14:56   ├─ /demos/reconciliation/index.html (+1ms)
+01:14:56   ├─ /demos/index.html (+17ms)
+01:14:56   ├─ /lab/corpus.json (+3ms)
+01:14:56   ├─ /oscar-choi.vcf (+24ms)
+01:14:56   ├─ /projects/agent-harness/index.html (+1ms)
+01:14:56   ├─ /projects/alpha-search/index.html (+0ms)
+01:14:56   ├─ /projects/factor-lab/index.html (+0ms)
+01:14:56   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+01:14:56   ├─ /projects/market-making-lab/index.html (+0ms)
+01:14:56   ├─ /projects/point-in-time-research/index.html (+0ms)
+01:14:56   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+01:14:56   ├─ /projects/studyflow/index.html (+0ms)
+01:14:56   ├─ /projects/ai-quant-research-system/index.html (+21ms)
+01:14:56   ├─ /projects/fatqat-gpu-backend/index.html (+15ms)
+01:14:56   ├─ /projects/qts-research-platform/index.html (+15ms)
+01:14:56   ├─ /projects/final-year-project/index.html (+16ms)
+01:14:56   ├─ /projects/competitions/index.html (+16ms)
+01:14:57   ├─ /projects/supporting-work/index.html (+16ms)
+01:14:57   ├─ /projects/coursework/index.html (+15ms)
+01:14:57   ├─ /projects/index.html (+16ms)
+01:14:57   ├─ /index.html (+19ms)
+01:14:57 ✓ Completed in 418ms.
+
+ generating optimized images
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_dErW3.avif (reused cache entry) (+1ms) (1/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_1UlnqE.webp (reused cache entry) (+0ms) (2/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_2gRGqF.jpg (reused cache entry) (+1ms) (3/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_1mxAS1.avif (reused cache entry) (+0ms) (4/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_Z20WBrj.webp (reused cache entry) (+0ms) (5/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_Z1Eqiri.jpg (reused cache entry) (+0ms) (6/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_Wz8So.avif (reused cache entry) (+0ms) (7/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_Z2pV4qV.webp (reused cache entry) (+0ms) (8/9)
+01:14:57   ▶ /_astro/profile_photo.BJvOr4bu_Z24oKqU.jpg (reused cache entry) (+0ms) (9/9)
+01:14:57 ✓ Completed in 5ms.
+
+01:14:57 [build] ✓ Completed in 982ms.
+01:14:57 [@astrojs/sitemap] `sitemap-index.xml` created at `dist-next`
+01:14:57 [build] 18 page(s) built in 1.29s
+01:14:57 [build] Complete!
+link-check: OK (27 pages)
+
+Running 346 tests using 6 workers
+
+  ✓    5 [chromium] › e2e/data-workbench.spec.ts:34:1 › workbench imports a local file and remains usable on a narrow screen (1.2s)
+  ✓    3 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 0: compensated/observable/24 (1.3s)
+  ✓    6 [chromium] › e2e/decision-workbench.spec.ts:17:1 › gate reports empirical sample risk and exposes evaluation failures from edited labels (1.7s)
+  ✓    1 [chromium] › e2e/data-workbench.spec.ts:3:1 › workbench runs edited data, traces revisions, rejects invalid input and exports the result (1.9s)
+  ✓    4 [chromium] › e2e/decision-workbench.spec.ts:3:1 › policy runs visitor scores, excludes illegal moves, and abstains when all are masked (2.0s)
+  ✓    7 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 1: compensated/observable/26 (1.6s)
+  ✓    8 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 2: compensated/observable/28 (1.7s)
+  ✓    2 [chromium] › e2e/decision-workbench.spec.ts:29:1 › timetable accepts a custom interval, names a clash, validates times and permits removal (3.2s)
+  ✓    9 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 3: compensated/full_state/24 (2.1s)
+  ✓   10 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 4: compensated/full_state/26 (2.0s)
+  ✓   11 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 5: compensated/full_state/28 (1.9s)
+  ✓   12 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 6: plain/observable/24 (1.9s)
+  ✓   14 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 8: plain/observable/28 (1.7s)
+  ✓   13 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 7: plain/observable/26 (2.0s)
+  ✓   15 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 9: plain/full_state/24 (1.6s)
+  ✓   16 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 10: plain/full_state/26 (1.5s)
+  ✓   17 [chromium] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 11: plain/full_state/28 (1.5s)
+  ✓   19 [chromium] › e2e/demo-focus.spec.ts:64:1 › mobile deep links reveal the chosen experiment and allow keyboard input (647ms)
+  ✓   24 [chromium] › e2e/demos.spec.ts:12:1 › the lab covers every project and links all four full demos (769ms)
+  ✓   22 [chromium] › e2e/demo-focus.spec.ts:130:1 › search recovers after its corpus fails without unhandled promises (1.0s)
+  ✓   21 [chromium] › e2e/demo-focus.spec.ts:108:1 › loading failure has a truthful state and reload recovery (1.1s)
+  ✓   25 [chromium] › e2e/demos.spec.ts:21:1 › lab: deep links open an experiment; the arrow keys walk the rail (727ms)
+  ✓   23 [chromium] › e2e/demo-focus.spec.ts:147:1 › point-in-time comparison makes future revisions explicit and resets (1.8s)
+  ✓   20 [chromium] › e2e/demo-focus.spec.ts:81:1 › recorded and point-in-time radio groups support arrow keys and one tab stop (2.2s)
+  ✓   18 [chromium] › e2e/demo-focus.spec.ts:39:1 › recorded benchmarks preserve chained input changes, explain scope and reset (2.6s)
+  ✓   27 [chromium] › e2e/demos.spec.ts:55:1 › lab: the Bell state preset gives 0.500 on |00⟩ and |11⟩ (1.1s)
+  ✓   31 [chromium] › e2e/demos.spec.ts:87:3 › /demos/fourier/ states its data source and has instructions (332ms)
+  ✓   32 [chromium] › e2e/demos.spec.ts:87:3 › /demos/order-book/ states its data source and has instructions (260ms)
+  ✓   33 [chromium] › e2e/demos.spec.ts:87:3 › /demos/crypto-desk/ states its data source and has instructions (279ms)
+  ✓   34 [chromium] › e2e/demos.spec.ts:87:3 › /demos/harbour/ states its data source and has instructions (235ms)
+  ✓   28 [chromium] › e2e/demos.spec.ts:64:1 › lab: the timetable refuses a clash and names it (1.4s)
+  ✓   35 [chromium] › e2e/demos.spec.ts:94:1 › fourier: more circles draw the portrait more accurately (438ms)
+  ✓   29 [chromium] › e2e/demos.spec.ts:72:1 › lab: peeking at today's return reveals the leaky backtest (1.4s)
+  ✓   30 [chromium] › e2e/demos.spec.ts:80:1 › lab: an illegal move gets no probability (1.4s)
+  ✓   38 [chromium] › e2e/demos.spec.ts:134:1 › harbour demo page renders the interactive harbour (330ms)
+  ✓   37 [chromium] › e2e/demos.spec.ts:123:1 › order-book replay: play advances the tape and the book stays uncrossed (496ms)
+  ✓   40 [chromium] › e2e/demos.spec.ts:153:1 › fourier: your own photo is traced in the browser and never sent anywhere (474ms)
+  ✓   36 [chromium] › e2e/demos.spec.ts:107:1 › fourier: a path drawn by hand is redrawn by circles (1.4s)
+  ✓   26 [chromium] › e2e/demos.spec.ts:31:1 › lab: the real guard.py blocks a home-directory wipe with its reason and allows git status (3.1s)
+  ✓   43 [chromium] › e2e/demos.spec.ts:200:1 › lab: the candle timing audit flags every read when candles are stamped at their open (1.2s)
+  ✓   39 [chromium] › e2e/demos.spec.ts:139:1 › fourier: the drawing animation can be paused (1.8s)
+  ✓   44 [chromium] › e2e/demos.spec.ts:208:1 › lab: the 3D option surface draws, turns with the keys, and its readout satisfies put–call parity (1.4s)
+  ✓   45 [chromium] › e2e/demos.spec.ts:221:1 › lab: lost updates — last-write-wins loses updates, compare-and-swap keeps them all (1.3s)
+  ✓   46 [chromium] › e2e/demos.spec.ts:230:1 › lab: search answers from this site's own text, explains each score, and the links land on real sections (473ms)
+  ✓   47 [chromium] › e2e/demos.spec.ts:242:1 › lab: the DNA channel reads a clean strand back exactly and one deletion garbles the rest (405ms)
+  ✓   41 [chromium] › e2e/demos.spec.ts:166:1 › order-book replay: holding Step keeps stepping; a click steps once (2.2s)
+  ✓   49 [chromium] › e2e/demos.spec.ts:270:1 › lab: an expanded file list scrolls with the mouse wheel inside it (smooth page scroll does not take the wheel) (1.2s)
+  ✓   50 [chromium] › e2e/demos.spec.ts:285:1 › lab: rank IC — the test column stays sealed until opened, and then only for the candidate chosen on validation (1.3s)
+  ✓   48 [chromium] › e2e/demos.spec.ts:254:1 › lab: the file list always fits its box; folders fold only when needed and open on click (1.4s)
+  ✓   52 [chromium] › e2e/demos.spec.ts:307:1 › lab: point-in-time reads hide versions published later, and show them once their day comes (1.1s)
+  ✓   51 [chromium] › e2e/demos.spec.ts:295:1 › lab: market making: a wider spread fills less, and skewing against inventory keeps it smaller (1.3s)
+  ✓   53 [chromium] › e2e/demos.spec.ts:319:1 › lab: multiple testing — the best of many noise formulas looks good on train and not on test (835ms)
+  ✓   42 [chromium] › e2e/demos.spec.ts:181:1 › lab: a gated build only moves when a gate passes; a planted bug sends task 4 back with evidence (4.0s)
+  ✓   55 [chromium] › e2e/demos.spec.ts:341:1 › lab: kalman drift gate — heavy noise fools the fixed window far more often than the Kalman gate, which still catches the real drift (975ms)
+  ✓   54 [chromium] › e2e/demos.spec.ts:331:1 › lab: decision gate — removing the gate lets more rule breaks through and abstains on nothing (1.0s)
+  ✓   56 [chromium] › e2e/devices.spec.ts:24:5 › small phone 320×640 › no page scrolls sideways or throws (6.1s)
+  ✓   57 [chromium] › e2e/devices.spec.ts:24:5 › phone 390×844 › no page scrolls sideways or throws (6.2s)
+  ✓   58 [chromium] › e2e/devices.spec.ts:24:5 › large phone 430×932 › no page scrolls sideways or throws (5.8s)
+  ✓   63 [chromium] › e2e/devices.spec.ts:45:3 › phone › a tapped definition opens as a sheet inside the screen (336ms)
+  ✓   59 [chromium] › e2e/devices.spec.ts:24:5 › phone landscape 812×375 › no page scrolls sideways or throws (5.9s)
+  ✓   60 [chromium] › e2e/devices.spec.ts:24:5 › tablet 768×1024 › no page scrolls sideways or throws (5.8s)
+  ✓   61 [chromium] › e2e/devices.spec.ts:24:5 › laptop 1024×768 › no page scrolls sideways or throws (5.8s)
+  ✓   64 [chromium] › e2e/dna-input.spec.ts:3:34 › DNA Lab preserves clean multilingual text and clears an empty workspace at 375px (686ms)
+  ✓   65 [chromium] › e2e/dna-input.spec.ts:3:34 › DNA Lab preserves clean multilingual text and clears an empty workspace at 1280px (812ms)
+  ✓   66 [chromium] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (5.0s)
+  ✓   70 [chromium] › e2e/feed-gate.spec.ts:34:1 › an oversized local import invalidates the old result without replacing the visible input (4.4s)
+  ✓   68 [chromium] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (5.2s)
+  ✓   71 [chromium] › e2e/feed-gate.spec.ts:52:1 › a local file that finishes reading late cannot overwrite a newer edit (482ms)
+  ✓   69 [chromium] › e2e/feed-gate.spec.ts:4:1 › exploration cases run on editable input and a downloaded correct template can be imported (4.9s)
+  ✓   75 [chromium] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 320px (352ms)
+  ✓   67 [chromium] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (5.8s)
+  ✓   76 [chromium] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 375px (307ms)
+  ✓   77 [chromium] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 390px (324ms)
+  ✓   73 [chromium] › e2e/feed-gate.spec.ts:110:1 › empty and malformed input cannot leave an accepted result; source and controls fit a phone (1.4s)
+  ✓   78 [chromium] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 768px (652ms)
+  ✓   79 [chromium] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 1280px (683ms)
+  ✓   62 [chromium] › e2e/devices.spec.ts:24:5 › wide desktop 2560×1440 › no page scrolls sideways or throws (8.8s)
+  ✓   72 [chromium] › e2e/feed-gate.spec.ts:74:1 › feed gate executes Python on the edited bytes, explains rejection and exports the corrected result (3.7s)
+  ✓   81 [chromium] › e2e/hero.spec.ts:48:1 › pauses redraws while the tab is hidden (3.1s)
+  ✓   80 [chromium] › e2e/hero.spec.ts:35:1 › with no network the simulated market takes over the water: badge says so, mid moves, redraws stay at or under 10 fps (3.2s)
+  ✓   74 [chromium] › e2e/feed-gate.spec.ts:124:1 › unavailable runtime is an execution error, never a passing gate (4.8s)
+  ✓   82 [chromium] › e2e/hero.spec.ts:64:1 › the market can be paused and resumed (3.3s)
+  ✓   84 [chromium] › e2e/hero.spec.ts:90:1 › the demo's market picker rebuilds the city for another regime and seed (1.7s)
+  ✓   86 [chromium] › e2e/hero.spec.ts:118:1 › hovering the blueprint towers after t = now explains look-ahead bias (723ms)
+  ✓   88 [chromium] › e2e/hero.spec.ts:128:1 › keyboard users can step through the read-outs (767ms)
+  ✓   87 [chromium] › e2e/hero.spec.ts:139:1 › Tab moves from the harbour into the read-out's link (985ms)
+  ✓   85 [chromium] › e2e/hero.spec.ts:106:1 › the harbour draws the market the picker shows, including a choice restored by Back (1.7s)
+  ✓   91 [chromium] › e2e/hero.spec.ts:180:1 › crosshair shows the price and session under the pointer (811ms)
+  ✓   89 [chromium] › e2e/hero.spec.ts:151:1 › a page opened in a hidden tab says paused, then goes live when shown (1.4s)
+  ✓   92 [chromium] › e2e/hero.spec.ts:190:1 › the Konami code starts the Symphony of Lights (788ms)
+  ✓   83 [chromium] › e2e/hero.spec.ts:78:1 › reduced motion: book redraws at most once a second (4.1s)
+  ✓   93 [chromium] › e2e/hero.spec.ts:199:1 › live: the water shows the ETH/USDT book from the stream, and the ticker follows it (783ms)
+  ✓   94 [chromium] › e2e/hero.spec.ts:209:1 › live: the demo's water picker switches the stream to BTC, and to the simulated book (1.1s)
+  ✓   97 [chromium] › e2e/pages.spec.ts:31:1 › old project URLs land on their section of the group page (538ms)
+  ✓   90 [chromium] › e2e/hero.spec.ts:167:3 › boot sequence › plays once per visit and any key skips it (2.1s)
+  ✓   98 [chromium] › e2e/pages.spec.ts:39:1 › theme toggle switches and persists across pages (531ms)
+  ✓   96 [chromium] › e2e/pages.spec.ts:13:1 › seven grouped project pages exist and every write-up follows the problem → limits structure (1.0s)
+  ✓   99 [chromium] › e2e/pages.spec.ts:61:1 › about shows the photo and both confirmed minors (250ms)
+  ✓  101 [chromium] › e2e/pages.spec.ts:67:1 › cv page offers the phone-free PDF (274ms)
+  ✓  100 [chromium] › e2e/pages.spec.ts:50:1 › skip link is the first tab stop and focus is visible (311ms)
+  ✓  102 [chromium] › e2e/pages.spec.ts:76:1 › card has both QR codes and prints on one page (259ms)
+  ✓  103 [chromium] › e2e/pages.spec.ts:84:1 › unknown paths get the 404 page (215ms)
+  ✓  104 [chromium] › e2e/pages.spec.ts:90:1 › command palette: / opens it, typing filters, Enter navigates, Escape closes (444ms)
+  ✓  108 [chromium] › e2e/pages.spec.ts:156:1 › the piano never takes letters typed into a text field (517ms)
+  ✓  109 [chromium] › e2e/pages.spec.ts:166:1 › Escape closes an open definition without moving the pointer, and the pointer can rest on it (1.3s)
+  ✓  110 [chromium] › e2e/pages.spec.ts:179:1 › if the console's code fails to load once, the next keystroke tries again (1.2s)
+  ✓  106 [chromium] › e2e/pages.spec.ts:133:1 › Enter pressed in the top bar while the console is still loading still runs the command (2.3s)
+  ✓  105 [chromium] › e2e/pages.spec.ts:105:1 › typing in the top bar opens the console; commands answer, unknown ones say so (2.5s)
+  ✓  111 [chromium] › e2e/pages.spec.ts:193:1 › one object: hovering a project row turns the pinned object into that project (802ms)
+  ✓  114 [chromium] › e2e/pages.spec.ts:263:1 › the hobbies line reads with normal spacing (326ms)
+  ✓   95 [chromium] › e2e/pages.spec.ts:4:1 › primary navigation reaches every section (4.1s)
+  ✓  115 [chromium] › e2e/pages.spec.ts:273:1 › contact card: flips, copies the email, and the saved contact has email, links and Discord but no phone (474ms)
+  ✓  112 [chromium] › e2e/pages.spec.ts:204:1 › background music: off until asked for, toggles from the nav, and is remembered across pages (1.4s)
+  ✓  117 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 320px (433ms)
+  ✓  116 [chromium] › e2e/recruiter-journey.spec.ts:3:1 › music controls stay reachable on a short landscape screen (463ms)
+  ✓  113 [chromium] › e2e/pages.spec.ts:228:1 › music panel: hover shows the tracks and the volume; a YouTube track plays in a visible, credited mini-player (1.0s)
+  ✓  118 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 375px (456ms)
+  ✓  120 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 641px (456ms)
+  ✓  119 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 640px (499ms)
+  ✓  121 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 700px (740ms)
+  ✓  122 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 701px (812ms)
+  ✓  123 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 760px (709ms)
+  ✓  124 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 761px (628ms)
+  ✓  125 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 768px (618ms)
+  ✓  129 [chromium] › e2e/showcase-recovery.spec.ts:3:1 › compensated inputs reject an empty field without changing the result, but accept explicit zero (610ms)
+  ✓  130 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated reset clears the rejected value and its accessibility state (925ms)
+  ✓  126 [chromium] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 1280px (1.3s)
+  ✓  133 [chromium] › e2e/showcase-recovery.spec.ts:34:3 › the 320px Lab status label has space below the explanation (321ms)
+  ✓  107 [chromium] › e2e/pages.spec.ts:142:1 › a slow guard verdict never overwrites the output of a later command (5.8s)
+  ✓  134 [chromium] › e2e/showcase-recovery.spec.ts:34:3 › the 375px Lab status label has space below the explanation (272ms)
+  ✓  135 [chromium] › e2e/showcase-recovery.spec.ts:50:1 › correcting one rejected input clears its invalid state while another field still needs correction (473ms)
+  ✓  136 [chromium] › e2e/showcase-recovery.spec.ts:64:1 › switching to reduced motion keeps the latest surface when older animation frames run (409ms)
+  ✓  131 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated new inputs clears the rejected value and its accessibility state (1.5s)
+  ✓  138 [chromium] › e2e/showcase.spec.ts:21:1 › compensated products: on nearly cancelling inputs plain loses its digits and Kahan's algorithm stays within 2 ulp (260ms)
+  ✓  132 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated typical amplitudes clears the rejected value and its accessibility state (1.3s)
+  ✓  137 [chromium] › e2e/showcase.spec.ts:9:1 › FatQat case study: problem, a labelled build-computed result, the tradeoff, evidence, and one click to the live experiment (487ms)
+  ✓  141 [chromium] › e2e/showcase.spec.ts:58:1 › the Lab leads back to the case study it came from (521ms)
+  ✓  139 [chromium] › e2e/showcase.spec.ts:30:1 › compensated products: the visitor's own inputs are computed, an invalid one is named, and reset restores the start (1.1s)
+  ✓  140 [chromium] › e2e/showcase.spec.ts:46:1 › compensated products: typical inputs and a live 2,000-case sweep (1.2s)
+  ✓  144 [chromium] › e2e/showcase.spec.ts:95:3 › qts-research-platform: case study with a labelled build-computed result and one click to its live experiment (763ms)
+  ✓  145 [chromium] › e2e/showcase.spec.ts:95:3 › ai-quant-research-system: case study with a labelled build-computed result and one click to its live experiment (647ms)
+  ✓  146 [chromium] › e2e/showcase.spec.ts:106:1 › keyboard focus is visible on the nav's command input (242ms)
+  ✓  147 [chromium] › e2e/showcase.spec.ts:114:1 › no meaningful Lab text is under 14 px (501ms)
+  ✓  127 [chromium] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 320px (5.4s)
+  ✓  143 [chromium] › e2e/showcase.spec.ts:81:1 › the rank-IC and qubit experiments say what their result means (2.6s)
+  ✓  142 [chromium] › e2e/showcase.spec.ts:66:1 › every Lab experiment offers a reset, and the shared reset replays the experiment from its start (3.0s)
+  ✓  128 [chromium] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 1280px (5.8s)
+  ✓  148 [chromium] › e2e/simulation-workbench.spec.ts:3:1 › circuit export contains parseable input and the computed normalized state (1.6s)
+  ✓  149 [chromium] › e2e/simulation-workbench.spec.ts:12:1 › market maker computes visitor flow and exposes fill, cash and inventory mechanics (1.4s)
+  ✓  151 [chromium] › e2e/simulation-workbench.spec.ts:28:1 › factor candidates are editable and changing the market reseals the test (1.2s)
+  ✓  155 [chromium] › e2e/simulation-workbench.spec.ts:56:1 › order book accepts and cancels a visitor limit order and rejects invalid quantity (649ms)
+  ✓  152 [chromium] › e2e/simulation-workbench.spec.ts:36:1 › noise search accepts a seed, identifies the chosen candidate and shows an inspectable ranking (1.4s)
+  ✓  150 [chromium] › e2e/simulation-workbench.spec.ts:21:1 › filter accepts observations and reports computation rather than an assumed planted truth (1.7s)
+  ✓  156 [chromium] › e2e/simulation-workbench.spec.ts:63:1 › blueprint explorer switches recorded assumptions and exports an explicitly recorded result (349ms)
+  ✓  159 [chromium] › e2e/terminal-refinement.spec.ts:3:1 › Linux text workflow computes a result, preserves files across pages, and downloads it (857ms)
+  ✓  160 [chromium] › e2e/terminal-refinement.spec.ts:20:1 › manuals are specific, history restores a draft, and exit closes the console (951ms)
+  ✓  157 [chromium] › e2e/simulation-workbench.spec.ts:69:1 › FatQat recorded explorer exposes the full comparison and selected-row provenance (1.3s)
+  ✓  158 [chromium] › e2e/simulation-workbench.spec.ts:77:1 › inspecting a different recorded row updates its controls and exported measurement together (1.5s)
+  ✓  161 [chromium] › e2e/terminal-refinement.spec.ts:29:1 › the workspace tour is actionable on a narrow phone with reduced motion (726ms)
+  ✓  163 [chromium] › e2e/terminal-workbench.spec.ts:3:1 › package commands get useful Linux syntax help and never a fake install (810ms)
+  ✓  162 [chromium] › e2e/terminal-refinement.spec.ts:44:1 › unavailable tab storage is reported while editing and downloading still work (1.1s)
+  ✓  154 [chromium] › e2e/simulation-workbench.spec.ts:50:1 › qubit circuit limit is explicit and undo restores a usable gate button (3.1s)
+  ✓  165 [chromium] › e2e/terminal-workbench.spec.ts:55:1 › terminal stays usable on a phone and treats file text as text (593ms)
+  ✓  166 [chromium] › e2e/terminal-workbench.spec.ts:67:1 › opening another Lab experiment dismisses the console on the same page (702ms)
+  ✓  170 [chromium] › e2e/timing-workbench.spec.ts:19:1 › a delayed timing file import cannot replace newer visitor input (888ms)
+  ✓  164 [chromium] › e2e/terminal-workbench.spec.ts:26:1 › browser terminal writes and queries scratch files with familiar commands (2.2s)
+  ✓  167 [chromium] › e2e/timing-range.spec.ts:2:43 › lookahead: extreme valid inputs retain finite log results with an explicit percentage-display boundary (1.6s)
+  ✓  168 [chromium] › e2e/timing-range.spec.ts:2:43 › candles: extreme valid inputs retain finite log results with an explicit percentage-display boundary (1.6s)
+  ✓  169 [chromium] › e2e/timing-workbench.spec.ts:3:1 › timing workspace imports its downloadable template and refuses oversized or invalid UTF-8 files (2.1s)
+  ✓  171 [chromium] › e2e/timing-workbench.spec.ts:35:1 › lookahead runs visitor returns and exports the actual delayed decisions (1.5s)
+  ✓  153 [chromium] › e2e/simulation-workbench.spec.ts:43:1 › visitors can schedule each writer and observe an actual overwrite or retry (6.4s)
+  ✓  173 [chromium] › e2e/timing-workbench.spec.ts:76:1 › candle audit reads supplied availability times and identifies the record to repair (1.9s)
+  ✓  172 [chromium] › e2e/timing-workbench.spec.ts:56:1 › timing input errors remove stale results and correct templates can be repaired and reset (2.3s)
+  ✓  175 [webkit] › e2e/data-workbench.spec.ts:34:1 › workbench imports a local file and remains usable on a narrow screen (1.1s)
+  ✓  174 [webkit] › e2e/data-workbench.spec.ts:3:1 › workbench runs edited data, traces revisions, rejects invalid input and exports the result (3.2s)
+  ✓  178 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 1: compensated/observable/26 (2.1s)
+  ✓  177 [webkit] › e2e/decision-workbench.spec.ts:17:1 › gate reports empirical sample risk and exposes evaluation failures from edited labels (2.1s)
+  ✓  176 [webkit] › e2e/decision-workbench.spec.ts:3:1 › policy runs visitor scores, excludes illegal moves, and abstains when all are masked (2.4s)
+  ✓  180 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 0: compensated/observable/24 (1.9s)
+  ✓  179 [webkit] › e2e/decision-workbench.spec.ts:29:1 › timetable accepts a custom interval, names a clash, validates times and permits removal (2.9s)
+  ✓  181 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 2: compensated/observable/28 (1.9s)
+  ✓  183 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 4: compensated/full_state/26 (1.9s)
+  ✓  182 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 3: compensated/full_state/24 (2.1s)
+  ✓  184 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 5: compensated/full_state/28 (1.9s)
+  ✓  185 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 6: plain/observable/24 (2.0s)
+  ✓  187 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 8: plain/observable/28 (1.8s)
+  ✓  186 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 7: plain/observable/26 (2.4s)
+  ✓  189 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 10: plain/full_state/26 (1.6s)
+  ✓  188 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 9: plain/full_state/24 (2.1s)
+  ✓  192 [webkit] › e2e/demo-focus.spec.ts:64:1 › mobile deep links reveal the chosen experiment and allow keyboard input (704ms)
+  ✓  190 [webkit] › e2e/demo-focus.spec.ts:25:3 › recorded benchmark transition 11: plain/full_state/28 (2.1s)
+  ✓  194 [webkit] › e2e/demo-focus.spec.ts:108:1 › loading failure has a truthful state and reload recovery (1.3s)
+  ✓  197 [webkit] › e2e/demos.spec.ts:12:1 › the lab covers every project and links all four full demos (946ms)
+  ✓  195 [webkit] › e2e/demo-focus.spec.ts:130:1 › search recovers after its corpus fails without unhandled promises (1.3s)
+  ✓  193 [webkit] › e2e/demo-focus.spec.ts:81:1 › recorded and point-in-time radio groups support arrow keys and one tab stop (1.8s)
+  ✓  191 [webkit] › e2e/demo-focus.spec.ts:39:1 › recorded benchmarks preserve chained input changes, explain scope and reset (2.9s)
+  ✓  198 [webkit] › e2e/demos.spec.ts:21:1 › lab: deep links open an experiment; the arrow keys walk the rail (740ms)
+  ✓  196 [webkit] › e2e/demo-focus.spec.ts:147:1 › point-in-time comparison makes future revisions explicit and resets (2.1s)
+  ✓  204 [webkit] › e2e/demos.spec.ts:87:3 › /demos/fourier/ states its data source and has instructions (604ms)
+  ✓  200 [webkit] › e2e/demos.spec.ts:55:1 › lab: the Bell state preset gives 0.500 on |00⟩ and |11⟩ (1.6s)
+  ✓  201 [webkit] › e2e/demos.spec.ts:64:1 › lab: the timetable refuses a clash and names it (1.7s)
+  ✓  202 [webkit] › e2e/demos.spec.ts:72:1 › lab: peeking at today's return reveals the leaky backtest (1.7s)
+  ✓  203 [webkit] › e2e/demos.spec.ts:80:1 › lab: an illegal move gets no probability (1.7s)
+  ✓  205 [webkit] › e2e/demos.spec.ts:87:3 › /demos/order-book/ states its data source and has instructions (804ms)
+  ✓  206 [webkit] › e2e/demos.spec.ts:87:3 › /demos/crypto-desk/ states its data source and has instructions (751ms)
+  ✓  207 [webkit] › e2e/demos.spec.ts:87:3 › /demos/harbour/ states its data source and has instructions (769ms)
+  ✓  208 [webkit] › e2e/demos.spec.ts:94:1 › fourier: more circles draw the portrait more accurately (1.0s)
+  ✓  211 [webkit] › e2e/demos.spec.ts:134:1 › harbour demo page renders the interactive harbour (647ms)
+  ✓  210 [webkit] › e2e/demos.spec.ts:123:1 › order-book replay: play advances the tape and the book stays uncrossed (850ms)
+  ✓  199 [webkit] › e2e/demos.spec.ts:31:1 › lab: the real guard.py blocks a home-directory wipe with its reason and allows git status (3.5s)
+  ✓  209 [webkit] › e2e/demos.spec.ts:107:1 › fourier: a path drawn by hand is redrawn by circles (1.2s)
+  ✓  213 [webkit] › e2e/demos.spec.ts:153:1 › fourier: your own photo is traced in the browser and never sent anywhere (807ms)
+  ✓  217 [webkit] › e2e/demos.spec.ts:208:1 › lab: the 3D option surface draws, turns with the keys, and its readout satisfies put–call parity (1.2s)
+  ✓  212 [webkit] › e2e/demos.spec.ts:139:1 › fourier: the drawing animation can be paused (2.2s)
+  ✓  216 [webkit] › e2e/demos.spec.ts:200:1 › lab: the candle timing audit flags every read when candles are stamped at their open (1.5s)
+  ✓  218 [webkit] › e2e/demos.spec.ts:221:1 › lab: lost updates — last-write-wins loses updates, compare-and-swap keeps them all (1.4s)
+  ✓  219 [webkit] › e2e/demos.spec.ts:230:1 › lab: search answers from this site's own text, explains each score, and the links land on real sections (934ms)
+  ✓  214 [webkit] › e2e/demos.spec.ts:166:1 › order-book replay: holding Step keeps stepping; a click steps once (2.5s)
+  ✓  220 [webkit] › e2e/demos.spec.ts:242:1 › lab: the DNA channel reads a clean strand back exactly and one deletion garbles the rest (826ms)
+  ✓  221 [webkit] › e2e/demos.spec.ts:254:1 › lab: the file list always fits its box; folders fold only when needed and open on click (1.6s)
+  ✓  222 [webkit] › e2e/demos.spec.ts:270:1 › lab: an expanded file list scrolls with the mouse wheel inside it (smooth page scroll does not take the wheel) (1.4s)
+  ✓  225 [webkit] › e2e/demos.spec.ts:307:1 › lab: point-in-time reads hide versions published later, and show them once their day comes (1.1s)
+  ✓  223 [webkit] › e2e/demos.spec.ts:285:1 › lab: rank IC — the test column stays sealed until opened, and then only for the candidate chosen on validation (1.5s)
+  ✓  226 [webkit] › e2e/demos.spec.ts:319:1 › lab: multiple testing — the best of many noise formulas looks good on train and not on test (1.2s)
+  ✓  215 [webkit] › e2e/demos.spec.ts:181:1 › lab: a gated build only moves when a gate passes; a planted bug sends task 4 back with evidence (4.6s)
+  ✓  227 [webkit] › e2e/demos.spec.ts:331:1 › lab: decision gate — removing the gate lets more rule breaks through and abstains on nothing (1.4s)
+  ✓  228 [webkit] › e2e/demos.spec.ts:341:1 › lab: kalman drift gate — heavy noise fools the fixed window far more often than the Kalman gate, which still catches the real drift (4.8s)
+  ✓  229 [webkit] › e2e/devices.spec.ts:24:5 › small phone 320×640 › no page scrolls sideways or throws (7.0s)
+  ✓  230 [webkit] › e2e/devices.spec.ts:24:5 › phone 390×844 › no page scrolls sideways or throws (6.8s)
+  ✓  231 [webkit] › e2e/devices.spec.ts:24:5 › large phone 430×932 › no page scrolls sideways or throws (6.8s)
+  ✓  232 [webkit] › e2e/devices.spec.ts:24:5 › phone landscape 812×375 › no page scrolls sideways or throws (6.9s)
+  ✓  236 [webkit] › e2e/devices.spec.ts:45:3 › phone › a tapped definition opens as a sheet inside the screen (727ms)
+  ✓  237 [webkit] › e2e/dna-input.spec.ts:3:34 › DNA Lab preserves clean multilingual text and clears an empty workspace at 375px (1.1s)
+  ✓  238 [webkit] › e2e/dna-input.spec.ts:3:34 › DNA Lab preserves clean multilingual text and clears an empty workspace at 1280px (1.0s)
+  ✓  224 [webkit] › e2e/demos.spec.ts:295:1 › lab: market making: a wider spread fills less, and skewing against inventory keeps it smaller (13.0s)
+  ✓  233 [webkit] › e2e/devices.spec.ts:24:5 › tablet 768×1024 › no page scrolls sideways or throws (7.6s)
+  ✓  239 [webkit] › e2e/dna-principle.spec.ts:3:1 › verified DNA recovery exposes the actual parity equation and a byte inspector (3.8s)
+  ✓  240 [webkit] › e2e/dna-recovery.spec.ts:4:1 › actual Python fragment recovery restores a lost block and refuses two losses in one group (4.1s)
+  ✓  244 [webkit] › e2e/feed-gate.spec.ts:52:1 › a local file that finishes reading late cannot overwrite a newer edit (1.6s)
+  ✓  241 [webkit] › e2e/dna-recovery.spec.ts:27:1 › runtime load failure stays separate from a recovery verdict and can be retried (4.1s)
+  ✓  234 [webkit] › e2e/devices.spec.ts:24:5 › laptop 1024×768 › no page scrolls sideways or throws (8.9s)
+  ✓  243 [webkit] › e2e/feed-gate.spec.ts:34:1 › an oversized local import invalidates the old result without replacing the visible input (4.3s)
+  ✓  235 [webkit] › e2e/devices.spec.ts:24:5 › wide desktop 2560×1440 › no page scrolls sideways or throws (10.5s)
+  ✓  248 [webkit] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 320px (1.1s)
+  ✓  246 [webkit] › e2e/feed-gate.spec.ts:110:1 › empty and malformed input cannot leave an accepted result; source and controls fit a phone (2.5s)
+  ✓  242 [webkit] › e2e/feed-gate.spec.ts:4:1 › exploration cases run on editable input and a downloaded correct template can be imported (6.1s)
+  ✓  249 [webkit] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 375px (839ms)
+  ✓  250 [webkit] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 390px (808ms)
+  ✓  251 [webkit] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 768px (838ms)
+  ✓  252 [webkit] › e2e/hero-stability.spec.ts:4:3 › hero actions stay in place through valid animated text states at 1280px (860ms)
+  ✓  245 [webkit] › e2e/feed-gate.spec.ts:74:1 › feed gate executes Python on the edited bytes, explains rejection and exports the corrected result (4.1s)
+  ✓  257 [webkit] › e2e/hero.spec.ts:90:1 › the demo's market picker rebuilds the city for another regime and seed (1.4s)
+  ✓  247 [webkit] › e2e/feed-gate.spec.ts:124:1 › unavailable runtime is an execution error, never a passing gate (4.5s)
+  ✓  259 [webkit] › e2e/hero.spec.ts:118:1 › hovering the blueprint towers after t = now explains look-ahead bias (811ms)
+  ✓  254 [webkit] › e2e/hero.spec.ts:48:1 › pauses redraws while the tab is hidden (2.9s)
+  ✓  258 [webkit] › e2e/hero.spec.ts:106:1 › the harbour draws the market the picker shows, including a choice restored by Back (1.3s)
+  ✓  255 [webkit] › e2e/hero.spec.ts:64:1 › the market can be paused and resumed (2.9s)
+  ✓  253 [webkit] › e2e/hero.spec.ts:35:1 › with no network the simulated market takes over the water: badge says so, mid moves, redraws stay at or under 10 fps (3.1s)
+  ✓  260 [webkit] › e2e/hero.spec.ts:128:1 › keyboard users can step through the read-outs (928ms)
+  ✓  264 [webkit] › e2e/hero.spec.ts:180:1 › crosshair shows the price and session under the pointer (1.0s)
+  ✓  261 [webkit] › e2e/hero.spec.ts:139:1 › Tab moves from the harbour into the read-out's link (1.3s)
+  ✓  265 [webkit] › e2e/hero.spec.ts:190:1 › the Konami code starts the Symphony of Lights (1.1s)
+  ✓  262 [webkit] › e2e/hero.spec.ts:151:1 › a page opened in a hidden tab says paused, then goes live when shown (2.1s)
+  ✓  266 [webkit] › e2e/hero.spec.ts:199:1 › live: the water shows the ETH/USDT book from the stream, and the ticker follows it (1.1s)
+  ✓  256 [webkit] › e2e/hero.spec.ts:78:1 › reduced motion: book redraws at most once a second (5.1s)
+  ✓  267 [webkit] › e2e/hero.spec.ts:209:1 › live: the demo's water picker switches the stream to BTC, and to the simulated book (1.2s)
+  ✓  263 [webkit] › e2e/hero.spec.ts:167:3 › boot sequence › plays once per visit and any key skips it (2.7s)
+  ✓  271 [webkit] › e2e/pages.spec.ts:39:1 › theme toggle switches and persists across pages (937ms)
+  ✓  272 [webkit] › e2e/pages.spec.ts:50:1 › skip link is the first tab stop and focus is visible (789ms)
+  ✓  270 [webkit] › e2e/pages.spec.ts:31:1 › old project URLs land on their section of the group page (1.0s)
+  ✓  273 [webkit] › e2e/pages.spec.ts:61:1 › about shows the photo and both confirmed minors (668ms)
+  ✓  274 [webkit] › e2e/pages.spec.ts:67:1 › cv page offers the phone-free PDF (641ms)
+  ✓  275 [webkit] › e2e/pages.spec.ts:84:1 › unknown paths get the 404 page (545ms)
+  ✓  276 [webkit] › e2e/pages.spec.ts:76:1 › card has both QR codes and prints on one page (650ms)
+  ✓  269 [webkit] › e2e/pages.spec.ts:13:1 › seven grouped project pages exist and every write-up follows the problem → limits structure (1.9s)
+  ✓  277 [webkit] › e2e/pages.spec.ts:90:1 › command palette: / opens it, typing filters, Enter navigates, Escape closes (1.0s)
+  ✓  281 [webkit] › e2e/pages.spec.ts:156:1 › the piano never takes letters typed into a text field (885ms)
+  ✓  282 [webkit] › e2e/pages.spec.ts:166:1 › Escape closes an open definition without moving the pointer, and the pointer can rest on it (1.3s)
+  ✓  268 [webkit] › e2e/pages.spec.ts:4:1 › primary navigation reaches every section (4.5s)
+  ✓  283 [webkit] › e2e/pages.spec.ts:179:1 › if the console's code fails to load once, the next keystroke tries again (1.3s)
+  ✓  278 [webkit] › e2e/pages.spec.ts:105:1 › typing in the top bar opens the console; commands answer, unknown ones say so (2.7s)
+  ✓  279 [webkit] › e2e/pages.spec.ts:133:1 › Enter pressed in the top bar while the console is still loading still runs the command (2.7s)
+  ✓  284 [webkit] › e2e/pages.spec.ts:193:1 › one object: hovering a project row turns the pinned object into that project (929ms)
+  ✓  287 [webkit] › e2e/pages.spec.ts:263:1 › the hobbies line reads with normal spacing (561ms)
+  ✓  288 [webkit] › e2e/pages.spec.ts:273:1 › contact card: flips, copies the email, and the saved contact has email, links and Discord but no phone (709ms)
+  ✓  286 [webkit] › e2e/pages.spec.ts:228:1 › music panel: hover shows the tracks and the volume; a YouTube track plays in a visible, credited mini-player (1.2s)
+  ✓  289 [webkit] › e2e/recruiter-journey.spec.ts:3:1 › music controls stay reachable on a short landscape screen (746ms)
+  ✓  285 [webkit] › e2e/pages.spec.ts:204:1 › background music: off until asked for, toggles from the nav, and is remembered across pages (1.6s)
+  ✓  290 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 320px (839ms)
+  ✓  291 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 375px (924ms)
+  ✓  292 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 640px (899ms)
+  ✓  293 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 641px (916ms)
+  ✓  294 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 700px (904ms)
+  ✓  295 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 701px (887ms)
+  ✓  296 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 760px (983ms)
+  ✓  297 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 761px (963ms)
+  ✓  298 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 768px (913ms)
+  ✓  299 [webkit] › e2e/recruiter-journey.spec.ts:25:3 › primary destinations stay readable and together at 1280px (1.1s)
+  ✓  280 [webkit] › e2e/pages.spec.ts:142:1 › a slow guard verdict never overwrites the output of a later command (5.9s)
+  ✓  302 [webkit] › e2e/showcase-recovery.spec.ts:3:1 › compensated inputs reject an empty field without changing the result, but accept explicit zero (969ms)
+  ✓  303 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated reset clears the rejected value and its accessibility state (1.3s)
+  ✓  306 [webkit] › e2e/showcase-recovery.spec.ts:34:3 › the 320px Lab status label has space below the explanation (674ms)
+  ✓  307 [webkit] › e2e/showcase-recovery.spec.ts:34:3 › the 375px Lab status label has space below the explanation (577ms)
+  ✓  304 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated new inputs clears the rejected value and its accessibility state (1.7s)
+  ✓  305 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated typical amplitudes clears the rejected value and its accessibility state (1.7s)
+  ✓  308 [webkit] › e2e/showcase-recovery.spec.ts:50:1 › correcting one rejected input clears its invalid state while another field still needs correction (771ms)
+  ✓  309 [webkit] › e2e/showcase-recovery.spec.ts:64:1 › switching to reduced motion keeps the latest surface when older animation frames run (922ms)
+  ✓  310 [webkit] › e2e/showcase.spec.ts:9:1 › FatQat case study: problem, a labelled build-computed result, the tradeoff, evidence, and one click to the live experiment (911ms)
+  ✓  311 [webkit] › e2e/showcase.spec.ts:21:1 › compensated products: on nearly cancelling inputs plain loses its digits and Kahan's algorithm stays within 2 ulp (738ms)
+  ✓  314 [webkit] › e2e/showcase.spec.ts:58:1 › the Lab leads back to the case study it came from (751ms)
+  ✓  312 [webkit] › e2e/showcase.spec.ts:30:1 › compensated products: the visitor's own inputs are computed, an invalid one is named, and reset restores the start (1.3s)
+  ✓  313 [webkit] › e2e/showcase.spec.ts:46:1 › compensated products: typical inputs and a live 2,000-case sweep (1.5s)
+  ✓  317 [webkit] › e2e/showcase.spec.ts:95:3 › qts-research-platform: case study with a labelled build-computed result and one click to its live experiment (973ms)
+  ✓  318 [webkit] › e2e/showcase.spec.ts:95:3 › ai-quant-research-system: case study with a labelled build-computed result and one click to its live experiment (883ms)
+  ✓  319 [webkit] › e2e/showcase.spec.ts:106:1 › keyboard focus is visible on the nav's command input (590ms)
+  ✓  300 [webkit] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 320px (5.8s)
+  ✓  301 [webkit] › e2e/recruiter-journey.spec.ts:51:3 › recruiter reaches evidence, runs the demo and downloads the CV at 1280px (5.6s)
+  ✓  316 [webkit] › e2e/showcase.spec.ts:81:1 › the rank-IC and qubit experiments say what their result means (2.6s)
+  ✓  320 [webkit] › e2e/showcase.spec.ts:114:1 › no meaningful Lab text is under 14 px (1.1s)
+  ✓  321 [webkit] › e2e/simulation-workbench.spec.ts:3:1 › circuit export contains parseable input and the computed normalized state (1.4s)
+  ✓  323 [webkit] › e2e/simulation-workbench.spec.ts:21:1 › filter accepts observations and reports computation rather than an assumed planted truth (2.4s)
+  ✓  325 [webkit] › e2e/simulation-workbench.spec.ts:36:1 › noise search accepts a seed, identifies the chosen candidate and shows an inspectable ranking (1.7s)
+  ✓  324 [webkit] › e2e/simulation-workbench.spec.ts:28:1 › factor candidates are editable and changing the market reseals the test (1.8s)
+  ✓  315 [webkit] › e2e/showcase.spec.ts:66:1 › every Lab experiment offers a reset, and the shared reset replays the experiment from its start (5.7s)
+  ✓  329 [webkit] › e2e/simulation-workbench.spec.ts:63:1 › blueprint explorer switches recorded assumptions and exports an explicitly recorded result (730ms)
+  ✓  328 [webkit] › e2e/simulation-workbench.spec.ts:56:1 › order book accepts and cancels a visitor limit order and rejects invalid quantity (948ms)
+  ✓  322 [webkit] › e2e/simulation-workbench.spec.ts:12:1 › market maker computes visitor flow and exposes fill, cash and inventory mechanics (4.5s)
+  ✓  330 [webkit] › e2e/simulation-workbench.spec.ts:69:1 › FatQat recorded explorer exposes the full comparison and selected-row provenance (1.6s)
+  ✓  332 [webkit] › e2e/terminal-refinement.spec.ts:3:1 › Linux text workflow computes a result, preserves files across pages, and downloads it (1.4s)
+  ✓  331 [webkit] › e2e/simulation-workbench.spec.ts:77:1 › inspecting a different recorded row updates its controls and exported measurement together (1.9s)
+  ✓  333 [webkit] › e2e/terminal-refinement.spec.ts:20:1 › manuals are specific, history restores a draft, and exit closes the console (1.3s)
+  ✓  327 [webkit] › e2e/simulation-workbench.spec.ts:50:1 › qubit circuit limit is explicit and undo restores a usable gate button (3.9s)
+  ✓  334 [webkit] › e2e/terminal-refinement.spec.ts:29:1 › the workspace tour is actionable on a narrow phone with reduced motion (1.6s)
+  ✓  336 [webkit] › e2e/terminal-workbench.spec.ts:3:1 › package commands get useful Linux syntax help and never a fake install (1.6s)
+  ✓  335 [webkit] › e2e/terminal-refinement.spec.ts:44:1 › unavailable tab storage is reported while editing and downloading still work (1.9s)
+  ✓  338 [webkit] › e2e/terminal-workbench.spec.ts:55:1 › terminal stays usable on a phone and treats file text as text (1.1s)
+  ✓  339 [webkit] › e2e/terminal-workbench.spec.ts:67:1 › opening another Lab experiment dismisses the console on the same page (1.2s)
+  ✓  326 [webkit] › e2e/simulation-workbench.spec.ts:43:1 › visitors can schedule each writer and observe an actual overwrite or retry (6.7s)
+  ✓  337 [webkit] › e2e/terminal-workbench.spec.ts:26:1 › browser terminal writes and queries scratch files with familiar commands (3.6s)
+  ✓  341 [webkit] › e2e/timing-range.spec.ts:2:43 › candles: extreme valid inputs retain finite log results with an explicit percentage-display boundary (2.8s)
+  ✓  340 [webkit] › e2e/timing-range.spec.ts:2:43 › lookahead: extreme valid inputs retain finite log results with an explicit percentage-display boundary (2.9s)
+  ✓  343 [webkit] › e2e/timing-workbench.spec.ts:19:1 › a delayed timing file import cannot replace newer visitor input (1.8s)
+  ✓  344 [webkit] › e2e/timing-workbench.spec.ts:35:1 › lookahead runs visitor returns and exports the actual delayed decisions (2.0s)
+  ✓  342 [webkit] › e2e/timing-workbench.spec.ts:3:1 › timing workspace imports its downloadable template and refuses oversized or invalid UTF-8 files (2.6s)
+  ✓  345 [webkit] › e2e/timing-workbench.spec.ts:56:1 › timing input errors remove stale results and correct templates can be repaired and reset (2.1s)
+  ✓  346 [webkit] › e2e/timing-workbench.spec.ts:76:1 › candle audit reads supplied availability times and identifies the record to repair (2.3s)
+
+  346 passed (1.9m)
+✅  .lighthouseci/ directory writable
+✅  Configuration file found
+✅  Chrome installation found
+⚠️   GitHub token not set
+Healthcheck passed!
+
+Started a web server on port 62316...
+Running Lighthouse 3 time(s) on http://localhost:62316/
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Running Lighthouse 3 time(s) on http://localhost:62316/projects/ai-quant-research-system/
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Running Lighthouse 3 time(s) on http://localhost:62316/demos/
+Run #1...done.
+Run #2...done.
+Run #3...done.
+Done running Lighthouse!
+
+
+Dumping 9 reports to disk at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/.lighthouseci/reports...
+Done writing reports to disk.
+
+Done running autorun.
+check-cv: OK
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:39877) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:39913) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+(node:39965) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39966) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41939) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41941) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41983) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41989) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42001) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:42014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Checking assertions against 3 URL(s), 9 total run(s)
+
+All results processed!
+PASS 70 (exit 0, 235s)

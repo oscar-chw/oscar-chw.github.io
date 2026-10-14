@@ -1,5 +1,6 @@
 import { h, segmented, selectSegment, button, readout } from "../ui";
 import { RotateCcw } from "lucide";
+import {recordTable} from '../records-editor';
 import dataset from "../../../../sources/fatqat-cuda/portfolio-demo-2026-10-14.json";
 import "./fatqat-bench.css";
 
@@ -10,6 +11,7 @@ const fmt = (n: number) => n >= 100 ? n.toLocaleString("en-US", { maximumFractio
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   let { qubits, output, mode } = DEFAULTS;
+  let compareOpen=false;
   stage.dataset.computation = "recorded";
 
   const result = h("div", { class: "fb-result", "aria-live": "polite" });
@@ -26,6 +28,18 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
       h("span", { class: "fb-value mono" }, `${fmt(median)} ms`, h("small", {}, `IQR ${fmt(bounds[0])}–${fmt(bounds[1])} ms`)));
 
     const sourceLink = h("a", { href: source.url, target: "_blank", rel: "noreferrer" }, `recorded source (${mode}) ↗`);
+    const comparison=recordTable(['mode','output','qubits','CPU median ms','GPU median ms','CPU / GPU'],dataset.rows.map(r=>[r.mode,r.output,r.qubits,r.cpu_median_ms,r.gpu_median_ms,(r.cpu_median_ms/r.gpu_median_ms).toFixed(2)+'×']),'fb-table');
+    comparison.querySelector('thead tr')!.append(h('th',{scope:'col'},'inspect'));
+    comparison.querySelectorAll('tbody tr').forEach((tr,i)=>{
+      const r=dataset.rows[i];tr.setAttribute('data-selected',String(r===row));
+      const pick=button(`Inspect ${r.mode} ${r.output} ${r.qubits}`,()=>{
+        qubits=r.qubits;mode=r.mode as Mode;output=r.output as Output;
+        selectSegment(qubitControl,String(qubits));selectSegment(modeControl,mode);selectSegment(outputControl,output==='observable'?'observable':'full state');
+        draw();result.querySelectorAll<HTMLButtonElement>('.fb-table button')[i]?.focus();
+      });tr.append(h('td',{},pick));
+    });
+    const compare=h('details',{class:'fb-compare',...(compareOpen?{open:''}:{})},h('summary',{},'Compare all recorded rows'),h('p',{class:'fb-note'},'Rows preserve their original mode and output scope. Comparing different source runs does not isolate a mode effect.'),comparison);
+    compare.addEventListener('toggle',()=>{compareOpen=compare.open;});
     result.replaceChildren(
       h("p", { class: "fb-tag mono" }, h("b", {}, "PRECOMPUTED · HISTORICAL"), " recorded warm-call measurements"),
       h("p", { class: "fb-question" }, `For ${qubits} qubits and ${output === "observable" ? "observable output" : "full-state output"}, how do the recorded warm-call medians compare?`),
@@ -43,6 +57,9 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
         h("p", { class: "fb-note" }, "IQR means sample interquartile range, not a confidence interval. Speed does not establish accuracy or whole-program performance."),
         h("a", { href: dataset.documentation_release.readme }, "Pinned method and reproduction instructions ↗")),
       h("p", { class: "fb-source mono" }, sourceLink, ` · ${source.date} · code revision `, h("code", {}, source.measured_code_revision)),
+      compare,
+      h('details',{class:'fb-row'},h('summary',{},'Inspect this recorded summary row'),h('pre',{class:'fb-raw mono','data-lenis-prevent':''},JSON.stringify({row,source},null,2))),
+      h('p',{class:'fb-note'},'Explore the algorithms directly: ',h('a',{href:'#compensated'},'try compensated arithmetic'),' or ',h('a',{href:'#qubits'},'build a small circuit'),'. These browser tools do not reproduce the GPU timing workload.'),
     );
   };
 
@@ -51,8 +68,14 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
   const modeControl = segmented("product mode", ["compensated", "plain"], mode, (v) => { mode = v as Mode; draw(); });
 
   controls.append(qubitControl, outputControl, modeControl,
+    button('Export selected measurement',()=>{
+      const row=dataset.rows.find(r=>r.mode===mode&&r.output===output&&r.qubits===qubits)!,source=dataset.sources.find(s=>s.mode===mode)!;
+      const href=URL.createObjectURL(new Blob([JSON.stringify({recorded:true,row,source,documentation:dataset.documentation_release,computed_ratio:row.cpu_median_ms/row.gpu_median_ms},null,2)+'\n'],{type:'application/json'}));
+      h('a',{href,download:'fatqat-recorded-measurement.json'}).click();setTimeout(()=>URL.revokeObjectURL(href),1000);
+    }),
     button("reset", () => {
       ({ qubits, output, mode } = DEFAULTS);
+      compareOpen=false;
       selectSegment(qubitControl, String(qubits));
       selectSegment(outputControl, "observable");
       selectSegment(modeControl, mode);

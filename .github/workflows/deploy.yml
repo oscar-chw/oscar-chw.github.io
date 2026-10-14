@@ -6,7 +6,6 @@ on:
     workflows: [CI]
     types: [completed]
     branches: [main]
-  workflow_dispatch:
 permissions:
   contents: read
   pages: write
@@ -16,11 +15,19 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.name == 'CI' &&
+      github.event.workflow_run.status == 'completed' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.head_sha != ''
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0, ref: "${{ github.event.workflow_run.head_sha || github.sha }}" }
+        with: { fetch-depth: 0, ref: "${{ github.event.workflow_run.head_sha }}" }
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci

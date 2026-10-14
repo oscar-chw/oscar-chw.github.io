@@ -1,0 +1,182 @@
+[
+  {
+    "id": "lookahead",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-375-lookahead.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-375-candles.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-375-policy.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-375-gate.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-375-timetable.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-1280-lookahead.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-1280-candles.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-1280-policy.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-1280-gate.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/chromium-1280-timetable.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-375-lookahead.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-375-candles.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-375-policy.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-375-gate.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-375-timetable.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-1280-lookahead.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-1280-candles.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-1280-policy.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-1280-gate.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/decision-renders/webkit-1280-timetable.png",
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  }
+]

@@ -1,28 +1,26 @@
-// Concurrent writers on one shared record, SYNTHETIC: each writer reads the record, works, then
-// writes it back plus one. A seeded scheduler interleaves them. "Last write wins" overwrites
-// whatever landed in between, so those updates are lost; "compare-and-swap" commits only if the
-// version it read is still current, and otherwise re-reads and retries, so nothing is lost.
-import { rng } from "./series";
-
-export type Mode = "last write wins" | "compare-and-swap";
-export interface Step { writer: number; kind: "read" | "commit" | "lost" | "retry" }
-export interface Race { expected: number; final: number; lost: number; retries: number; steps: Step[] }
-
-export function race(seed: number, writers: number, each: number, mode: Mode): Race {
-  const r = rng(seed), steps: Step[] = [];
-  let value = 0, version = 0, retries = 0;
-  const left = Array(writers).fill(each);
-  const held: ({ value: number; version: number } | null)[] = Array(writers).fill(null);
-  while (left.some((n, w) => n > 0 || held[w])) {
-    const live = left.map((n, w) => (n > 0 || held[w] ? w : -1)).filter((w) => w >= 0);
-    const w = live[Math.floor(r() * live.length)];
-    const h = held[w];
-    if (!h) { held[w] = { value, version }; steps.push({ writer: w, kind: "read" }); continue; }
-    if (mode === "compare-and-swap" && h.version !== version) {
-      held[w] = null; retries++; steps.push({ writer: w, kind: "retry" }); continue;   // stale: read again
-    }
-    value = h.value + 1; version++; held[w] = null; left[w]--;   // overwrites any commit made since this read
-    steps.push({ writer: w, kind: h.version !== version - 1 ? "lost" : "commit" });
+// A deterministic read/commit state machine, not operating-system threads or private platform code.
+import {rng} from './series';
+export type Mode='last write wins'|'compare-and-swap';
+export interface Step {writer:number;kind:'read'|'commit'|'lost'|'retry';before:number;after:number;versionBefore:number;versionAfter:number;observed:number;observedVersion:number}
+export interface Race {expected:number;final:number;lost:number;retries:number;steps:Step[]}
+export class RaceMachine {
+  value=0;version=0;retries=0;steps:Step[]=[];
+  private held:({value:number;version:number}|null)[];
+  constructor(writers:number,readonly mode:Mode){if(!Number.isInteger(writers)||writers<1||writers>12)throw new Error('Use 1 to 12 writers.');this.held=Array(writers).fill(null);}
+  step(writer:number):Step{
+    if(!Number.isInteger(writer)||writer<0||writer>=this.held.length)throw new Error('Choose an existing writer.');
+    const before=this.value,versionBefore=this.version,held=this.held[writer];let kind:Step['kind'];
+    if(!held){this.held[writer]={value:before,version:versionBefore};kind='read';}
+    else if(this.mode==='compare-and-swap'&&held.version!==versionBefore){this.held[writer]=null;this.retries++;kind='retry';}
+    else{kind=held!.version!==versionBefore?'lost':'commit';this.value=held!.value+1;this.version++;this.held[writer]=null;}
+    const step={writer,kind,before,after:this.value,versionBefore,versionAfter:this.version,observed:held?.value??before,observedVersion:held?.version??versionBefore};this.steps.push(step);return step;
   }
-  return { expected: writers * each, final: value, lost: writers * each - value, retries, steps };
+}
+export function race(seed:number,writers:number,each:number,mode:Mode):Race{
+  const r=rng(seed),machine=new RaceMachine(writers,mode),left=Array(writers).fill(each);
+  while(left.some(n=>n>0)){
+    const live=left.map((n,w)=>n>0?w:-1).filter(w=>w>=0),writer=live[Math.floor(r()*live.length)],step=machine.step(writer);
+    if(step.kind==='commit'||step.kind==='lost')left[writer]--;
+  }
+  return {expected:writers*each,final:machine.value,lost:writers*each-machine.value,retries:machine.retries,steps:machine.steps};
 }

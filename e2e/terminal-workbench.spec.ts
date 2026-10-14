@@ -1,5 +1,28 @@
 import { test, expect } from '@playwright/test';
 
+test('package commands get useful Linux syntax help and never a fake install',async({page})=>{
+  await page.setViewportSize({width:375,height:844});
+  await page.goto('/');await page.keyboard.press('/');
+  const d=page.getByRole('dialog',{name:'Command palette'}),q=d.locator('.pq'),out=d.locator('.po');
+  await q.fill('sudo apt get install');await q.press('Enter');
+  await expect(out).toContainText('sudo apt-get install PACKAGE');
+  await expect(out).toContainText('single command');
+  await q.fill('sudo apt install python3');await q.press('Enter');
+  await expect(out).toContainText('Nothing was installed');
+  await expect(out).toContainText('unavailable in this browser');
+  const visibleGuide=await out.evaluate(el=>{
+    const phrase='sudo apt install PACKAGE',offset=el.textContent!.lastIndexOf(phrase),range=document.createRange();
+    range.setStart(el.firstChild!,offset);range.setEnd(el.firstChild!,offset+phrase.length);
+    const line=range.getBoundingClientRect(),box=el.getBoundingClientRect();
+    return {top:line.top,bottom:line.bottom,viewTop:box.top,viewBottom:box.bottom};
+  });
+  expect(visibleGuide.top).toBeGreaterThanOrEqual(visibleGuide.viewTop);
+  expect(visibleGuide.bottom).toBeLessThanOrEqual(visibleGuide.viewBottom);
+  await d.getByRole('button',{name:'package help',exact:true}).click();
+  await expect(out).toContainText('manpages.debian.org');
+  await q.fill('pwd');await q.press('Enter');await expect(out).toContainText('/home/visitor');
+});
+
 test('browser terminal writes and queries scratch files with familiar commands', async ({ page }) => {
   await page.goto('/projects/qts-research-platform/');
   await page.keyboard.press('/');

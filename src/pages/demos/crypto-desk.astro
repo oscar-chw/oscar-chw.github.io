@@ -42,6 +42,11 @@ const CARDS = [
   </div>
   <p class="rule measure" aria-live="polite" data-testid="stage-rule"><strong>{STAGES[0][0]} {STAGES[0][1]}:</strong> {STAGES[0][2]}</p>
 
+  <section class="recorded-workspace" aria-label="Recorded experiment explorer" data-recorded-explorer>
+    <h2>Explore the recorded evidence</h2>
+    <p>Compare assumptions and controls, inspect the observations that were saved, and export the exact selected source record.</p>
+  </section>
+
   <div class="cards">
     {CARDS.map((c) => (
       <figure class="card" data-testid={`card-${c.id}`}>
@@ -58,6 +63,8 @@ const CARDS = [
 </Demo>
 
 <script>
+  import {mountRecordedExplorer} from '../../components/lab/recorded-explorer';
+  mountRecordedExplorer(document.querySelector<HTMLElement>('[data-recorded-explorer]')!);
   // the stage list is a small tablist: click or arrow keys pick a stage and show its rule
   const tabs = [...document.querySelectorAll<HTMLButtonElement>(".stages .st")];
   const rule = document.querySelector<HTMLElement>("[data-testid=stage-rule]")!;

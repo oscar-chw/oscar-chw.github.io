@@ -1,0 +1,247 @@
+[WebServer] (node:93120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:93150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+
+Running 6 tests using 6 workers
+
+(node:93502) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93503) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93504) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:93500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [chromium] › e2e/music-intent.spec.ts:35:1 › legacy music-on state stays silent after unrelated clicks and keys (5.8s)
+  ✘  3 [chromium] › e2e/music-intent.spec.ts:81:1 › visibility changes neither start muted music nor recreate an explicitly playing frame (5.8s)
+  ✘  6 [chromium] › e2e/music-intent.spec.ts:66:1 › navigation reload and Back require a fresh explicit Play action (6.0s)
+  ✘  5 [chromium] › e2e/music-intent.spec.ts:97:1 › cancelling Play while its module loads prevents late playback (6.1s)
+  ✘  2 [chromium] › e2e/music-intent.spec.ts:50:1 › track and volume preferences persist without starting playback (6.1s)
+  ✘  1 [chromium] › e2e/music-intent.spec.ts:119:1 › a page restored from the back-forward cache does not retain playback intent (6.2s)
+
+
+  1) [chromium] › e2e/music-intent.spec.ts:35:1 › legacy music-on state stays silent after unrelated clicks and keys
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-music-toggle]')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-music-toggle]') with timeout 5000ms
+      - waiting for locator('[data-music-toggle]')
+        14 × locator resolved to <button class="music" type="button" aria-pressed="true" data-music-toggle="" aria-describedby="mus-pop" data-astro-cid-hkbrpulz="" aria-label="Play background music">…</button>
+           - unexpected value "true"
+
+
+       8 | }
+       9 | async function off(page: Page) {
+    > 10 |   await expect(music(page)).toHaveAttribute("aria-pressed", "false");
+         |                             ^
+      11 |   await expect(music(page)).toHaveAttribute("aria-label", "Play background music");
+      12 |   await expect(page.locator(".ytmini")).toHaveCount(0);
+      13 |   await expect(page.locator("html")).not.toHaveAttribute("data-music", "");
+        at off (/Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:10:29)
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:39:9
+
+    Error Context: test-results/music-intent-legacy-music--7d592-r-unrelated-clicks-and-keys-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-legacy-music--7d592-r-unrelated-clicks-and-keys-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-legacy-music--7d592-r-unrelated-clicks-and-keys-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e/music-intent.spec.ts:50:1 › track and volume preferences persist without starting playback
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-music-toggle]')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-music-toggle]') with timeout 5000ms
+      - waiting for locator('[data-music-toggle]')
+        14 × locator resolved to <button class="music" type="button" aria-pressed="true" data-music-toggle="" aria-describedby="mus-pop" data-astro-cid-hkbrpulz="" aria-label="Mute background music">…</button>
+           - unexpected value "true"
+
+
+       8 | }
+       9 | async function off(page: Page) {
+    > 10 |   await expect(music(page)).toHaveAttribute("aria-pressed", "false");
+         |                             ^
+      11 |   await expect(music(page)).toHaveAttribute("aria-label", "Play background music");
+      12 |   await expect(page.locator(".ytmini")).toHaveCount(0);
+      13 |   await expect(page.locator("html")).not.toHaveAttribute("data-music", "");
+        at off (/Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:10:29)
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:55:9
+
+    Error Context: test-results/music-intent-track-and-vol-f3bbe-t-without-starting-playback-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-track-and-vol-f3bbe-t-without-starting-playback-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-track-and-vol-f3bbe-t-without-starting-playback-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e/music-intent.spec.ts:66:1 › navigation reload and Back require a fresh explicit Play action
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.ytmini')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.ytmini') with timeout 5000ms
+      - waiting for locator('.ytmini')
+
+
+      67 |   await page.goto("/about/"); await ready(page);
+      68 |   await music(page).click();
+    > 69 |   await expect(page.locator(".ytmini")).toBeVisible();
+         |                                         ^
+      70 |   await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Work", exact: true }).click();
+      71 |   await ready(page); await off(page);
+      72 |   await page.keyboard.press("Shift"); await off(page);
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:69:41
+
+    Error Context: test-results/music-intent-navigation-re-1ad4e--fresh-explicit-Play-action-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-navigation-re-1ad4e--fresh-explicit-Play-action-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-navigation-re-1ad4e--fresh-explicit-Play-action-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › e2e/music-intent.spec.ts:81:1 › visibility changes neither start muted music nor recreate an explicitly playing frame
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-music-toggle]')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-music-toggle]') with timeout 5000ms
+      - waiting for locator('[data-music-toggle]')
+        14 × locator resolved to <button class="music" type="button" aria-pressed="true" data-music-toggle="" aria-describedby="mus-pop" data-astro-cid-hkbrpulz="" aria-label="Play background music">…</button>
+           - unexpected value "true"
+
+
+       8 | }
+       9 | async function off(page: Page) {
+    > 10 |   await expect(music(page)).toHaveAttribute("aria-pressed", "false");
+         |                             ^
+      11 |   await expect(music(page)).toHaveAttribute("aria-label", "Play background music");
+      12 |   await expect(page.locator(".ytmini")).toHaveCount(0);
+      13 |   await expect(page.locator("html")).not.toHaveAttribute("data-music", "");
+        at off (/Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:10:29)
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:84:9
+
+    Error Context: test-results/music-intent-visibility-ch-be981-an-explicitly-playing-frame-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-visibility-ch-be981-an-explicitly-playing-frame-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-visibility-ch-be981-an-explicitly-playing-frame-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › e2e/music-intent.spec.ts:97:1 › cancelling Play while its module loads prevents late playback
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-music-toggle]')
+    Expected: "Mute background music"
+    Received: "Play background music"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-music-toggle]') with timeout 5000ms
+      - waiting for locator('[data-music-toggle]')
+        14 × locator resolved to <button class="music" type="button" data-music-toggle="" aria-pressed="false" aria-describedby="mus-pop" data-astro-cid-hkbrpulz="" aria-label="Play background music">…</button>
+           - unexpected value "Play background music"
+
+
+      109 |   try {
+      110 |     await music(page).click(); await requested;
+    > 111 |     await expect(music(page)).toHaveAttribute("aria-label", "Mute background music");
+          |                               ^
+      112 |     await music(page).click(); await off(page);
+      113 |   } finally { release(); }
+      114 |   await page.waitForTimeout(600); await off(page);
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:111:31
+
+    Error Context: test-results/music-intent-cancelling-Pl-1a000-oads-prevents-late-playback-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-cancelling-Pl-1a000-oads-prevents-late-playback-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-cancelling-Pl-1a000-oads-prevents-late-playback-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › e2e/music-intent.spec.ts:119:1 › a page restored from the back-forward cache does not retain playback intent
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-music-toggle]')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-music-toggle]') with timeout 5000ms
+      - waiting for locator('[data-music-toggle]')
+        14 × locator resolved to <button class="music" type="button" aria-pressed="true" data-music-toggle="" aria-describedby="mus-pop" data-astro-cid-hkbrpulz="" aria-label="Mute background music">…</button>
+           - unexpected value "true"
+
+
+       8 | }
+       9 | async function off(page: Page) {
+    > 10 |   await expect(music(page)).toHaveAttribute("aria-pressed", "false");
+         |                             ^
+      11 |   await expect(music(page)).toHaveAttribute("aria-label", "Play background music");
+      12 |   await expect(page.locator(".ytmini")).toHaveCount(0);
+      13 |   await expect(page.locator("html")).not.toHaveAttribute("data-music", "");
+        at off (/Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:10:29)
+        at /Users/oscarmoon/Desktop/github-portfolio/oscar-chw.github.io/e2e/music-intent.spec.ts:128:9
+
+    Error Context: test-results/music-intent-a-page-restor-466e2--not-retain-playback-intent-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/music-intent-a-page-restor-466e2--not-retain-playback-intent-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/music-intent-a-page-restor-466e2--not-retain-playback-intent-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [chromium] › e2e/music-intent.spec.ts:35:1 › legacy music-on state stays silent after unrelated clicks and keys
+    [chromium] › e2e/music-intent.spec.ts:50:1 › track and volume preferences persist without starting playback
+    [chromium] › e2e/music-intent.spec.ts:66:1 › navigation reload and Back require a fresh explicit Play action
+    [chromium] › e2e/music-intent.spec.ts:81:1 › visibility changes neither start muted music nor recreate an explicitly playing frame
+    [chromium] › e2e/music-intent.spec.ts:97:1 › cancelling Play while its module loads prevents late playback
+    [chromium] › e2e/music-intent.spec.ts:119:1 › a page restored from the back-forward cache does not retain playback intent
