@@ -79,9 +79,19 @@ try {
         await page.goto(`${base}/__profile__/plain`);
         return { ...await measure(page, '#button'), finalCount: await page.locator('#count').innerText() };
       });
-      for (const [name, options] of [['qubits-traced', {}], ['qubits-untraced', { trace: false }], ['qubits-reduced-motion', { reduced: true }]]) {
+      const variants = [['qubits-traced', {}], ['qubits-untraced', { trace: false }], ['qubits-reduced-motion', { reduced: true }]];
+      // These styles are applied only by this diagnostic browser to isolate rendering cost.
+      // None is shipped in the site or used by the unchanged acceptance tests.
+      if (engine === 'webkit') variants.push(
+        ['qubits-no-backdrop', { css: '.glass { backdrop-filter:none!important; -webkit-backdrop-filter:none!important; }' }],
+        ['qubits-no-entrance', { css: '.exp.enter,.exp.enter .eh h2,.exp.enter .eh .path b,.exp.enter .hud::before { animation:none!important; }' }],
+        ['qubits-no-cursor', { css: '.cur-ring,.cur-dot { display:none!important; }' }],
+        ['qubits-composited-bar', { css: '.bar.glass { transform:translateZ(0); will-change:transform; }' }],
+      );
+      for (const [name, options] of variants) {
         await scenario(browser, engine, name, options, async page => {
           await page.goto(`${base}/demos/#qubits`);
+          if (options.css) await page.addStyleTag({ content: options.css });
           const timing = await measure(page, '[data-panel="qubits"] button:text-is("H")');
           return { ...timing, finalCount: await page.locator('.qubit-status').innerText() };
         });
