@@ -4,6 +4,7 @@ const HOME = '/home/visitor', LIMIT = 65536;
 const fail = (s) => { throw new Error(s); };
 const lines = (s) => s ? s.replace(/\n$/, '').split('\n') : [];
 const output = (xs) => xs.length ? xs.join('\n') + '\n' : '';
+const APT_GUIDE = `APT syntax guide · for Debian/Ubuntu Linux\n\n  sudo apt install PACKAGE\n  sudo apt-get install PACKAGE\n  apt search QUERY\n  apt show PACKAGE\n\napt-get is a single command, including the hyphen. "apt get" is not its spelling.\nPackage management and elevated privileges are unavailable in this browser. Nothing was installed.\nUse help for executable browser commands, nano notes.txt to edit a file, or open data-workbench.\n\nReferences:\nhttps://manpages.debian.org/trixie/apt/apt.8.en.html\nhttps://manpages.debian.org/trixie/apt/apt-get.8.en.html\n`;
 
 function tokens(text) {
   if (text.length > 4096) fail('Command exceeds the 4096 character limit.');
@@ -86,7 +87,18 @@ export class WorkspaceShell {
     const usage=(s)=>fail(`usage: ${s}`);
     const exists=(p)=>this.files.has(p)||this.dirs.has(p);
     const source=(paths)=>paths.length?paths.map(p=>this.read(p)).join(''):input;
-    if(cmd==='help'||cmd==='man')return `Browser workspace · commands run in your browser, never your computer’s shell\n${COMMANDS.join(' · ')}\nnano / edit · history · clear · open · guard\n\nTry:\n  cat /README.md\n  ls /projects\n  cat /lab/versions.csv | head -n 4\n  nano notes.txt\n  echo "my idea" > notes.txt\n  cat notes.txt | wc -w\n  mkdir -p research/drafts\n  open data-workbench /lab/versions.csv\n\nQuotes, |, > and >> work. grep matches literal text (-i/-v/-n).\nNo expansions, network, package installs or host programs.\nSource paths are read-only. Scratch files under ~ and /tmp last until this page closes.\nUse open NAME for pages; guard COMMAND for a real policy check.\n`;
+    if((cmd==='man'||cmd==='help')&&['apt','apt-get','packages'].includes(args[0]))return APT_GUIDE;
+    if(cmd==='apt'||cmd==='apt-get'||cmd==='sudo') {
+      const [name,...rest]=cmd==='sudo'?args:[cmd,...args];
+      if(name==='apt'||name==='apt-get') {
+        const words=rest.filter(s=>!s.startsWith('-'));
+        const wrong=name==='apt'&&words[0]==='get';
+        const missing=words[0]==='install'&&words.length===1;
+        fail((wrong?'Syntax error: apt-get is a single command; use apt install or apt-get install.\n':missing?'Syntax error: install requires a package name.\n':'')+APT_GUIDE);
+      }
+      fail('sudo: elevated privileges are unavailable in this browser. No host command ran. Use supported commands without sudo; help lists them.');
+    }
+    if(cmd==='help'||cmd==='man')return `Browser workspace · commands run in your browser, never your computer’s shell\n${COMMANDS.join(' · ')}\nnano / edit · history · clear · open · guard\n\nTry:\n  cat /README.md\n  ls /projects\n  cat /lab/versions.csv | head -n 4\n  nano notes.txt\n  echo "my idea" > notes.txt\n  cat notes.txt | wc -w\n  mkdir -p research/drafts\n  open data-workbench /lab/versions.csv\n\nQuotes, |, > and >> work. grep matches literal text (-i/-v/-n).\nNo expansions, network, package installs or host programs.\nSource paths are read-only. Scratch files under ~ and /tmp last until this page closes.\nUse open NAME for pages; guard COMMAND for a real policy check.\nPackage syntax and limitations: man apt (or help packages).\n`;
     if(cmd==='pwd')return this.cwd+'\n';
     if(cmd==='cd'){if(args.length>1)usage('cd [directory]');const p=args[0]==='-'?this.previous:this.path(args[0]||HOME);if(!this.dirs.has(p))fail(`cd: ${args[0]}: No such directory`);this.previous=this.cwd;this.cwd=p;return '';}
     if(cmd==='date')return new Date().toISOString()+'\n';

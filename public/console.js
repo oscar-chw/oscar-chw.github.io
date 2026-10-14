@@ -12,7 +12,7 @@ for (const [title, href] of JSON.parse(d.dataset.experiments || "[]")) {
 }
 const items = [...d.querySelectorAll("li")], list = d.querySelector(".pl");
 const prompt = d.querySelector(".prompt"), info = d.querySelector(".workspace-state");
-const LOCAL = new Set("help man pwd ls tree cd cat head tail grep sort uniq wc echo mkdir touch cp mv rm rmdir find date uname which".split(" "));
+const LOCAL = new Set("apt apt-get sudo help man pwd ls tree cd cat head tail grep sort uniq wc echo mkdir touch cp mv rm rmdir find date uname which".split(" "));
 let workspace, loading, attempts = 0, transcript = [], cancelledThrough = 0;
 const workspaceReady = () => loading ??= (async () => {
   const moduleURL = new URL("terminal/shell.js", new URL(d.dataset.js, location.href));
@@ -44,6 +44,14 @@ const say = (t, replace = false) => {
   out.scrollTop = out.scrollHeight;
 };
 const reflectPath = () => { if (workspace) { const cwd = workspace.cwd.replace(/^\/home\/visitor(?=\/|$)/, "~"); prompt.textContent = `${cwd}$`; prompt.title = workspace.cwd; } };
+// Manuals start at the current response, not at its last line below the useful syntax.
+const revealEntry = (index) => {
+  const node=out.firstChild;
+  if(!node||index<0)return;
+  const offset=index?transcript.slice(0,index).join("\n\n").length+2:0;
+  const range=document.createRange();range.setStart(node,offset);range.setEnd(node,Math.min(offset+1,node.textContent.length));
+  out.scrollTop+=range.getBoundingClientRect().top-out.getBoundingClientRect().top-parseFloat(getComputedStyle(out).paddingTop);
+};
 const executeLocal = (raw, n) => {
   say(`$ ${raw}\nloading browser workspace…`);
   workspaceReady().then(sh => {
@@ -53,7 +61,11 @@ const executeLocal = (raw, n) => {
     const pending = transcript.indexOf(`$ ${raw}\nloading browser workspace…`);
     if (pending >= 0) transcript[pending] = `$ ${raw}\n${result.output || "done"}`;
     out.textContent = transcript.join("\n\n");
-    if (n === asked) { out.hidden = false; list.hidden = true; out.scrollTop = out.scrollHeight; }
+    if (n === asked) {
+      out.hidden = false; list.hidden = true;
+      if (/^(?:(?:sudo\s+)?apt(?:-get)?(?:\s|$)|(?:man|help)\s+(?:apt(?:-get)?|packages)(?:\s|$))/.test(raw)) revealEntry(pending);
+      else out.scrollTop = out.scrollHeight;
+    }
   }, () => { if (n === asked) say(`$ ${raw}\nCould not load the workspace files. Run the command again to retry; page search still works.`, true); });
 };
 const editFile = (name, n) => {
@@ -122,7 +134,6 @@ const run = (raw) => {
     42: "the harbour's random seed. now you know.",
   };
   if (s === "sudo hire oscar") { say("[sudo] password for recruiter: ********\naccess granted. opening mail…"); setTimeout(() => mail("Let's talk"), 900); return true; }
-  if (c === "sudo") { say("recruiter is not in the sudoers file. try: sudo hire oscar"); return true; }
   if (c === "guard") { if (arg) judge(input.slice(command.length).trim()); else say("usage: guard COMMAND · checks policy without running a host command"); return true; }
   if (c === "rm" && /(?:^|\s)-[a-z]*r[a-z]*(?:\s|$)/i.test(input)) { judge(input, true); return true; }
   if (c === "cd" && arg && !arg.includes("/") && arg !== "." && arg !== ".." && arg !== "~" && arg !== "-" && !workspace?.dirs.has(workspace.path(arg))) {
@@ -167,7 +178,7 @@ try { const stored = JSON.parse(sessionStorage.getItem("hist:console") ?? "[]");
 let hpos = hist.length;
 const remember = (cmd) => { if (cmd && hist.at(-1) !== cmd) hist.push(cmd); hpos = hist.length; try { sessionStorage.setItem("hist:console", JSON.stringify(hist.slice(-50))); } catch { /* ignore */ } };
 const setq = (t) => { q.value = t; filter(); q.setSelectionRange(t.length, t.length); };
-const WORDS = [...LOCAL, "nano ", "edit ", "guard ", "open ", "whoami", "cv", "email", "theme", "clear", "history", "sudo hire oscar"];
+const WORDS = [...LOCAL, "nano ", "edit ", "guard ", "open ", "whoami", "cv", "email", "theme", "clear", "history", "man apt", "sudo apt install ", "sudo apt-get install ", "sudo hire oscar"];
 q.addEventListener("input", () => { filter(); hpos = hist.length; });
 q.addEventListener("keydown", (e) => {
   const v = vis(), ctrl = e.ctrlKey && !e.metaKey && !e.altKey, k = e.key.toLowerCase();

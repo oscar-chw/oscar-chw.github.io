@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { loadPyodide } from 'pyodide';
 import { bindFeed, MODULES, COMMIT } from '../../public/lab/feed-runtime.js';
+import {FEED_EXAMPLES} from './feed-examples';
 
 const root = new URL('../../public/lab/feed-gate/',import.meta.url);
 const text = (name:string) => readFileSync(new URL(name,root),'utf8');
@@ -41,4 +42,12 @@ test('the static preview equals a fresh execution of the same pinned Python',()=
   expect(run(preview.broken_input).message).toBe(preview.error);
   const out=run(preview.corrected_input);
   expect(out.accepted).toBe(true);expect(out.rows).toEqual(preview.rows);expect(out.report).toEqual(preview.report);
+});
+test('exploration fixtures expose actual grid failure and preserved gap states',()=>{
+  const price=FEED_EXAMPLES.find(e=>e.name==='Off-grid price')!;
+  expect(run(price.input).accepted).toBe(false);
+  expect(run(price.input.replace('0.49001','0.49')).accepted).toBe(true);
+  const gap=run(FEED_EXAMPLES.find(e=>e.name==='Recording gap')!.input);
+  expect(gap.accepted).toBe(true);expect(gap.rows.at(-1).status).toBe('GAP');
+  expect(gap.rows.at(-1).bid_tick).toBeNull();
 });

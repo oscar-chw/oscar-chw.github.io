@@ -1,6 +1,76 @@
 import { test, expect } from '@playwright/test';
 import { localPyodide } from './pyodide';
 
+test('exploration cases run on editable input and a downloaded correct template can be imported',async({page})=>{
+  await localPyodide(page);await page.goto('/demos/#gatedbuild');
+  const p=page.locator('[data-panel="gatedbuild"]'),input=p.getByRole('textbox',{name:'Archive JSON lines'});
+  await p.getByRole('radio',{name:'Off-grid price',exact:true}).click();
+  await expect(input).toHaveValue(/0\.49001/);
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-verdict')).toContainText('Rejected');
+  await expect(p.locator('.fg-result')).toContainText(/price|grid/);
+  await input.fill((await input.inputValue()).replace('0.49001','0.49'));
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-verdict')).toContainText('Accepted');
+  await p.getByRole('radio',{name:'Recording gap',exact:true}).click();
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-output tbody')).toContainText('GAP');
+  await expect(p.locator('.fg-book')).toContainText('No usable book');
+  const saved=page.waitForEvent('download');
+  await p.getByRole('button',{name:'Download correct template',exact:true}).click();
+  const download=await saved,stream=await download.createReadStream(),chunks:Buffer[]=[];
+  for await(const c of stream!)chunks.push(c);
+  const bytes=Buffer.concat(chunks);expect(bytes.toString()).toContain('"available_ms":22');
+  await p.getByLabel('Import archive file').setInputFiles({name:'my-archive.jsonl',mimeType:'application/json',buffer:bytes});
+  await expect(input).toHaveValue(bytes.toString());
+  await expect(p.locator('.fg-verdict')).toContainText('Not run');
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-verdict')).toContainText('Accepted');
+  await expect(p.locator('.fg-output tbody tr')).toHaveCount(2);
+  await p.getByRole('button',{name:'start over',exact:true}).click();
+  await expect(input).toHaveValue(/"available_ms":19/);
+});
+
+test('an oversized local import invalidates the old result without replacing the visible input',async({page})=>{
+  await localPyodide(page);
+  await page.goto('/demos/#gatedbuild');
+  const p=page.locator('[data-panel="gatedbuild"]'),input=p.getByRole('textbox',{name:'Archive JSON lines'});
+  await p.getByRole('radio',{name:'received before available — correct',exact:true}).click();
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-verdict')).toContainText('Accepted');
+  const before=await input.inputValue();
+  await p.getByLabel('Import archive file').setInputFiles({name:'too-big.jsonl',mimeType:'application/json',buffer:Buffer.alloc(65537,65)});
+  await expect(p.locator('.fg-import-status')).toContainText('64 KB');
+  await expect(input).toHaveValue(before);
+  await expect(p.getByRole('button',{name:'Download run receipt'})).toBeDisabled();
+  await expect(p.locator('.fg-verdict')).toContainText('Not run');
+  await p.getByLabel('Import archive file').setInputFiles({name:'invalid-utf8.jsonl',mimeType:'application/json',buffer:Buffer.from([0xc3,0x28])});
+  await expect(p.locator('.fg-import-status')).toContainText('UTF-8');
+  await expect(input).toHaveValue(before);
+});
+
+test('a local file that finishes reading late cannot overwrite a newer edit',async({page})=>{
+  await page.goto('/demos/#gatedbuild');
+  const p=page.locator('[data-panel="gatedbuild"]'),input=p.getByRole('textbox',{name:'Archive JSON lines'});
+  const original=await input.inputValue();
+  await page.evaluate(()=>{
+    const state=window as unknown as {releaseImport:()=>void;pendingImport:Promise<ArrayBuffer>};
+    const read=File.prototype.arrayBuffer;
+    const gate=new Promise<void>(resolve=>{state.releaseImport=resolve;});
+    File.prototype.arrayBuffer=function(){state.pendingImport=gate.then(()=>read.call(this));return state.pendingImport;};
+  });
+  await p.getByLabel('Import archive file').setInputFiles({name:'slow.jsonl',mimeType:'application/json',buffer:Buffer.from(original)});
+  await expect(p.locator('.fg-import-status')).toContainText('Reading');
+  const edited=original.replace('"available_ms":19','"available_ms":23');await input.fill(edited);
+  await page.evaluate(async()=>{
+    const state=window as unknown as {releaseImport:()=>void;pendingImport:Promise<ArrayBuffer>};
+    state.releaseImport();await state.pendingImport;
+  });
+  await expect(input).toHaveValue(edited);
+  await expect(p.locator('.fg-verdict')).toContainText('Not run');
+  await expect(p.locator('.fg-import-status')).not.toContainText('Loaded');
+});
+
 test('feed gate executes Python on the edited bytes, explains rejection and exports the corrected result', async ({page}) => {
   await localPyodide(page);
   await page.goto('/demos/#gatedbuild');

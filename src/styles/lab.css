@@ -148,6 +148,12 @@
 .fg-kicker { color: var(--accent); }
 .fg-input { display: block; width: 100%; min-height: 190px; resize: vertical; box-sizing: border-box; padding: 14px; margin-top: 8px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--bg); color: var(--ink); font-size: 0.875rem; line-height: 1.6; overflow-wrap: anywhere; }
 .fg-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.fg-import { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; max-width: 100%; font-size: 0.875rem; }
+.fg-import input { min-width: 0; max-width: 100%; color: var(--muted); font: inherit; }
+.fg-import input::file-selector-button { min-height: 44px; padding: 8px 14px; margin-right: 8px; font: inherit; color: var(--ink); background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 999px; cursor: pointer; }
+.fg-import-status { flex-basis: 100%; margin: 0; color: var(--amber); font-size: 0.875rem; }
+.fg-import-status:empty { display: none; }
+.fg-input-state { color: var(--muted); font-size: 0.875rem; }
 .fg-clock { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line-2); padding: 14px 0; gap: 10px; }
 .fg-clock div { display: grid; gap: 5px; }
 .fg-clock span { color: var(--muted); font-size: 0.875rem; }

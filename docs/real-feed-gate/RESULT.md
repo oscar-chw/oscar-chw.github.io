@@ -1,5 +1,9 @@
 # Checked local candidate — 14 October 2026
 
+This records local commit `bbc9ab389abd3e85ac643dde019f4d0ae2f2d3df`.
+See [the exploration follow-up](EXPLORATION-RESULT.md) for the newer input/import
+and terminal work and its separate verification manifest.
+
 Preview: `http://localhost:4340/demos/#gatedbuild` and the engineering section of
 `http://localhost:4340/projects/ai-quant-research-system/`.
 

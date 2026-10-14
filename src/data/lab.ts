@@ -8,7 +8,7 @@ const SITE_SRC = "https://github.com/oscar-chw/oscar-chw.github.io";
 
 export const EXPERIMENTS: Experiment[] = [
   { id: "gatedbuild", folder: "ai-quant-research", file: "feed-admission.py", title: "Would you trust this feed?", kind: "inline", project: "ai-quant-research-system#engineering", code: "https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/replay/admission.py",
-    blurb: "A timestamp says the data was available before it arrived. Inspect the records, execute the project's Python validator, then correct the input and compare the actual returned book.",
+    blurb: "Edit a feed archive, introduce a clock or price error, or declare a recording gap. Execute the project's Python validator and inspect why it rejects a record or preserves an unavailable interval. Start from a correct template or import your own input.",
     data: "REAL Python execution in your browser, using unmodified public source. SYNTHETIC editable test records; supplied clocks are not authenticated." },
   { id: "guard", folder: "ai-quant-research", file: "guard.sh", title: "Command guard", kind: "inline", project: "ai-quant-research-system#agent-harness", code: "https://github.com/oscar-chw/agent-harness",
     blurb: "Type a shell command. The guard parses it like a shell would and blocks the destructive shapes; anything it cannot parse is blocked too, because it fails closed.",
