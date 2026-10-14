@@ -590,5 +590,5 @@
       "receipt": "docs/all-demo-audit/COMPILER-DISPOSITION.md"
     }
   ],
-  "final_receipt": "docs/shadow-performance/evidence.json"
+  "final_receipt": "docs/browser-compatibility/evidence.json"
 }

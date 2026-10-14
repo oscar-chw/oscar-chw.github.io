@@ -1,0 +1,53 @@
+{
+  "application": "7a4f8e96e1c3b33649b369556bd42ca7506c975e",
+  "run": 38638529573,
+  "diagnostic_head": "13e3d15da8e97b54c0b85dd8216f54db3598f232",
+  "sources": [
+    "https://github.com/microsoft/playwright/issues/42637",
+    "https://github.com/WebKit/WebKit/pull/73621",
+    "https://github.com/microsoft/playwright/pull/42748"
+  ],
+  "control": {
+    "playwright": "1.63.0",
+    "browser": "26.6",
+    "probe_crashed": true,
+    "probe_cycles": 23,
+    "probe_error": "Error: page.evaluate: Target page, context or browser has been closed",
+    "expected": 20,
+    "flaky": 0,
+    "unexpected": 0,
+    "skipped": 0,
+    "hashes": {
+      "source.json": "5de26bb81582ae958fa5ef5de16bfbb7048eb83576919cc317b8c114b40b157f",
+      "filter-probe.json": "b27c1c5b206de5d40726fa6a5832d7c6f397a437c22d415bc5157feb896d5253",
+      "report.json": "f5558b0cda9a576ffd5f6a2af30a172a96e3db92c9700ac5bc38eb3e5a581c14",
+      "filter-protocol.log": "80d83facbe17312b0b45a33f0a484daa7bc368c9cee59284741e73cfb9a6be34",
+      "browser-stderr.log": "9b7edb5deb6a86188db7fde0d2ee9086fc323ac130da2c34dcec2f9a5464ba86"
+    },
+    "crash_protocol_lines": [
+      "2026-10-14T21:15:28.239Z pw:protocol \u25c0 RECV {\"method\":\"Target.targetDestroyed\",\"params\":{\"targetId\":\"page-6\",\"crashed\":true},\"browserContextId\":\"8000000000000002\",\"pageProxyId\":\"5\"}"
+    ]
+  },
+  "patched": {
+    "playwright": "1.64.1",
+    "browser": "27.2",
+    "probe_crashed": false,
+    "probe_cycles": 100,
+    "probe_error": null,
+    "expected": 20,
+    "flaky": 0,
+    "unexpected": 0,
+    "skipped": 0,
+    "hashes": {
+      "source.json": "5de26bb81582ae958fa5ef5de16bfbb7048eb83576919cc317b8c114b40b157f",
+      "filter-probe.json": "819127f2be4fb5cfb1a6d7e60585a9beea15986ad020600ada2af524aceaba27",
+      "report.json": "60868e828cefa431b5eee0fe3cfc24c6c31b0d87d095bf0fdb40e6946af3c43d",
+      "filter-protocol.log": "d7d5e309281f47d099cd0521cceeaa9d333f6360008fb36710c0445ea22dc857",
+      "browser-stderr.log": "cd6e01c8a18408eb3eea0e287ea7f57ae1b10c355825634910645447f362763c"
+    },
+    "crash_protocol_lines": [
+      "2026-10-14T21:15:39.637Z pw:protocol \u25c0 RECV {\"method\":\"Target.targetDestroyed\",\"params\":{\"targetId\":\"page-6\",\"crashed\":false},\"browserContextId\":\"8000000000000002\",\"pageProxyId\":\"5\"}"
+    ]
+  },
+  "limit": "Both browsers passed the20original timetable repetitions; the isolated upstream control establishes a defect in installedWebKit, but does not prove every historical target closure had that cause."
+}
