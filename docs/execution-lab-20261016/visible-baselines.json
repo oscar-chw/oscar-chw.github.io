@@ -1,0 +1,18 @@
+[
+  {
+    "name": "public",
+    "base": "https://oscar-chw.github.io",
+    "build": "14591ed867c5",
+    "customArithmetic": "0.43750000000000000",
+    "editableArchive": 0,
+    "feedBlurb": "The centrepiece build's rule: a task is done when its gate passes, not when an agent says so. Run the gates in order, plant a bug in task 4 and watch its gate send it back with evidence while the review waits."
+  },
+  {
+    "name": "baseline-local",
+    "base": "http://localhost:4321",
+    "build": "2764c8f37224",
+    "customArithmetic": "0.43750000000000000",
+    "editableArchive": 1,
+    "feedBlurb": "Edit a feed archive, introduce a clock or price error, or declare a recording gap. Execute the project's Python validator and inspect why it rejects a record or preserves an unavailable interval. Start from a correct template or import your own input."
+  }
+]

@@ -2,8 +2,9 @@ import { chain, ready, runGate, claimDone } from '../../../lib/lab/gatedbuild';
 import { h, segmented, selectSegment, button } from '../ui';
 import { Play, Download, RotateCcw } from 'lucide';
 import {FEED_EXAMPLES, BROKEN_CLOCK, CORRECT_TEMPLATE} from '../../../lib/feed-examples';
+import {feedReplay,type AdmittedRow} from '../feed-replay';
 
-type Row = {sequence:number; event_ms:number|null; received_ms:number; available_ms:number; status:string; bid_tick:number|null; ask_tick:number|null; bid_size:number|null; ask_size:number|null};
+type Row = AdmittedRow;
 type Result = {accepted:boolean; message?:string; errorType?:string; input_sha256:string; rows?:Row[]; report?:{records:number; source_sha256:string; exchange_completeness_verified:boolean}};
 type Engine = {run:(s:string)=>Result; source:{commit:string; files:Record<string,{sha256:string;url:string}>}};
 const SOURCE='https://github.com/oscar-chw/agentic-quant-research/blob/f8c48256e12b96523807ba8f59c04b798517e04e/platform/packages/marketdata/';
@@ -92,6 +93,7 @@ export function mount(stage:HTMLElement,controls:HTMLElement) {
         :out.message?.includes('grid')?'A price or size cannot be represented on the validator’s exact grid. Inspect the decimal strings in the input. In the off-grid example, changing 0.49001 to 0.49 repairs the price; the rerun, not the example selector, decides the result.'
         :'The Python validator refused these bytes. Inspect its exact reason and the raw input; nothing was silently skipped.';
     } else {
+      output.append(feedReplay(out.rows??[],text));
       explanation.textContent=unavailable?'The declared archive is valid, but unavailable rows are preserved. A disconnect cannot be filled with a guessed book. Check each row’s state before using it in research; acceptance does not mean every interval has data.':'These rows were computed by the pinned Python code. An update replaces the size at its price; it does not add another order. Acceptance validates this archive format and its declared clocks, not the truth of those clocks or a trading strategy.';
       const last=out.rows?.at(-1);
       if(last)output.append(h('p',{class:'fg-book mono'},last.status==='AVAILABLE'
@@ -156,7 +158,7 @@ export function mount(stage:HTMLElement,controls:HTMLElement) {
     } finally {if(token===revision){busy=false;draw();if(!only)verdict.scrollIntoView({block:'start',behavior:'instant'});}}
   }
   const runAll=button('Run all checks',()=>void execute(),'primary',Play);
-  input.addEventListener('input',()=>{inputState.textContent='Edited input · run checks on these bytes';importStatus.textContent='';invalidate();});
+  input.addEventListener('input',()=>{inputState.textContent='Edited input · run checks on these bytes';title.textContent='Your edited archive.';hint.textContent='The starting example is only a template. Run admission on these visible bytes, inspect the returned states and repair any error reported by Python.';importStatus.textContent='';invalidate();});
   const file=h('input',{type:'file',accept:'.jsonl,.ndjson,.json,text/plain,application/json','aria-label':'Import archive file'});
   file.addEventListener('change',async()=>{
     const chosen=file.files?.[0];if(!chosen)return;
