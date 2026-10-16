@@ -1,0 +1,11 @@
+.s3d-wrap .s3d { touch-action: pan-y pinch-zoom; }
+.s3d-wrap .s3d[data-touch-rotation="true"] { touch-action: none; }
+.s3d-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
+.s3d-controls [aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.s3d-probe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.s3d-probe .ctl { min-width: 0; margin: 0; }
+.s3d-probe input { width: 100%; min-width: 0; }
+.s3d-probe output { overflow-wrap: anywhere; }
+.s3d-readout { border-left: 2px solid var(--accent); padding: 10px 12px; background: color-mix(in srgb, var(--accent) 5%, transparent); font-size: 0.875rem; line-height: 1.6; overflow-wrap: anywhere; }
+.s3d-help { margin-bottom: 0; }
+@media (max-width: 420px) { .s3d-probe { grid-template-columns: 1fr; } }

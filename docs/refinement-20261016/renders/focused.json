@@ -1,0 +1,62 @@
+[
+  {
+    "engine": "chromium",
+    "width": 320,
+    "height": 740,
+    "theme": "dark",
+    "id": "options",
+    "shot": "docs/refinement-20261016/renders/chromium-320-dark-options-focused.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "height": 900,
+    "theme": "light",
+    "id": "options",
+    "shot": "docs/refinement-20261016/renders/chromium-1280-light-options-focused.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1024,
+    "height": 540,
+    "theme": "dark",
+    "id": "gatedbuild",
+    "shot": "docs/refinement-20261016/renders/chromium-1024-dark-gatedbuild-focused.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 320,
+    "height": 740,
+    "theme": "dark",
+    "id": "options",
+    "shot": "docs/refinement-20261016/renders/webkit-320-dark-options-focused.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "height": 900,
+    "theme": "light",
+    "id": "options",
+    "shot": "docs/refinement-20261016/renders/webkit-1280-light-options-focused.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1024,
+    "height": 540,
+    "theme": "dark",
+    "id": "gatedbuild",
+    "shot": "docs/refinement-20261016/renders/webkit-1024-dark-gatedbuild-focused.png",
+    "overflow": 0,
+    "errors": []
+  }
+]

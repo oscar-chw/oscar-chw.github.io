@@ -1,0 +1,41 @@
+[WebServer] (node:46979) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:47011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:47019) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/surface-interaction.spec.ts:68:1 › a cancelled pointer gesture cannot continue rotating the surface (411ms)
+
+
+  1) [chromium] › e2e/surface-interaction.spec.ts:68:1 › a cancelled pointer gesture cannot continue rotating the surface
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "8ebc1efa0824cae17b6d370e4116554e476a94b3fab78549ee74761e0420c520"
+    Received: "3cc038b2b55748df64a490441e814a198892e27244c4e94ff5a4327f2058d300"
+
+      82 |     // The empty plot margin has no point to highlight; only a stale drag could change its pose.
+      83 |     await page.mouse.move(box.x + 2, box.y + 2);
+    > 84 |     expect(await pixels(page)).toBe(cancelled);
+         |                                ^
+      85 |   } finally { await page.mouse.up(); }
+      86 | });
+      87 |
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:84:32
+
+    Error Context: test-results/surface-interaction-a-canc-923c1-ntinue-rotating-the-surface-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-a-canc-923c1-ntinue-rotating-the-surface-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-a-canc-923c1-ntinue-rotating-the-surface-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/surface-interaction.spec.ts:68:1 › a cancelled pointer gesture cannot continue rotating the surface

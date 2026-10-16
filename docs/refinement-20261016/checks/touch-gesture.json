@@ -1,0 +1,26 @@
+{
+  "engine": "Chromium CDP touch emulation; physical phone not tested",
+  "results": [
+    {
+      "mode": "blocked-control",
+      "before": 552,
+      "after": 552,
+      "distance": 0,
+      "canvasChanged": false
+    },
+    {
+      "mode": "page-scroll",
+      "before": 552,
+      "after": 677,
+      "distance": 125,
+      "canvasChanged": false
+    },
+    {
+      "mode": "touch-rotation",
+      "before": 1026,
+      "after": 1026,
+      "distance": 0,
+      "canvasChanged": true
+    }
+  ]
+}

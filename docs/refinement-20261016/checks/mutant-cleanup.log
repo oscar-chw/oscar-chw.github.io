@@ -1,0 +1,40 @@
+[WebServer] (node:48245) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:48301) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:48330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/surface-interaction.spec.ts:88:1 › reset disposes the detached surface instead of painting it on later motion changes (451ms)
+
+
+  1) [chromium] › e2e/surface-interaction.spec.ts:88:1 › reset disposes the detached surface instead of painting it on later motion changes
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "2"
+    Received: "3"
+
+      105 |   await page.emulateMedia({ reducedMotion: 'reduce' });
+      106 |   await expect.poll(() => canvas.getAttribute('data-paint-count')).not.toBe(currentCount);
+    > 107 |   expect(await previous.getAttribute('data-paint-count')).toBe(oldCount);
+          |                                                           ^
+      108 | });
+      109 |
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:107:59
+
+    Error Context: test-results/surface-interaction-reset--1c232--it-on-later-motion-changes-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-reset--1c232--it-on-later-motion-changes-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-reset--1c232--it-on-later-motion-changes-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/surface-interaction.spec.ts:88:1 › reset disposes the detached surface instead of painting it on later motion changes

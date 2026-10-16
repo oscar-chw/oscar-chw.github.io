@@ -8,7 +8,7 @@ const pct = (v: number) => `${(v * 100).toFixed(0)}%`;
 // Black–Scholes over spot × time to expiry, or an SSVI implied-vol surface over strike × expiry, in 3D.
 export function mount(stage: HTMLElement, controls: HTMLElement) {
   const s = surface("3D surface of an option quantity; drag or use the arrow keys to turn it");
-  const note = h("p", { class: "lab-note" }, "drag to turn it, or focus it and use the arrow keys");
+  const note = h("p", { class: "lab-note" }, "The probe follows the chosen grid point when you change the model. Vega is per one percentage point of volatility; theta is per day.");
   stage.append(s.el, note);
   let what: What = "price", vol = 0.25, rate = 0.03, strike = 100, atm = 0.22, rho = -0.55, eta = 1.1;
   const sliders = h("div", { class: "ctl-group" }), ro = h("div", {});
@@ -18,7 +18,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
       s.set({
         z: grid(34, 34, [-0.5, 0.5], [0.05, 2], (k, T) => ssviVol(k, T, atm, rho, eta)),
         x: [-0.5, 0.5], y: [0.05, 2], labels: ["log strike / forward", "years", "implied vol"],
-        fmt: (v, a) => a === "z" ? pct(v) : a === "y" ? `${v.toFixed(2)}y` : v.toFixed(1),
+        fmt: (v, a) => a === "z" ? `${(v * 100).toFixed(2)}%` : a === "y" ? `${v.toFixed(2)}y` : v.toFixed(3),
       });
       ro.replaceChildren(readout([
         ["ATM, 1y", pct(ssviVol(0, 1, atm, rho, eta))],
@@ -30,8 +30,8 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     const key = what === "price" ? "call" : what;
     s.set({
       z: grid(34, 34, [50, 150], [0.02, 2], (S, T) => blackScholes(S, strike, T, rate, vol)[key]),
-      x: [50, 150], y: [0.02, 2], labels: ["stock price", "years to expiry", what === "price" ? "call price" : what],
-      fmt: (v, a) => a === "x" ? v.toFixed(0) : a === "y" ? `${v.toFixed(2)}y` : Math.abs(v) < 0.1 ? v.toFixed(4) : v.toFixed(2),
+      x: [50, 150], y: [0.02, 2], labels: ["stock price", "years to expiry", what === "price" ? "call price" : what === "vega" ? "vega / 1 vol point" : what === "theta" ? "theta / day" : what],
+      fmt: (v, a) => a === "x" ? v.toFixed(2) : a === "y" ? `${v.toFixed(2)}y` : Math.abs(v) < 0.1 ? v.toFixed(4) : v.toFixed(2),
     });
     const q = blackScholes(strike, strike, 0.5, rate, vol);
     ro.replaceChildren(readout([
@@ -56,4 +56,5 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     sliders, ro,
   );
   controlsFor(); draw();
+  return () => s.dispose();
 }
