@@ -5,7 +5,7 @@ const custom=()=>{
   const r=readFileSync('public/lab/feed-gate/correct.jsonl','utf8').trim().split('\n').map(s=>JSON.parse(s));
   r[1].message.bids[0].size='7.25';r[1].message.asks[0].size='2.5';
   r[2].message.price_changes[0].size='1.75';
-  r.push({record_id:2,kind:'gap',received_ms:31,available_ms:33,reason:'visitor disconnect'});
+  r.push({record_id:2,kind:'gap',received_ms:31,available_ms:33,reason:'disconnect'});
   return r.map(s=>JSON.stringify(s)).join('\n')+'\n';
 };
 
@@ -49,4 +49,24 @@ test('editing, rejection and reset remove the old replay; a repaired non-preset 
   expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBe(0);
   await p.getByRole('button',{name:'start over',exact:true}).click();
   await expect(p.getByRole('region',{name:'Admitted book replay'})).toHaveCount(0);
+});
+
+test('an unsupported gap reason is rejected without a usable replay and exports its failure receipt',async({page})=>{
+  await localPyodide(page);await page.goto('/demos/#gatedbuild');
+  const p=page.locator('[data-panel="gatedbuild"]');
+  await p.getByRole('textbox',{name:'Archive JSON lines'}).fill(custom().replace('"reason":"disconnect"','"reason":"visitor disconnect"'));
+  await p.getByRole('button',{name:'Run all checks',exact:true}).click();
+  await expect(p.locator('.fg-verdict')).toContainText('Rejected');
+  await expect(p.locator('.fg-result')).toContainText('declared gap reason required');
+  await expect(p.getByRole('region',{name:'Admitted book replay'})).toHaveCount(0);
+  const download=page.waitForEvent('download');
+  await p.getByRole('button',{name:'Download run receipt'}).click();
+  const file=await download,stream=await file.createReadStream(),chunks:Buffer[]=[];
+  for await(const chunk of stream!)chunks.push(chunk);
+  const receipt=JSON.parse(Buffer.concat(chunks).toString());
+  expect(receipt.result.accepted).toBe(false);
+  expect(receipt.result.errorType).toBe('ValueError');
+  expect(receipt.result.message).toBe('declared gap reason required');
+  expect(receipt.result.rows).toBeUndefined();
+  expect(receipt.input).toBe(custom().replace('"reason":"disconnect"','"reason":"visitor disconnect"'));
 });

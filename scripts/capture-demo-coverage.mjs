@@ -2,6 +2,7 @@ import {chromium,webkit} from '@playwright/test';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {EXPERIMENTS} from '../src/data/lab.ts';
 const out=process.env.CAPTURE_DIR??'docs/all-demo-audit/baseline';
+const base=process.env.BASE_URL??'http://localhost:4340';
 const selected=process.env.DEMO_IDS?.split(',');
 const experiments=selected?EXPERIMENTS.filter(e=>selected.includes(e.id)):EXPERIMENTS;
 if(selected&&experiments.length!==selected.length)throw new Error('Unknown or duplicate demo ID');
@@ -16,7 +17,7 @@ for(const [engine,type] of [['chromium',chromium],['webkit',webkit]]){
    const page=await context.newPage(),errors=[];
    page.on('pageerror',e=>errors.push(e.message));
    try {
-   await page.goto('http://localhost:4340'+(exp.href??`/demos/#${exp.id}`));
+   await page.goto(base+(exp.href??`/demos/#${exp.id}`));
    const panel=exp.kind==='inline'?page.locator(`[data-panel="${exp.id}"]`):page.locator('main');
    await panel.waitFor();
    if(exp.kind==='inline')await panel.locator('[data-stage]:not([data-load-state="loading"])').waitFor();
