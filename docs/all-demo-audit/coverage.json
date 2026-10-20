@@ -23,7 +23,7 @@
       "tradeoff": "Reject bad metadata instead of inventing a usable book",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -46,7 +46,7 @@
       "tradeoff": "A policy allowance is not command execution or a security guarantee",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -69,7 +69,7 @@
       "tradeoff": "Transparent ranking is inspectable but lacks semantic understanding",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -92,7 +92,7 @@
       "status": "verified",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       },
       "principle": "A decision may only use a return already available",
       "intermediate": "Cursor links signal source, exposure, turnover cost and cumulative result",
@@ -119,7 +119,7 @@
       "tradeoff": "An in-browser order model does not reproduce an exchange",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -144,7 +144,7 @@
       "tradeoff": "A later window loses its independence if the visitor keeps tuning on it",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -168,7 +168,7 @@
       "tradeoff": "Wider spread can reduce fills; skew alters exposure in the simplified flow model",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -191,7 +191,7 @@
       "status": "verified",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       },
       "principle": "Publication availability and bar-close clocks are different",
       "intermediate": "Decision cursor shows the specific candle used and its actual close",
@@ -218,7 +218,7 @@
       "tradeoff": "Late corrections must not rewrite what the query could know then",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -242,7 +242,7 @@
       "tradeoff": "Compare-and-swap preserves changes at the cost of retries",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -266,7 +266,7 @@
       "tradeoff": "Retaining old versions uses memory; pruning can remove historical answers",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -289,7 +289,7 @@
       "tradeoff": "Source runs differ; speed ratio is not accuracy or whole-program performance",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -312,7 +312,7 @@
       "tradeoff": "Compensation reduces rounding error but does not make general arithmetic exact",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -336,7 +336,7 @@
       "tradeoff": "Browser state-vector growth is bounded; it is not a GPU timing run",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -360,7 +360,7 @@
       "tradeoff": "Noise assumptions affect sensitivity; custom labels are not authenticated truth",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -381,7 +381,7 @@
       "status": "verified",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       },
       "principle": "Mask illegal actions before normalizing probabilities",
       "intermediate": "Editable scores/legal flags, normalized bars and all-masked abstention",
@@ -405,7 +405,7 @@
       "status": "verified",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       },
       "principle": "Calibrated threshold trades abstention against accepted violations",
       "intermediate": "Labelled calibration/evaluation cases and per-action threshold plot",
@@ -433,7 +433,7 @@
       "tradeoff": "Selecting evidence is not running a fresh experiment",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -456,7 +456,7 @@
       "tradeoff": "The audit remains visible; repeated tuning is explicitly not a sealed test",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -484,7 +484,7 @@
       "tradeoff": "Two unavailable blocks leave two unknowns; decoder refuses rather than guesses",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -505,7 +505,7 @@
       "status": "verified",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       },
       "principle": "Intervals conflict when their occupied times overlap",
       "intermediate": "Editable intervals, visible weekly placement and named conflict/agenda",
@@ -534,7 +534,7 @@
       "tradeoff": "Black-Scholes assumptions and browser model outputs are not market quotes",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -557,7 +557,7 @@
       "tradeoff": "More components improve reconstruction at a higher drawing cost",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     },
     {
@@ -580,7 +580,7 @@
       "tradeoff": "A public snapshot/feed or simulated fallback does not establish execution quality",
       "verification": {
         "exit": 0,
-        "receipt": "docs/refinement-20261016/evidence.json"
+        "receipt": "docs/execution-lab-20261020/evidence.json"
       }
     }
   ],
@@ -592,5 +592,5 @@
       "receipt": "docs/all-demo-audit/COMPILER-DISPOSITION.md"
     }
   ],
-  "final_receipt": "docs/refinement-20261016/evidence.json"
+  "final_receipt": "docs/execution-lab-20261020/evidence.json"
 }

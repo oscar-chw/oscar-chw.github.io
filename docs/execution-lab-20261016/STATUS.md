@@ -1,5 +1,9 @@
 # Visible execution — local checkpoint, acceptance reopened
 
+Historical checkpoint: the check-only hold below was resolved under the 20 October
+standing instruction. See [the later local verification](../execution-lab-20261020/STATUS.md)
+for passing checks and the separate release holds. This record preserves the earlier state.
+
 Oscar rejected the previous delivered experience. This successor starts at
 2764c8f on `codex/flagship-execution-20261016`; it is not published and is not a
 new whole-site acceptance claim. The public page was observed serving `14591ed`.

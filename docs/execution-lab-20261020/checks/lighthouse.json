@@ -1,0 +1,110 @@
+[
+  {
+    "url": "http://localhost:59096/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_14.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_14.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_35.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_35.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/projects/ai-quant-research-system/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_23_56.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_23_56.report.json",
+    "summary": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/projects/ai-quant-research-system/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_24_07.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_24_07.report.json",
+    "summary": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/demos/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_17.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_17.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/demos/",
+    "isRepresentativeRun": false,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_29.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_29.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_25.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost--2026_10_20_05_23_25.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/projects/ai-quant-research-system/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_23_45.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-projects_ai_quant_research_system_-2026_10_20_05_23_45.report.json",
+    "summary": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  },
+  {
+    "url": "http://localhost:59096/demos/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_40.report.html",
+    "jsonPath": "/Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/.lighthouseci/reports/localhost-demos_-2026_10_20_05_24_40.report.json",
+    "summary": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    }
+  }
+]
