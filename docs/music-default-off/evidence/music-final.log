@@ -1,0 +1,48 @@
+[WebServer] (node:29305) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:29333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+
+Running 14 tests using 6 workers
+
+(node:29347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29351) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29350) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29346) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › e2e/music-intent.spec.ts:120:1 › a page restored from the back-forward cache does not retain playback intent (2.2s)
+  ✓   4 [chromium] › e2e/music-intent.spec.ts:51:1 › track and volume preferences persist without starting playback (2.4s)
+  ✓   3 [chromium] › e2e/music-intent.spec.ts:36:1 › legacy music-on state stays silent after unrelated clicks and keys (2.6s)
+  ✓   1 [chromium] › e2e/music-intent.spec.ts:98:1 › cancelling Play while its module loads prevents late playback (2.8s)
+  ✓   5 [chromium] › e2e/music-intent.spec.ts:82:1 › visibility changes neither start muted music nor recreate an explicitly playing frame (2.8s)
+(node:29421) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29423) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29425) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [chromium] › e2e/music-intent.spec.ts:132:1 › a player module load failure leaves music off and explains recovery (1.2s)
+  ✓   6 [chromium] › e2e/music-intent.spec.ts:67:1 › navigation reload and Back require a fresh explicit Play action (4.2s)
+(node:29484) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29533) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [webkit] › e2e/music-intent.spec.ts:51:1 › track and volume preferences persist without starting playback (2.3s)
+  ✓   8 [webkit] › e2e/music-intent.spec.ts:36:1 › legacy music-on state stays silent after unrelated clicks and keys (2.6s)
+  ✓  11 [webkit] › e2e/music-intent.spec.ts:82:1 › visibility changes neither start muted music nor recreate an explicitly playing frame (2.1s)
+  ✓  14 [webkit] › e2e/music-intent.spec.ts:132:1 › a player module load failure leaves music off and explains recovery (2.9s)
+  ✓  10 [webkit] › e2e/music-intent.spec.ts:67:1 › navigation reload and Back require a fresh explicit Play action (4.7s)
+  ✓  13 [webkit] › e2e/music-intent.spec.ts:120:1 › a page restored from the back-forward cache does not retain playback intent (2.9s)
+  ✓  12 [webkit] › e2e/music-intent.spec.ts:98:1 › cancelling Play while its module loads prevents late playback (4.4s)
+
+  14 passed (12.7s)

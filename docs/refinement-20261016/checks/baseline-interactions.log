@@ -1,0 +1,481 @@
+[WebServer] (node:99852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:99875) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 6 workers
+
+(node:99880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99881) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99879) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99882) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99883) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:99884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 [chromium] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (984ms)
+(node:99940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [chromium] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating (1.2s)
+(node:99942) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 [chromium] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout (243ms)
+(node:99955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 [webkit] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (1.4s)
+(node:99994) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset (5.6s)
+  ✘   3 [chromium] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (5.8s)
+(node:123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [chromium] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (6.0s)
+(node:124) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  12 [webkit] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating (1.4s)
+(node:201) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [webkit] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (6.2s)
+  ✘  14 [webkit] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout (741ms)
+  ✘  10 [webkit] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (5.7s)
+  ✘  13 [webkit] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset (5.9s)
+  ✘   6 [chromium] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects (30.3s)
+  ✘  11 [webkit] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects (30.4s)
+
+
+  1) [chromium] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+       9 |     const focused = document.activeElement;
+      10 |     return focused === document.querySelector('.tree [role=listbox]') || !!document.querySelector('[data-exp="guard"]')?.contains(focused);
+    > 11 |   })).toBe(true);
+         |       ^
+      12 |   await page.keyboard.press('Enter');
+      13 |   await expect(page).toHaveURL(/#guard$/);
+      14 |   await expect(page.locator('[data-panel="guard"]')).toBeVisible();
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:11:7
+
+    Error Context: test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'qts-platform/', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'qts-platform/', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'qts-platform/', exact: true })
+
+
+      18 |   await page.goto('/demos/#gatedbuild');
+      19 |   const folder = page.getByRole('button', { name: 'qts-platform/', exact: true });
+    > 20 |   await expect(folder).toBeVisible();
+         |                        ^
+      21 |   const expanded = await folder.getAttribute('aria-expanded');
+      22 |   expect(['true', 'false']).toContain(expanded);
+      23 |   await folder.focus(); await page.keyboard.press('Space');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:20:24
+
+    Error Context: test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-exp="harbour"]')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-exp="harbour"]') with timeout 5000ms
+      - waiting for locator('[data-exp="harbour"]')
+        14 × locator resolved to <div role="option" id="opt-harbour" data-exp="harbour" aria-selected="false">…</div>
+           - unexpected value "false"
+
+
+      33 |   await page.locator('.tree [role=listbox]').focus();
+      34 |   await page.keyboard.press('End');
+    > 35 |   await expect(page.locator('[data-exp="harbour"]')).toHaveAttribute('aria-selected', 'true');
+         |                                                      ^
+      36 |   await expect(page.locator('[data-exp="harbour"] a')).toBeInViewport();
+      37 |   await page.keyboard.press('Home');
+      38 |   await expect(page.locator('[data-exp="gatedbuild"]')).toHaveAttribute('aria-selected', 'true');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:35:54
+
+    Error Context: test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Pause rotation', exact: true })
+
+
+       8 |   await page.goto('/demos/#options');
+       9 |   await page.evaluate(() => document.fonts.ready);
+    > 10 |   await page.getByRole('button', { name: 'Pause rotation', exact: true }).click();
+         |                                                                           ^
+      11 |   await settle(page); const paused = await pixels(page);
+      12 |   await page.waitForTimeout(250);
+      13 |   expect(await pixels(page)).toBe(paused);
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:10:75
+
+    Error Context: test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "1568663d120e7cf4f04427d35891bbe0e0f1482a702f4dd92d02a6246987b7b7"
+    Received: "b7fa25e631858f2cb22bde0b9af635434bfdbd9d70ab93c42cf3200179532247"
+
+      23 |   await settle(page); const stopped = await pixels(page);
+      24 |   await page.waitForTimeout(250);
+    > 25 |   expect(await pixels(page)).toBe(stopped);
+         |                              ^
+      26 | });
+      27 |
+      28 | test('keyboard probe reports computed surface values and follows model edits and reset', async ({ page }) => {
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:25:30
+
+    Error Context: test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-panel="options"]').locator('[data-surface-readout]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('[data-panel="options"]').locator('[data-surface-readout]') with timeout 5000ms
+      - waiting for locator('[data-panel="options"]').locator('[data-surface-readout]')
+
+
+      31 |   const panel = page.locator('[data-panel="options"]');
+      32 |   const result = panel.locator('[data-surface-readout]');
+    > 33 |   await expect(result).toBeVisible(); const initial = await result.textContent();
+         |                        ^
+      34 |   await panel.getByRole('slider', { name: 'Inspect x position', exact: true }).focus(); await page.keyboard.press('End');
+      35 |   await panel.getByRole('slider', { name: 'Inspect y position', exact: true }).focus(); await page.keyboard.press('End');
+      36 |   await expect(result).toContainText('stock price 150');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:33:24
+
+    Error Context: test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [chromium] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "pan-y"
+    Received string:    "none"
+
+      54 |   const canvas = page.locator('.s3d');
+      55 |   await expect(canvas).toBeVisible();
+    > 56 |   expect(await canvas.evaluate(c => getComputedStyle(c).touchAction)).toContain('pan-y');
+         |                                                                       ^
+      57 |   const toggle = page.getByRole('button', { name: 'Touch rotation', exact: true });
+      58 |   await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      59 |   await toggle.click(); await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:56:71
+
+    Error Context: test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [webkit] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+       9 |     const focused = document.activeElement;
+      10 |     return focused === document.querySelector('.tree [role=listbox]') || !!document.querySelector('[data-exp="guard"]')?.contains(focused);
+    > 11 |   })).toBe(true);
+         |       ^
+      12 |   await page.keyboard.press('Enter');
+      13 |   await expect(page).toHaveURL(/#guard$/);
+      14 |   await expect(page.locator('[data-panel="guard"]')).toBeVisible();
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:11:7
+
+    Error Context: test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-rail-arrow--5fd49-efer-to-the-same-experiment-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [webkit] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'qts-platform/', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'qts-platform/', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'qts-platform/', exact: true })
+
+
+      18 |   await page.goto('/demos/#gatedbuild');
+      19 |   const folder = page.getByRole('button', { name: 'qts-platform/', exact: true });
+    > 20 |   await expect(folder).toBeVisible();
+         |                        ^
+      21 |   const expanded = await folder.getAttribute('aria-expanded');
+      22 |   expect(['true', 'false']).toContain(expanded);
+      23 |   await folder.focus(); await page.keyboard.press('Space');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:20:24
+
+    Error Context: test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-folder-disc-96def-rd-and-announce-their-state-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [webkit] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[data-exp="harbour"]')
+    Expected: "true"
+    Received: "false"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[data-exp="harbour"]') with timeout 5000ms
+      - waiting for locator('[data-exp="harbour"]')
+        14 × locator resolved to <div role="option" id="opt-harbour" data-exp="harbour" aria-selected="false">…</div>
+           - unexpected value "false"
+
+
+      33 |   await page.locator('.tree [role=listbox]').focus();
+      34 |   await page.keyboard.press('End');
+    > 35 |   await expect(page.locator('[data-exp="harbour"]')).toHaveAttribute('aria-selected', 'true');
+         |                                                      ^
+      36 |   await expect(page.locator('[data-exp="harbour"] a')).toBeInViewport();
+      37 |   await page.keyboard.press('Home');
+      38 |   await expect(page.locator('[data-exp="gatedbuild"]')).toHaveAttribute('aria-selected', 'true');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:35:54
+
+    Error Context: test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-Home-and-En-63b13-l-entry-in-a-short-viewport-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [webkit] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Pause rotation', exact: true })
+
+
+       8 |   await page.goto('/demos/#options');
+       9 |   await page.evaluate(() => document.fonts.ready);
+    > 10 |   await page.getByRole('button', { name: 'Pause rotation', exact: true }).click();
+         |                                                                           ^
+      11 |   await settle(page); const paused = await pixels(page);
+      12 |   await page.waitForTimeout(250);
+      13 |   expect(await pixels(page)).toBe(paused);
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:10:75
+
+    Error Context: test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-surfac-684aa-rol-with-observable-effects-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [webkit] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "10358b5fd9f9914383f76454d4027441caf7d132d04f79884a00adf6306276a7"
+    Received: "fb50104e012f4cc77616d31195d9163966467e5d45df78e220496f06269564e9"
+
+      23 |   await settle(page); const stopped = await pixels(page);
+      24 |   await page.waitForTimeout(250);
+    > 25 |   expect(await pixels(page)).toBe(stopped);
+         |                              ^
+      26 | });
+      27 |
+      28 | test('keyboard probe reports computed surface values and follows model edits and reset', async ({ page }) => {
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:25:30
+
+    Error Context: test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-enabli-5c309-ce-that-is-already-rotating-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [webkit] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('[data-panel="options"]').locator('[data-surface-readout]')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('[data-panel="options"]').locator('[data-surface-readout]') with timeout 5000ms
+      - waiting for locator('[data-panel="options"]').locator('[data-surface-readout]')
+
+
+      31 |   const panel = page.locator('[data-panel="options"]');
+      32 |   const result = panel.locator('[data-surface-readout]');
+    > 33 |   await expect(result).toBeVisible(); const initial = await result.textContent();
+         |                        ^
+      34 |   await panel.getByRole('slider', { name: 'Inspect x position', exact: true }).focus(); await page.keyboard.press('End');
+      35 |   await panel.getByRole('slider', { name: 'Inspect y position', exact: true }).focus(); await page.keyboard.press('End');
+      36 |   await expect(result).toContainText('stock price 150');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:33:24
+
+    Error Context: test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [webkit] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout
+
+    Error: expect(received).toContain(expected) // indexOf
+
+    Expected substring: "pan-y"
+    Received string:    "none"
+
+      54 |   const canvas = page.locator('.s3d');
+      55 |   await expect(canvas).toBeVisible();
+    > 56 |   expect(await canvas.evaluate(c => getComputedStyle(c).touchAction)).toContain('pan-y');
+         |                                                                       ^
+      57 |   const toggle = page.getByRole('button', { name: 'Touch rotation', exact: true });
+      58 |   await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+      59 |   await toggle.click(); await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:56:71
+
+    Error Context: test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-phone--a139b--and-fits-its-value-readout-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14 failed
+    [chromium] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment
+    [chromium] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state
+    [chromium] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport
+    [chromium] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects
+    [chromium] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating
+    [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset
+    [chromium] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout
+    [webkit] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment
+    [webkit] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state
+    [webkit] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport
+    [webkit] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects
+    [webkit] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating
+    [webkit] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset
+    [webkit] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout

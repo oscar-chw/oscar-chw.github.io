@@ -1,0 +1,53 @@
+{
+  "normalization": "Remove ANSI colour sequences and trailing whitespace only. Original byte-for-byte output retained in gzip siblings.",
+  "files": [
+    {
+      "text": "docs/all-demo-audit/evidence/full-gate-before-formatting.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/full-gate-before-formatting.log.gz",
+      "raw_sha256": "a3f63d8a8a01af45e0be15c5f3538f427a13a85da7712c8d1091d3598ce33074",
+      "text_sha256": "689ce160d261ee4a780c4916a2ae29bad498cca7c116cc48a66cb8953b910f33"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/timing-range-final.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/timing-range-final.log.gz",
+      "raw_sha256": "79a9c528344a9f7ad8eb50b68f006490402b1f2926e127b485387fa5cb27f833",
+      "text_sha256": "1b4c79520aeab24d2ed0ceea3374e18eaa0cf08582c69a358c04d3ffe34e9c43"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/retained-full-browser-failure.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/retained-full-browser-failure.log.gz",
+      "raw_sha256": "4ce8ad52efe9e1c3b4fee2a25928cd4848c531115889f1c8baf3d038142d5c87",
+      "text_sha256": "29c90a323af488bca5b10c2689f631c4c48145f041290dd7e16737c6f31c62b5"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/browser-before-final-legend.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/browser-before-final-legend.log.gz",
+      "raw_sha256": "28b31dcd1339ee80d90a64a0ddc561a2fd29972a08c932795aea8a52d77eee9d",
+      "text_sha256": "28b31dcd1339ee80d90a64a0ddc561a2fd29972a08c932795aea8a52d77eee9d"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/final-full-gate.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/final-full-gate.log.gz",
+      "raw_sha256": "910741d5f86c75d7659becf9f83be0c1634c899a13bd5a66da8b2f09d4571551",
+      "text_sha256": "99242a9bc1d2df031999d1d5b4bc043bbf0ab95d627dde0fc686392068f650e2"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/dna-principles.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/dna-principles.log.gz",
+      "raw_sha256": "be66ffe2066797ca644af2b90a62560661b6cc02d50eec0bfaa8c4f301815dbe",
+      "text_sha256": "0cb8f08f2eed9808c0bf8d36d10cd7893cdeea8f6a97c158c1ffe88b009700d6"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/terminal-final.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/terminal-final.log.gz",
+      "raw_sha256": "10525cb7cca48690610715a297d362ab7d0e0cbc01bf11fb2bfbd04df7f3fa3e",
+      "text_sha256": "00558856d4c84e282fa112232f8541b765d489c8043c217d85c6901b8f1dc024"
+    },
+    {
+      "text": "docs/all-demo-audit/evidence/dna-final-presentation.log",
+      "raw_gzip": "docs/all-demo-audit/evidence/dna-final-presentation.log.gz",
+      "raw_sha256": "bafe9abeb3e36756e747d35675e7f35e4855463f4815792c9e49816adc4311a5",
+      "text_sha256": "bafe9abeb3e36756e747d35675e7f35e4855463f4815792c9e49816adc4311a5"
+    }
+  ]
+}

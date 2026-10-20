@@ -1,0 +1,220 @@
+$ cd /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io && npm run check && npm run build && npx playwright test e2e/surface-interaction.spec.ts e2e/showcase-recovery.spec.ts
+
+> check
+> astro check
+
+21:27:18 [content] Syncing content
+21:27:18 [content] Synced content
+21:27:18 [types] Generated 241ms
+21:27:18 [check] Getting diagnostics for Astro files in /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (185 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+
+> build
+> astro build
+
+21:27:24 [content] Syncing content
+21:27:24 [content] Synced content
+21:27:24 [types] Generated 245ms
+21:27:24 [build] output: "static"
+21:27:24 [build] mode: "static"
+21:27:24 [build] directory: /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/dist/
+21:27:24 [build] Collecting build info...
+21:27:24 [build] ✓ Completed in 277ms.
+21:27:24 [build] Building static entrypoints...
+21:27:25 [assets] Copying fonts (2 files)...
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:27:25 [vite] ✓ built in 367ms
+21:27:25 [vite] ✓ built in 171ms
+21:27:25 [build] Rearranging server assets...
+
+ generating static routes
+21:27:25   ├─ /404.html (+23ms)
+21:27:25   ├─ /about/index.html (+47ms)
+21:27:25   ├─ /card/index.html (+30ms)
+21:27:25   ├─ /cv/index.html (+16ms)
+21:27:25   ├─ /demos/crypto-desk/index.html (+16ms)
+21:27:25   ├─ /demos/fourier/index.html (+14ms)
+21:27:25   ├─ /demos/harbour/index.html (+16ms)
+21:27:25   ├─ /demos/order-book/index.html (+15ms)
+21:27:25   ├─ /demos/reconciliation/index.html (+1ms)
+21:27:25   ├─ /demos/index.html (+17ms)
+21:27:25   ├─ /lab/corpus.json (+4ms)
+21:27:25   ├─ /oscar-choi.vcf (+25ms)
+21:27:25   ├─ /projects/agent-harness/index.html (+1ms)
+21:27:25   ├─ /projects/alpha-search/index.html (+0ms)
+21:27:25   ├─ /projects/factor-lab/index.html (+0ms)
+21:27:25   ├─ /projects/imc-prosperity-4/index.html (+0ms)
+21:27:25   ├─ /projects/market-making-lab/index.html (+0ms)
+21:27:25   ├─ /projects/point-in-time-research/index.html (+0ms)
+21:27:25   ├─ /projects/pokemon-tcg-ai/index.html (+0ms)
+21:27:25   ├─ /projects/studyflow/index.html (+0ms)
+21:27:25   ├─ /projects/ai-quant-research-system/index.html (+21ms)
+21:27:25   ├─ /projects/fatqat-gpu-backend/index.html (+17ms)
+21:27:25   ├─ /projects/qts-research-platform/index.html (+17ms)
+21:27:25   ├─ /projects/final-year-project/index.html (+17ms)
+21:27:25   ├─ /projects/competitions/index.html (+19ms)
+21:27:25   ├─ /projects/supporting-work/index.html (+15ms)
+21:27:25   ├─ /projects/coursework/index.html (+15ms)
+21:27:25   ├─ /projects/index.html (+15ms)
+21:27:25   ├─ /index.html (+22ms)
+21:27:25 ✓ Completed in 425ms.
+
+ generating optimized images
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+1ms) (1/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+0ms) (2/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+0ms) (3/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+0ms) (7/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+21:27:25   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+0ms) (9/9)
+21:27:25 ✓ Completed in 3ms.
+
+21:27:25 [build] ✓ Completed in 988ms.
+21:27:25 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+21:27:25 [build] 18 page(s) built in 1.28s
+21:27:25 [build] Complete!
+
+Running 28 tests using 6 workers
+
+  ✓   1 [chromium] › e2e/showcase-recovery.spec.ts:34:3 › the 320px Lab status label has space below the explanation (332ms)
+  ✓   2 [chromium] › e2e/showcase-recovery.spec.ts:34:3 › the 375px Lab status label has space below the explanation (805ms)
+  ✓   6 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated typical amplitudes clears the rejected value and its accessibility state (937ms)
+  ✓   4 [chromium] › e2e/showcase-recovery.spec.ts:3:1 › compensated inputs reject an empty field without changing the result, but accept explicit zero (916ms)
+  ✓   7 [chromium] › e2e/showcase-recovery.spec.ts:50:1 › correcting one rejected input clears its invalid state while another field still needs correction (595ms)
+  ✓   5 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated new inputs clears the rejected value and its accessibility state (1.1s)
+  ✓   8 [chromium] › e2e/showcase-recovery.spec.ts:64:1 › switching to reduced motion keeps the latest surface when older animation frames run (482ms)
+  ✓   3 [chromium] › e2e/showcase-recovery.spec.ts:20:3 › compensated reset clears the rejected value and its accessibility state (1.4s)
+  ✓  11 [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset (614ms)
+  ✓  10 [chromium] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating (725ms)
+  ✓  12 [chromium] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout (693ms)
+  ✓  14 [chromium] › e2e/surface-interaction.spec.ts:88:1 › reset disposes the detached surface instead of painting it on later motion changes (527ms)
+  ✓  13 [chromium] › e2e/surface-interaction.spec.ts:68:1 › a cancelled pointer gesture cannot continue rotating the surface (727ms)
+  ✓   9 [chromium] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects (1.8s)
+  ✓  19 [webkit] › e2e/showcase-recovery.spec.ts:34:3 › the 320px Lab status label has space below the explanation (1.6s)
+  ✓  18 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated typical amplitudes clears the rejected value and its accessibility state (1.8s)
+  ✓  16 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated reset clears the rejected value and its accessibility state (1.9s)
+  ✓  17 [webkit] › e2e/showcase-recovery.spec.ts:20:3 › compensated new inputs clears the rejected value and its accessibility state (1.9s)
+  ✓  15 [webkit] › e2e/showcase-recovery.spec.ts:3:1 › compensated inputs reject an empty field without changing the result, but accept explicit zero (2.2s)
+  ✓  21 [webkit] › e2e/showcase-recovery.spec.ts:50:1 › correcting one rejected input clears its invalid state while another field still needs correction (1.4s)
+  ✓  22 [webkit] › e2e/showcase-recovery.spec.ts:64:1 › switching to reduced motion keeps the latest surface when older animation frames run (1.5s)
+  ✓  20 [webkit] › e2e/showcase-recovery.spec.ts:34:3 › the 375px Lab status label has space below the explanation (1.4s)
+  ✓  25 [webkit] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset (1.4s)
+  ✓  24 [webkit] › e2e/surface-interaction.spec.ts:18:1 › enabling reduced motion stops a surface that is already rotating (1.6s)
+  ✓  23 [webkit] › e2e/surface-interaction.spec.ts:7:1 › surface rotation has a pause and resume control with observable effects (1.9s)
+  ✓  26 [webkit] › e2e/surface-interaction.spec.ts:50:1 › phone surface reserves dragging for explicit touch rotation and fits its value readout (741ms)
+  ✓  27 [webkit] › e2e/surface-interaction.spec.ts:68:1 › a cancelled pointer gesture cannot continue rotating the surface (744ms)
+  ✓  28 [webkit] › e2e/surface-interaction.spec.ts:88:1 › reset disposes the detached surface instead of painting it on later motion changes (775ms)
+
+  28 passed (7.3s)
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+(node:63235) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63238) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63237) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63234) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63233) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63379) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:63422) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS 87 (exit 0, 16s)

@@ -1,6 +1,8 @@
 import { exactDet, toDouble, plain, kahan, ulpError, digitsKept, typical, cancelling, sweep } from "../../../lib/lab/kahan";
 import { h, button, segmented, selectSegment, readout } from "../ui";
 import { Shuffle, RotateCcw, Play } from "lucide";
+import {arithmeticTrace, type ArithmeticTrace} from '../../../lib/lab/kahan-trace';
+import {arithmeticView} from '../arithmetic-view';
 
 // FatQat's default GPU products, computed live: a·b − c·d plainly and with Kahan's algorithm, each measured in ulps
 // against the exact value. Input on the right, the three results in the stage, one result line, one line on why it matters.
@@ -9,16 +11,25 @@ type Kind = keyof typeof KINDS;
 const LIMIT = 1e6;
 
 export function mount(stage: HTMLElement, controls: HTMLElement) {
+  // Visual order and keyboard order must both start at the visitor's operands.
+  stage.before(controls);
   let kind: Kind = "nearly cancelling", seed = 1;
   let [a, b, c, d] = KINDS[kind](seed);
 
   const rows = h("div", { class: "cp-rows", role: "table", "aria-label": "a·b − c·d by three methods" });
   const result = h("p", { class: "cp-result", "aria-live": "polite", "data-testid": "cp-result" });
   const sweepOut = h("div", { class: "cp-sweep", "data-testid": "cp-sweep" });
+  const inputState=h('p',{class:'lab-note','data-arithmetic-input-state':''});
+  const execution=arithmeticView();let trace:ArithmeticTrace|undefined;
+  const download=button('Download arithmetic trace',()=>{
+    if(!trace)return;
+    const href=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)+'\n'],{type:'application/json'}));
+    h('a',{href,download:'arithmetic-execution.json'}).click();setTimeout(()=>URL.revokeObjectURL(href),1000);
+  });
   stage.append(
     h("p", { class: "cp-tag mono" }, h("b", {}, "LIVE"), " computed in your browser now, with a BigInt reference"),
     h("p", { class: "cp-formula mono", "aria-hidden": "true" }, "a·b − c·d"),
-    rows, result,
+    execution.el,rows, result,
     h("p", { class: "cp-why" }, "Every complex multiply in a state-vector simulator computes this. FatQat compensates product-rounding error before subtraction, paying for extra arithmetic. This browser experiment isolates that tradeoff; the project page separates the archived GPU timing workloads from the small-circuit accuracy study."),
     sweepOut,
   );
@@ -36,9 +47,12 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
     h("span", { class: "cp-bar", role: "cell", "aria-label": ulps === null ? "" : `about ${digitsKept(ulps)} of 16 digits correct` },
       ...Array.from({ length: 16 }, (_, i) => h("i", { class: ulps === null || i < digitsKept(ulps) ? "on" : "" }))));
 
-  const draw = () => {
+  const draw = (mode:'example'|'custom'='example') => {
     err.textContent = "";
     inputs.forEach((x) => x.removeAttribute("aria-invalid"));
+    trace=arithmeticTrace([a,b,c,d]);execution.set(trace);rows.hidden=false;download.disabled=false;
+    stage.dataset.computation='browser';sweepOut.replaceChildren();
+    inputState.textContent=mode==='custom'?'Custom operands · current execution':'Starting example · current execution';
     const ref = toDouble(exactDet(a, b, c, d)), p = plain(a, b, c, d), k = kahan(a, b, c, d);
     const ep = ulpError(p, a, b, c, d), ek = ulpError(k, a, b, c, d);
     rows.replaceChildren(
@@ -54,22 +68,26 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
 
   // inputs: four editable values, checked before use; an invalid one is named and nothing is recomputed
   const err = h("p", { class: "cp-err-msg", role: "alert" });
+  const apply=()=>{
+    const v=inputs.map(x=>Number(x.value.trim()));
+    const bad=v.findIndex((x,i)=>inputs[i].value.trim()===''||!Number.isFinite(x)||Math.abs(x)>LIMIT||(x!==0&&Math.abs(x)<1/LIMIT));
+    inputs.forEach(x=>x.removeAttribute('aria-invalid'));
+    if(bad>=0){err.textContent=`${'abcd'[bad]} must be a number between 1e-6 and 1e6 in size, or 0.`;inputs[bad].setAttribute('aria-invalid','true');return;}
+    [a,b,c,d]=v as [number,number,number,number];draw('custom');
+  };
   const inputs = ["a", "b", "c", "d"].map((n) => {
     const el = h("input", { type: "text", inputmode: "decimal", "aria-label": n, spellcheck: "false", class: "mono" });
-    el.addEventListener("change", () => {
-      const v = inputs.map((x) => Number(x.value.trim()));
-      const bad = v.findIndex((x, i) => inputs[i].value.trim() === "" || !Number.isFinite(x) || Math.abs(x) > LIMIT || (x !== 0 && Math.abs(x) < 1 / LIMIT));
-      inputs.forEach((x) => x.removeAttribute("aria-invalid"));
-      if (bad >= 0) { err.textContent = `${"abcd"[bad]} must be a number between 1e-6 and 1e6 in size, or 0.`; inputs[bad].setAttribute("aria-invalid", "true"); return; }
-      [a, b, c, d] = v as [number, number, number, number]; draw();
-    });
+    el.addEventListener('input',()=>{trace=undefined;download.disabled=true;execution.el.hidden=true;rows.hidden=true;sweepOut.replaceChildren();stage.dataset.computation='not-run';inputState.textContent='Custom operands · not run';result.textContent='Input changed · run these operands to inspect a current execution.';});
+    el.addEventListener('change',apply);
     return el;
   });
 
   controls.append(
-    segmented("inputs", Object.keys(KINDS), kind, (v) => { kind = v as Kind; [a, b, c, d] = KINDS[kind](seed); draw(); }),
+    segmented("starting example", Object.keys(KINDS), kind, (v) => { kind = v as Kind; [a, b, c, d] = KINDS[kind](seed); draw(); }),
+    inputState,
     h("div", { class: "cp-in" }, ...inputs.flatMap((el, i) => [h("label", { class: "ctl-l mono" }, "abcd"[i]), el])),
     err,
+    button('Run these inputs',apply,'primary',Play),download,
     button("new inputs", () => { seed++; [a, b, c, d] = KINDS[kind](seed); draw(); }, "", Shuffle),
     button("run 2,000 cases", () => {
       const s = sweep(kind === "typical amplitudes" ? "typical" : "cancelling", 2000, seed);
@@ -78,6 +96,7 @@ export function mount(stage: HTMLElement, controls: HTMLElement) {
         readout([["plain: median", f(s.plain.median)], ["plain: worst", f(s.plain.max)], ["compensated: median", f(s.kahan.median)], ["compensated: worst", f(s.kahan.max)]]));
     }, "", Play),
     button("reset", () => { kind = "nearly cancelling"; seed = 1; [a, b, c, d] = KINDS[kind](seed); sweepOut.replaceChildren(); selectSegment(controls, kind); draw(); }, "", RotateCcw),
+    h('p',{class:'lab-note'},'Run these inputs uses your four values. The sweep runs separate generated cases from the selected starting family.'),
   );
   draw();
 }

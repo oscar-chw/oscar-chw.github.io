@@ -13,6 +13,7 @@ const code = [
       <div class="controls">
         <button type="button" data-testid="replay-play" aria-pressed="false"><Icon name="play" size={15} class="i-play" /><Icon name="pause" size={15} class="i-pause" /><span class="lbl">Play</span></button>
         <button type="button" data-testid="replay-stepbtn" title="Click to step once; hold to keep stepping"><Icon name="step-forward" size={15} />Step</button>
+        <button type="button" id="replay-reset"><Icon name="rotate-ccw" size={15} />Reset book</button>
         <label>seed <input type="number" id="seed" value="7" min="1" max="9999" /></label>
         <label>speed <input type="range" id="speed" min="1" max="60" value="20" /></label>
       </div>
@@ -26,6 +27,19 @@ const code = [
         <thead><tr><th scope="col">bid size</th><th scope="col">price</th><th scope="col">ask size</th></tr></thead>
         <tbody id="ladder"></tbody>
       </table>
+      <section class="manual-entry">
+        <h2>Place your own order</h2>
+        <p class="comment">Orders run in this local matching engine. Submitting pauses the synthetic tape so you can inspect the result.</p>
+        <form id="manual-order" novalidate>
+          <label>Order kind<select id="manual-kind" aria-label="Order kind"><option value="limit">limit</option><option value="market">market</option></select></label>
+          <label>Order side<select id="manual-side" aria-label="Order side"><option value="buy">buy</option><option value="sell">sell</option></select></label>
+          <label>Order price (ticks)<input id="manual-price" type="number" value="10000" min="1" max="1000000" aria-label="Order price (ticks)" /></label>
+          <label>Order quantity<input id="manual-qty" type="number" value="1" min="1" max="10000" aria-label="Order quantity" /></label>
+          <button type="submit"><Icon name="send" size={15} />Submit local order</button>
+        </form>
+        <p class="manual-order-status" role="status">Use a limit price to rest or cross the book, or a market order to take available liquidity.</p>
+        <ul class="manual-orders" aria-label="Your local orders"></ul>
+      </section>
     </div>
     <div class="panel">
       <canvas id="mid" width="640" height="220" aria-label="Mid price over the last 400 events"></canvas>
@@ -40,6 +54,8 @@ const code = [
 
 <script>
   import { syntheticTape, LimitBook, type Event } from "../../lib/replay";
+  import {manualOrder} from "../../lib/replay-input";
+  import {h,button} from "../../components/lab/ui";
 
   const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
   const play = $("[data-testid=replay-play]"), stepBtn = $("[data-testid=replay-stepbtn]");
@@ -50,9 +66,22 @@ const code = [
   const N = 4000, WINDOW = 400;          // tape length; events shown in the mid-price chart
 
   let events: Event[] = [], book = new LimitBook(), i = 0, trades = 0, mids: number[] = [], timer = 0;
+  let nextManual=1000000;
+  const own:{event:Exclude<Event,{kind:'cancel'}>;cancelled:boolean;filled:number}[]=[];
+  const ownList=$('.manual-orders'),ownStatus=$('.manual-order-status');
+  const orderKind=$<HTMLSelectElement>('#manual-kind'),orderSide=$<HTMLSelectElement>('#manual-side'),orderPrice=$<HTMLInputElement>('#manual-price'),orderQty=$<HTMLInputElement>('#manual-qty');
+  const remaining=(id:number)=>[...book.bids.values(),...book.asks.values()].flat().find(o=>o.id===id)?.qty??0;
+  function renderOwn(){
+    ownList.replaceChildren(...own.map(o=>{
+      const rest=remaining(o.event.id),cancel=button(`Cancel order ${o.event.id}`,()=>{stop();book.apply({kind:'cancel',id:o.event.id,t:i});o.cancelled=true;render();});
+      cancel.disabled=o.cancelled||rest===0;
+      return h('li',{},h('span',{},`#${o.event.id} ${o.event.side} ${o.event.qty}${o.event.kind==='limit'?` @ ${o.event.price}`:''} · ${o.cancelled?'cancelled':o.event.kind==='limit'?`resting ${rest}`:`filled ${o.filled}; unfilled ${o.event.qty-o.filled} discarded`}`),cancel);
+    }));
+  }
 
   function reset() {
     events = syntheticTape(Number(seedIn.value) || 7, N); book = new LimitBook(); i = 0; trades = 0; mids = [];
+    own.length=0;nextManual=1000000;
     for (let w = 0; w < 120; w++) apply(false);          // warm-up so the book starts populated
     render();
   }
@@ -76,6 +105,7 @@ const code = [
     bidOut.textContent = bid === null ? "–" : String(bid);
     askOut.textContent = ask === null ? "–" : String(ask);
     ntrades.textContent = String(trades);
+    renderOwn();
     const d = book.depth(8), max = Math.max(1, ...d.bids.map((l) => l[1]), ...d.asks.map((l) => l[1]));
     const row = (b: [number, number] | null, a: [number, number] | null, p: number) =>
       `<tr><td>${b ? `<span class="bar b" style="width:${(b[1] / max) * 100}%"></span>${b[1]}` : ""}</td><td class="p">${p}</td><td>${a ? `<span class="bar a" style="width:${(a[1] / max) * 100}%"></span>${a[1]}` : ""}</td></tr>`;
@@ -112,7 +142,24 @@ const code = [
   for (const ev of ["pointerup", "pointercancel", "lostpointercapture"]) stepBtn.addEventListener(ev, release);
   stepBtn.addEventListener("click", (e) => { if (held) { held = false; return; } e.preventDefault(); stop(); stepOnce(); });   // keyboard click
   stepBtn.addEventListener("keydown", (e) => { if ((e.key === "Enter" || e.key === " ") && e.repeat) { e.preventDefault(); stepOnce(); } });
-  seedIn.addEventListener("change", () => { stop(); tape.innerHTML = ""; reset(); });
+  seedIn.addEventListener("change", () => {
+    const seed=Number(seedIn.value);
+    if(!seedIn.value.trim()||!Number.isInteger(seed)||seed<1||seed>9999){ownStatus.textContent='Seed must be an integer from 1 to 9999; the current book was not replaced.';return;}
+    stop();tape.replaceChildren();reset();
+  });
+  $('#replay-reset').addEventListener('click',()=>{stop();seedIn.value='7';tape.replaceChildren();ownStatus.textContent='Book reset; your local orders were cleared.';reset();});
+  orderKind.addEventListener('change',()=>{orderPrice.disabled=orderKind.value==='market';});
+  $('#manual-order').addEventListener('submit',event=>{
+    event.preventDefault();
+    try{
+      if(own.length>=128)throw new Error('Reset the book before adding more than 128 local orders.');
+      const ev=manualOrder(orderKind.value,orderSide.value,orderPrice.value,orderQty.value,nextManual,i);
+      stop();nextManual++;const fills=book.apply(ev);trades+=fills.length;
+      own.push({event:ev,cancelled:false,filled:fills.reduce((sum,f)=>sum+f.qty,0)});
+      ownStatus.textContent=`Order ${ev.id}: ${fills.length?fills.map(f=>`${f.qty} filled at ${f.price} against maker ${f.maker}`).join('; '):'no immediate fill'}. ${ev.kind==='limit'?`${remaining(ev.id)} resting.`:'Unfilled market quantity does not rest.'}`;
+      tape.prepend(h('li',{},`local #${ev.id} ${ev.side} ${ev.qty}${ev.kind==='limit'?` @ ${ev.price}`:''}`));while(tape.children.length>12)tape.lastElementChild!.remove();render();
+    }catch(error){ownStatus.textContent=error instanceof Error?error.message:String(error);}
+  });
   document.addEventListener("themechange", render);
   reset();
 </script>
@@ -143,5 +190,13 @@ const code = [
   canvas { width: 100%; height: auto; background: var(--bg-2); border-radius: 8px; }
   .tape { list-style: none; padding: 0; margin: 10px 0 0; font: 0.85rem ui-monospace, Menlo, monospace; color: var(--muted); min-height: 14em; }
   .tape :global(li.up) { color: var(--up); } .tape :global(li.down) { color: var(--down); }
+  .manual-entry { margin-top:24px; border-top:1px solid var(--line); padding-top:18px; }
+  #manual-order { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  #manual-order label { display:grid; gap:6px; min-width:0; font-size:0.9rem; }
+  #manual-order input,#manual-order select { width:100%; min-width:0; box-sizing:border-box; min-height:44px; font:inherit; color:var(--ink); background:var(--bg-2); border:1px solid var(--line); border-radius:8px; padding:8px; }
+  #manual-order button { grid-column:1/-1; min-height:44px; }
+  .manual-orders { list-style:none; padding:0; display:grid; gap:10px; font-size:0.9rem; }
+  .manual-orders :global(li) { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; overflow-wrap:anywhere; }
+  .manual-order-status { font-size:0.9rem; line-height:1.7; }
   @media (max-width: 760px) { .replay { grid-template-columns: 1fr; } }
 </style>

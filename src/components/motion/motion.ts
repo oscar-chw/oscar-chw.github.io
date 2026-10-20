@@ -133,9 +133,8 @@ const undismiss = (e: Event) => {
 document.addEventListener("pointerout", undismiss);
 document.addEventListener("focusout", undismiss);
 
-// ---------- background music: two piano pieces from YouTube, off until asked for. The choice, the volume and on/off are
-// remembered; after a page change it resumes on the visitor's next tap or key (browsers allow sound only
-// after a gesture). Each player loads only when it is first needed.
+// ---------- background music: remember track and volume, never permission to play on another visit.
+// Only the music button starts the lazy player; unrelated gestures must stay silent.
 const musicBtn = document.querySelector<HTMLButtonElement>("[data-music-toggle]");
 if (musicBtn) {
   const wrap = musicBtn.closest<HTMLElement>("[data-mus]")!, now = wrap.querySelector<HTMLElement>("[data-mus-now]")!;
@@ -146,6 +145,7 @@ if (musicBtn) {
   let track: Track = get("music-track") === "rosalina" ? "rosalina" : "unlasting";
   let vol = Math.min(1, Math.max(0, Number(get("music-vol") ?? 0.6)));
   let yt: typeof import("./youtube") | null = null;
+  let attempt = 0, failed = false;
   wrap.querySelector<HTMLInputElement>(`input[value="${track}"]`)!.checked = true;
   volIn.value = String(Math.round(vol * 100)); volOut.textContent = `${volIn.value}%`;
 
@@ -154,20 +154,29 @@ if (musicBtn) {
     musicBtn.setAttribute("aria-pressed", String(on));
     musicBtn.setAttribute("aria-label", on ? "Mute background music" : "Play background music");
     document.documentElement.toggleAttribute("data-music", on && !!yt?.playing());
-    put("music", on ? "on" : "off");
     status();
   };
   const status = () => {
     const np = yt?.nowPlaying();
-    now.textContent = !isOn() ? "off · press ♪ to play" : np ? `▶ ${np.title} · ${np.credit}` : "on · tap anywhere to continue";
+    now.textContent = failed ? "could not load music · reload to try again" : !isOn() ? "off · press ♪ to play" : np ? `▶ ${np.title} · ${np.credit}` : "loading selected track…";
   };
+  const stop = () => { ++attempt; yt?.stop(); show(false); };
   const play = async () => {
-    yt ??= await import("./youtube");
-    yt.start(track, vol, () => show(false));
+    const requested = ++attempt;
+    failed = false;
     show(true);
+    try {
+      yt ??= await import("./youtube");
+      // A second click or page departure revokes this request while the module loads.
+      if (requested !== attempt || !isOn()) return;
+      yt.start(track, vol, stop);
+      show(true);
+    } catch {
+      if (requested !== attempt) return;
+      failed = true; stop();
+    }
   };
-  // the button does what it shows: "on" (playing, or waiting for a tap after a page change) turns it off
-  musicBtn.addEventListener("click", () => { if (isOn()) { yt?.stop(); show(false); } else void play(); });
+  musicBtn.addEventListener("click", () => { if (isOn()) stop(); else void play(); });
   wrap.querySelectorAll<HTMLInputElement>('input[name="mus-track"]').forEach((r) => r.addEventListener("change", () => {
     track = r.value as Track; put("music-track", track);
     if (isOn()) void play(); else status();
@@ -182,12 +191,7 @@ if (musicBtn) {
     document.addEventListener("pointerdown", (e) => { if (!wrap.contains(e.target as Node)) wrap.classList.remove("open"); });
   }
   setInterval(() => { if (wrap.matches(":hover, :focus-within, .open")) status(); }, 500);
-  if (get("music") === "on") {
-    musicBtn.setAttribute("aria-pressed", "true"); status();
-    const resume = (e: Event) => {
-      removeEventListener("pointerdown", resume, true); removeEventListener("keydown", resume, true);
-      if (!wrap.contains(e.target as Node) && isOn()) void play();   // the panel's own controls decide for themselves
-    };
-    addEventListener("pointerdown", resume, true); addEventListener("keydown", resume, true);
-  }
+  show(false);
+  // A cached page keeps its JS state. Back must require Play again, just like a fresh navigation.
+  addEventListener("pagehide", stop);
 }

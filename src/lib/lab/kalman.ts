@@ -15,34 +15,29 @@ export interface GateScore { falseCalls: number; caught: number }
 
 export const drifting = (t: number) => t >= DRIFT_FROM && t < DRIFT_TO;
 
-export function run(noise: number, seed = 1): DriftRun {
-  const r = rng(seed);
-  const out: DriftRun = { fair: [], mid: [], level: [], fixed: [], kalman: [] };
-  let fair = 100;
-  // Kalman state: level l, slope b, covariance P; process noise for each, measurement noise R
-  let l = 100, b = 0, P = [[1, 0], [0, 0.01]];
-  const ql = 0.02 ** 2, qb = 0.003 ** 2, R = noise ** 2;
-  for (let t = 0; t < STEPS; t++) {
-    fair += (drifting(t) ? DRIFT : 0) + 0.02 * gauss(r);
-    const mid = fair + noise * gauss(r);
-    out.fair.push(fair); out.mid.push(mid);
-
-    // fixed window: least-squares slope of the last WINDOW mids against a fixed threshold
-    const w = out.mid.slice(-WINDOW), n = w.length, xm = (n - 1) / 2, ym = w.reduce((a, v) => a + v, 0) / n;
-    let sxy = 0, sxx = 0;
-    w.forEach((v, i) => { sxy += (i - xm) * (v - ym); sxx += (i - xm) ** 2; });
-    out.fixed.push(n === WINDOW && Math.abs(sxy / sxx) > FIXED);
-
-    // Kalman, local linear trend: predict (l += b), then correct with the observed mid
-    l += b;
-    P = [[P[0][0] + 2 * P[0][1] + P[1][1] + ql, P[0][1] + P[1][1]], [P[0][1] + P[1][1], P[1][1] + qb]];
-    const S = P[0][0] + R, k0 = P[0][0] / S, k1 = P[1][0] / S, e = mid - l;
-    l += k0 * e; b += k1 * e;
-    P = [[(1 - k0) * P[0][0], (1 - k0) * P[0][1]], [P[1][0] - k1 * P[0][0], P[1][1] - k1 * P[0][1]]];
-    out.level.push(l);
-    out.kalman.push(t >= WINDOW && Math.abs(b) > Z * Math.sqrt(P[1][1]));
+export interface FilterDetail {innovation:number;gain:number;slope:number;slopeStd:number}
+export function filterObservations(mid:number[],noise:number,initial=mid[0]){
+  if(!mid.length||mid.some(x=>!Number.isFinite(x))||!Number.isFinite(noise)||noise<=0)throw new Error('Supply finite observations and a positive measurement-noise scale.');
+  const out:{level:number[];fixed:boolean[];kalman:boolean[];details:FilterDetail[]}={level:[],fixed:[],kalman:[],details:[]};
+  let l=initial,b=0,P=[[1,0],[0,0.01]];
+  const ql=0.02**2,qb=0.003**2,R=noise**2;
+  for(let t=0;t<mid.length;t++){
+    const w=mid.slice(Math.max(0,t-WINDOW+1),t+1),n=w.length,xm=(n-1)/2,ym=w.reduce((a,v)=>a+v,0)/n;
+    let sxy=0,sxx=0;w.forEach((v,i)=>{sxy+=(i-xm)*(v-ym);sxx+=(i-xm)**2;});
+    out.fixed.push(n===WINDOW&&Math.abs(sxy/sxx)>FIXED);
+    l+=b;
+    P=[[P[0][0]+2*P[0][1]+P[1][1]+ql,P[0][1]+P[1][1]],[P[0][1]+P[1][1],P[1][1]+qb]];
+    const S=P[0][0]+R,k0=P[0][0]/S,k1=P[1][0]/S,e=mid[t]-l;
+    l+=k0*e;b+=k1*e;
+    P=[[(1-k0)*P[0][0],(1-k0)*P[0][1]],[P[1][0]-k1*P[0][0],P[1][1]-k1*P[0][1]]];
+    const slopeStd=Math.sqrt(P[1][1]);out.level.push(l);out.kalman.push(t>=WINDOW&&Math.abs(b)>Z*slopeStd);out.details.push({innovation:e,gain:k0,slope:b,slopeStd});
   }
   return out;
+}
+export function run(noise:number,seed=1):DriftRun{
+  const r=rng(seed),fair:number[]=[],mid:number[]=[];let value=100;
+  for(let t=0;t<STEPS;t++){value+=(drifting(t)?DRIFT:0)+0.02*gauss(r);fair.push(value);mid.push(value+noise*gauss(r));}
+  const out=filterObservations(mid,noise,100);return {fair,mid,level:out.level,fixed:out.fixed,kalman:out.kalman};
 }
 
 /** Share of driftless steps where the gate fired, and share of drifting steps it caught. */

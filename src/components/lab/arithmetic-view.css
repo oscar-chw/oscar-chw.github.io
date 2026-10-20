@@ -1,0 +1,27 @@
+.exp[data-panel="compensated"] .rig { grid-template-columns: minmax(0,1fr); }
+.exp[data-panel="compensated"] .panel { grid-row:1; position:static; display:flex; flex-direction:row; flex-wrap:wrap; align-items:center; gap:12px; }
+.exp[data-panel="compensated"] .panel > .ctl { flex-basis:100%; }
+.exp[data-panel="compensated"] .cp-in { flex-basis:100%; display:grid; grid-template-columns:repeat(4,auto minmax(0,1fr)); align-items:center; gap:8px; margin:0; }
+.exp[data-panel="compensated"] .cp-in input { min-width:0; width:100%; box-sizing:border-box; }
+.exp[data-panel="compensated"] .cp-err-msg { flex-basis:100%; margin:0; }
+.exp[data-panel="compensated"] .panel > .lab-note { flex-basis:100%; margin:0; }
+.cp-execution h3 { font-size:1.4rem; margin:0 0 6px; }
+.cp-lanes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin:22px 0; }
+.cp-lane { min-width:0; border-top:2px solid var(--amber); }
+.cp-lane.compensated { border-color:var(--accent); }
+.cp-lane h4 { font-size:1rem; margin:14px 0; }
+.cp-lane .cp-op { display:flex; width:100%; align-items:flex-start; text-align:left; border:0; border-radius:0; padding:14px 4px; background:none; min-height:98px; position:relative; }
+.cp-op + .cp-op::before { content:'↓'; position:absolute; top:-7px; left:10px; color:var(--muted); }
+.cp-op .cp-step { color:var(--muted); font-size:.875rem; padding-top:2px; }
+.cp-op-body { display:grid; gap:7px; min-width:0; flex:1; }
+.cp-op-body span { color:var(--muted); }
+.cp-op-body strong { font-size:.95rem; overflow-wrap:anywhere; }
+.cp-op[aria-pressed="true"] { background:color-mix(in srgb,var(--accent) 9%,transparent); box-shadow:inset 3px 0 var(--accent); }
+.cp-reference { font-size:.875rem; overflow-wrap:anywhere; color:var(--accent); }
+.cp-inspector { border-top:1px solid var(--line-2); border-bottom:1px solid var(--line-2); padding:16px 0; margin-bottom:26px; }
+.cp-inspector p { font-size:.875rem; line-height:1.6; }
+.cp-inspect-value { overflow-wrap:anywhere; }
+.cp-bit-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; font-size:.875rem; letter-spacing:.04em; }
+.cp-bit-grid span { padding:7px 4px; border-bottom:1px solid var(--line-2); text-align:center; }
+.cp-bit-head { color:var(--accent); }
+@media(max-width:700px){ .cp-lanes { grid-template-columns:minmax(0,1fr); } .cp-bit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .exp[data-panel="compensated"] .cp-in { grid-template-columns:auto minmax(0,1fr); } }

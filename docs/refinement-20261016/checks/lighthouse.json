@@ -1,0 +1,101 @@
+[
+  {
+    "url": "/",
+    "fetchTime": "2026-10-16T13:53:15.039Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "4543025f32e1e936bfdd673e925eb160499005b382ac954c0128e95d593abf91"
+  },
+  {
+    "url": "/",
+    "fetchTime": "2026-10-16T13:53:36.312Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "e7afb18a917beb5c8bcc55a5b97696190689674cb09647a1185b02f0f8f0ffd6"
+  },
+  {
+    "url": "/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-16T13:53:56.915Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "c1a36707393b9b41c15ea90524ad2f6ffa582770cd8502ad1d0807d5f6e9077a"
+  },
+  {
+    "url": "/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-16T13:54:07.144Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "a9d0995451b7819d1930ae16afa79e80b8bd65d5bf8c47de08e8dbffd375729f"
+  },
+  {
+    "url": "/demos/",
+    "fetchTime": "2026-10-16T13:54:17.404Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "381a00142f42afea9e4730105089f1fe8700d758a78f54ccff670fb1f5afd297"
+  },
+  {
+    "url": "/demos/",
+    "fetchTime": "2026-10-16T13:54:37.854Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "c4f41d00763dbc19e5d0491764d34f441f8f715c2742e5dd21aeb1b685d40023"
+  },
+  {
+    "url": "/",
+    "fetchTime": "2026-10-16T13:53:25.925Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "5c7946781bb1fda93d91624f45e3ae9c438c6280de00e74f3a6244e94536c2b1"
+  },
+  {
+    "url": "/projects/ai-quant-research-system/",
+    "fetchTime": "2026-10-16T13:53:46.658Z",
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "9e2ba46c951e3eb2bd3b06fcf73c5e39ab52da807286abf0dfdd6942d04efdf8"
+  },
+  {
+    "url": "/demos/",
+    "fetchTime": "2026-10-16T13:54:27.613Z",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "3f8acb681899731126048797f6e032e6a9df04a32c1d6640369cf2155c7af3b0"
+  }
+]

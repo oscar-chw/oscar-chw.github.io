@@ -1,0 +1,101 @@
+[
+  {
+    "url_path": "/",
+    "representative": false,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "f800da15d353a7f88a94c37a6cac5e99c9bfc40c01a525b8ef4c2eb27185255c"
+  },
+  {
+    "url_path": "/",
+    "representative": false,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "cb96b8b15feb8fdcd442aa4efb2f3f96401fd9a148cf288106af12662df0dc9e"
+  },
+  {
+    "url_path": "/projects/ai-quant-research-system/",
+    "representative": false,
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "9b55dd97388c749ec877999829bc82c6295f6221714ebeb302803f4cf47cfc5e"
+  },
+  {
+    "url_path": "/projects/ai-quant-research-system/",
+    "representative": false,
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "a16584dbe1be7c5f03d23ba9f5ae103104998ac6bc9daadbfa4de4ffcc9b5089"
+  },
+  {
+    "url_path": "/demos/",
+    "representative": false,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "8df8f4bc95d6b1af0b911309161bead26bff288a0bba59f147791547ae0dc280"
+  },
+  {
+    "url_path": "/demos/",
+    "representative": false,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "7c0c66098fbf64aee60c78175244ca1f4a5677a3f78fff3a2d3da8f104ed400d"
+  },
+  {
+    "url_path": "/",
+    "representative": true,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "aeaa76bd81a3c437d4f75632bae650d3b48c65864cdc74d5cbc247f1583f575d"
+  },
+  {
+    "url_path": "/projects/ai-quant-research-system/",
+    "representative": true,
+    "scores": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "0685f5fe2a22c58733f871f5ca8eb0a69c1469f8b0da55cd89d398aa1bfd23e7"
+  },
+  {
+    "url_path": "/demos/",
+    "representative": true,
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 0.97,
+      "best-practices": 1,
+      "seo": 1
+    },
+    "report_sha256": "ffeb4cf6a9cd48ae94032edd31b1fa3028967f300000df0f20233bc01bdcf675"
+  }
+]

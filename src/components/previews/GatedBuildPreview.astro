@@ -1,33 +1,27 @@
 ---
-// The AI quant research system's build-computed result: the Lab's own gated work graph, run once with a planted bug.
-import g from "../../../sources/site-experiments/gated-build-preview.json";
-import LiveCta from "./LiveCta.astro";
-import "./preview.css";
+import g from '../../../sources/site-experiments/feed-gate-preview.json';
+import LiveCta from './LiveCta.astro';
+import './preview.css';
 ---
 <figure class="pv" aria-labelledby="gb-cap">
-  <p class="pv-tag mono" id="gb-cap"><b>BUILD-COMPUTED</b> by the Lab's own code when this page was built · a SYNTHETIC five-task chain, not the build's real tasks</p>
-  <ol class="gbp">
-    {g.tasks.map((t) => (
-      <li class={t.state}>
-        <span class="gbp-n mono">{t.id.padStart(2, "0")}</span>
-        <span class="gbp-t"><b>{t.title}</b><small>gate: {t.gate}</small>{t.evidence.map((e) => <small class="ev">evidence: {e}</small>)}</span>
-        <span class="gbp-s mono">{t.state === "done" ? "done" : g.ready.includes(t.id) ? "pending · ready" : "pending · blocked"}</span>
-      </li>
-    ))}
-  </ol>
-  <ol class="gbp-log mono">{g.log.map((l) => <li>{l}</li>)}</ol>
-  <LiveCta id="gatedbuild" what="run the gates yourself, plant the bug, then claim the task is done" />
+  <p class="pv-tag mono" id="gb-cap"><b>BUILD-COMPUTED</b> · stored Python reference run, checked against the browser runtime in tests · synthetic records</p>
+  <h3>A timestamp that cannot be true</h3>
+  <p>Record 1 arrives at <b>21 ms</b> but claims it was available at <b>19 ms</b>. The project's actual archive validator rejects it:</p>
+  <pre class="mono failure">ValueError: {g.error}</pre>
+  <p>In the corrected fixture, <code>available_ms</code> is <b>22</b>. The same Python function returns these book rows:</p>
+  <div class="preview-scroll"><table>
+    <thead><tr><th>Record</th><th>Available (ms)</th><th>State</th><th>Bid size (units)</th></tr></thead>
+    <tbody>{g.rows.map((r) => (<tr><td>{r.sequence}</td><td>{r.available_ms}</td><td>{r.status}</td><td>{r.bid_size / 100}</td></tr>))}</tbody>
+  </table></div>
+  <p class="limit">The update replaces the aggregate size; it does not add another order. These are declared test clocks. Passing this check does not authenticate timestamps or validate a strategy.</p>
+  <p><a href={g.source.files['replay/admission.py'].url}>Exact Python source</a> · <a href={g.source.files['test_admission.py'].url}>Upstream boundary tests</a></p>
+  <LiveCta id="gatedbuild" what="edit the record, execute this Python validator, and inspect the returned evidence" />
 </figure>
-
 <style>
-  .gbp { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-  .gbp li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line-2); }
-  .gbp-n { font-size: 0.875rem; color: var(--muted); }
-  .gbp-t { display: flex; flex-direction: column; gap: 2px; } .gbp-t b { font-size: 1rem; } .gbp-t small { font-size: 0.875rem; color: var(--muted); }
-  .gbp-t small.ev { color: var(--down); }
-  .gbp-s { font-size: 0.875rem; color: var(--muted); }
-  .gbp li.done .gbp-s { color: var(--up); }
-  .gbp li.pending:has(.ev) { border-color: color-mix(in srgb, var(--down) 50%, var(--line-2)); }
-  .gbp-log { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 0.875rem; color: var(--muted); }
-  @media (max-width: 640px) { .gbp li { grid-template-columns: auto minmax(0, 1fr); } .gbp-s { grid-column: 2; } }
+  h3 { margin-top: 4px; }
+  .failure { padding: 14px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--bg); border-left: 3px solid var(--down); font-size: 0.875rem; }
+  .preview-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th,td { padding: 10px; border-bottom: 1px solid var(--line-2); text-align: left; }
+  .limit { color: var(--muted); }
 </style>

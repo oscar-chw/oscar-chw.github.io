@@ -33,14 +33,20 @@ const CARDS = [
 ];
 ---
 <Demo code={code} title="Quant-system blueprint" description="An asset-agnostic architecture illustrated with a crypto worked example: each stage has a contract to pass, and each rule is backed by a runnable experiment with a control.">
-  <Fragment slot="instructions">Pick a stage to read the rule it must pass. Below are three of the experiments behind the rules, each measured against its own control.</Fragment>
+  <Fragment slot="instructions">Pick pricing, portfolio or validation to open its recorded experiment. Change an assumption, inspect paired observations and calculate the difference. Other stages show their contract and explicitly identify the missing saved experiment.</Fragment>
 
   <p class="measure">The <a href={BP}>blueprint</a> splits a quantitative research and trading system into nine typed stages. The architecture is asset-agnostic; this page demonstrates its crypto worked example. Each stage ships with conformance tests that any implementation must pass, and each test has a deliberately broken version it must catch. My <a href={CTP}>crypto trading pipeline</a> is a worked example: its data, feature, strategy and execution stages pass the blueprint's conformance tests, and its risk and sizing stages do not yet. Other asset classes are not implemented or validated by this demonstration.</p>
 
   <div class="stages" role="tablist" aria-label="Pipeline stages">
-    {STAGES.map(([n, name], i) => <button type="button" role="tab" class="st mono" aria-selected={i === 0 ? "true" : "false"} data-stage={i}><b>{n}</b>{name}</button>)}
+    {STAGES.map(([n, name], i) => <button type="button" role="tab" class="st mono" aria-selected={i === 8 ? "true" : "false"} tabindex={i === 8 ? 0 : -1} data-stage={i}><b>{n}</b>{name}</button>)}
   </div>
-  <p class="rule measure" aria-live="polite" data-testid="stage-rule"><strong>{STAGES[0][0]} {STAGES[0][1]}:</strong> {STAGES[0][2]}</p>
+  <p class="rule measure" aria-live="polite" data-testid="stage-rule"><strong>{STAGES[8][0]} {STAGES[8][1]}:</strong> {STAGES[8][2]}</p>
+  <p class="stage-evidence measure mono" data-stage-evidence role="status">08 validation → EXP-08-1 · recorded controls and observations</p>
+
+  <section class="recorded-workspace" aria-label="Recorded experiment explorer" data-recorded-explorer>
+    <h2>Explore the recorded evidence</h2>
+    <p>Compare assumptions and controls, inspect the observations that were saved, and export the exact selected source record.</p>
+  </section>
 
   <div class="cards">
     {CARDS.map((c) => (
@@ -58,18 +64,29 @@ const CARDS = [
 </Demo>
 
 <script>
+  import {mountRecordedExplorer} from '../../components/lab/recorded-explorer';
+  import type {Study} from '../../lib/recorded-studies';
+  const workspace=document.querySelector<HTMLElement>('[data-recorded-explorer]')!;
+  const evidence=document.querySelector<HTMLElement>('[data-stage-evidence]')!;
+  const studies:Record<number,{study:Study;id:string}>={4:{study:'funding',id:'EXP-04-1'},6:{study:'kelly',id:'EXP-06-1'},8:{study:'validation',id:'EXP-08-1'}};
+  const explorer=mountRecordedExplorer(workspace,study=>pick(study==='funding'?4:study==='kelly'?6:8,false));
   // the stage list is a small tablist: click or arrow keys pick a stage and show its rule
   const tabs = [...document.querySelectorAll<HTMLButtonElement>(".stages .st")];
   const rule = document.querySelector<HTMLElement>("[data-testid=stage-rule]")!;
   const data = JSON.parse(document.querySelector<HTMLElement>("[data-stages]")!.dataset.stages!) as string[][];
-  const pick = (i: number) => {
-    tabs.forEach((t, k) => t.setAttribute("aria-selected", String(k === i)));
+  const pick = (i: number,select=true) => {
+    tabs.forEach((t, k) => {t.setAttribute("aria-selected", String(k === i));t.tabIndex=k===i?0:-1;});
     rule.innerHTML = `<strong>${data[i][0]} ${data[i][1]}:</strong> `; rule.append(data[i][2]);
+    const match=studies[i];workspace.hidden=!match;
+    evidence.textContent=match?`${data[i][0]} ${data[i][1]} → ${match.id} · RECORDED controls and observations; the original experiment is not rerun here.`
+      :`No saved experiment for ${data[i][0]} ${data[i][1]} is included on this page. This is an architecture contract, not a demonstrated execution. Choose pricing, portfolio or validation to inspect the available evidence.`;
+    if(match&&select)explorer.select(match.study);
   };
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => pick(i));
-    t.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { const j = (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length; tabs[j].focus(); pick(j); } });
+    t.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault();const j = (i + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length; tabs[j].focus(); pick(j); } });
   });
+  pick(8,false);
 </script>
 <div hidden data-stages={JSON.stringify(STAGES)}></div>
 
@@ -79,6 +96,7 @@ const CARDS = [
   .st b { color: var(--accent); font-weight: 600; }
   .st[aria-selected="true"] { color: var(--ink); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
   .rule { min-height: 3em; }
+  .stage-evidence { padding:14px 16px; border-left:2px solid var(--accent); font-size:.875rem; background:var(--bg-2); }
   .cards { display: grid; gap: 18px; margin: 24px 0; }
   .card { margin: 0; border: 1px solid var(--line-2); border-radius: 16px; overflow: hidden; background: #fff; }
   .card img { display: block; width: 100%; height: auto; }

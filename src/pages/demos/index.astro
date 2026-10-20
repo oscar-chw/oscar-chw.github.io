@@ -7,6 +7,7 @@ import Icon from "../../components/Icon.astro";
 import { EXPERIMENTS } from "../../data/lab";
 import { url } from "../../lib/url";
 import "../../styles/lab.css";
+import "../../styles/lab-navigation.css";
 
 const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
 ---
@@ -17,11 +18,11 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   </div>
   <div class="wrap lab" data-lab data-base={import.meta.env.BASE_URL}>
     <nav class="tree mono" aria-label="Experiments" data-lenis-prevent>
-      <p class="root">~/lab</p>
-      <div role="listbox" aria-label="Experiments" tabindex="0" data-lenis-prevent>
-        {folders.map((f) => (
-          <div class="dir" role="group" aria-labelledby={`dir-${f}`}><span class="d" id={`dir-${f}`} data-dir><Icon name="folder" size={14} />{f}/<span class="chev" aria-hidden="true">▾</span></span>
-            <div class="files">
+      <div class="root rail-selection" role="listbox" aria-label="Experiments" aria-owns={folders.map((_, i) => `lab-files-${i}`).join(" ")} tabindex="0">~/lab <span aria-hidden="true">↑↓ browse</span></div>
+      <div class="rail-files" data-lenis-prevent>
+        {folders.map((f, i) => (
+          <div class="dir"><button class="d" id={`dir-${f}`} data-dir type="button" aria-controls={`lab-files-${i}`} aria-expanded="true"><Icon name="folder" size={14} />{f}/<span class="chev" aria-hidden="true">▾</span></button>
+            <div class="files" id={`lab-files-${i}`} role="group" aria-labelledby={`dir-${f}`}>
               {EXPERIMENTS.filter((e) => e.folder === f).map((e) => (
                 <div role="option" id={`opt-${e.id}`} data-exp={e.id} aria-selected="false">
                   <a href={e.kind === "page" ? url(e.href!) : `#${e.id}`}><Icon name={e.kind === "page" ? "external-link" : "file-code"} size={13} />{e.file}</a>
@@ -69,14 +70,20 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   const opts = [...lab.querySelectorAll<HTMLElement>("[data-exp]")];
   const panels = new Map([...lab.querySelectorAll<HTMLElement>("[data-panel]")].map((p) => [p.dataset.panel!, p]));
   const mounted = new Set<string>();
-  const list = lab.querySelector<HTMLElement>("[role=listbox]")!;
+  const rail = lab.querySelector<HTMLElement>(".rail-files")!;
+  // The visible keyboard selector owns the option groups. Disclosure buttons stay
+  // siblings, outside that selection widget, with their native button semantics.
+  const list = lab.querySelector<HTMLElement>(".tree [role=listbox]")!;
+  const tree = lab.querySelector<HTMLElement>(".tree")!;
   lab.classList.add("live");
 
   async function open(id: string, push = true) {
     if (!panels.has(id)) return;
     for (const [k, p] of panels) p.hidden = k !== id;
     opts.forEach((o) => o.setAttribute("aria-selected", String(o.dataset.exp === id)));
-    opts.find((o) => o.dataset.exp === id)?.closest(".dir")?.classList.remove("shut");   // the open file's folder is always open
+    const folder = opts.find((o) => o.dataset.exp === id)?.closest<HTMLElement>(".dir");
+    folder?.classList.remove("shut"); // the open file's folder is always open
+    folder?.querySelector("[data-dir]")?.setAttribute("aria-expanded", "true");
     list.setAttribute("aria-activedescendant", `opt-${id}`);
     const panel = panels.get(id)!;
     panel.classList.remove("enter"); void panel.offsetWidth; panel.classList.add("enter");
@@ -93,27 +100,45 @@ const folders = [...new Set(EXPERIMENTS.map((e) => e.folder))];
   const reveal = (id: string, smooth = false) => {
     if (narrow.matches) panels.get(id)?.scrollIntoView({ behavior: smooth && !matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "instant", block: "start" });
   };
+  const revealRailEntry = (id: string) => opts.find((o) => o.dataset.exp === id)?.querySelector("a")?.scrollIntoView({ block: "nearest" });
   for (const o of opts) o.querySelector("a")!.addEventListener("click", (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault(); open(o.dataset.exp!);
     reveal(o.dataset.exp!, true);
   });
-  list.addEventListener("keydown", (e) => {
+  tree.addEventListener("keydown", (e) => {
+    if ((e.target as Element).closest("button[data-dir]")) return;
     const cur = opts.findIndex((o) => o.getAttribute("aria-selected") === "true");
-    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(opts[(cur + (e.key === "ArrowDown" ? 1 : opts.length - 1)) % opts.length].dataset.exp!); }
+    if (e.key === "ArrowDown" || e.key === "ArrowUp" || e.key === "Home" || e.key === "End") {
+      e.preventDefault();
+      const next = e.key === "Home" ? 0 : e.key === "End" ? opts.length - 1 : (cur + (e.key === "ArrowDown" ? 1 : opts.length - 1)) % opts.length;
+      const id = opts[next].dataset.exp!;
+      open(id);
+      list.focus({ preventScroll: true });
+      revealRailEntry(id);
+    } else if (e.key === "Enter" && document.activeElement === list) {
+      e.preventDefault();
+      const id = opts.find((o) => o.getAttribute("aria-selected") === "true")?.dataset.exp;
+      if (id) open(id);
+    }
   });
   // a deep link opens its experiment; otherwise the first one in the list, the one the page shows without JS
   open(location.hash.slice(1) && panels.has(location.hash.slice(1)) ? location.hash.slice(1) : opts[0].dataset.exp!, false);
   // a link to another experiment from this page (the command menu, search, a typed hash) changes only the hash: open it too
   addEventListener("hashchange", () => { const id = location.hash.slice(1); if (panels.has(id)) { open(id, false); reveal(id); } });
   // folders: click to fold; if the list is taller than its box, fold every folder but the open file's
-  const tree = lab.querySelector<HTMLElement>(".tree")!, dirs = [...lab.querySelectorAll<HTMLElement>(".tree .dir")];
-  for (const d of dirs) d.querySelector("[data-dir]")!.addEventListener("click", () => d.classList.toggle("shut"));
+  const dirs = [...lab.querySelectorAll<HTMLElement>(".tree .dir")];
+  for (const d of dirs) d.querySelector<HTMLButtonElement>("[data-dir]")!.addEventListener("click", (e) => {
+    const expanded = (e.currentTarget as HTMLButtonElement).getAttribute("aria-expanded") === "true";
+    d.classList.toggle("shut", expanded);
+    (e.currentTarget as HTMLButtonElement).setAttribute("aria-expanded", String(!expanded));
+  });
   const fit = () => {
-    dirs.forEach((d) => d.classList.remove("shut"));
-    const box = narrow.matches ? list : tree;
+    dirs.forEach((d) => { d.classList.remove("shut"); d.querySelector("[data-dir]")?.setAttribute("aria-expanded", "true"); });
+    const box = narrow.matches ? rail : tree;
     // fold the biggest folders first, one at a time, only until the list fits (never the open file's)
     const order = dirs.filter((d) => !d.querySelector('[aria-selected="true"]')).sort((x, y) => y.querySelectorAll("[role=option]").length - x.querySelectorAll("[role=option]").length);
-    for (const d of order) { if (box.scrollHeight <= box.clientHeight + 4) break; d.classList.add("shut"); }
+    for (const d of order) { if (box.scrollHeight <= box.clientHeight + 4) break; d.classList.add("shut"); d.querySelector("[data-dir]")?.setAttribute("aria-expanded", "false"); }
   };
   fit(); addEventListener("resize", fit);
   if (panels.has(location.hash.slice(1))) reveal(location.hash.slice(1));

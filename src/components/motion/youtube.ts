@@ -1,7 +1,7 @@
 // Piano pieces played from their performers' own YouTube uploads. The site hosts no audio: YouTube's
 // privacy-enhanced player loads only when a visitor chooses one, stays visible as a credited
-// mini-player (YouTube's rules do not allow a hidden player), and picks up where it left off after a
-// page change. Volume and pause go to the player through its postMessage API. YouTube requires the
+// mini-player (YouTube's rules do not allow a hidden player), and picks up where it left off only after
+// another explicit Play action. Volume and pause go through its postMessage API. YouTube requires the
 // player to stay visible and at least 200 by 200 pixels with nothing over it, so it can be moved out of
 // the way (dragged, or sent to the other corner) but never hidden.
 export const TRACKS = {
@@ -48,7 +48,7 @@ export function start(k: YtTrack, volume: number, onClose: () => void) {
   frame.allow = "autoplay; encrypted-media; picture-in-picture";
   frame.referrerPolicy = "strict-origin-when-cross-origin";
   frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&loop=1&playlist=${id}&start=${t}&origin=${encodeURIComponent(location.origin)}`;
-  // ask the player to report its time, so the next page can continue from there
+  // Remember the position for the next explicit Play action.
   frame.addEventListener("load", () => frame?.contentWindow?.postMessage(JSON.stringify({ event: "listening", id: 1 }), "*"));
   box.append(p, frame);
   document.body.append(box);

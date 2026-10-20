@@ -1,6 +1,7 @@
 // Every inline Lab experiment, by id: the Lab and the project pages mount the same module through this one map.
 // mountExperiment adds the shared reset when an experiment has none of its own, so every experiment can be replayed.
-type Exp = { mount: (stage: HTMLElement, controls: HTMLElement) => void | Promise<void> };
+type Cleanup = () => void;
+type Exp = { mount: (stage: HTMLElement, controls: HTMLElement) => void | Cleanup | Promise<void | Cleanup> };
 export const LOAD: Record<string, () => Promise<Exp>> = {
     gatedbuild: () => import("./exp/gatedbuild"),
     search: () => import("./exp/search"),
@@ -60,11 +61,14 @@ export async function mountExperiment(id: string, stage: HTMLElement, controls: 
   };
   try {
     const m = await LOAD[id]();
+    let cleanup: void | Cleanup;
     const run = async () => {
+      if (typeof cleanup === "function") cleanup();
+      cleanup = undefined;
       stage.dataset.loadState = "loading"; stage.setAttribute("aria-busy", "true");
       stage.replaceChildren(); controls.replaceChildren();
       try {
-        await m.mount(stage, controls);
+        cleanup = await m.mount(stage, controls);
         // Data-backed experiments may render their own recoverable load failure.
         if (stage.dataset.loadState !== "error") stage.dataset.loadState = "ready";
         stage.setAttribute("aria-busy", "false");

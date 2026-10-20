@@ -1,0 +1,192 @@
+$ cd /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io && npm run check && npm run build && npx playwright test e2e/lab-navigation.spec.ts
+
+> check
+> astro check
+
+21:35:36 [content] Syncing content
+21:35:36 [content] Synced content
+21:35:36 [types] Generated 276ms
+21:35:36 [check] Getting diagnostics for Astro files in /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io...
+src/components/lab/ui.ts:72:65 - warning ts(6133): 'v' is declared but its value is never read.
+
+72     if (band) html += `<path d="${path(band.hi)}L${band.lo.map((v, i) => `${X(band.lo.length - 1 - i).toFixed(1)} ${Y(band.lo[band.lo.length - 1 - i]).toFixed(1)}`).join("L")}Z" fill="${band.color}" opacity="0.18"/>`;
+                                                                   ~
+
+src/lib/orderbook.test.ts:2:50 - warning ts(6133): 'Book' is declared but its value is never read.
+
+2 import { parseDepth, FrameGate, createFeed, type Book } from "./orderbook";
+                                                   ~~~~
+
+Result (185 files):
+- 0 errors
+- 0 warnings
+- 2 hints
+
+
+> build
+> astro build
+
+21:35:42 [content] Syncing content
+21:35:42 [content] Synced content
+21:35:42 [types] Generated 233ms
+21:35:42 [build] output: "static"
+21:35:42 [build] mode: "static"
+21:35:42 [build] directory: /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/dist/
+21:35:42 [build] Collecting build info...
+21:35:42 [build] ✓ Completed in 266ms.
+21:35:42 [build] Building static entrypoints...
+21:35:42 [assets] Copying fonts (2 files)...
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/supporting-work.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/supporting-work.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/coursework.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/coursework.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/ai-quant-research-system.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/final-year-project.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/final-year-project.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/fatqat-gpu-backend.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/competitions.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/competitions.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [WARN] [vite] [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use astro:head-inject" in "src/content/projects/qts-research-platform.mdx?astroPropagatedAssets" may not be preserved when bundling.
+   ╭─[ src/content/projects/qts-research-platform.mdx?astroPropagatedAssets:2:6 ]
+   │
+ 2 │               "use astro:head-inject";
+   │               ────────────┬───────────
+   │                           ╰───────────── module level directive may not be preserved
+   │
+   │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+───╯
+
+21:35:42 [vite] ✓ built in 386ms
+21:35:43 [vite] ✓ built in 166ms
+21:35:43 [build] Rearranging server assets...
+
+ generating static routes
+21:35:43   ├─ /404.html (+25ms)
+21:35:43   ├─ /about/index.html (+49ms)
+21:35:43   ├─ /card/index.html (+42ms)
+21:35:43   ├─ /cv/index.html (+16ms)
+21:35:43   ├─ /demos/crypto-desk/index.html (+18ms)
+21:35:43   ├─ /demos/fourier/index.html (+15ms)
+21:35:43   ├─ /demos/harbour/index.html (+15ms)
+21:35:43   ├─ /demos/order-book/index.html (+15ms)
+21:35:43   ├─ /demos/reconciliation/index.html (+1ms)
+21:35:43   ├─ /demos/index.html (+17ms)
+21:35:43   ├─ /lab/corpus.json (+4ms)
+21:35:43   ├─ /oscar-choi.vcf (+64ms)
+21:35:43   ├─ /projects/agent-harness/index.html (+1ms)
+21:35:43   ├─ /projects/alpha-search/index.html (+2ms)
+21:35:43   ├─ /projects/factor-lab/index.html (+2ms)
+21:35:43   ├─ /projects/imc-prosperity-4/index.html (+1ms)
+21:35:43   ├─ /projects/market-making-lab/index.html (+1ms)
+21:35:43   ├─ /projects/point-in-time-research/index.html (+1ms)
+21:35:43   ├─ /projects/pokemon-tcg-ai/index.html (+2ms)
+21:35:43   ├─ /projects/studyflow/index.html (+1ms)
+21:35:43   ├─ /projects/ai-quant-research-system/index.html (+59ms)
+21:35:43   ├─ /projects/fatqat-gpu-backend/index.html (+39ms)
+21:35:43   ├─ /projects/qts-research-platform/index.html (+40ms)
+21:35:43   ├─ /projects/final-year-project/index.html (+47ms)
+21:35:43   ├─ /projects/competitions/index.html (+37ms)
+21:35:43   ├─ /projects/supporting-work/index.html (+29ms)
+21:35:43   ├─ /projects/coursework/index.html (+25ms)
+21:35:43   ├─ /projects/index.html (+18ms)
+21:35:43   ├─ /index.html (+24ms)
+21:35:43 ✓ Completed in 660ms.
+
+ generating optimized images
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_1XaBqu.avif (reused cache entry) (+1ms) (1/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_19RsWw.webp (reused cache entry) (+1ms) (2/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_ZxSM7W.jpg (reused cache entry) (+0ms) (3/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_ZQyltl.avif (reused cache entry) (+0ms) (4/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_Z1EQtWj.webp (reused cache entry) (+0ms) (5/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_1GynL9.jpg (reused cache entry) (+0ms) (6/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_ZwDRlU.avif (reused cache entry) (+1ms) (7/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_Z1kW0OS.webp (reused cache entry) (+0ms) (8/9)
+21:35:43   ▶ /_astro/profile_photo.BJvOr4bu_21sQSz.jpg (reused cache entry) (+0ms) (9/9)
+21:35:43 ✓ Completed in 5ms.
+
+21:35:43 [build] ✓ Completed in 1.24s.
+21:35:43 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+21:35:43 [build] 18 page(s) built in 1.52s
+21:35:43 [build] Complete!
+
+Running 8 tests using 6 workers
+
+  ✓  4 [chromium] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (933ms)
+  ✓  3 [chromium] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (1.0s)
+  ✓  1 [chromium] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (1.0s)
+  ✓  2 [chromium] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (1.2s)
+  ✓  6 [webkit] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (1.7s)
+  ✓  5 [webkit] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (1.7s)
+  ✓  7 [webkit] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (891ms)
+  ✓  8 [webkit] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (1.4s)
+
+  8 passed (4.1s)
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+(node:85376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85375) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85378) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85373) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85377) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS 86 (exit 0, 14s)

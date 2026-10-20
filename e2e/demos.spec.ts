@@ -179,6 +179,7 @@ test("order-book replay: holding Step keeps stepping; a click steps once", async
 });
 
 test("lab: a gated build only moves when a gate passes; a planted bug sends task 4 back with evidence", async ({ page }) => {
+  await localPyodide(page);
   await page.goto("/demos/#gatedbuild");
   const panel = page.locator('[data-panel="gatedbuild"]'), rows = panel.locator(".gb-t");
   await expect(rows).toHaveCount(5);

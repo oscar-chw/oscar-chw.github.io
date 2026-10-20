@@ -1,0 +1,26 @@
+.fr-replay { margin:22px 0; padding:20px 0; border-top:1px solid var(--line-2); border-bottom:1px solid var(--line-2); }
+.fr-replay h3 { font-size:1.4rem; margin:0 0 8px; }
+.fr-replay .lab-note { line-height:1.6; }
+.fr-steps { display:flex; gap:8px; overflow:auto; padding:4px 3px 12px; max-width:100%; }
+.fr-steps button { flex-shrink:0; min-height:44px; }
+.fr-steps [aria-pressed="true"] { border-color:var(--accent); color:var(--accent); }
+.fr-replay input[type="range"] { width:100%; min-width:0; }
+.fr-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.fr-state { color:var(--accent); font-size:1rem; }
+.fr-clocks { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:16px 0; border-top:1px dashed var(--line-2); }
+.fr-clocks div { display:grid; gap:6px; font-size:.875rem; min-width:0; overflow-wrap:anywhere; }
+.fr-clocks span { color:var(--muted); }
+.fr-book { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:12px 0 22px; }
+.fr-side { display:grid; gap:10px; min-width:0; padding:18px 0; border-top:2px solid var(--accent); }
+.fr-side.ask { border-color:var(--amber); }
+.fr-price { font-size:clamp(1.7rem,3vw,2.5rem); }
+.fr-depth-track { height:28px; background:color-mix(in srgb,var(--ink) 6%,transparent); }
+.fr-depth-track i { display:block; height:100%; background:var(--accent); }
+.ask .fr-depth-track i { background:var(--amber); }
+.fr-gap { grid-column:1/-1; padding:22px; border:1px dashed var(--amber); background:repeating-linear-gradient(135deg,transparent,transparent 12px,color-mix(in srgb,var(--amber) 4%,transparent) 12px,color-mix(in srgb,var(--amber) 4%,transparent) 24px); }
+.fr-gap p { margin-bottom:0; }
+.fr-spread { grid-column:1/-1; font-size:.875rem; color:var(--muted); }
+.fr-source { max-height:260px; max-width:100%; overflow:auto; font-size:.875rem; line-height:1.6; padding:12px; border-radius:10px; background:var(--bg); }
+.fr-replay details { margin:16px 0; }
+@media(prefers-reduced-motion:no-preference){.fr-depth-track i { transition:width .3s ease; }}
+@media(max-width:520px){.fr-clocks { grid-template-columns:minmax(0,1fr); gap:14px; } .fr-clocks div { grid-template-columns:1fr 1fr; } .fr-book { gap:12px; } }

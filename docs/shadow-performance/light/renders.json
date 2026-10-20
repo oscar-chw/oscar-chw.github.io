@@ -1,0 +1,30 @@
+[
+  {
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/shadow-performance/light/chromium-375.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/shadow-performance/light/chromium-1280.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/shadow-performance/light/webkit-375.png",
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/shadow-performance/light/webkit-1280.png",
+    "overflow": 0,
+    "errors": []
+  }
+]

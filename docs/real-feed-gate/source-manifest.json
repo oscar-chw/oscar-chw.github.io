@@ -1,0 +1,22 @@
+{
+  "src/components/lab/exp/gatedbuild.ts": "a56336501b18a9261e3e87e7371876feaa2c9ae21a2ad2e91767c1e20311b8f0",
+  "src/components/previews/GatedBuildPreview.astro": "2131c05dd81022264a3f0efb8c465e2685820a69dc93301a019cf7fcc100dfbb",
+  "src/content/projects/ai-quant-research-system.mdx": "3b98eeaecc74b5c9537db8a88cd2ad04074a039107bf4134a57900ebf172ceb7",
+  "src/data/lab.ts": "205610a71af754fb9fb28d470dc0031c77dec7f0b092f7c9edc935ea5406e6d3",
+  "src/styles/lab.css": "2d90d97046988e431c6ff851c7924a8e488786b4c939e74ac6e817b328e1cef5",
+  "public/lab/feed-runtime.js": "c7625878776d4704bde9771cd08b31e2181ba4e23b4af8e3bb0088a72f4524fd",
+  "src/lib/feed-runtime.test.ts": "58359d101273f6a164a46ff654d7d54a93043374cf58adc7aa0bbd59d73fc8ce",
+  "e2e/feed-gate.spec.ts": "3c119ff0bf34fb13e2a280bbfe3c51b703e796a3421998abb9f5cb3c65a2f3be",
+  "scripts/check-feed-gate-source.py": "ef17b86ead5d151c2f21ca4219857f4d4adec63ecccf648b94942e6e3b308bf0",
+  "scripts/inspect-feed-gate.mjs": "2188af8c5d7ff5b8fd614193da3bfbd9a4e2128b0b841c769540b2938dbc7373",
+  "sources/site-experiments/feed-gate-preview.json": "a8424028f0d8212632d6652e1a62ba376655c07fd076c2ebec732a6683cec79f",
+  "public/lab/feed-gate/bad-clock.jsonl": "e0d1918b263cf17b057dfc4ffb8efe9f2cf1f135cd5db99976e0a3d24a1b6bd9",
+  "public/lab/feed-gate/LICENSE": "2d1c8e580804b10228b67107fdd763aa20ac216aceecb5d7d261c280f471bca1",
+  "public/lab/feed-gate/test_admission.py": "a6d087294ff652b160bffab74011219c1e3aaf03df446a7f65b45b80f0719918",
+  "public/lab/feed-gate/manifest.json": "791d59713deebce9f999880ca958617e6c3c25fff3c80a84b97a7692854188a5",
+  "public/lab/feed-gate/correct.jsonl": "6f7fa9f0aafce8342599e4f64190e2daa2077cde04d0a3d46e954c41a8b13469",
+  "public/lab/feed-gate/replay/__init__.py": "3839909468489b4c28ccbecd3542f3ec792646b00d92b8d6b7ae7dd2242f430c",
+  "public/lab/feed-gate/replay/feed.py": "78c1ac3de74165df5d4f5e43f57126d1de9870bded4303849224711794aa7c44",
+  "public/lab/feed-gate/replay/book.py": "ba6826b0108f300fb9fb6202eade34c30e3cbd4d1a01f3c3931e01b66d8fab64",
+  "public/lab/feed-gate/replay/admission.py": "7e49917eabfbb2be0e9e63fd3b799398d1fbfed0fbe52c636a65d13c04197d65"
+}

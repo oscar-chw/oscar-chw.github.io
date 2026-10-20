@@ -1,0 +1,84 @@
+
+Running 2 tests using 2 workers
+
+(node:72261) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:72262) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (5.4s)
+  ✘  2 [webkit] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (6.2s)
+
+
+  1) [chromium] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /#gatedbuild$/
+    Received string:  "http://localhost:4321/demos/#options"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        5 × locator resolved to <html lang="en" data-theme="dark" data-astro-cid-hkbrpulz="" class="lg motion has-cursor lenis lenis-scrolling">…</html>
+          - unexpected value "http://localhost:4321/demos/#options"
+        9 × locator resolved to <html lang="en" data-theme="dark" data-astro-cid-hkbrpulz="" class="lg motion has-cursor lenis">…</html>
+          - unexpected value "http://localhost:4321/demos/#options"
+
+
+      45 |   if (await folder.getAttribute('aria-expanded') === 'false') await folder.click();
+      46 |   await page.locator('[data-exp="options"] a').click({ modifiers: ['ControlOrMeta'] });
+    > 47 |   await expect(page).toHaveURL(/#gatedbuild$/);
+         |                      ^
+      48 |   await expect.poll(() => page.context().pages().length).toBe(2);
+      49 |   const opened = page.context().pages().find(p => p !== page)!;
+      50 |   await expect(opened).toHaveURL(/\/demos\/#options$/);
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:47:22
+
+    Error Context: test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [webkit] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /#gatedbuild$/
+    Received string:  "http://localhost:4321/demos/#options"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        5 × locator resolved to <html lang="en" data-theme="dark" data-astro-cid-hkbrpulz="" class="motion has-cursor lenis lenis-scrolling">…</html>
+          - unexpected value "http://localhost:4321/demos/#options"
+        9 × locator resolved to <html lang="en" data-theme="dark" data-astro-cid-hkbrpulz="" class="motion has-cursor lenis">…</html>
+          - unexpected value "http://localhost:4321/demos/#options"
+
+
+      45 |   if (await folder.getAttribute('aria-expanded') === 'false') await folder.click();
+      46 |   await page.locator('[data-exp="options"] a').click({ modifiers: ['ControlOrMeta'] });
+    > 47 |   await expect(page).toHaveURL(/#gatedbuild$/);
+         |                      ^
+      48 |   await expect.poll(() => page.context().pages().length).toBe(2);
+      49 |   const opened = page.context().pages().find(p => p !== page)!;
+      50 |   await expect(opened).toHaveURL(/\/demos\/#options$/);
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/lab-navigation.spec.ts:47:22
+
+    Error Context: test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-webkit/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/lab-navigation-modified-ra-c1c1c-cing-the-current-experiment-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment
+    [webkit] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment

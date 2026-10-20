@@ -1,0 +1,130 @@
+{
+  "state": "CHECKED_LOCAL_PREVIEW_REVIEW_BLOCKED",
+  "checked_at": "2026-10-14T21:14:27.176526+08:00",
+  "parent_revision": "bbc9ab389abd3e85ac643dde019f4d0ae2f2d3df",
+  "public_revision": "14591ed867c511581142d130f7bb2918ee4c290e",
+  "upstream_public_revision": "f8c48256e12b96523807ba8f59c04b798517e04e",
+  "source_manifest": "exploration-manifest.json",
+  "gate64": {
+    "exit": 0,
+    "seconds": 27,
+    "unit_tests": 128,
+    "browser_tests": 20
+  },
+  "gate65": {
+    "exit": 0,
+    "seconds": 222,
+    "unit_tests": 128,
+    "browser_tests": 290,
+    "lighthouse_runs": 9
+  },
+  "prior_gate65_failure": {
+    "exit": 1,
+    "cause": "Unchanged wording scan rejected new hint phrase; product copy repaired, check unchanged"
+  },
+  "baseline": {
+    "package_unit_failures": 7,
+    "package_browser_failures": 1,
+    "exploration_browser_failures": 2,
+    "phone_help_scroll_failures": 2
+  },
+  "mutation": {
+    "removed": "stale local-import revision check",
+    "test_result": "FAIL",
+    "source_restored": true
+  },
+  "renders": [
+    {
+      "engine": "chromium",
+      "width": 375,
+      "overflow": 0,
+      "inputs": [
+        {
+          "width": 305,
+          "font": "14.62px"
+        }
+      ],
+      "dialogBox": {
+        "x": 20,
+        "y": 54,
+        "width": 335,
+        "height": 579.28125
+      },
+      "errors": []
+    },
+    {
+      "engine": "chromium",
+      "width": 1280,
+      "overflow": 0,
+      "inputs": [
+        {
+          "width": 914,
+          "font": "14.62px"
+        }
+      ],
+      "dialogBox": {
+        "x": 260,
+        "y": 54,
+        "width": 760,
+        "height": 518.1875
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 375,
+      "overflow": 0,
+      "inputs": [
+        {
+          "width": 305,
+          "font": "14.62px"
+        }
+      ],
+      "dialogBox": {
+        "x": 20,
+        "y": 54,
+        "width": 335,
+        "height": 579.28125
+      },
+      "errors": []
+    },
+    {
+      "engine": "webkit",
+      "width": 1280,
+      "overflow": 0,
+      "inputs": [
+        {
+          "width": 914,
+          "font": "14.62px"
+        }
+      ],
+      "dialogBox": {
+        "x": 260,
+        "y": 54,
+        "width": 760,
+        "height": 518.1875
+      },
+      "errors": []
+    }
+  ],
+  "render_runtime": "Actual pinned Pyodide assets served from local installed package; no canned validator result",
+  "independent_review": "NOT_RUN; reviewer spawn rejected by automatic PreToolUse NETWORK BOUNDARY. No retry, rephrase or alternate delegation.",
+  "publication": "HELD; no push or deploy; public14591ed preserved",
+  "not_run": [
+    "physical devices",
+    "screen-reader session",
+    "production exchange input",
+    "GPU benchmark"
+  ],
+  "private_evidence_log_hashes": {
+    "website-node65-final.log": "5de22d3f1ca01819b19cd3a125498533d083949c544cd7cb11d9f70e7cbe996e",
+    "website-node65.log": "fd50a5506a9c47a3bbf4098c282a8d55d7bcd548b337d87ac6f6973f7e9db4f9",
+    "package-help-red.log": "581dc78235eb02e16c35fb0fdc85a08d5df7509a0d0ba3b0d97cd9feb67ce6b9",
+    "package-help-green.log": "1347068dac491e59ee71aa7ae22c7c540d3ad3fbdc82a2ceb26d48490bd04ba4",
+    "package-browser-red.log": "b4c33a359ba6b220110d3070fc6a67a11bb006af3217143ddff304f66de9bab7",
+    "package-guide-scroll-red.log": "209e35a6233357c90c30f507c406f9cc7dab20eb6bf4d0c9183c3851edd32bc5",
+    "package-guide-scroll-green.log": "8220c2cccf3cf56aabf9c2cfb368d34719b2ff2e4ba5aae40926e7bccd720513",
+    "feed-import-race-mutant.log": "f2aac88883cfd3374dc69782f70d1dc4d95a277a0dff271acbd6442b42d9a1ea",
+    "exploration-renders-final.log": "09f4ea1fe47d83b74a54e83c5cd91ff3d1d55cace8d7440615b5da4aea346cc9"
+  }
+}

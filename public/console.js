@@ -12,7 +12,16 @@ for (const [title, href] of JSON.parse(d.dataset.experiments || "[]")) {
 }
 const items = [...d.querySelectorAll("li")], list = d.querySelector(".pl");
 const prompt = d.querySelector(".prompt"), info = d.querySelector(".workspace-state");
-const LOCAL = new Set("help man pwd ls tree cd cat head tail grep sort uniq wc echo mkdir touch cp mv rm rmdir find date uname which".split(" "));
+const status = d.querySelector('[data-command-status]');
+const setStatus = (text, failed = false) => { status.textContent = text; status.dataset.failed = String(failed); };
+const LOCAL = new Set("apt apt-get sudo help man pwd ls tree cd cat head tail grep sort uniq wc echo mkdir touch cp mv rm rmdir find date uname which printf cut tr seq paste diff basename dirname stat du neofetch".split(" "));
+const STORAGE = 'terminal:workspace:v1';
+let persistence = true;
+const persistWorkspace = () => {
+  try { sessionStorage.setItem(STORAGE, JSON.stringify(workspace.snapshot())); }
+  catch { persistence = false; }
+  info.textContent = persistence ? 'Browser workspace · files stay in this tab · download to keep' : 'Browser workspace · saving between pages unavailable · download files to keep';
+};
 let workspace, loading, attempts = 0, transcript = [], cancelledThrough = 0;
 const workspaceReady = () => loading ??= (async () => {
   const moduleURL = new URL("terminal/shell.js", new URL(d.dataset.js, location.href));
@@ -25,14 +34,17 @@ const workspaceReady = () => loading ??= (async () => {
   if (!Array.isArray(corpus) || !corpus.every(p => p && typeof p.title === "string" && typeof p.text === "string" && typeof p.href === "string" && p.href.startsWith("/") && !p.href.startsWith("//"))) throw new Error("Invalid workspace sources");
   const files = {
     "/lab/versions.csv": "key,value,known\nprice,10,1\nprice,12.5,4\nvolume,100,2\n",
-    "/lab/README.md": "Edit version records in the workbench: open data-workbench\nInspect sample rows: cat /lab/versions.csv | head -n 3\nThe sample is synthetic. Your workspace is local to this page.\n",
+    "/lab/README.md": "Edit version records in the workbench: open data-workbench\nInspect sample rows: cat /lab/versions.csv | head -n 3\nThe sample is synthetic. Scratch files stay in this browser tab.\n",
     "/projects/index.txt": items.map(li => li.textContent.trim() + " " + li.querySelector("a").getAttribute("href")).join("\n") + "\n",
   };
   for (const p of corpus) {
     const slug = p.href.split("/").filter(Boolean).slice(0, 2).join("-").replace(/[^a-z0-9-]/gi, "-");
     const path = `/projects/${slug}.txt`; files[path] = (files[path] || "") + `${p.title}\n${p.text}\n${p.href}\n\n`;
   }
-  workspace = new WorkspaceShell(files); return workspace;
+  workspace = new WorkspaceShell(files);
+  try { const saved=sessionStorage.getItem(STORAGE); if(saved) workspace.restore(JSON.parse(saved)); }
+  catch { info.textContent='Saved workspace unavailable · a fresh workspace is open; current files can be downloaded'; persistence=false; }
+  return workspace;
 })().catch(error => { loading = null; throw error; });
 let sel = 0;
 const vis = () => items.filter((li) => !li.hidden);
@@ -44,24 +56,39 @@ const say = (t, replace = false) => {
   out.scrollTop = out.scrollHeight;
 };
 const reflectPath = () => { if (workspace) { const cwd = workspace.cwd.replace(/^\/home\/visitor(?=\/|$)/, "~"); prompt.textContent = `${cwd}$`; prompt.title = workspace.cwd; } };
+// Manuals start at the current response, not at its last line below the useful syntax.
+const revealEntry = (index) => {
+  const node=out.firstChild;
+  if(!node||index<0)return;
+  const offset=index?transcript.slice(0,index).join("\n\n").length+2:0;
+  const range=document.createRange();range.setStart(node,offset);range.setEnd(node,Math.min(offset+1,node.textContent.length));
+  out.scrollTop+=range.getBoundingClientRect().top-out.getBoundingClientRect().top-parseFloat(getComputedStyle(out).paddingTop);
+};
 const executeLocal = (raw, n) => {
+  setStatus('running in browser');
   say(`$ ${raw}\nloading browser workspace…`);
   workspaceReady().then(sh => {
     if (n <= cancelledThrough) return;
     const result = sh.execute(raw);
+    persistWorkspace();
     reflectPath();
     const pending = transcript.indexOf(`$ ${raw}\nloading browser workspace…`);
     if (pending >= 0) transcript[pending] = `$ ${raw}\n${result.output || "done"}`;
     out.textContent = transcript.join("\n\n");
-    if (n === asked) { out.hidden = false; list.hidden = true; out.scrollTop = out.scrollHeight; }
-  }, () => { if (n === asked) say(`$ ${raw}\nCould not load the workspace files. Run the command again to retry; page search still works.`, true); });
+    if (n === asked) {
+      setStatus(`browser · exit ${result.code}`, !result.ok);
+      out.hidden = false; list.hidden = true;
+      if (/^(?:(?:sudo\s+)?apt(?:-get)?|man|help|neofetch)(?:\s|$)/.test(raw)) revealEntry(pending);
+      else out.scrollTop = out.scrollHeight;
+    }
+  }, () => { if (n === asked) {setStatus('workspace unavailable',true);say(`$ ${raw}\nCould not load the workspace files. Run the command again to retry; page search still works.`, true);} });
 };
 const editFile = (name, n) => {
   workspaceReady().then(sh => {
     if (n !== asked) return;
     const old = d.querySelector(".terminal-editor"); if (old) old.remove();
     const wrap = document.createElement("div"); wrap.className = "terminal-editor";
-    const label = document.createElement("label"); label.textContent = "Browser file editor · saved in this page only; download to keep";
+    const label = document.createElement("label"); label.textContent = "Browser file editor · scratch files stay in this tab; download to keep";
     const path = document.createElement("input"); path.value = name || "notes.txt"; path.setAttribute("aria-label", "Virtual file path");
     const text = document.createElement("textarea"); text.setAttribute("aria-label", "Virtual file contents"); text.setAttribute("data-lenis-prevent", ""); text.spellcheck = false; text.rows = 8;
     if (sh.files.has(sh.path(path.value))) text.value = sh.read(path.value);
@@ -69,7 +96,7 @@ const editFile = (name, n) => {
     const actions = document.createElement("div"); actions.className = "edit-actions";
     const close = () => { wrap.remove(); q.disabled = false; q.focus(); };
     const save = document.createElement("button"); save.type = "button"; save.textContent = "Save file";
-    const persist = () => { try { sh.write(path.value, text.value); say(`Saved ${sh.path(path.value)} · ${text.value.length} characters`); close(); } catch(e) { error.textContent = e.message; error.hidden = false; } };
+    const persist = () => { try { sh.write(path.value, text.value); persistWorkspace(); setStatus('file saved · browser'); say(`Saved ${sh.path(path.value)} · ${text.value.length} characters`); close(); } catch(e) { error.textContent = e.message; error.hidden = false; } };
     save.addEventListener("click", persist);
     const download = document.createElement("button"); download.type = "button"; download.textContent = "Download text";
     download.addEventListener("click", () => { const url = URL.createObjectURL(new Blob([text.value], {type: "text/plain"})); const a = document.createElement("a"); a.href = url; a.download = path.value.split("/").pop() || "notes.txt"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); });
@@ -96,33 +123,47 @@ const looksShell = (s, c) => SHELL.has(c) || /[|;&>`$]|^:\(/.test(s);
 let asked = 0;                                            // bumped by every command: only the latest one's output is shown
 const judge = (cmd, virtual = false) => {
   const n = asked;
+  setStatus('policy check · not an execution result');
   say(`$ ${cmd}\nbooting the real guard (Python in WebAssembly)…`);
   import(new URL("lab/pyguard.js", new URL(d.dataset.js, location.href)).href).then((m) => m.loadGuard()).then((verdict) => {
     if (n !== asked) return;
     const why = verdict(cmd);
-    if (why) say(`$ ${cmd}\n✗ blocked by guard.py: ${why}`, true);
+    if (why) {setStatus('policy blocked · nothing executed',true);say(`$ ${cmd}\n✗ blocked by guard.py: ${why}`, true);}
     else if (virtual) {
       say(`$ ${cmd}\n✓ guard.py allows it; applying only to the browser workspace`, true);
       executeLocal(cmd, n);
-    } else say(`$ ${cmd}\n✓ guard.py allows it; this host program is not available in the browser. No host command ran.`, true);
-  }, () => n === asked && say(`$ ${cmd}\ncould not load the Python runtime (offline?), so this was not judged`));
+    } else {setStatus('policy allows · command not executed');say(`$ ${cmd}\n✓ guard.py allows it; this host program is not available in the browser. No host command ran.`, true);}
+  }, () => {if(n===asked){setStatus('policy unavailable · not judged',true);say(`$ ${cmd}\ncould not load the Python runtime (offline?), so this was not judged`);}});
 };
 const run = (raw) => {
   asked++;
+  setStatus('site command');
   const input = raw.trim(), [command, ...rest] = input.split(/\s+/), c = command.toLowerCase(), s = input.toLowerCase(), arg = rest.join(" ");
   const replies = {
     help: "ls · cd NAME · whoami · cv · email · theme · clear\nshell commands (git push, curl | sh…) go to the real guard\nor type anything to search",
     ls: "work/  demos/  about  cv  card\n" + items.filter((li) => li.textContent.startsWith("project")).map((li) => li.textContent.replace(/^project/, "  ")).join("\n"),
     whoami: "oscar choi · cs @ cuhk, class of 2027\nquant dev · quant research · swe · full-stack · ai engineering\nstatus: open to work",
     ping: "pong",
-    exit: "there is no exit. only more projects.",
     vim: "you are in vim now. (relax: esc gets you out)",
     coffee: "418 i'm a teapot",
     hello: "hi! try whoami, or ls",
     42: "the harbour's random seed. now you know.",
   };
   if (s === "sudo hire oscar") { say("[sudo] password for recruiter: ********\naccess granted. opening mail…"); setTimeout(() => mail("Let's talk"), 900); return true; }
-  if (c === "sudo") { say("recruiter is not in the sudoers file. try: sudo hire oscar"); return true; }
+  if(c==='exit'||c==='logout'){d.close();return true;}
+  if(c==='download'){
+    const n=asked,path=arg.replace(/^("|\')(.*)\1$/, '$2');
+    workspaceReady().then(sh=>{
+      if(n!==asked)return;
+      try {
+        if(!path)throw new Error('usage: download file');
+        const content=sh.read(path),url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'}));
+        const a=document.createElement('a');a.href=url;a.download=sh.path(path).split('/').pop();a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+        say(`Downloaded ${sh.path(path)} · ${new TextEncoder().encode(content).length} bytes`);setStatus('download prepared');
+      }catch(e){say(`download: ${e.message}`);setStatus('download failed',true);}
+    },()=>{if(n===asked){say('Could not load the workspace. Try download again.');setStatus('workspace unavailable',true);}});
+    return true;
+  }
   if (c === "guard") { if (arg) judge(input.slice(command.length).trim()); else say("usage: guard COMMAND · checks policy without running a host command"); return true; }
   if (c === "rm" && /(?:^|\s)-[a-z]*r[a-z]*(?:\s|$)/i.test(input)) { judge(input, true); return true; }
   if (c === "cd" && arg && !arg.includes("/") && arg !== "." && arg !== ".." && arg !== "~" && arg !== "-" && !workspace?.dirs.has(workspace.path(arg))) {
@@ -164,22 +205,24 @@ const run = (raw) => {
 const MAC = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let hist = [];
 try { const stored = JSON.parse(sessionStorage.getItem("hist:console") ?? "[]"); if (Array.isArray(stored) && stored.every(x => typeof x === "string")) hist = stored.slice(-50); } catch { /* storage blocked */ }
-let hpos = hist.length;
+let hpos = hist.length, draft = '';
 const remember = (cmd) => { if (cmd && hist.at(-1) !== cmd) hist.push(cmd); hpos = hist.length; try { sessionStorage.setItem("hist:console", JSON.stringify(hist.slice(-50))); } catch { /* ignore */ } };
 const setq = (t) => { q.value = t; filter(); q.setSelectionRange(t.length, t.length); };
-const WORDS = [...LOCAL, "nano ", "edit ", "guard ", "open ", "whoami", "cv", "email", "theme", "clear", "history", "sudo hire oscar"];
+const WORDS = [...LOCAL, "nano ", "edit ", "download ", "guard ", "open ", "whoami", "cv", "email", "theme", "clear", "history", "exit", "man apt", "sudo apt install ", "sudo apt-get install ", "sudo hire oscar"];
 q.addEventListener("input", () => { filter(); hpos = hist.length; });
 q.addEventListener("keydown", (e) => {
   const v = vis(), ctrl = e.ctrlKey && !e.metaKey && !e.altKey, k = e.key.toLowerCase();
   const back = e.key === "ArrowUp" || (ctrl && k === "p"), fwd = e.key === "ArrowDown" || (ctrl && k === "n");
-  if ((back && hist.length && (!q.value || hpos < hist.length)) || (fwd && hpos < hist.length)) {
-    e.preventDefault(); hpos = Math.max(0, Math.min(hist.length, hpos + (back ? -1 : 1))); setq(hist[hpos] ?? ""); return;
+  if ((back && hist.length && (!q.value || list.hidden || hpos < hist.length || ctrl)) || (fwd && hpos < hist.length)) {
+    if(hpos===hist.length)draft=q.value;
+    e.preventDefault(); hpos = Math.max(0, Math.min(hist.length, hpos + (back ? -1 : 1))); setq(hist[hpos] ?? draft); return;
   }
   if (e.key === "Tab" && q.value) {
     const hit = [...(workspace?.complete(q.value) ?? []), ...hist.slice().reverse(), ...WORDS].find((w) => w.startsWith(q.value) && w.trim() !== q.value);
     if (hit) { e.preventDefault(); setq(hit); } return;
   }
   if (ctrl && k === "c" && q.selectionStart === q.selectionEnd) { e.preventDefault(); cancelledThrough = asked; asked++; if (q.value) say(`$ ${q.value}^C`); setq(""); hpos = hist.length; return; }
+  if(ctrl&&k==='d'&&!q.value){e.preventDefault();d.close();return;}
   if ((ctrl && k === "l") || (e.metaKey && k === "k")) { e.preventDefault(); e.stopPropagation(); say(""); setq(""); return; }
   if (ctrl && k === "u") { e.preventDefault(); setq(q.value.slice(q.selectionStart)); q.setSelectionRange(0, 0); return; }
   if (ctrl && k === "k") { e.preventDefault(); e.stopPropagation(); q.value = q.value.slice(0, q.selectionStart); filter(); return; }
@@ -188,10 +231,11 @@ q.addEventListener("keydown", (e) => {
   if (e.key === "Enter") { e.preventDefault(); remember(q.value.trim()); if (!run(q.value)) v[sel]?.querySelector("a").click(); }
 });
 d.addEventListener("click", (e) => { if (e.target === d) d.close(); });
+d.addEventListener('close',()=>{d.querySelector('.terminal-editor')?.remove();q.disabled=false;});
 list.addEventListener("click", (e) => { if (e.target.closest("a")) d.close(); });
       
 
 for (const b of d.querySelectorAll("[data-console-example]")) b.addEventListener("click", () => {
   setq(b.dataset.consoleExample); remember(q.value); run(q.value); q.focus();
 });
-if (info) info.textContent = "Browser workspace · editable scratch files · no host access";
+if (info) info.textContent = "Browser workspace · editable files, pipes and a path into the Lab";

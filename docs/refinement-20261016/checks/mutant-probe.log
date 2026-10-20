@@ -1,0 +1,50 @@
+[WebServer] (node:43777) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [astro] `markdown.remarkPlugins`, `markdown.rehypePlugins`, and `markdown.remarkRehype` are deprecated. Pass them to `unified({...})` from `@astrojs/markdown-remark` directly instead.
+[WebServer] (node:43800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:43821) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset (5.3s)
+
+
+  1) [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('[data-panel="options"]').locator('[data-surface-readout]')
+    Expected substring: "call price 57.65"
+    Received string:    "stock price 150.00 · years to expiry 2.00y → call price 0.0000"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('[data-panel="options"]').locator('[data-surface-readout]') with timeout 5000ms
+      - waiting for locator('[data-panel="options"]').locator('[data-surface-readout]')
+        14 × locator resolved to <p role="status" data-surface-readout="" class="s3d-readout mono">stock price 150.00 · years to expiry 2.00y → call…</p>
+           - unexpected value "stock price 150.00 · years to expiry 2.00y → call price 0.0000"
+
+
+      37 |   await expect(result).toContainText('years to expiry 2.00y');
+      38 |   // Independent normal-CDF reference from Python math.erf, S=150,T=2,r=.03,sigma=.25.
+    > 39 |   await expect(result).toContainText('call price 57.65');
+         |                        ^
+      40 |   await panel.getByRole('slider', { name: 'strike', exact: true }).focus(); await page.keyboard.press('End');
+      41 |   await expect(result).toContainText('call price 30.14');
+      42 |   await panel.getByRole('radio', { name: 'theta', exact: true }).click();
+        at /Users/oscarmoon/.codex/worktrees/website-refinement/oscar-chw.github.io/e2e/surface-interaction.spec.ts:39:24
+
+    Error Context: test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/surface-interaction-keyboa-6928c-llows-model-edits-and-reset-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/surface-interaction.spec.ts:28:1 › keyboard probe reports computed surface values and follows model edits and reset

@@ -1,0 +1,43 @@
+
+Running 14 tests using 6 workers
+
+(node:25601) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25603) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25602) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25605) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (630ms)
+  ✓   2 [chromium] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (636ms)
+  ✓   3 [chromium] › e2e/demos.spec.ts:21:1 › lab: deep links open an experiment; the arrow keys walk the rail (657ms)
+  ✓   5 [chromium] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (705ms)
+  ✓   6 [chromium] › e2e/demos.spec.ts:254:1 › lab: the file list always fits its box; folders fold only when needed and open on click (801ms)
+  ✓   4 [chromium] › e2e/demos.spec.ts:270:1 › lab: an expanded file list scrolls with the mouse wheel inside it (smooth page scroll does not take the wheel) (965ms)
+  ✓   7 [chromium] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (425ms)
+(node:25641) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25643) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25695) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [webkit] › e2e/demos.spec.ts:21:1 › lab: deep links open an experiment; the arrow keys walk the rail (1.8s)
+  ✓  12 [webkit] › e2e/lab-navigation.spec.ts:17:1 › folder disclosures can be toggled with a keyboard and announce their state (1.8s)
+  ✓  11 [webkit] › e2e/lab-navigation.spec.ts:3:1 › rail arrow selection and Enter activation refer to the same experiment (2.1s)
+  ✓  10 [webkit] › e2e/demos.spec.ts:270:1 › lab: an expanded file list scrolls with the mouse wheel inside it (smooth page scroll does not take the wheel) (2.2s)
+  ✓   9 [webkit] › e2e/demos.spec.ts:254:1 › lab: the file list always fits its box; folders fold only when needed and open on click (2.5s)
+  ✓  13 [webkit] › e2e/lab-navigation.spec.ts:30:1 › Home and End reveal the selected rail entry in a short viewport (1.7s)
+  ✓  14 [webkit] › e2e/lab-navigation.spec.ts:42:1 › modified rail clicks open a new tab without replacing the current experiment (1.3s)
+
+  14 passed (5.0s)

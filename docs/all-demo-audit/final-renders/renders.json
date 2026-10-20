@@ -1,0 +1,1346 @@
+[
+  {
+    "id": "gatedbuild",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-gatedbuild.png",
+    "entry": {
+      "headingTop": 186.4375,
+      "headingBottom": 216.671875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "guard",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-guard.png",
+    "entry": {
+      "headingTop": 162.3125,
+      "headingBottom": 192.546875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "search",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-search.png",
+    "entry": {
+      "headingTop": 162.3125,
+      "headingBottom": 192.546875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "orderbook",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-orderbook.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.5,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "factors",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-factors.png",
+    "entry": {
+      "headingTop": 162.3125,
+      "headingBottom": 192.546875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "marketmaking",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-marketmaking.png",
+    "entry": {
+      "headingTop": 162.3125,
+      "headingBottom": 192.546875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "point-in-time",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-point-in-time.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lostupdates",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-lostupdates.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "data-workbench",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-data-workbench.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fatqat-bench",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-fatqat-bench.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 222.328125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "compensated",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-compensated.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "qubits",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-qubits.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "imc",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-imc.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-policy.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-gate.png",
+    "entry": {
+      "headingTop": 186.25,
+      "headingBottom": 216.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "cryptodesk",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-cryptodesk.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 256.8125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "multitest",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-multitest.png",
+    "entry": {
+      "headingTop": 162.125,
+      "headingBottom": 192.359375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "dna",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-dna.png",
+    "entry": {
+      "headingTop": 162.125,
+      "headingBottom": 192.359375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-timetable.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "options",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-options.png",
+    "entry": {
+      "headingTop": 161.859375,
+      "headingBottom": 192.09375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fourier",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-fourier.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.5,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "harbour",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/chromium-375-harbour.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.5,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gatedbuild",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-gatedbuild.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "guard",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-guard.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "search",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-search.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "orderbook",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-orderbook.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "factors",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-factors.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "marketmaking",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-marketmaking.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "point-in-time",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-point-in-time.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lostupdates",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-lostupdates.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "data-workbench",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-data-workbench.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fatqat-bench",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-fatqat-bench.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "compensated",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-compensated.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "qubits",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-qubits.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "imc",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-imc.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-policy.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-gate.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "cryptodesk",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-cryptodesk.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "multitest",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-multitest.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "dna",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-dna.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-timetable.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "options",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-options.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fourier",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-fourier.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "harbour",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/chromium-1280-harbour.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gatedbuild",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-gatedbuild.png",
+    "entry": {
+      "headingTop": 186.34375,
+      "headingBottom": 216.578125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "guard",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-guard.png",
+    "entry": {
+      "headingTop": 162.25,
+      "headingBottom": 192.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "search",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-search.png",
+    "entry": {
+      "headingTop": 162.25,
+      "headingBottom": 192.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "orderbook",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-orderbook.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "factors",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-factors.png",
+    "entry": {
+      "headingTop": 162.25,
+      "headingBottom": 192.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "marketmaking",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-marketmaking.png",
+    "entry": {
+      "headingTop": 162.25,
+      "headingBottom": 192.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "point-in-time",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-point-in-time.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lostupdates",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-lostupdates.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "data-workbench",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-data-workbench.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fatqat-bench",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-fatqat-bench.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 222.0625,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "compensated",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-compensated.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "qubits",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-qubits.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "imc",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-imc.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-policy.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-gate.png",
+    "entry": {
+      "headingTop": 185.96875,
+      "headingBottom": 216.203125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "cryptodesk",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-cryptodesk.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 256.78125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "multitest",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-multitest.png",
+    "entry": {
+      "headingTop": 161.875,
+      "headingBottom": 192.109375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "dna",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-dna.png",
+    "entry": {
+      "headingTop": 161.875,
+      "headingBottom": 192.109375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-timetable.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "options",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-options.png",
+    "entry": {
+      "headingTop": 161.59375,
+      "headingBottom": 191.828125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fourier",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-fourier.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "harbour",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/final-renders/webkit-375-harbour.png",
+    "entry": {
+      "headingTop": 176.1875,
+      "headingBottom": 216.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gatedbuild",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-gatedbuild.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "guard",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-guard.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "search",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-search.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "orderbook",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-orderbook.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "factors",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-factors.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "marketmaking",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-marketmaking.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "point-in-time",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-point-in-time.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lostupdates",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-lostupdates.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "data-workbench",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-data-workbench.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fatqat-bench",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-fatqat-bench.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "compensated",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-compensated.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "qubits",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-qubits.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "imc",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-imc.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "policy",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-policy.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "gate",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-gate.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "cryptodesk",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-cryptodesk.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "multitest",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-multitest.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "dna",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-dna.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "timetable",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-timetable.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "options",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-options.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "fourier",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-fourier.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "harbour",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/final-renders/webkit-1280-harbour.png",
+    "entry": {
+      "headingTop": 135.375,
+      "headingBottom": 212.640625,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/timing-range-renders/chromium-375-lookahead.png",
+    "entry": {
+      "headingTop": 162.3125,
+      "headingBottom": 192.546875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "chromium",
+    "width": 375,
+    "shot": "docs/all-demo-audit/timing-range-renders/chromium-375-candles.png",
+    "entry": {
+      "headingTop": 186.4375,
+      "headingBottom": 216.671875,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/timing-range-renders/chromium-1280-lookahead.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "chromium",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/timing-range-renders/chromium-1280-candles.png",
+    "entry": {
+      "headingTop": 345.09375,
+      "headingBottom": 392.125,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/timing-range-renders/webkit-375-lookahead.png",
+    "entry": {
+      "headingTop": 162.25,
+      "headingBottom": 192.484375,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "webkit",
+    "width": 375,
+    "shot": "docs/all-demo-audit/timing-range-renders/webkit-375-candles.png",
+    "entry": {
+      "headingTop": 186.34375,
+      "headingBottom": 216.578125,
+      "barBottom": 117.09375
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "lookahead",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/timing-range-renders/webkit-1280-lookahead.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  },
+  {
+    "id": "candles",
+    "engine": "webkit",
+    "width": 1280,
+    "shot": "docs/all-demo-audit/timing-range-renders/webkit-1280-candles.png",
+    "entry": {
+      "headingTop": 345.0625,
+      "headingBottom": 392.09375,
+      "barBottom": 76.28125
+    },
+    "errors": [],
+    "overflow": 0,
+    "build": "69c63353efc3"
+  }
+]

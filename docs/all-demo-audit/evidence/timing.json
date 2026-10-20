@@ -1,0 +1,42 @@
+{
+  "scope": [
+    "lookahead",
+    "candles"
+  ],
+  "status": "IMPLEMENTED_WITH_TARGETED_CHECKS; final combined gate70 pending",
+  "commands": [
+    {
+      "command": "plan gate website 67 --owner website-timing-programmes",
+      "exit": 0,
+      "seconds": 42,
+      "unit": 138,
+      "browser": 96
+    },
+    {
+      "command": "npx playwright test e2e/timing-workbench.spec.ts",
+      "exit": 0,
+      "browser": 10,
+      "seconds": 8.4
+    }
+  ],
+  "baseline": "3 new browser contracts failed before implementation",
+  "mutants": [
+    "using current return instead of delayed signal rejected",
+    "suppressing candle leak flag rejected"
+  ],
+  "notes": [
+    "responsive controls moved before stage at the existing1000px breakpoint after gate; final combined verification pending",
+    "shared editor gained JSON support for the next decision slice; source snapshot will be frozen at gate70"
+  ],
+  "source_hashes": {
+    "src/components/lab/exp/lookahead.ts": "78e0372beb2b82e65cd33f8cb2e50544ba968e147fa64928ac7070b608287c55",
+    "src/components/lab/exp/candles.ts": "799dba652d8a45815002f501ddeae895ca2363cd923886980d831135e1760a3e",
+    "src/lib/lab/timing.ts": "084c7dce8c5d5bfc50c93460d5e1a36740557e220a507c4e8c4beca816ac81b9",
+    "src/lib/lab/records.ts": "840edc6bf2b9ad311c53aef60dd41b95fbb7f59c5c9e1925906816330a249dc1",
+    "src/components/lab/records-editor.ts": "9abf1842598f6292790af82bbc89b617bda4249f0b4fcb9e95a7fad0e5475dd6",
+    "src/components/lab/records-editor.css": "0693ccfb1f6842b36193d90d32c12d76cfc537c72abeb61eeca35a27e958bce5",
+    "e2e/timing-workbench.spec.ts": "bf0e2e4aed0df6254f2631baaf7790b1a65ded8f7d4246e80c234623bb61f764",
+    "src/lib/lab/timing.test.ts": "bc3b2e1b19603f89423784b4fdd25863ed3d1e60f48261ca4d9c3f97538ec36e"
+  },
+  "renders": "docs/all-demo-audit/timing-renders/renders.json"
+}
